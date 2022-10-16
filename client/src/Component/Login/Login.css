@@ -275,4 +275,17 @@ form.sign-in-form {
     width: 700px;
     margin-left: -340px;
   }
+
+  .textCompany {
+    margin-top: 250px;
+  }
+}
+
+@media (max-width: 585px) {
+  form.sign-in-form {
+    width: 450px;
+    display: flex;
+    justify-content: center;
+    margin-left: -220px;
+  }
 }

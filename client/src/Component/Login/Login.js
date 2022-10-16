@@ -43,7 +43,7 @@ const [show, setShow] = React.useState(false)
                   pointerEvents='none'
                   children={<EmailIcon color='gray.300' />}
                 />
-                <Input type='email' value={input} onChange={handleInputChange}/>
+                <Input className='inputEmail' type='email' value={input} onChange={handleInputChange}/>
                 </InputGroup>
                 {!isError ? (
                     <FormHelperText>
@@ -65,6 +65,7 @@ const [show, setShow] = React.useState(false)
                     pr='4.5rem'
                     type={show ? 'text' : 'password'}
                     placeholder='Enter password'
+                    className='inputPassword'
                 />
                 <InputRightElement width='4.5rem'>
                     <Button h='1.75rem' size='sm' onClick={handleClick}>

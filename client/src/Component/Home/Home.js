@@ -1,5 +1,5 @@
 import React from 'react'
-import Appbar from '../Appbar/Appbar'
+import Appbar from '../Appbar/Appbar.tsx'
 
 const Home = () => {
   return (
