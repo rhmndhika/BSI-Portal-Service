@@ -34,9 +34,9 @@ const Login = () => {
 
   const isError = emailLog === ''
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault()
-    Axios.post("https://bsivendor-registration.herokuapp.com/login" , {
+    await Axios.post("https://bsivendor-registration.herokuapp.com/login" , {
       email: emailLog, 
       password: passwordLog
     }).then((response)=> {

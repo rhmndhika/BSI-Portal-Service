@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  useColorMode
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -22,9 +23,12 @@ import {
   ChevronRightIcon,
 } from '@chakra-ui/icons';
 import React from 'react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 export default function Appbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
+
 
   return (
     <Box>
@@ -61,6 +65,7 @@ export default function Appbar() {
           </Text>
            </a>
 
+          
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
           </Flex>
@@ -71,7 +76,14 @@ export default function Appbar() {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
-          
+          <Button
+            as={'a'}
+            fontSize={'sm'}
+            fontWeight={400}
+            onClick={toggleColorMode}
+           >
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+          </Button>
         </Stack>
       </Flex>
 
