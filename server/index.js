@@ -5,11 +5,11 @@ const cors = require("cors");
 const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const port = 3001;
+const jwt = require("jsonwebtoken");
+const MemoryStore = require('memorystore')(session)
 const UserModel = require("./models/Users.js");
 
 require('dotenv').config();
@@ -17,35 +17,35 @@ require('dotenv').config();
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", "*"],
+    origin: ["http://localhost:3000", "https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 app.use(express.json());
 app.use(bodyParser.json())
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(
-    session({
-    key: process.env.COOKIE_KEY,
-    secret: "subscribe",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        // sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
-        // secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
-        secure: true,
-        sameSite: "none",
-        httpOnly: true,
-        maxAge: 1000 * 60 * 30
-      }
-}));
+
+app.use(session({
+  cookie:{
+      secure: true,
+      sameSite: "none",
+      maxAge:10 * 10 * 24 * 60
+         },
+  key: process.env.COOKIE_KEY,
+  store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: false,
+  }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "*");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -62,9 +62,7 @@ const CONNECTION_URL =  process.env.MONGODB_HOST
 
 mongoose.connect(CONNECTION_URL, {
     useNewUrlParser : true
-})
-.then(() => console.log('Database connected.'))
-.catch(err => console.log(err));
+});
 
 
 app.post("/register", async (req, res) => {
@@ -158,6 +156,11 @@ app.get("/login", (req, res) => {
     }
 
   
+});
+
+app.get("/logout", (req, res) => {
+  res.clearCookie(process.env.COOKIE_KEY)
+  return res.redirect("/");
 });
 
 app.listen(process.env.PORT || 3001, () => {           

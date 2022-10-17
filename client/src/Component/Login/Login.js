@@ -34,9 +34,9 @@ const Login = () => {
 
   const isError = emailLog === ''
 
-  const login = async (e) => {
+  const login =  (e) => {
     e.preventDefault()
-    await Axios.post("https://bsivendor-registration.herokuapp.com/login" , {
+    Axios.post("https://empty-test-project.herokuapp.com/login" , {
       email: emailLog, 
       password: passwordLog
     }).then((response)=> {
@@ -44,9 +44,12 @@ const Login = () => {
         setEmailLog(response.data.result.email);  
         alert("Succes")
         setTimeout(() => navigate("/home"), 1000);
+        console.log(response)
       } 
     });
   };
+
+  console.log(emailLog)
 
   return (
     <div className='wrapperLogin'>

@@ -30,11 +30,11 @@ const Register = () => {
 
   const isError = emailReg === ''
 
-  const register = async (e) => {
+  const register = (e) => {
     e.preventDefault()
 
     if (emailReg.length > 0 && passwordReg.length > 0) {
-      await Axios.post("https://empty-test-project.herokuapp.com/register" , {
+      Axios.post("https://empty-test-project.herokuapp.com/register" , {
         email: emailReg, 
         password: passwordReg
       })
