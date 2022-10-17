@@ -23,7 +23,7 @@ mongoose.connect(CONNECTION_URL, {
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", "https://empty-test-project.herokuapp.com/"],
+    origin: ["http://localhost:3000", "https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
