@@ -10,8 +10,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const port = 3001;
+const UserModel = require("./models/Users.js");
 
 require('dotenv').config();
+
 
 app.use(
     cors({

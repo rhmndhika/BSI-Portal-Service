@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
     FormControl,
     FormLabel,
@@ -12,25 +12,48 @@ import {
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
-import './Login.css'
+import './Login.css';
+import { EmailUser } from '../../Helper/EmailUserProvider';
+import { useNavigate } from 'react-router-dom';
+
+/* thrid party */
+import Axios from 'axios';
+
 
 const Login = () => {
 
-const [input, setInput] = useState('')
-const [show, setShow] = React.useState(false)
+  Axios.defaults.withCredentials = true;
+
+  let navigate = useNavigate();
+  
+  const [show, setShow] = React.useState(false)
+  const { emailLog, setEmailLog } = useContext(EmailUser)
+  const [ passwordLog, setPasswordLog  ] = useState("")
 
   const handleClick = () => setShow(!show)
 
-  const handleInputChange = (e) => setInput(e.target.value)
+  const isError = emailLog === ''
 
-  const isError = input === ''
+  const login = (e) => {
+    e.preventDefault()
+    Axios.post("https://bsivendor-registration.herokuapp.com/login" , {
+      email: emailLog, 
+      password: passwordLog
+    }).then((response)=> {
+      if (response.data.result.email) {
+        setEmailLog(response.data.result.email);  
+        alert("Succes")
+        setTimeout(() => navigate("/home"), 1000);
+      } 
+    });
+  };
 
   return (
     <div className='wrapperLogin'>
       <div class="contain">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="/home" class="sign-in-form">
+          <form class="sign-in-form">
             <div className='textCompany'>
               <h1>BSI PORTAL SERVICE</h1>
             </div>
@@ -43,7 +66,9 @@ const [show, setShow] = React.useState(false)
                   pointerEvents='none'
                   children={<EmailIcon color='gray.300' />}
                 />
-                <Input className='inputEmail' type='email' value={input} onChange={handleInputChange}/>
+                <Input className='inputEmail' type='email' onChange={(e)=> {
+                  setEmailLog(e.target.value)
+                }}/>
                 </InputGroup>
                 {!isError ? (
                     <FormHelperText>
@@ -66,6 +91,9 @@ const [show, setShow] = React.useState(false)
                     type={show ? 'text' : 'password'}
                     placeholder='Enter password'
                     className='inputPassword'
+                    onChange={(e) => {
+                      setPasswordLog(e.target.value)
+                    }}
                 />
                 <InputRightElement width='4.5rem'>
                     <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -75,7 +103,7 @@ const [show, setShow] = React.useState(false)
             </InputGroup>
             </FormControl>
            
-            <input type="submit" value="Login" class="btn solid" />
+            <input type="submit" value="Login" class="btn solid" onClick={login} />
           </form>
         </div>
       </div>

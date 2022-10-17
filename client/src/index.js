@@ -12,9 +12,11 @@ import {
 import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import Home from './Component/Home/Home'
+import EmailUserProvider from './Helper/EmailUserProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <EmailUserProvider>
   <ChakraProvider>
   <React.StrictMode>
   <BrowserRouter>
@@ -26,6 +28,7 @@ root.render(
   </BrowserRouter>
   </React.StrictMode>
   </ChakraProvider>
+  </EmailUserProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

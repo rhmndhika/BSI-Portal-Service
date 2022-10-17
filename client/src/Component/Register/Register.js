@@ -21,15 +21,12 @@ const Register = () => {
 
   let navigate = useNavigate();
 
-  const [input, setInput] = useState('')
   const [show, setShow] = React.useState(false)
 
   const [ emailReg, setEmailReg ] = useState("")
   const [ passwordReg, setPasswordReg ] = useState("")
 
   const handleClick = () => setShow(!show)
-
-  const handleInputChange = (e) => setInput(e.target.value)
 
   const isError = emailReg === ''
 
