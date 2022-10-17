@@ -162,6 +162,6 @@ app.get("/login", (req, res) => {
   
 });
 
-app.listen(process.env.PORT || port, () => {           
-    console.log(`Now listening on port ${port}`); 
+app.listen(process.env.PORT || 3001, () => {           
+    console.log(`On Air`); 
 });

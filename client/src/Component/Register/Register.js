@@ -34,7 +34,7 @@ const Register = () => {
     e.preventDefault()
 
     if (emailReg.length > 0 && passwordReg.length > 0) {
-      await Axios.post("http://localhost:5000/register" , {
+      await Axios.post("https://empty-test-project.herokuapp.com/register" , {
         email: emailReg, 
         password: passwordReg
       })
