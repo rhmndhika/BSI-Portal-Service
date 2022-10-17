@@ -33,13 +33,9 @@ app.use(session({
   cookie:{
       secure: true,
       sameSite: "none",
-      httpOnly: true,
       maxAge:10 * 10 * 24 * 60
          },
   key: process.env.COOKIE_KEY,
-  store: new MemoryStore({
-      checkPeriod: 86400000 // prune expired entries every 24h
-  }),
   secret: 'subscribe',
   saveUninitialized: true,
   resave: false,

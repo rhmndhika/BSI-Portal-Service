@@ -44,12 +44,9 @@ const Login = () => {
         setEmailLog(response.data.result.email);  
         alert("Succes")
         setTimeout(() => navigate("/home"), 1000);
-        console.log(response)
       } 
     });
   };
-
-  console.log(emailLog)
 
   return (
     <div className='wrapperLogin'>

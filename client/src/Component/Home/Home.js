@@ -20,8 +20,6 @@ const Home = () => {
       if(response.data.loggedIn === true && response.data.role !== "") {
         setEmailLog(response.data.email.email);
         setRole(response.data.role);
-      } else {
-        navigate("/" , {replace : true});
       }
     });
   };
