@@ -155,6 +155,17 @@ form.sign-in-form {
   margin-top: 30px;
 }
 
+.btnLoading {
+  width: 150px;
+  border: none;
+  outline: none;
+  height: 49px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-top: 30px;
+}
+
 .btn:hover {
   background-color: #4d84e2;
 }

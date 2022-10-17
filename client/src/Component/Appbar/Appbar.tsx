@@ -14,21 +14,43 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
-  useColorMode
+  useColorMode,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Avatar,
+  Center
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
+  SettingsIcon
 } from '@chakra-ui/icons';
 import React from 'react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+
+import { useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 export default function Appbar() {
+
+  Axios.defaults.withCredentials = true;
+
+  let navigate = useNavigate();
+
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const logout =  () => {
+    Axios.get('https://empty-test-project.herokuapp.com/logout');
+    alert("Logout successful");
+    navigate("/login", { replace : true });
+  }
 
   return (
     <Box>
@@ -71,11 +93,13 @@ export default function Appbar() {
           </Flex>
         </Flex>
 
-        <Stack
+        {/* <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
           direction={'row'}
-          spacing={6}>
+          cursor={'pointer'}
+          spacing={6}
+          >
           <Button
             as={'a'}
             fontSize={'sm'}
@@ -84,9 +108,42 @@ export default function Appbar() {
            >
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
-        </Stack>
-      </Flex>
+        </Stack> */}
 
+        <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                <IconButton aria-label=''>  
+                  <SettingsIcon />
+                </IconButton>
+                </MenuButton>
+                <MenuList alignItems={'center'}>
+                  <br />
+                  <Center>
+                    <Avatar
+                      size={'2xl'}
+                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    />
+                  </Center>
+                  <br />
+                  <Center>
+                    <p>Username</p>
+                  </Center>
+                  <br />
+                  <MenuDivider />
+                  <MenuItem>Your Servers</MenuItem>
+                  <MenuItem>Account Settings</MenuItem>
+                  <a onClick={logout}>
+                  <MenuItem>Logout</MenuItem>
+                  </a>
+
+                </MenuList>
+              </Menu>
+      </Flex>
       <Collapse in={isOpen} animateOpacity>
         <MobileNav />
       </Collapse>

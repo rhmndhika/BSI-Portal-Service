@@ -8,7 +8,8 @@ import {
     InputGroup,
     InputRightElement,
     InputLeftElement,
-    Button
+    Button,
+    Spinner
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
@@ -18,7 +19,19 @@ import { useNavigate } from 'react-router-dom';
 
 /* thrid party */
 import Axios from 'axios';
-
+import {
+  useColorMode,
+  useColorModeValue,
+  Box
+} from '@chakra-ui/react';
+import {
+  HamburgerIcon,
+  CloseIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon
+} from '@chakra-ui/icons';
 
 const Login = () => {
 
@@ -26,13 +39,15 @@ const Login = () => {
 
   let navigate = useNavigate();
   
+  const { colorMode, toggleColorMode } = useColorMode()
   const [show, setShow] = React.useState(false)
   const { emailLog, setEmailLog } = useContext(EmailUser)
   const [ passwordLog, setPasswordLog  ] = useState("")
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const handleClick = () => setShow(!show)
 
-  const isError = emailLog === ''
+  const isError = emailLog === '' || emailLog === null
 
   const login =  (e) => {
     e.preventDefault()
@@ -46,9 +61,13 @@ const Login = () => {
         setTimeout(() => navigate("/home"), 1000);
       } 
     });
+    setIsLoading(true)
   };
 
   return (
+    <Box  bg={useColorModeValue('white', 'gray.800')}
+    color={useColorModeValue('gray.600', 'white')}>
+
     <div className='wrapperLogin'>
       <div class="contain">
       <div class="forms-container">
@@ -102,8 +121,11 @@ const Login = () => {
                 </InputRightElement>
             </InputGroup>
             </FormControl>
-           
-            <input type="submit" value="Login" class="btn solid" onClick={login} />
+           { isLoading === false ?
+               <input type="submit" value="Login" class="btn solid" onClick={login} />
+               :
+               <Spinner className='btnLoading' />
+           }
           </form>
         </div>
       </div>
@@ -127,6 +149,7 @@ const Login = () => {
       </div>
     </div>
     </div>
+    </Box>
   )
 }
 

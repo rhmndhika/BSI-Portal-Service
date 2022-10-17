@@ -49,7 +49,7 @@ app.use(session({
     cookie:{
         secure: true,
         sameSite: "none",
-        maxAge:10 * 10 * 24 * 60
+        maxAge: 1 * 60 * 60 * 1000
            },
     key: process.env.COOKIE_KEY,
     store: new MemoryStore({
@@ -142,7 +142,7 @@ app.post("/login", (req, res) => {
                 result,
                 role,
                 token
-            });
+            }, res.cookie);
             }).catch((error) => {
                 res.status(400).send({
                 message: "Passwords does not match",

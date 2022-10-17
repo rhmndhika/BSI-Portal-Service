@@ -16,9 +16,9 @@ const Home = () => {
   const [ role, setRole ] = useState("");
 
   const PageDisplay = () => {
-    if ( role == "User" ){
+    if ( role === "User" ){
         return <Home />
-    } else if ( role == "Admin") {
+    } else if ( role === "Admin") {
         return <Admin />
     } 
   };
@@ -29,7 +29,9 @@ const Home = () => {
       if(response.data.loggedIn === true) {
         setEmailLog(response.data.email.email);
         setRole(response.data.role);
-      } 
+      } else {
+        navigate("/login")
+      }
     });
   };
 
@@ -40,7 +42,7 @@ const Home = () => {
   return (
     <>
     <Appbar />
-    HOME
+    <h1>USER : {emailLog}</h1>
     </>
   )
 }
