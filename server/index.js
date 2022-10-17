@@ -61,12 +61,17 @@ app.use((req, res, next) => {
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
 mongoose.connect(CONNECTION_URL, {
-    useNewUrlParser : true
-}
-);
+    useNewUrlParser : true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+})
+.then(() => console.log('Database connected.'))
+.catch(err => console.log(err));
 
 app.get('/Test', (req, res) => {       
-    res.send("Hello world");     
+   UserModel.find({}, (err, result) => {
+    res.send(result);
+   })
 });
 
 app.post("/register", async (req, res) => {
