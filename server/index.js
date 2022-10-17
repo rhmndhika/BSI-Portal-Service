@@ -17,7 +17,7 @@ require('dotenv').config();
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", "https://empty-test-project.herokuapp.com"],
+    origin: ["http://localhost:3000", "*"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
@@ -33,16 +33,20 @@ app.use(session({
   cookie:{
       secure: true,
       sameSite: "none",
+      httpOnly: true,
       maxAge:10 * 10 * 24 * 60
          },
   key: process.env.COOKIE_KEY,
+  store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+  }),
   secret: 'subscribe',
   saveUninitialized: true,
   resave: false,
   }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "https://empty-test-project.herokuapp.com");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "*");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"

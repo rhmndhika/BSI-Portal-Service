@@ -17,9 +17,10 @@ const Home = () => {
   const userExpire = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
     .then((response)=> {
-      if(response.data.loggedIn === true && response.data.role !== "") {
+      if(response.data.loggedIn === true) {
         setEmailLog(response.data.email.email);
-        setRole(response.data.role);
+      }else {
+        navigate("/" , {replace : true});
       }
     });
   };
