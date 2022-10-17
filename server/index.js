@@ -142,7 +142,7 @@ app.post("/login", (req, res) => {
                 result,
                 role,
                 token
-            }, res.cookie);
+            });
             }).catch((error) => {
                 res.status(400).send({
                 message: "Passwords does not match",
