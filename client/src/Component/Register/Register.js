@@ -12,24 +12,48 @@ import {
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
-const [input, setInput] = useState('')
-const [show, setShow] = React.useState(false)
+  Axios.defaults.withCredentials = true;
+
+  let navigate = useNavigate();
+
+  const [input, setInput] = useState('')
+  const [show, setShow] = React.useState(false)
+
+  const [ emailReg, setEmailReg ] = useState("")
+  const [ passwordReg, setPasswordReg ] = useState("")
 
   const handleClick = () => setShow(!show)
 
   const handleInputChange = (e) => setInput(e.target.value)
 
-  const isError = input === ''
+  const isError = emailReg === ''
+
+  const register = (e) => {
+    e.preventDefault()
+
+    if (emailReg.length > 0 && passwordReg.length > 0) {
+      Axios.post("https://bsivendor-registration.herokuapp.com/register" , {
+        email: emailReg, 
+        password: passwordReg
+      })
+      alert("Login")
+      setTimeout(() => navigate("/login"), 1000);
+    } else {
+      alert("Warning")
+    }
+  }
 
   return (
     <div className='wrapperLogin'>
       <div class="contain">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="/home" class="sign-in-form">
+          <form class="sign-in-form">
             <div className='textCompany'>
               <h1>BSI PORTAL SERVICE</h1>
             </div>
@@ -42,7 +66,9 @@ const [show, setShow] = React.useState(false)
                   pointerEvents='none'
                   children={<EmailIcon color='gray.300' />}
                 />
-                <Input type='email' value={input} onChange={handleInputChange}/>
+                <Input type='email' required onChange={(e)=> {
+                  setEmailReg(e.target.value)
+                }}/>
                 </InputGroup>
                 {!isError ? (
                     <FormHelperText>
@@ -64,6 +90,10 @@ const [show, setShow] = React.useState(false)
                     pr='4.5rem'
                     type={show ? 'text' : 'password'}
                     placeholder='Enter password'
+                    required
+                    onChange={(e) => {
+                      setPasswordReg(e.target.value)
+                    }}
                 />
                 <InputRightElement width='4.5rem'>
                     <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -73,7 +103,7 @@ const [show, setShow] = React.useState(false)
             </InputGroup>
             </FormControl>
            
-            <input type="submit" value="Sign up" class="btn solid" />
+            <input type="submit" value="Sign up" class="btn solid" onClick={register} />
           </form>
         </div>
       </div>

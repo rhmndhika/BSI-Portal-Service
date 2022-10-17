@@ -52,12 +52,14 @@ export default function Appbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          <a href='/home'>
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
              BSI Portal
           </Text>
+           </a>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -237,7 +239,7 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       {
         label: 'Vendor Registration',
-        subLabel: 'Trending Design to inspire you',
+        subLabel: 'BSI Vendor Registration',
         href: 'https://bsivendorregistration.netlify.app/',
       },
       {
