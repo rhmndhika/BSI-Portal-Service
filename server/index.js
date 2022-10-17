@@ -14,19 +14,28 @@ const UserModel = require("./models/Users.js");
 
 require('dotenv').config();
 
+const CONNECTION_URL =  process.env.MONGODB_HOST
+
+mongoose.connect(CONNECTION_URL, {
+    useNewUrlParser : true
+});
+
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", "*"],
+    origin: ["http://localhost:3000", "https://empty-test-project.herokuapp.com/"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
 
-// app.set("trust proxy", 1);
+app.set("trust proxy", 1);
+app.use(helmet());
+app.use(hpp());
 app.use(express.json());
 app.use(bodyParser.json())
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(cookieParser());
 
 app.use(session({
@@ -40,13 +49,14 @@ app.use(session({
   store: new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h
   }),
-  secret: 'subscribe',
+  secret: 'secret',
   saveUninitialized: true,
   resave: false,
+  httpOnly : true
   }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "*");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -58,13 +68,6 @@ app.use((req, res, next) => {
     next();
   });
   
-
-const CONNECTION_URL =  process.env.MONGODB_HOST
-
-mongoose.connect(CONNECTION_URL, {
-    useNewUrlParser : true
-});
-
 
 app.post("/register", async (req, res) => {
     bcrypt

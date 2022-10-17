@@ -19,8 +19,7 @@ const Home = () => {
     .then((response)=> {
       if(response.data.loggedIn === true) {
         setEmailLog(response.data.email.email);
-      }else {
-        navigate("/" , {replace : true});
+        console.log(emailLog)
       }
     });
   };
@@ -30,7 +29,10 @@ const Home = () => {
    }, [])
 
   return (
+    <>
     <Appbar />
+    <p>USER : {emailLog}</p>
+    </>
   )
 }
 

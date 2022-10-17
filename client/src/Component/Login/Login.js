@@ -43,11 +43,10 @@ const Login = () => {
       if (response.data.result.email) {
         setEmailLog(response.data.result.email);  
         alert("Succes")
-        // setTimeout(() => navigate("/home"), 1000);
+        setTimeout(() => navigate("/home"), 1000);
       } 
     });
   };
-
 
   return (
     <div className='wrapperLogin'>
@@ -106,8 +105,6 @@ const Login = () => {
            
             <input type="submit" value="Login" class="btn solid" onClick={login} />
           </form>
-
-          <p>USER : {emailLog}</p>
         </div>
       </div>
 
