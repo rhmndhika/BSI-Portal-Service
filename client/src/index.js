@@ -15,6 +15,9 @@ import Home from './Component/Home/Home'
 import EmailUserProvider from './Helper/EmailUserProvider';
 import PayG from './Component/PayG/Payg';
 import DataPaygProvider from './Helper/DataPaygProvider';
+import PaygHome from './Component/PayG/PaygHome';
+import PaygStatus from './Component/PayG/PaygStatus';
+import PaygStatusDetail from './Component/PayG/PaygStatusDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,6 +31,9 @@ root.render(
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home/>} />
       <Route path='/payg' element={<PayG />} />
+      <Route path='/paygHome' element={<PaygHome />} />
+      <Route path='/paygStatus' element={<PaygStatus />} />
+      <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
     </Routes>
   </BrowserRouter>
   </React.StrictMode>

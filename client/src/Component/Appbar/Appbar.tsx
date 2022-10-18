@@ -32,10 +32,11 @@ import {
   SunIcon,
   SettingsIcon
 } from '@chakra-ui/icons';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import { EmailUser } from '../../Helper/EmailUserProvider';
 
 export default function Appbar() {
 
@@ -45,6 +46,8 @@ export default function Appbar() {
 
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const { emailLog, setEmailLog } = useContext(EmailUser)
 
   const logout =  () => {
     Axios.get('https://empty-test-project.herokuapp.com/logout');
@@ -87,6 +90,12 @@ export default function Appbar() {
           </Text>
            </a>
 
+           <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}>
+          </Stack>
           
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -131,7 +140,7 @@ export default function Appbar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    <p>{emailLog}</p>
                   </Center>
                   <br />
                   <MenuDivider />
@@ -314,7 +323,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Invoice Gateway',
         subLabel: 'Vendor PayG',
-        href: '/payg',
+        href: '/paygHome',
       },
       {
         label: 'Outsourcing',

@@ -211,7 +211,7 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
 });
 
 app.get("/paygdata", (req, res) => {
-  PaygDataModel.find({}, (err, result) => {
+  PaygDataModel.find({Email : req.session.email.email}, (err, result) => {
 
    if (err) {
       res.send(err)
@@ -233,6 +233,17 @@ app.get("/paygdata/:id", (req, res) => {
   })
 });
 
+app.delete("/deletepaygdata/:id", (req, res) => {
+  const Id = req.params.id;
+
+  PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
+      if (err) {
+          console.log(err);
+      } else {
+          res.send(result);
+      }
+  });
+});
 
 
 app.listen(process.env.PORT || 3001 , ()=> {
