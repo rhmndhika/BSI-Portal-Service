@@ -206,9 +206,31 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
     PaygAttachments : reqFiles
   })
 
-
   await data.save();
   res.json(data);
+});
+
+app.get("/paygdata", (req, res) => {
+  PaygDataModel.find({}, (err, result) => {
+
+   if (err) {
+      res.send(err)
+   } else {
+      res.send(result)
+   }
+  })
+})
+
+app.get("/paygdata/:id", (req, res) => {
+  const Id = req.params.id;
+  
+  PaygDataModel.findById({_id : Id}, (err, result) => {
+      if (err) {
+          res.send(err)
+      }else {
+          res.send(result)
+      }
+  })
 });
 
 
