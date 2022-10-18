@@ -138,7 +138,7 @@ const Login = () => {
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
               ex ratione. Aliquid!
             </p>
-            <a href='/'>
+            <a href='/register'>
             <button class="btn transparent" id="sign-up-btn">
               Sign up
             </button>

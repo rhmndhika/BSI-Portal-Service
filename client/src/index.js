@@ -13,21 +13,26 @@ import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import Home from './Component/Home/Home'
 import EmailUserProvider from './Helper/EmailUserProvider';
+import PayG from './Component/PayG/Payg';
+import DataPaygProvider from './Helper/DataPaygProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <EmailUserProvider>
+  <DataPaygProvider>
   <ChakraProvider>
   <React.StrictMode>
   <BrowserRouter>
   <Routes>
-      <Route path="/" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home/>} />
+      <Route path='/payg' element={<PayG />} />
     </Routes>
   </BrowserRouter>
   </React.StrictMode>
   </ChakraProvider>
+  </DataPaygProvider>
   </EmailUserProvider>
 );
 

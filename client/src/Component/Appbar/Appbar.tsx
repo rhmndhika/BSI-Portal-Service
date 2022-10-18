@@ -49,7 +49,7 @@ export default function Appbar() {
   const logout =  () => {
     Axios.get('https://empty-test-project.herokuapp.com/logout');
     alert("Logout successful");
-    navigate("/login", { replace : true });
+    navigate("/", { replace : true });
   }
 
   return (
@@ -313,8 +313,8 @@ const NAV_ITEMS: Array<NavItem> = [
       },
       {
         label: 'Invoice Gateway',
-        subLabel: 'Up-and-coming Designers',
-        href: '#',
+        subLabel: 'Vendor PayG',
+        href: '/payg',
       },
       {
         label: 'Outsourcing',

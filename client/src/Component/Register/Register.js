@@ -39,7 +39,7 @@ const Register = () => {
         password: passwordReg
       })
       alert("Login")
-      setTimeout(() => navigate("/login"), 1000);
+      setTimeout(() => navigate("/"), 1000);
     } else {
       alert("Warning")
     }
@@ -113,7 +113,7 @@ const Register = () => {
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
               ex ratione. Aliquid!
             </p>
-            <a href='/login'>
+            <a href='/'>
             <button class="btn transparent" id="sign-up-btn">
               Login
             </button>

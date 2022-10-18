@@ -11,13 +11,16 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
-const MemoryStore = require('memorystore')(session)
+const MemoryStore = require('memorystore')(session);
+const multer = require('multer');
 
 
 require('dotenv').config();
 
 
 const UserModel = require("./models/Users.js");
+const PaygGDataModel = require("./models/PaygDatas.js");
+const PaygDataModel = require('./models/PaygDatas.js');
 
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
@@ -28,6 +31,17 @@ mongoose.connect(CONNECTION_URL, {
 );
 
 app.set("trust proxy", 1);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'images')
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() +  path.extname(file.originalname))
+  }
+});
+
+const upload = multer({storage: storage});
 
 app.use(
     cors({
@@ -172,6 +186,29 @@ app.get("/login", (req, res) => {
 app.get("/logout", (req, res) => {
    res.clearCookie(process.env.COOKIE_KEY)
    return res.redirect("/");
+});
+
+app.post("/paygdata", upload.array('file', 20), async (req, res) => {
+   
+  const reqFiles = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+      reqFiles.push(url + req.files[i].filename);       
+  };
+
+   data = new PaygDataModel({
+    Email : req.body.email,
+    InvoiceNumber : req.body.InvoiceNumber,
+    InvoiceDate : req.body.InvoiceDate,
+    BuyerName : req.body.BuyerName ,
+    Amount : req.body.Amount,
+    Subject : req.body.Subject,
+    PaygAttachments : reqFiles
+  })
+
+
+  await data.save();
+  res.json(data);
 });
 
 

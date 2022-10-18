@@ -30,7 +30,7 @@ const Home = () => {
         setEmailLog(response.data.email.email);
         setRole(response.data.role);
       } else {
-        navigate("/login")
+        navigate("/")
       }
     }, {withCredentials : true});
   };
