@@ -32,7 +32,7 @@ const Home = () => {
       } else {
         navigate("/login")
       }
-    });
+    }, {withCredentials : true});
   };
 
   useEffect(() => {

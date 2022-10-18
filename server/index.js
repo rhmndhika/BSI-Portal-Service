@@ -27,14 +27,14 @@ mongoose.connect(CONNECTION_URL, {
 }
 );
 
+app.set("trust proxy", 1);
+
 app.use(
     cors({
     origin: ["http://localhost:3000", ,"https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
-
-app.set("trust proxy", 1);
 
 app.use(helmet());
 app.use(hpp());
@@ -48,14 +48,14 @@ app.use(cookieParser());
 app.use(session({
     cookie:{
         secure: true,
-        sameSite: "none",
+        sameSite: "production" ? "none" : "lax",
         maxAge: 1 * 60 * 60 * 1000
            },
     key: process.env.COOKIE_KEY,
     store: new MemoryStore({
         checkPeriod: 86400000 // prune expired entries every 24h
       }),
-    secret: 'secret',
+    secret: 'subscribe',
     saveUninitialized: true,
     resave: false,
     }));
