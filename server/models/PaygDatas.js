@@ -25,5 +25,5 @@ const PaygDataSchema = new mongoose.Schema({
     }
 }, {timestamps : true})
 
-const PaygDataModel = mongoose.model(paygdatas, PaygDataSchema)
+const PaygDataModel = mongoose.model("paygdatas", PaygDataSchema)
 module.exports = PaygDataModel
