@@ -19,8 +19,8 @@ require('dotenv').config();
 
 
 const UserModel = require("./models/Users.js");
-const PaygGDataModel = require("./models/PaygDatas.js");
 const PaygDataModel = require('./models/PaygDatas.js');
+const UserProfileModel = require("./models/UserProfiles.js")
 
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
@@ -127,7 +127,7 @@ app.post("/register", async (req, res) => {
 
 
 app.post("/login", (req, res) => {
-    UserModel.findOneAndUpdate({ email: { $regex : "bsi"} }, {$set : {"role" : "Admin"}}).then((user) => {
+    UserModel.findOneAndUpdate({ email: req.body.email }).then((user) => {
         bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
             if(!passwordCheck) {
@@ -244,6 +244,30 @@ app.delete("/deletepaygdata/:id", (req, res) => {
       }
   });
 });
+
+app.post("/profile/createprofile", async (req, res) => {
+
+  const Profile = new UserProfileModel({
+    Email : req.body.email,
+    CompanyName : req.body.CompanyName,
+    PIC : req.body.PIC,
+    PICEmail : req.body.PICEmail,
+    Occupation : req.body.Occupation
+  })
+
+  await Profile.save();
+  res.send(result);
+})
+
+app.get("/profile/getprofile", async (req, res) => {
+  UserProfileModel.findOne({}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  })
+})
 
 
 app.listen(process.env.PORT || 3001 , ()=> {
