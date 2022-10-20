@@ -256,7 +256,7 @@ app.post("/profile/createprofile", async (req, res) => {
   })
 
   await Profile.save();
-  res.send(result);
+  res.send(Profile);
 })
 
 app.get("/profile/getprofile", async (req, res) => {
