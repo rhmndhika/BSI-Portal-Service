@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const path = require('path');
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const helmet = require('helmet');
@@ -211,6 +212,7 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
 
 app.get("/paygdata", (req, res) => {
   PaygDataModel.find({Email : req.session.email.email}, (err, result) => {
+
    if (err) {
       res.send(err)
    } else {
@@ -243,15 +245,21 @@ app.delete("/deletepaygdata/:id", (req, res) => {
   });
 });
 
-app.post("/profile/createprofile", async (req, res) => {
+app.post("/createprofile", async (req, res) => {
 
-  CreateProfile = new UserProfileModel(req.body)
+  Profile = new UserProfileModel({
+    Email : req.body.email,
+    CompanyName : req.body.CompanyName,
+    PIC : req.body.PICName,
+    PICEmail : req.body.PICEmail,
+    Occupation : req.body.Occupation
+  })
 
-  await CreateProfile.save();
-  res.send(CreateProfile);
+  await Profile.save();
+  res.send(Profile);
 })
 
-app.get("/profile/getprofile", async (req, res) => {
+app.get("/getprofile", async (req, res) => {
   UserProfileModel.findOne({}, (err, result) => {
     if (err) {
       console.log(err)
