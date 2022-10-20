@@ -83,12 +83,12 @@ const Payg = () => {
         <Appbar />
         <div className='wrapperBodyPayg'>
           <div className='textHeaderPayg'>
-            <h1>PayG Vendor Input Data</h1>
+            <h1 style={{fontSize : "20px"}}>Input Data Vendor</h1>
           </div>
             <form className='formPayg' method='POST' encType='multipart/form-data' onSubmit={handleSubmit}>
             <FormControl isRequired margin={1}>
               <FormLabel>Current User</FormLabel>
-              <Input type='text' value={emailLog} onChange={(e) => {
+              <Input type='text' value={emailLog} disabled onChange={(e) => {
                 setPayg(e.target.value)
               }} />
               
@@ -107,7 +107,7 @@ const Payg = () => {
                 setPayg({...payg, buyerName : e.target.value})}}>
                 <option value="Tovan Octa Ferdinan">Tovan Octa Ferdinan</option>
                 <option value="Muhammad Ridwan">Muhammad Ridwan</option>
-                <option value="Ismi Rahmawat">Ismi Rahmawati</option>
+                <option value="Ismi Rahmawati">Ismi Rahmawati</option>
               </Select>
 
               <FormLabel>Amount</FormLabel>

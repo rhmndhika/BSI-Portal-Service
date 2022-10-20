@@ -1,0 +1,30 @@
+.wrapperCreateProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profileContent-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    background-color: grey;
+    padding-bottom: 50px;
+}
+
+.profileContent-1 h1 {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.profileContent-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    margin-top: 30px;    
+}

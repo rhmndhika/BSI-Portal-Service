@@ -196,7 +196,7 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
       reqFiles.push(url + req.files[i].filename);       
   };
 
-   data = new PaygDataModel({
+   const data = new PaygDataModel({
     Email : req.body.email,
     InvoiceNumber : req.body.InvoiceNumber,
     InvoiceDate : req.body.InvoiceDate,
@@ -247,7 +247,7 @@ app.delete("/deletepaygdata/:id", (req, res) => {
 
 app.post("/createprofile", async (req, res) => {
 
-  Profile = new UserProfileModel({
+  const Profile = new UserProfileModel({
     Email : req.body.email,
     CompanyName : req.body.CompanyName,
     PIC : req.body.PICName,

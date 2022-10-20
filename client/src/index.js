@@ -18,8 +18,8 @@ import PaygHome from './Component/PayG/PaygHome';
 import PaygStatus from './Component/PayG/PaygStatus';
 import PaygStatusDetail from './Component/PayG/PaygStatusDetail';
 import Profile from './Component/Profile/Profile';
-import CreateProfile from './Component/Profile/CreateProfile';
 import ProfileUserProvider from './Helper/ProfileUserProvider';
+import LandingPage from './Pages/LandingPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -37,7 +37,7 @@ root.render(
       <Route path='/paygHome' element={<PaygHome />} />
       <Route path='/paygStatus' element={<PaygStatus />} />
       <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
-      <Route path='/createprofile' element={<CreateProfile />} />
+      <Route path='/landingpage' element={<LandingPage />} />
       <Route path='/profile' element={<Profile />} />
     </Routes>
   </BrowserRouter>

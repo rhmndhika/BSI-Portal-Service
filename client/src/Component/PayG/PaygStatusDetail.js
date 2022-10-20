@@ -60,6 +60,7 @@ const PaygStatusDetail = () => {
                 <p>Invoice Date    : {moment(dataListID.InvoiceDate).format("DD MMMM YYYY")}</p>
                 <p>Invoice Amount  : {dataListID.Amount}</p>
                 <p>Invoice Subject : {dataListID.Subject}</p>
+                <p>Buyer Name      : {dataListID.BuyerName}</p>
                 <p>Attachments     : {dataListID.PaygAttachments}</p>
                 <p>Created At      : {moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
