@@ -247,7 +247,9 @@ app.delete("/deletepaygdata/:id", (req, res) => {
 
 app.post("/profile/createprofile", async (req, res) => {
 
-  const Profile = new UserProfileModel({
+  
+
+  CreateProfile = new UserProfileModel({
     Email : req.body.email,
     CompanyName : req.body.CompanyName,
     PIC : req.body.PIC,
@@ -255,8 +257,8 @@ app.post("/profile/createprofile", async (req, res) => {
     Occupation : req.body.Occupation
   })
 
-  await Profile.save();
-  res.send(Profile);
+  await CreateProfile.save();
+  res.send(CreateProfile);
 })
 
 app.get("/profile/getprofile", async (req, res) => {
