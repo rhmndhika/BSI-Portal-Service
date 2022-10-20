@@ -19,7 +19,9 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Button
+  Select,
+  Button,
+  Spinner
 } from '@chakra-ui/react';
 
 const Payg = () => {
@@ -31,6 +33,7 @@ const Payg = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
     const [ role, setRole ] = useState("");
+    const [ isLoading , SetIsLoading ] = useState(false)
 
 
     const userExpire = () => {
@@ -64,8 +67,10 @@ const Payg = () => {
         method: 'POST',
         body: formData,
     })
-        .then((res) => setTimeout(() => window.location.reload(false), 1000))
-        .catch((err) => ("Error occured", err));
+        .then((res) => {
+          SetIsLoading(true);
+          setTimeout(() => navigate("/paygHome"), 1000)
+        })
     }
 
     useEffect(() => {
@@ -97,11 +102,13 @@ const Payg = () => {
                 setPayg({...payg, invoiceDate : e.target.value})
               }}  />
 
-              <FormLabel>Display Name</FormLabel>
-              <Input type="text" value={payg.buyerName} onChange={(e) => {
-                setPayg({...payg, buyerName : e.target.value})
-              }} />
-             
+              <FormLabel>Buyer Name</FormLabel>
+              <Select placeholder='Select Target Name' onChange={(e) => {
+                setPayg({...payg, buyerName : e.target.value})}}>
+                <option value="Tovan Octa Ferdinan">Tovan Octa Ferdinan</option>
+                <option value="Muhammad Ridwan">Muhammad Ridwan</option>
+                <option value="Ismi Rahmawat">Ismi Rahmawati</option>
+              </Select>
 
               <FormLabel>Amount</FormLabel>
               <NumberInput min={0}>
@@ -126,9 +133,15 @@ const Payg = () => {
               }} />
               <FormHelperText>*PDF/CSV Format</FormHelperText>
               
+              {isLoading === false ?
               <div className='btnSubmitPayg'>
               <Button type="submit">Submit</Button>
               </div>
+              :
+              <div className='btnSubmitPayg'>
+                <Spinner size='lg' />
+              </div>
+              }
              
             </FormControl>
             </form>

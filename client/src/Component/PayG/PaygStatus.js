@@ -47,7 +47,6 @@ const PaygStatus = () => {
       };
 
     const getDataPayg = () => {
-
         Axios.get("https://empty-test-project.herokuapp.com/paygdata").then((response) => {
             setDataList(response.data);
             setIsLoading(false);
@@ -60,7 +59,6 @@ const PaygStatus = () => {
                 return val._id != id
             }))
             setIsLoading(false);
-            
         }); 
     }
 
@@ -72,39 +70,11 @@ const PaygStatus = () => {
   return (
     <div>
     <Appbar />
-        <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
-           
-        {isLoading ? <Spinner marginTop={30} /> : dataList.map((i, index) => {
-        return(
-        <>
-         <AlertDialog
-            isOpen={isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={onClose}>
-            <AlertDialogOverlay>
-                <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                    Delete Customer
-                    </AlertDialogHeader>
-
-                    <AlertDialogBody>
-                    Are you sure? You can't undo this action afterwards.
-                    </AlertDialogBody>
-
-                    <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button colorScheme='red' onClick={() => {
-                        deleteDataPayg(i._id)
-                    }} ml={3}>
-                        Delete
-                    </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialogOverlay>   
-        </AlertDialog>
-        <table class="table table-action" key={index}>
+        <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
+        { dataList.length <= 0 ?
+        <p style={{marginTop: "150px"}}>No Data Available</p>
+        :
+        <table class="table table-action">
             <thead>
                 <tr>
                 <th class="t-small"></th>
@@ -115,9 +85,38 @@ const PaygStatus = () => {
                 <th class="t-medium">Action</th>
                 </tr>
             </thead>
-        
+            {isLoading ? <Spinner marginTop={30} /> : dataList.map((i, index) => {
+            return(
+            <>
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}>
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        Delete Customer
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                        Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button colorScheme='red' onClick={() => {
+                            deleteDataPayg(i._id)
+                        }} ml={3}>
+                            Delete
+                        </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>   
+            </AlertDialog>
             <tbody>
-                <tr>
+                <tr key={index}>
                     <td><label></label></td>
                     <td>{i._id}</td>
                     <td>{i.Email}</td>
@@ -131,16 +130,16 @@ const PaygStatus = () => {
                                 <Button width={100} >Edit</Button>
                             </Link>
                                 <Button width={100} marginLeft={5}  onClick={() => {
-                                    onOpen(i._id)
+                                    deleteDataPayg(i._id)
                                 }}>Delete</Button>
                         </div>
                     </td>
                 </tr>
             </tbody>
+            </>
+           )})}
         </table>
-        </>
-        )
-         })}
+        }
         </div>
     </div>
     )

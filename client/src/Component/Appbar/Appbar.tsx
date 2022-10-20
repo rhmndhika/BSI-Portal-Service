@@ -66,8 +66,11 @@ export default function Appbar() {
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
+        p={5}
+        shadow='md'
         align={'center'}>
-        <Flex
+
+       <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
           display={{ base: 'flex', md: 'none' }}>
@@ -81,47 +84,27 @@ export default function Appbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <a href='/home' style={{display : "flex"}}>
+          <a href="/home">
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
-             BSI Supplier Portal
+           BSI Supplier Portal
           </Text>
-           </a>
+          </a>
 
-           
-
-           <Stack
-            flex={{ base: 1, md: 1 }}
-            justify={'flex-end'}
-            direction={'row'}
-            spacing={6}>
-          </Stack>
-          
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+          <Flex display={{ base: 'none', md: 'flex' }} flex={{base : 1}} ml={10} justify="flex-end" justifyContent={'flex-end'}>
             <DesktopNav />
           </Flex>
         </Flex>
 
-        {/* <Stack
+        <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
           direction={'row'}
-          cursor={'pointer'}
           spacing={6}
-          >
-          <Button
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-            onClick={toggleColorMode}
-           >
-            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-          </Button>
-        </Stack> */}
-
-        <Menu>
+          marginLeft={5}>
+          <Menu>
                 <MenuButton
                   as={Button}
                   rounded={'full'}
@@ -146,14 +129,17 @@ export default function Appbar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
+                  <a href='/profile'>
                   <MenuItem>Account Settings</MenuItem>
+                  </a>
+                  <MenuItem>Your Servers</MenuItem>
                   <a onClick={logout}>
                   <MenuItem>Logout</MenuItem>
                   </a>
 
                 </MenuList>
               </Menu>
+        </Stack>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
         <MobileNav />
@@ -179,6 +165,8 @@ const DesktopNav = () => {
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
+                borderBottom="2px"
+                borderBottomColor={'blue.300'}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
@@ -315,7 +303,7 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: 'Application',
+    label: 'Procurenment',
     children: [
       {
         label: 'Vendor Registration',
@@ -323,12 +311,27 @@ const NAV_ITEMS: Array<NavItem> = [
         href: 'https://bsivendorregistration.netlify.app/',
       },
       {
+        label: 'Sourcing',
+        subLabel: 'Sourcing',
+        href: '#',
+      },
+      {
+        label: 'PO Management',
+        subLabel: 'PO Management',
+        href: '#',
+      },
+      {
+        label: 'Delivery Monitoring',
+        subLabel: 'Delivery Monitoring',
+        href: '#',
+      },
+      {
         label: 'Invoice Gateway',
         subLabel: 'Vendor PayG',
         href: '/paygHome',
       },
       {
-        label: 'Outsourcing',
+        label: 'Outsourcing Portal',
         subLabel: 'Up-and-coming Designers',
         href: '#',
       }
@@ -352,12 +355,7 @@ const NAV_ITEMS: Array<NavItem> = [
         label: 'Group Forum',
         subLabel: 'An exclusive list for contract work',
         href: '#',
-      },
-      {
-        label: 'Procurenment Pipelines',
-        subLabel: 'An exclusive list for contract work',
-        href: '#',
-      },
+      }
     ],
   },
   {
@@ -383,6 +381,21 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: 'An exclusive list for contract work',
         href: '#',
       },
+      {
+        label: 'User Guidance',
+        subLabel: 'An exclusive list for contract work',
+        href: '#',
+      },
+      {
+        label: 'Others Dashboard',
+        subLabel: 'An exclusive list for contract work',
+        href: '#',
+      },
+      {
+        label: 'Tax Matters',
+        subLabel: 'An exclusive list for contract work',
+        href: '#',
+      }
     ],
   }
 ];

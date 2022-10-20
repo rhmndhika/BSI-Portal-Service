@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -18,27 +17,34 @@ import DataPaygProvider from './Helper/DataPaygProvider';
 import PaygHome from './Component/PayG/PaygHome';
 import PaygStatus from './Component/PayG/PaygStatus';
 import PaygStatusDetail from './Component/PayG/PaygStatusDetail';
+import Profile from './Component/Profile/Profile';
+import CreateProfile from './Component/Profile/CreateProfile';
+import ProfileUserProvider from './Helper/ProfileUserProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <EmailUserProvider>
+  <ProfileUserProvider>
   <DataPaygProvider>
   <ChakraProvider>
   <React.StrictMode>
   <BrowserRouter>
   <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home/>} />
+      <Route path='/' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/home' element={<Home/>} />
       <Route path='/payg' element={<PayG />} />
       <Route path='/paygHome' element={<PaygHome />} />
       <Route path='/paygStatus' element={<PaygStatus />} />
       <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
+      <Route path='/createprofile' element={<CreateProfile />} />
+      <Route path='/profile' element={<Profile />} />
     </Routes>
   </BrowserRouter>
   </React.StrictMode>
   </ChakraProvider>
   </DataPaygProvider>
+  </ProfileUserProvider>
   </EmailUserProvider>
 );
 

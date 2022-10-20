@@ -14,13 +14,17 @@ import {
   Image,
   Text,
   DarkMode,
+  Box,
   useColorModeValue,
 } from "@chakra-ui/react";
 // Assets
 import { MdPeople } from "react-icons/md";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import LogoRegistration from '../../Images/LogoRegistration.png'
-
+import './Home.css'
+import Header from '../Header/Header';
+import {BsChatDots} from 'react-icons/bs';
+import { IconButton } from '@chakra-ui/react'
 
 const Home = () => {
 
@@ -61,72 +65,103 @@ const Home = () => {
     userExpire();
    }, [])
 
+   const cardItem = [
+    {
+      title : "Vendor Registration",
+      imgUrl : LogoRegistration,
+      hrefUrl : 'https://bsivendorregistration.netlify.app'
+    },
+    {
+      title : "Sourcing",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    },
+    {
+      title : "PO Management",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    },
+    {
+      title : "Social Media",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    },
+    {
+      title : "Delivery Monitoring",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    },
+    {
+      title : "Invoice Gateway",
+      imgUrl : LogoRegistration,
+      hrefUrl : '/paygHome'
+    },
+    {
+      title : "Outsourcing Portal",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    },
+    {
+      title : "Group Forum",
+      imgUrl : LogoRegistration,
+      hrefUrl : '#'
+    }
+   ]
+
   return (
     <>
     <Appbar />
-    <div>
-    <Flex
-      style={{border : "1px solid"}}
-      borderRadius='20px'
-      bg={boxBg}
-      p='20px'
-      h='345px'
-      w={{ base: "315px", md: "345px" }}
-      alignItems='center'
-      direction='column'>
-      <Flex w='100%' mb='18px'>
-        <Flex
-          w='38px'
-          h='38px'
-          align='center'
-          justify='center'
-          borderRadius='50%'
-          me='12px'
-          bg={iconBox}>
-          <Icon w='24px' h='24px' as={MdPeople} color={iconColor} />
-        </Flex>
-        <Text
-          my='auto'
-          fontWeight='600'
-          color={mainText}
-          textAlign='center'
-          fontSize='xl'
-          me='auto'>
-          Application
-        </Text>
-      </Flex>
-      <Image
-        src={LogoRegistration}
-        maxW='100%'
-        borderRadius='20px'
-        mb='10px'
+    <Header />
+    <a
+      href="https://www.google.com/"
+      class="whatsapp_float"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+     <IconButton
+      colorScheme='blue'
+      aria-label='Search database'
+      isRound={true}
+      size="lg"
+      icon={<BsChatDots />}
       />
-      <Text
-        fontWeight='600'
-        color={mainText}
-        textAlign='start'
-        fontSize='xl'
-        w='100%'>
-        Vendor Registration
-      </Text>
-      <Flex mt='auto' justify='space-between' w='100%' align='center'>
-        <DarkMode>
-          <Badge
-            borderRadius='9px'
-            size='md'
-            colorScheme='green'
-            color='green.400'
-            textAlign='center'
-            display='flex'
-            justifyContent='center'
-            alignItems='center'>
-            BSI
-          </Badge>
-        </DarkMode>
-      </Flex>
-    </Flex>
+    </a>
+    <div className='wrapperHome'>
+      {cardItem.map((i, index) => {
+        return (
+        <>
+          <Flex
+            borderRadius='20px'
+            bg={boxBg}
+            p='20px'
+            h='225px'
+            shadow="outline"
+            margin={5}
+            w={{ base: "315px", md: "315px" }}
+            alignItems='center'
+            flexDirection="column"
+            >
+            <a href={i.hrefUrl}>
+            <Image
+              src={i.imgUrl}
+              maxW='100%'
+              borderRadius='20px'
+              mb='10px'
+              />
+            </a>
+            <Text
+              fontWeight='600'
+              color={mainText}
+              textAlign='start'
+              fontSize='xl'
+              w='100%'>
+              {i.title}
+            </Text>
+            </Flex>
+            </>  
+    )})}
     </div>
-    </>
+  </>
   )
 }
 

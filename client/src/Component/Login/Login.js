@@ -58,7 +58,7 @@ const Login = () => {
       if (response.data.result.email) {
         setEmailLog(response.data.result.email);  
         alert("Succes")
-        setTimeout(() => navigate("/home"), 1000);
+        setTimeout(() => navigate("../home", {replace : true}), 1000);
       } 
     });
     setIsLoading(true)
