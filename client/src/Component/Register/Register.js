@@ -26,6 +26,11 @@ const Register = () => {
   const [ emailReg, setEmailReg ] = useState("")
   const [ passwordReg, setPasswordReg ] = useState("")
 
+  const [ isAdmin, setIsAdmin ] = useState(true);
+
+  const role1 = "User"
+  const role2 = "Admin"
+
   const handleClick = () => setShow(!show)
 
   const isError = emailReg === ''

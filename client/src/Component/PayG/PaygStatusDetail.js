@@ -5,7 +5,18 @@ import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx'
 import {
     Button,
-    Spinner
+    Spinner,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    FormControl,
+    FormLabel,
+    Input
   } from '@chakra-ui/react'
 import './PaygStatus.css'
 import moment from 'moment';
@@ -20,6 +31,10 @@ const PaygStatusDetail = () => {
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const [ role, setRole ] = useState("");
   const [ isLoading, setIsLoading ] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
 
  const [ dataListID, setDataListID ] = useState([]);
 
@@ -52,8 +67,45 @@ const PaygStatusDetail = () => {
   return (
     <div>
       <Appbar />
+      <Button onClick={onOpen}>Open Modal</Button>
         <div style={{display : "flex", justifyContent: "center", alignItems: "center"}}>
-          {isLoading ? <div style={{display: "flex", justifyContent: "center", marginTop: "30px"}}><Spinner/></div> : 
+          {isLoading ? 
+          <div style={{display: "flex", justifyContent: "center", marginTop: "30px"}}>
+            <Spinner/>
+          </div> 
+          : 
+          <>
+          <Modal
+            initialFocusRef={initialRef}
+            finalFocusRef={finalRef}
+            isOpen={isOpen}
+            onClose={onClose}
+            closeOnOverlayClick={false}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Create your account</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody pb={6}>
+                <FormControl>
+                  <FormLabel>First name</FormLabel>
+                  <Input ref={initialRef} placeholder='First name' />
+                </FormControl>
+
+                <FormControl mt={4}>
+                  <FormLabel>Last name</FormLabel>
+                  <Input placeholder='Last name' />
+                </FormControl>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme='blue' mr={3}>
+                  Save
+                </Button>
+                <Button onClick={onClose}>Cancel</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
               <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
                 <p>Email           : {dataListID.Email}</p>
                 <p>Invoice Number  : {dataListID.InvoiceNumber}</p>
@@ -65,6 +117,7 @@ const PaygStatusDetail = () => {
                 <p>Created At      : {moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </div>
+          </>
               }
         </div>
     </div>

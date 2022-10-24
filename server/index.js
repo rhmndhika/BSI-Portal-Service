@@ -96,7 +96,7 @@ app.post("/register", async (req, res) => {
       const user = new UserModel({
         email: req.body.email,
         password: hashedPassword,
-        role : {$cond : {if : {email : {$regex : "bsi"}}, then : "Admin", else : "User"}}
+        role : "User"
       });
       // save the new user
       user
