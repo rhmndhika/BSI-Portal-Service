@@ -96,7 +96,7 @@ app.post("/register", async (req, res) => {
       const user = new UserModel({
         email: req.body.email,
         password: hashedPassword,
-        role : "User"
+        role : ""
       });
       // save the new user
       user
@@ -130,7 +130,7 @@ app.post("/login", (req, res) => {
 
   // UserModel.findOneAndUpdate({ email: req.body.email }).then((user)
 
-  UserModel.findOneAndUpdate({ email: { $regex : "bsi"} }, {$set : {"role" : "Admin"}} || { email: req.body.email } ).then((user) => {
+  UserModel.findOneAndUpdate({ email: { $regex : "bsi"} }, {$set : {"role" : "Admin"}} && { email: req.body.email } ).then((user) => {
         bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
             if(!passwordCheck) {

@@ -9,7 +9,10 @@ import {
     InputRightElement,
     InputLeftElement,
     Button,
-    Spinner
+    Spinner,
+    useColorMode,
+    useColorModeValue,
+    Box
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
@@ -19,11 +22,6 @@ import { useNavigate } from 'react-router-dom';
 
 /* thrid party */
 import Axios from 'axios';
-import {
-  useColorMode,
-  useColorModeValue,
-  Box
-} from '@chakra-ui/react';
 import {
   HamburgerIcon,
   CloseIcon,
