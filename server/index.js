@@ -272,22 +272,21 @@ app.get("/getprofile", async (req, res) => {
   })
 })
 
-app.put("/updatepaygdata", (req, res) => {
+app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
 
-  // const reqFiles = [];
-  // const url = "https://empty-test-project.herokuapp.com/images/";
-  // for (var i = 0; i < req.files.length; i++) {
-  //   reqFiles.push(url + req.files[i].filename);       
-  // };
+  const reqFiles = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+    reqFiles.push(url + req.files[i].filename);       
+  };
 
-  const Id = req.body.id;
-
-  PaygDataModel.findByIdAndUpdate({_id : Id}, {
+  PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
     InvoiceNumber : req.body.InvoiceNumber,
     InvoiceDate : req.body.InvoiceDate,
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
-    Subject : req.body.Subject
+    Subject : req.body.Subject,
+    Attachments : reqFiles
   }, (err, result) => {
       if(err) {
         res.send(err)

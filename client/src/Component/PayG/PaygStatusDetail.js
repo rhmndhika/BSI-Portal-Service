@@ -78,10 +78,12 @@ const PaygStatusDetail = () => {
       formData.append('BuyerName', payg.newBuyerName ? payg.newBuyerName : BuyerName);
       formData.append('Amount', payg.newInvoiceAmount ? payg.newInvoiceAmount : Amount);
       formData.append('Subject', payg.newInvoiceSubject ? payg.newInvoiceSubject : Subject);
-      
+      for(let i = 0; i < payg.newFilePayg.length; i++) {
+      formData.append('file', payg.newFilePayg[i] ? payg.newFilePayg[i] : PaygAttachments);
+      }
       formData.append('id', id);
      
-      fetch("https://empty-test-project.herokuapp.com/updatepaygdata", {
+      await fetch("https://empty-test-project.herokuapp.com/updatepaygdata", {
         method: 'PUT',
         body: formData,
       })
