@@ -107,7 +107,6 @@ const PaygStatusDetail = () => {
   
       emailjs.sendForm('service_i2rw35b', 'template_kbjdjat', form.current, 'H-1q8l7mJMHKzqNUS')
         .then((result) => {
-          setTimeout(()=> navigate("/home"), 2000);
         }, (error) => {
           console.log(error.text);
         });

@@ -338,9 +338,9 @@ app.post("/sendnotification", function (req, res) {
  app.put("/updateSubmitted",  (req, res) => {
 
   const Id = req.body.id;
-  const Submitted = req.body.submitted;
+  const submitted = req.body.submitted;
 
-  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"Submitted" : Submitted}},  (err, result) => {
+  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
       if (err) {
         res.send(err);
       } else {
