@@ -274,11 +274,11 @@ app.get("/getprofile", async (req, res) => {
 
 app.put("/updatepaygdata", (req, res) => {
 
-  const reqFiles = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
-  for (var i = 0; i < req.files.length; i++) {
-    reqFiles.push(url + req.files[i].filename);       
-  };
+  // const reqFiles = [];
+  // const url = "https://empty-test-project.herokuapp.com/images/";
+  // for (var i = 0; i < req.files.length; i++) {
+  //   reqFiles.push(url + req.files[i].filename);       
+  // };
 
   const Id = req.body.id;
 
@@ -287,8 +287,7 @@ app.put("/updatepaygdata", (req, res) => {
     InvoiceDate : req.body.InvoiceDate,
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
-    Subject : req.body.Subject,
-    PaygAttachments : reqFiles
+    Subject : req.body.Subject
   }, (err, result) => {
       if(err) {
         res.send(err)
