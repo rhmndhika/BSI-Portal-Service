@@ -272,6 +272,31 @@ app.get("/getprofile", async (req, res) => {
   })
 })
 
+app.put("/updatepaygdata", (req, res) => {
+
+  const reqFiles = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+    reqFiles.push(url + req.files[i].filename);       
+  };
+
+  const Id = req.body.id;
+
+  PaygDataModel.findByIdAndUpdate({_id : Id}, {
+    InvoiceNumber : req.body.InvoiceNumber,
+    InvoiceDate : req.body.InvoiceDate,
+    BuyerName : req.body.BuyerName ,
+    Amount : req.body.Amount,
+    Subject : req.body.Subject,
+    PaygAttachments : reqFiles
+  }, (err, result) => {
+      if(err) {
+        res.send(err)
+      } else {
+        res.send(result)
+      }
+  })
+})
 
 app.listen(process.env.PORT || 3001 , ()=> {
     console.log(`running on port`)

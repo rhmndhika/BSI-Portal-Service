@@ -8,7 +8,14 @@ export default function DataPaygProvider({children}) {
     buyerName : "",
     invoiceAmount : "",
     invoiceSubject : "",
-    filePayg : []
+    filePayg : [],
+
+    newInvoiceNumber : "",
+    newInvoiceDate : "",
+    newBuyerName : "",
+    newInvoiceAmount : "",
+    newInvoiceSubject : "",
+    newFilePayg : [],
   });
   return (
     <DataPayg.Provider value={{ payg, setPayg }}>
