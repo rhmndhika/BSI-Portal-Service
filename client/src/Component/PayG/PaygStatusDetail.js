@@ -103,6 +103,7 @@ const PaygStatusDetail = () => {
 
     const form = useRef();
     const sendEmail = (e) => {
+      
       e.preventDefault();
   
       emailjs.sendForm('service_i2rw35b', 'template_kbjdjat', form.current, 'H-1q8l7mJMHKzqNUS')
@@ -114,7 +115,7 @@ const PaygStatusDetail = () => {
 
 
     const updateSubmitted = (id, e) => {
-      Axios.put("https://bsivendor-registration.herokuapp.com/updateSubmitted" , {
+      Axios.put("https://empty-test-project.herokuapp.com/updateSubmitted" , {
         submitted: e.target.name, 
         id : id
       }).then((response)=> {
@@ -135,7 +136,7 @@ const PaygStatusDetail = () => {
         <Button width={20} onClick={onOpen}>Edit</Button>
         <Button width={20} onClick={onOpenSubmitModal} marginLeft={5}>Submit</Button>
       </div>
-        <div style={{display : "flex", justifyContent: "center", alignItems: "center"}}>
+        <div style={{display : "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
           {isLoading ? 
           <div style={{display: "flex", justifyContent: "center", marginTop: "30px"}}>
             <Spinner/>
@@ -225,31 +226,35 @@ const PaygStatusDetail = () => {
             closeOnOverlayClick={false}
           >
             <ModalOverlay />
-            <form className='tester' ref={form} onSubmit={sendEmail}>
+            <form ref={form} onSubmit={sendEmail}>
             <ModalContent>
               <ModalHeader>Send an Email</ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel>To Email</FormLabel>
                   <Input type="email" name="user_email" ref={initialRef} placeholder='To Email' />
                 </FormControl>
 
-                <FormControl mt={4}>
+                <FormControl mt={4} isRequired>
                   <FormLabel>Message</FormLabel>
-                  <Textarea name="message" placeholder='Input Your Message Here' />
+                  <Textarea name="message" placeholder='Please Input Your Email and Username' />
+                  <FormHelperText>Please make sure to fill out all the field, otherwise the message will not be sent.</FormHelperText>
                 </FormControl>
               </ModalBody>
 
               <ModalFooter>
-                <Input type="submit" name="Submitted" value="Submit" colorScheme='blue' mr={3} onClick={(e) => {
+                <Button type="submit" name="Submitted" value="Submit" colorScheme='blue' mr={3} onClick={(e) => {
                   updateSubmitted(dataListID._id, e)
-                }} />
+                }}>
+                  Submit
+                </Button>
                 <Button onClick={onCloseSubmitModal}>Cancel</Button>
               </ModalFooter>
             </ModalContent>
             </form>
           </Modal>
+
           
               <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
                 <p>ID              : {dataListID._id}</p>
@@ -260,8 +265,14 @@ const PaygStatusDetail = () => {
                 <p>Invoice Subject : {dataListID.Subject}</p>
                 <p>Buyer Name      : {dataListID.BuyerName}</p>
                 {/* <p>Attachments     : {dataListID.PaygAttachments}</p> */}
+                <p>Submitted : {dataListID.submitted}</p>
                 <p>Created At      : {moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
+              </div>
+
+              <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
+                <Button width={100}>Approve</Button>
+                <Button width={100} marginLeft={30}>Reject</Button>
               </div>
           </>
               }
