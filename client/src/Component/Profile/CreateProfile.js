@@ -105,7 +105,7 @@ const CreateProfile = () => {
                   setIsHide(true);
                 }
               }}>
-                <option value="Buyer">Buyer</option>
+                <option value="BSI">BSI</option>
                 <option value="Supplier">Supplier</option>
               </Select>
               
