@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 const path = require('path');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const helmet = require('helmet');
@@ -13,6 +12,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
+const nodemailer = require("nodemailer");
 
 
 require('dotenv').config();
@@ -86,9 +86,30 @@ app.use((req, res, next) => {
     );
     next();
   });
-  
 
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.EMAIL,
+    pass: process.env.WORD,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+  },
+  });
+
+transporter.verify((err, success) => {
+  err
+  ? console.log(err)
+  : console.log(`=== Server is ready to take messages: ${success} ===`);
+});
+
+  
 app.post("/register", async (req, res) => {
+
+  const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';
+
     bcrypt
     .hash(req.body.password, 10)
     .then((hashedPassword) => {
@@ -96,7 +117,7 @@ app.post("/register", async (req, res) => {
       const user = new UserModel({
         email: req.body.email,
         password: hashedPassword,
-        role : "User"
+        role : role
       });
       // save the new user
       user
@@ -295,6 +316,38 @@ app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
       }
   })
 })
+
+app.post("/sendnotification", function (req, res) {
+  let mailOptions = {
+    from: process.env.EMAIL,
+    to: "rahmandhika5@gmail.com",
+    subject: "BSI Vendor Registration",
+    text: "Hi There !, this is a automatic notification email when user approved or rejected the draft.",
+  };
+ 
+  transporter.sendMail(mailOptions, function (err, data) {
+    if (err) {
+      console.log("Error " + err);
+    } else {
+      console.log("Email sent successfully");
+      res.json({ status: "Email sent" });
+    }
+  });
+ });
+
+ app.put("/updateSubmitted",  (req, res) => {
+
+  const Id = req.body.id;
+  const Submitted = req.body.submitted;
+
+  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"Submitted" : Submitted}},  (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+  })
+});
 
 app.listen(process.env.PORT || 3001 , ()=> {
     console.log(`running on port`)

@@ -81,7 +81,7 @@ const Login = () => {
       <div class="contain">
       <div class="forms-container">
         <div class="signin-signup">
-          <form class="sign-in-form">
+          <form className="sign-in-form">
             <div className='textCompany'>
               <h1>BSI PORTAL SERVICE</h1>
               {errMessage}

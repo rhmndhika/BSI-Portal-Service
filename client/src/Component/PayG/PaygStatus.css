@@ -57,7 +57,7 @@ table {
   }
   
   /* Small Sizes */
-  @media (max-width: 480px) { 
+  @media (max-width: 730px) { 
     .table-action thead {
       display: none;
     }

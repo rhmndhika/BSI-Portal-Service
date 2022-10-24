@@ -78,10 +78,10 @@ const PaygStatus = () => {
             <thead>
                 <tr>
                 <th class="t-small"></th>
-                <th class="t-small">ID</th>
+                <th class="t-medium">Invoice Number</th>
                 <th class="t-medium">Email</th>
-                <th class="t-medium">Display Name</th>
-                <th class="t-small">Status</th>
+                <th class="t-medium">Buyer Name</th>
+                <th class="t-medium">Status</th>
                 <th class="t-medium">Action</th>
                 </tr>
             </thead>
@@ -118,7 +118,7 @@ const PaygStatus = () => {
             <tbody>
                 <tr key={index}>
                     <td><label></label></td>
-                    <td>{i._id}</td>
+                    <td>{i.InvoiceNumber}</td>
                     <td>{i.Email}</td>
                     <td>{i.BuyerName}</td>
                     <td class="t-status t-active">

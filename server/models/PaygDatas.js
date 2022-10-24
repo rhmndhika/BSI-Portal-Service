@@ -22,6 +22,12 @@ const PaygDataSchema = new mongoose.Schema({
     },
     PaygAttachments : {
         type : [[String]]
+    },
+    Status : {
+        type : String
+    },
+    Submitted : {
+        type : String
     }
 }, {timestamps : true})
 

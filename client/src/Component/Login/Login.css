@@ -44,7 +44,7 @@ input {
   margin-bottom: 80px;
 }
 
-form {
+.sign-in-form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +279,7 @@ form.sign-in-form {
    display: none;
   }
 
-  form.sign-in-form {
+  .sign-in-form.sign-in-form {
     display: flex;
     justify-content: center;
     align-items: center;

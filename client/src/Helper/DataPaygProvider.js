@@ -16,6 +16,7 @@ export default function DataPaygProvider({children}) {
     newInvoiceAmount : "",
     newInvoiceSubject : "",
     newFilePayg : [],
+    submitted : ""
   });
   return (
     <DataPayg.Provider value={{ payg, setPayg }}>
