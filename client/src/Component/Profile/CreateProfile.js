@@ -24,7 +24,7 @@ const CreateProfile = () => {
   const { profileUser, setProfileUser } = useContext(ProfileUser);
   const [ role, setRole ] = useState("");
   const [ isLoading , setIsLoading ] = useState(false);
-  
+  const [ isHide, setIsHide ] = useState(true);
 
 
   const userExpire = () => {
@@ -45,10 +45,10 @@ const CreateProfile = () => {
 
     await Axios.post("https://empty-test-project.herokuapp.com/createprofile" , {
       email : emailLog,
-      CompanyName : profileUser.companyName,
-      PICName : profileUser.pic,
-      PICEmail : profileUser.picEmail,
-      Occupation : profileUser.occupation
+      FullName : profileUser.fullName,
+      Entity : profileUser.entity,
+      ProfileEmail : profileUser.profileEmail,
+      SupplierName : profileUser.supplierName
     }).then((res) => {
       setIsLoading(true);
       setTimeout(()=> navigate("/home"), 1000)
@@ -86,29 +86,40 @@ const CreateProfile = () => {
                 setProfileUser(e.target.value)
               }} />
 
-              <FormLabel>Company Name</FormLabel>
-              <Input type='text' value={profileUser.companyName} onChange={(e)=> {
-                setProfileUser({...profileUser, companyName : e.target.value})
+              <FormLabel>Full Name</FormLabel>
+              <Input type='text' value={profileUser.fullName} onChange={(e)=> {
+                setProfileUser({...profileUser, fullName : e.target.value})
               }}/>
 
-              <FormLabel>PIC</FormLabel>
-              <Input type='text' value={profileUser.pic} onChange={(e)=> {
-                setProfileUser({...profileUser, pic : e.target.value})
-              }} />
+              <FormLabel>Email</FormLabel>
+              <Input type='email' value={profileUser.profileEmail} onChange={(e)=> {
+                setProfileUser({...profileUser, profileEmail : e.target.value})
+              }}/>
 
-              <FormLabel>PIC Email</FormLabel>
-              <Input type='email' value={profileUser.picEmail} onChange={(e)=> {
-                setProfileUser({...profileUser, picEmail : e.target.value})
-              }} />
-
-              <FormLabel>Occupation</FormLabel>
+              <FormLabel>Entity</FormLabel>
               <Select placeholder='Select Your Occupation' onChange={(e)=> {
-                setProfileUser({...profileUser, occupation : e.target.value})
+                setProfileUser({...profileUser, entity : e.target.value})
+                if (e.target.value === "Supplier") {
+                  setIsHide(false);
+                } else {
+                  setIsHide(true);
+                }
               }}>
                 <option value="Buyer">Buyer</option>
                 <option value="Supplier">Supplier</option>
               </Select>
               
+              {isHide === true ?
+                null
+                :
+              <>
+                <FormLabel>Supplier Name</FormLabel>
+                <Input type='text' value={profileUser.supplierName} onChange={(e)=> {
+                  setProfileUser({...profileUser, supplierName : e.target.value})
+                }}/>
+              </>
+             }
+
               {isLoading === false ?
               <div className='btnSubmitPayg'>
                 <Button type="submit">Submit</Button>

@@ -59,13 +59,17 @@ const LandingPage = () => {
             </p>
             <div>
                 {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0  ? 
-                <Button width={150} onClick={() => setIsHide(false)}>Create Profile</Button>
+                  <Button width={150} onClick={() => setIsHide(false)}>Create Profile</Button>
                 :
-                null
+                  null
                 }
-                <a href="/home">
-                <Button width={150} marginLeft={10}>Home</Button>
-                </a>
+                {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0 ?
+                  null
+                :
+                  <a href="/home">
+                    <Button width={150} marginLeft={10}>Home</Button>
+                  </a>
+                }
             </div>
         </div>
         

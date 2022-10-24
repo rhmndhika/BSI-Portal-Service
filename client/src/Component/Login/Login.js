@@ -45,6 +45,8 @@ const Login = () => {
   const [ passwordLog, setPasswordLog  ] = useState("")
   const [ isLoading, setIsLoading ] = useState(false)
 
+  const [ errMessage, setErrMessage ] = useState("");
+
   const handleClick = () => setShow(!show)
 
   const isError = emailLog === '' || emailLog === null
@@ -60,7 +62,12 @@ const Login = () => {
         alert("Succes");
         setTimeout(() => navigate("/landingpage", {replace : true}), 1000);
       } 
-    });
+    }).catch((error) => {
+      if (error.message === "Request failed with status code 400") {
+        alert(error.message)
+        setIsLoading(false)
+      }
+    })
     setIsLoading(true)
   };
 
@@ -75,6 +82,7 @@ const Login = () => {
           <form class="sign-in-form">
             <div className='textCompany'>
               <h1>BSI PORTAL SERVICE</h1>
+              {errMessage}
             </div>
             <h2 class="title">Sign in</h2>
            

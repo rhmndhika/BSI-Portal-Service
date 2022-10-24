@@ -2,21 +2,21 @@ const mongoose = require("mongoose")
 
 
 const UserProfileSchema = new mongoose.Schema({
-    Email : {
+    CurrentUser : {
         type : String
     },
-    CompanyName : {
+    FullName : {
         type : String
     },
-    PIC : {
+    Entity : {
         type : String
     },
-    PICEmail : {
+    ProfileEmail : {
         type : String
-    }, 
-    Occupation : {
+    },
+    SupplierName : {
         type : String
-    }
+    } 
 })
 
 const UserProfileModel = mongoose.model("userprofiles", UserProfileSchema)

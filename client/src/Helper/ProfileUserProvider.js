@@ -3,10 +3,11 @@ import {createContext, useState} from "react"
 export const ProfileUser = createContext();
 export default function ProfileUserProvider({children}) {
   const [profileUser, setProfileUser] = useState({
-   companyName : "",
-   pic : "",
-   picEmail : "",
-   occupation : ""
+   fullName : "",
+   profileEmail : "",
+   entity : "",
+   profileEmail : "",
+   supplierName : "",
   });
   return (
     <ProfileUser.Provider value={{ profileUser, setProfileUser }}>
