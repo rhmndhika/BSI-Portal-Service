@@ -37,11 +37,15 @@ const Register = () => {
       Axios.post("https://empty-test-project.herokuapp.com/register" , {
         email: emailReg, 
         password: passwordReg
+      }).catch((error) => {
+        if (error.response.status === 500) {
+          alert(error.response.data.message)
+        }
       })
       alert("Login")
       setTimeout(() => navigate("/"), 1000);
     } else {
-      alert("Warning")
+      alert("Please fill out the form")
     }
   }
 

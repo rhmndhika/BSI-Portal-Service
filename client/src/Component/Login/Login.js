@@ -63,8 +63,12 @@ const Login = () => {
         setTimeout(() => navigate("/landingpage", {replace : true}), 1000);
       } 
     }).catch((error) => {
-      if (error.message === "Request failed with status code 400") {
-        alert(error.message)
+      if (error.response.status === 400) {
+        alert(error.response.data.message)
+        setIsLoading(false)
+      } else if (error.response.status === 404) {
+        console.log(error)
+        alert(error.response.data.message)
         setIsLoading(false)
       }
     })
