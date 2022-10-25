@@ -59,7 +59,7 @@ const Login = () => {
       password: passwordLog
     }).then((response)=> {
       if (response.data.result.email) {
-        setEmailLog(response.data.result.email);  
+        setEmailLog(response.data.email);  
         alert("Succes");
         setTimeout(() => navigate("/landingpage", {replace : true}), 1000);
       } 
@@ -93,7 +93,7 @@ const Login = () => {
             </div>
             <h2 class="title">Sign in</h2>
 
-            <FormControl isInvalid={isErrorUsername}>
+            {/* <FormControl isInvalid={isErrorUsername}>
                 <FormLabel>Username</FormLabel>
                 <InputGroup>
                 <InputLeftElement
@@ -111,7 +111,7 @@ const Login = () => {
                 ) : (
                     <FormErrorMessage>Username is required.</FormErrorMessage>
                 )}
-            </FormControl>
+            </FormControl> */}
            
             <FormControl isInvalid={isErrorEmail}>
                 <FormLabel>Email</FormLabel>

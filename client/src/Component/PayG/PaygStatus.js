@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { DataPayg } from '../../Helper/DataPaygProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx'
 import {
@@ -16,6 +17,7 @@ import {
     useDisclosure
   } from '@chakra-ui/react';
 import './PaygStatus.css'
+import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
 
 const PaygStatus = () => {
 
@@ -26,7 +28,7 @@ const PaygStatus = () => {
   
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
-    const [ role, setRole ] = useState("");
+    const [ roleUser, setRoleUser ] = useContext(RoleUser);
 
     const [ dataList, setDataList ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -38,10 +40,10 @@ const PaygStatus = () => {
         Axios.get('https://empty-test-project.herokuapp.com/login')
         .then((response)=> {
           if(response.data.loggedIn === true) {
-            setEmailLog(response.data.email.email);
-            setRole(response.data.role);
+            setEmailLog(response.data.email);
+            setRoleUser(response.data.role);
           } else {
-            navigate("/")
+            navigate("/", {replace : true})
           }
         }, {withCredentials : true});
       };
@@ -68,6 +70,8 @@ const PaygStatus = () => {
        }, [])
   
   return (
+    <>
+    {roleUser === "User" ? 
     <div>
     <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
@@ -157,6 +161,10 @@ const PaygStatus = () => {
         }
         </div>
     </div>
+        :
+        <PaygStatusAdmin />
+    }
+    </>
     )
 }
 

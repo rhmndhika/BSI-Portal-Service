@@ -41,22 +41,14 @@ const Home = () => {
   let iconBox = useColorModeValue("gray.100", "whiteAlpha.200");
   let iconColor = useColorModeValue("brand.200", "white");
 
-  const PageDisplay = () => {
-    if ( role === "User" ){
-        return <Home />
-    } else if ( role === "Admin") {
-        return <Admin />
-    } 
-  };
-
   const userExpire = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
     .then((response)=> {
       if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email.email);
+        setEmailLog(response.data.email);
         setRole(response.data.role);
       } else {
-        navigate("/")
+        navigate("/", {replace : true})
       }
     }, {withCredentials : true});
   };

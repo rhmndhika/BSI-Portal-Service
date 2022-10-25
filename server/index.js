@@ -168,7 +168,7 @@ app.post("/login", (req, res) => {
                 { expiresIn: "24h" }
               );
 
-            const result = {email : user.email}
+            const result = user.email
               req.session.email = result
             const role = user.role
               req.session.role = role
@@ -238,7 +238,7 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
 });
 
 app.get("/paygdata", (req, res) => {
-  PaygDataModel.find({Email : req.session.email.email}, (err, result) => {
+  PaygDataModel.find({Email : req.session.email}, (err, result) => {
 
    if (err) {
       res.send(err)
@@ -286,7 +286,7 @@ app.post("/createprofile", async (req, res) => {
 })
 
 app.get("/getprofile", async (req, res) => {
-  UserProfileModel.findOne({Email : req.session.email.email}, (err, result) => {
+  UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -360,6 +360,28 @@ app.put("/updateStatus", (req, res) => {
         res.send(err);
       } else {
         res.send(result);
+      }
+  })
+});
+
+app.get("/admin/paygdata", (req, res) => {
+  PaygDataModel.find({BuyerName : req.session.username}, (err, result) => {
+    if (err) {
+       res.send(err)
+    } else {
+       res.send(result)
+    }
+   })
+})
+
+app.get("/admin/paygdata/:id", (req, res) => {
+  const Id = req.params.id;
+  
+  PaygDataModel.findById({_id : Id}, (err, result) => {
+      if (err) {
+          res.send(err)
+      }else {
+          res.send(result)
       }
   })
 });

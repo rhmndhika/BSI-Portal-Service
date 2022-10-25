@@ -27,10 +27,10 @@ const LandingPage = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
     .then((response)=> {
       if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email.email);
+        setEmailLog(response.data.email);
         setRoleUser(response.data.role);
       } else {
-        navigate("/")
+        navigate("/", {replace : true})
       }
     }, {withCredentials : true});
   };
