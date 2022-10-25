@@ -187,19 +187,18 @@ app.post("/login", (req, res) => {
                 message: "Passwords does not match",
                 error
             });
-            });
             }).catch((e) => {
                 res.status(404).send({
                 message: "Email not found",
                 e,
             });
-
+            }).catch((e) => {
+                res.status(406).send({
+                message: "Username not found",
+                e,
             });
-           }).catch((e) => {
-            res.status(406).send({
-            message: "Username not found",
-            e,
-        });
+    });   
+  });
 });
 
 app.get("/login", (req, res) => {
