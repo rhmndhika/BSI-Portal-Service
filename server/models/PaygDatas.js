@@ -31,12 +31,10 @@ const PaygDataSchema = new mongoose.Schema({
         require : true
     },
     status : {
-        type : String,
-        require : true
+        type : String
     },
     submitted : {
-        type : String,
-        require : true
+        type : String
     }
 }, {timestamps : true})
 

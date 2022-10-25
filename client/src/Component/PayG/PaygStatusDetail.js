@@ -113,12 +113,20 @@ const PaygStatusDetail = () => {
         });
     };
 
-
     const updateSubmitted = (id, e) => {
       Axios.put("https://empty-test-project.herokuapp.com/updateSubmitted" , {
         submitted: e.target.name, 
         id : id
       }).then((response)=> {
+        setTimeout(() => window.location.reload(false), 1000);
+      });
+    };
+
+    const updateStatus = (id, e) => {
+      Axios.put("https://empty-test-project.herokuapp.com/updateStatus" , {
+        status: e.target.value, 
+        id : id
+      }).then(() => {
         setTimeout(() => window.location.reload(false), 1000);
       });
     };
@@ -195,13 +203,13 @@ const PaygStatusDetail = () => {
                       setPayg({...payg, newInvoiceSubject : e.target.value})
                       }} />
                 </FormControl>
-{/* 
+
                 <FormControl mt={4}>
                   <FormLabel>New Attachments</FormLabel>
                   <Input type="file" size="md" value={payg.newFilePayg? payg.newFilePayg : dataListID.PaygAttachments} multiple onChange={(e) => {
                   setPayg({...payg, newFilePayg : e.target.files})
                   }} />
-                </FormControl> */}
+                </FormControl> 
                 
               </ModalBody>
 
@@ -274,10 +282,15 @@ const PaygStatusDetail = () => {
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </div>
 
-              {/* <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
-                <Button width={100}>Approve</Button>
-                <Button width={100} marginLeft={30}>Reject</Button>
-              </div> */}
+              <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
+                <Button width={100} name="status" value="Approved" onClick={(e) => {
+                  updateStatus(dataListID._id, dataListID.Status, e)
+                }}>Approve</Button>
+
+                <Button width={100} marginLeft={30} name="status" value="Rejected" onClick={(e) => {
+                  updateStatus(dataListID._id, dataListID.Status, e)
+                }}>Reject</Button>
+              </div>
           </>
               }
         </div>

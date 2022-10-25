@@ -277,7 +277,7 @@ app.post("/createprofile", async (req, res) => {
 })
 
 app.get("/getprofile", async (req, res) => {
-  UserProfileModel.findOne({}, (err, result) => {
+  UserProfileModel.findOne({email : req.session.email}, (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -334,6 +334,19 @@ app.post("/sendnotification", function (req, res) {
   const submitted = req.body.submitted;
 
   PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+  })
+});
+
+app.put("/updateStatus", (req, res) => {
+  const Id = req.body.id;
+  const status = req.body.status;
+
+   DataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
       if (err) {
         res.send(err);
       } else {
