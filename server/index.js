@@ -113,6 +113,7 @@ app.post("/register", async (req, res) => {
     .then((hashedPassword) => {
       // create a new user instance and collect the data
       const user = new UserModel({
+        username : req.body.username,
         email: req.body.email,
         password: hashedPassword,
         role : role
@@ -168,11 +169,14 @@ app.post("/login", (req, res) => {
               );
 
             const result = {email : user.email}
-            req.session.email = result
+              req.session.email = result
             const role = user.role
-            req.session.role = role
+              req.session.role = role
+            const username = user.username
+              req.session.username = username
             res.status(200).send({
                 message: "Login Successful",
+                username,
                 email: user.email,
                 result,
                 role,
@@ -188,14 +192,20 @@ app.post("/login", (req, res) => {
                 res.status(404).send({
                 message: "Email not found",
                 e,
+            });
+
+            });
+           }).catch((e) => {
+            res.status(406).send({
+            message: "Username not found",
+            e,
         });
-    });
 });
 
 app.get("/login", (req, res) => {
 
   if(req.session.email) {
-    res.send({loggedIn: true, email: req.session.email, role : req.session.role })     
+    res.send({loggedIn: true, email: req.session.email, role : req.session.role, username : req.session.username })     
   } else {
     res.send({loggedIn: false})
   }

@@ -41,17 +41,20 @@ const Login = () => {
   const [show, setShow] = React.useState(false)
   const { emailLog, setEmailLog } = useContext(EmailUser)
   const [ passwordLog, setPasswordLog  ] = useState("")
+  const [ usernameLog, setUsernameLog ] = useState("")
   const [ isLoading, setIsLoading ] = useState(false)
 
-  const [ errMessage, setErrMessage ] = useState("");
+  const [ errMessage, setErrMessage ] = useState("")
 
   const handleClick = () => setShow(!show)
 
-  const isError = emailLog === '' || emailLog === null
+  const isErrorEmail = emailLog === '' || emailLog === null
+  const isErrorUsername = usernameLog === ''
 
   const login =  (e) => {
     e.preventDefault()
     Axios.post("https://empty-test-project.herokuapp.com/login" , {
+      username : usernameLog,
       email: emailLog, 
       password: passwordLog
     }).then((response)=> {
@@ -65,7 +68,9 @@ const Login = () => {
         alert(error.response.data.message)
         setIsLoading(false)
       } else if (error.response.status === 404) {
-        console.log(error)
+        alert(error.response.data.message)
+        setIsLoading(false)
+      } else if (error.response.status === 406) {
         alert(error.response.data.message)
         setIsLoading(false)
       }
@@ -87,19 +92,39 @@ const Login = () => {
               {errMessage}
             </div>
             <h2 class="title">Sign in</h2>
+
+            <FormControl isInvalid={isErrorUsername}>
+                <FormLabel>Username</FormLabel>
+                <InputGroup>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<EmailIcon color='gray.300' />}
+                />
+                <Input className='inputEmail' placeholder="Enter Username" type='text' onChange={(e)=> {
+                  setUsernameLog(e.target.value)
+                }}/>
+                </InputGroup>
+                {!isErrorUsername ? (
+                    <FormHelperText>
+                      Please input your username
+                    </FormHelperText>
+                ) : (
+                    <FormErrorMessage>Username is required.</FormErrorMessage>
+                )}
+            </FormControl>
            
-            <FormControl isInvalid={isError}>
+            <FormControl isInvalid={isErrorEmail}>
                 <FormLabel>Email</FormLabel>
                 <InputGroup>
                 <InputLeftElement
                   pointerEvents='none'
                   children={<EmailIcon color='gray.300' />}
                 />
-                <Input className='inputEmail' type='email' onChange={(e)=> {
+                <Input className='inputEmail' placeholder="Enter Email" type='email' onChange={(e)=> {
                   setEmailLog(e.target.value)
                 }}/>
                 </InputGroup>
-                {!isError ? (
+                {!isErrorEmail ? (
                     <FormHelperText>
                       Please input email with the correct format
                     </FormHelperText>

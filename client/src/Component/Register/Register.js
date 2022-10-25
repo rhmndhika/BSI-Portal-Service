@@ -22,24 +22,23 @@ const Register = () => {
   let navigate = useNavigate();
 
   const [show, setShow] = React.useState(false)
-
+  
+  const [ usernameReg, setUsernameReg ] = useState("")
   const [ emailReg, setEmailReg ] = useState("")
   const [ passwordReg, setPasswordReg ] = useState("")
 
-  const [ isAdmin, setIsAdmin ] = useState(true);
-
-  const role1 = "User"
-  const role2 = "Admin"
 
   const handleClick = () => setShow(!show)
 
-  const isError = emailReg === ''
+  const isErrorUsername = usernameReg === ''
+  const isErrorEmail = emailReg === ''
 
   const register = (e) => {
     e.preventDefault()
 
-    if (emailReg.length > 0 && passwordReg.length > 0) {
+    if (usernameReg.length > 0 && emailReg.length > 0 && passwordReg.length > 0) {
       Axios.post("https://empty-test-project.herokuapp.com/register" , {
+        username : usernameReg,
         email: emailReg, 
         password: passwordReg
       }).catch((error) => {
@@ -64,19 +63,45 @@ const Register = () => {
               <h1>BSI PORTAL SERVICE</h1>
             </div>
             <h2 class="title">Sign Up</h2>
+
+            <FormControl isInvalid={isErrorUsername}>
+                <FormLabel>Username</FormLabel>
+                <InputGroup size='md'>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<LockIcon color='gray.300' />}
+                />
+                <Input
+                    pr='4.5rem'
+                    type="text"
+                    placeholder='Enter username'
+                    required
+                    onChange={(e) => {
+                      setUsernameReg(e.target.value)
+                    }}
+                />
+            </InputGroup>
+            {!isErrorUsername ? (
+                    <FormHelperText>
+                      Please input your username
+                    </FormHelperText>
+                ) : (
+                    <FormErrorMessage>Username is required.</FormErrorMessage>
+                )}
+            </FormControl>
            
-            <FormControl isInvalid={isError}>
+            <FormControl isInvalid={isErrorEmail}>
                 <FormLabel>Email</FormLabel>
                 <InputGroup>
                 <InputLeftElement
                   pointerEvents='none'
                   children={<EmailIcon color='gray.300' />}
                 />
-                <Input type='email' required onChange={(e)=> {
+                <Input type='email' placeholder="Enter email" required onChange={(e)=> {
                   setEmailReg(e.target.value)
                 }}/>
                 </InputGroup>
-                {!isError ? (
+                {!isErrorEmail ? (
                     <FormHelperText>
                       Please input email with the correct format
                     </FormHelperText>
