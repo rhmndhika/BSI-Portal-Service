@@ -7,41 +7,38 @@ import Appbar from '../Appbar/Appbar.tsx'
 import {
     Button
 } from '@chakra-ui/react';
-import PaygHomeAdmin from '../Admin/PaygHomeAdmin'
 
-const PaygHome = () => {
-    Axios.defaults.withCredentials = true;
+const PaygHomeAdmin = () => {
+  Axios.defaults.withCredentials = true;
 
-    let navigate = useNavigate();
-  
-  
-    const { emailLog, setEmailLog } = useContext(EmailUser);
-    const { roleUser, setRoleUser } = useContext(RoleUser);
-  
-    const userExpire = () => {
-        Axios.get('https://empty-test-project.herokuapp.com/login')
-        .then((response)=> {
-          if(response.data.loggedIn === true) {
-            setEmailLog(response.data.email.email);
-            setRoleUser(response.data.role);
-          } else {
-            navigate("/")
-          }
-        }, {withCredentials : true});
-    };
+  let navigate = useNavigate();
 
-    useEffect(() => {
-      userExpire();
-    }, [])
-  
+
+  const { emailLog, setEmailLog } = useContext(EmailUser);
+  const { roleUser, setRoleUser } = useContext(RoleUser);
+
+  const userExpire = () => {
+      Axios.get('https://empty-test-project.herokuapp.com/login')
+      .then((response)=> {
+        if(response.data.loggedIn === true) {
+          setEmailLog(response.data.email.email);
+          setRoleUser(response.data.role);
+        } else {
+          navigate("/")
+        }
+      }, {withCredentials : true});
+  };
+
+  useEffect(() => {
+    userExpire();
+  }, [])
+
   return (
-    <>
-    {roleUser === "User" ?
     <div>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column" ,justifyContent : "center", alignItems : "center"}}>
          <p style={{marginTop : "30px"}}>
-            Welcome to PayG Vendor
+            Welcome to PayG Vendor as {roleUser}
         </p>
         <div style={{display : "flex", margin : "20px"}}>
             <a href='/payg'>
@@ -53,11 +50,7 @@ const PaygHome = () => {
         </div>
         </div>
     </div>
-    :
-    <PaygHomeAdmin />
-    }
-    </>
   )
 }
 
-export default PaygHome
+export default PaygHomeAdmin

@@ -121,6 +121,12 @@ const PaygStatus = () => {
                     <td>{i.InvoiceNumber}</td>
                     <td>{i.Email}</td>
                     <td>{i.BuyerName}</td>
+                    {!i.status ?
+                    <td className="t-status t-draft">
+                        Draft
+                    </td>
+                    :
+                    <>
                     {i.status === "Approved" ? 
                     <td class="t-status t-active">
                       {i.status}
@@ -129,6 +135,9 @@ const PaygStatus = () => {
                     <td class="t-status t-inactive">
                       {i.status}
                     </td>
+                    }
+                    
+                    </> 
                     }
                     <td>
                         <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
