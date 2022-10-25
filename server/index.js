@@ -148,7 +148,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", (req, res) => {
   // UserModel.findOneAndUpdate({ email: { $regex : "bsi"} || req.body.email }, {$set : {"role" : "Admin"}}).then((user)
  
-  UserModel.findOneAndUpdate({ email: req.body.email }).then((user) => {
+  UserModel.findOne({ email: req.body.email }).then((user) => {
         bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
             if(!passwordCheck) {

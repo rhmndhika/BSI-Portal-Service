@@ -238,7 +238,11 @@ const PaygStatusDetail = () => {
 
                 <FormControl mt={4} isRequired>
                   <FormLabel>Message</FormLabel>
-                  <Textarea name="message" placeholder='Please Input Your Email and Username' />
+                  <Textarea name="message" placeholder='Please Input Your Email and Username' defaultValue={
+                  <>
+                    <p>Email : {dataListID.Email}</p>
+                  </>
+                  }/>
                   <FormHelperText>Please make sure to fill out all the field, otherwise the message will not be sent.</FormHelperText>
                 </FormControl>
               </ModalBody>
@@ -270,10 +274,10 @@ const PaygStatusDetail = () => {
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </div>
 
-              <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
+              {/* <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
                 <Button width={100}>Approve</Button>
                 <Button width={100} marginLeft={30}>Reject</Button>
-              </div>
+              </div> */}
           </>
               }
         </div>
