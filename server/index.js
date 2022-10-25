@@ -346,7 +346,7 @@ app.put("/updateStatus", (req, res) => {
   const Id = req.body.id;
   const status = req.body.status;
 
-   DataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
+   PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
       if (err) {
         res.send(err);
       } else {

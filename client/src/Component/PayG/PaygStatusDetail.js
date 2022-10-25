@@ -126,7 +126,7 @@ const PaygStatusDetail = () => {
       Axios.put("https://empty-test-project.herokuapp.com/updateStatus" , {
         status: e.target.value, 
         id : id
-      }).then(() => {
+      }).then((response) => {
         setTimeout(() => window.location.reload(false), 1000);
       });
     };
@@ -277,18 +277,19 @@ const PaygStatusDetail = () => {
                 <p>Invoice Subject : {dataListID.Subject}</p>
                 <p>Buyer Name      : {dataListID.BuyerName}</p>
                 {/* <p>Attachments     : {dataListID.PaygAttachments}</p> */}
-                <p>Submitted : {dataListID.submitted}</p>
+                <p>Submitted       : {dataListID.submitted}</p>
+                <p>Status          : {dataListID.status}</p>
                 <p>Created At      : {moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </div>
 
               <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
                 <Button width={100} name="status" value="Approved" onClick={(e) => {
-                  updateStatus(dataListID._id, dataListID.Status, e)
+                  updateStatus(dataListID._id, e)
                 }}>Approve</Button>
 
                 <Button width={100} marginLeft={30} name="status" value="Rejected" onClick={(e) => {
-                  updateStatus(dataListID._id, dataListID.Status, e)
+                  updateStatus(dataListID._id, e)
                 }}>Reject</Button>
               </div>
           </>

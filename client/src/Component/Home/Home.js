@@ -159,6 +159,7 @@ const Home = () => {
             </Text>
             </Flex>
             </>  
+            
     )})}
     </div>
   </>
