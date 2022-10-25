@@ -14,9 +14,7 @@ const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
 
-
 require('dotenv').config();
-
 
 const UserModel = require("./models/Users.js");
 const PaygDataModel = require('./models/PaygDatas.js');
@@ -26,7 +24,7 @@ const UserProfileModel = require("./models/UserProfiles.js")
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
 mongoose.connect(CONNECTION_URL, {
-    useNewUrlParser : true
+  useNewUrlParser : true
 }
 );
 
@@ -34,10 +32,10 @@ app.set("trust proxy", 1);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'images')
+    cb(null, 'images')
   },
   filename: (req, file, cb) => {
-      cb(null, Date.now() +  path.extname(file.originalname))
+    cb(null, Date.now() +  path.extname(file.originalname))
   }
 });
 
@@ -150,7 +148,6 @@ app.post("/register", async (req, res) => {
 app.post("/login", (req, res) => {
   // UserModel.findOneAndUpdate({ email: { $regex : "bsi"} || req.body.email }, {$set : {"role" : "Admin"}}).then((user)
  
-
   UserModel.findOneAndUpdate({ email: req.body.email }).then((user) => {
         bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
@@ -197,14 +194,11 @@ app.post("/login", (req, res) => {
 
 app.get("/login", (req, res) => {
 
-    if(req.session.email) {
-            res.send({loggedIn: true, email: req.session.email, role : req.session.role })
-       
-    } else {
-        res.send({loggedIn: false})
-    }
-
-  
+  if(req.session.email) {
+    res.send({loggedIn: true, email: req.session.email, role : req.session.role })     
+  } else {
+    res.send({loggedIn: false})
+  }
 });
 
 app.get("/logout", (req, res) => {
@@ -272,11 +266,10 @@ app.delete("/deletepaygdata/:id", (req, res) => {
 app.post("/createprofile", async (req, res) => {
 
   const Profile = new UserProfileModel({
-    Email : req.body.email,
-    CompanyName : req.body.CompanyName,
-    PIC : req.body.PICName,
-    PICEmail : req.body.PICEmail,
-    Occupation : req.body.Occupation
+    Email : req.body.Email,
+    FullName : req.body.FullName,
+    Entity : req.body.Entity,
+    SupplierName : req.body.SupplierName
   })
 
   await Profile.save();

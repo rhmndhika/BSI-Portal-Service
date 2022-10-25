@@ -135,7 +135,7 @@ const Payg = () => {
               
               {isLoading === false ?
               <div className='btnSubmitPayg'>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Save</Button>
               </div>
               :
               <div className='btnSubmitPayg'>

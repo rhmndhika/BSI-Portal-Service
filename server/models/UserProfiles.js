@@ -2,17 +2,17 @@ const mongoose = require("mongoose")
 
 
 const UserProfileSchema = new mongoose.Schema({
-    CurrentUser : {
-        type : String
+    Email : {
+        type : String,
+        require : true
     },
     FullName : {
-        type : String
+        type : String,
+        require : true
     },
     Entity : {
-        type : String
-    },
-    ProfileEmail : {
-        type : String
+        type : String,
+        require : true
     },
     SupplierName : {
         type : String

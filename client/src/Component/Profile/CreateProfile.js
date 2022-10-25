@@ -44,10 +44,9 @@ const CreateProfile = () => {
     e.preventDefault();
 
     await Axios.post("https://empty-test-project.herokuapp.com/createprofile" , {
-      email : emailLog,
+      Email : emailLog,
       FullName : profileUser.fullName,
       Entity : profileUser.entity,
-      ProfileEmail : profileUser.profileEmail,
       SupplierName : profileUser.supplierName
     }).then((res) => {
       setIsLoading(true);
@@ -81,7 +80,7 @@ const CreateProfile = () => {
   return (
         <form className='formPayg' method='POST' encType='multipart/form-data' onSubmit={handleSubmitProfile}>
             <FormControl isRequired margin={1}>
-              <FormLabel>Current User</FormLabel>
+              <FormLabel>Email</FormLabel>
               <Input type='text' value={emailLog} onChange={(e) => {
                 setProfileUser(e.target.value)
               }} />
@@ -91,10 +90,10 @@ const CreateProfile = () => {
                 setProfileUser({...profileUser, fullName : e.target.value})
               }}/>
 
-              <FormLabel>Email</FormLabel>
+              {/* <FormLabel>Email</FormLabel>
               <Input type='email' value={profileUser.profileEmail} onChange={(e)=> {
                 setProfileUser({...profileUser, profileEmail : e.target.value})
-              }}/>
+              }}/> */}
 
               <FormLabel>Entity</FormLabel>
               <Select placeholder='Select Your Occupation' onChange={(e)=> {

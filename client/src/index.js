@@ -20,10 +20,12 @@ import PaygStatusDetail from './Component/PayG/PaygStatusDetail';
 import Profile from './Component/Profile/Profile';
 import ProfileUserProvider from './Helper/ProfileUserProvider';
 import LandingPage from './Pages/LandingPage';
+import RoleUserProvider from './Helper/RoleUserProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <EmailUserProvider>
+  <RoleUserProvider>
   <ProfileUserProvider>
   <DataPaygProvider>
   <ChakraProvider>
@@ -45,6 +47,7 @@ root.render(
   </ChakraProvider>
   </DataPaygProvider>
   </ProfileUserProvider>
+  </RoleUserProvider>
   </EmailUserProvider>
 );
 

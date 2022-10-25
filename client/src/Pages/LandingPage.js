@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect} from 'react'
 import { EmailUser } from '../Helper/EmailUserProvider'
 import { ProfileUser } from '../Helper/ProfileUserProvider'
+import { RoleUser } from '../Helper/RoleUserProvider'
 import { useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 import {
-  Button
+  Button, Spinner
 } from '@chakra-ui/react';
 import '../Component/Profile/CreateProfile.css'
 import CreateProfile from '../Component/Profile/CreateProfile';
@@ -17,7 +18,7 @@ const LandingPage = () => {
   let navigate = useNavigate();
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
-  const [ role, setRole ] = useState("");
+  const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ isLoading , setIsLoading ] = useState(false);
   const [ isHide, setIsHide ] = useState(true);
   const [ dataProfileUser, setDataProfileUser ] = useState([]);
@@ -27,7 +28,7 @@ const LandingPage = () => {
     .then((response)=> {
       if(response.data.loggedIn === true) {
         setEmailLog(response.data.email.email);
-        setRole(response.data.role);
+        setRoleUser(response.data.role);
       } else {
         navigate("/")
       }
@@ -58,18 +59,20 @@ const LandingPage = () => {
               Nam tempor venenatis cursus. In ullamcorper nec eros eu cursus. Pellentesque in mauris tempus, molestie lorem id, porttitor lectus. Cras eget neque nec enim rutrum pulvinar vel quis ex. Donec maximus at augue ut blandit. Morbi fermentum justo magna, ac facilisis est efficitur et. Aliquam erat volutpat. In rutrum ipsum a rhoncus ultrices. Morbi sollicitudin varius urna ac dapibus. Etiam euismod leo lacus, in malesuada odio pretium eget. Aenean aliquet felis nisl, quis tempus purus eleifend eu. Vestibulum in molestie quam. Curabitur quis diam sed nunc porttitor eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <div>
+              
                 {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0  ? 
-                  <Button width={150} onClick={() => setIsHide(false)}>Create Profile</Button>
+                <Button width={150} onClick={() => setIsHide(false)}>Create Profile</Button>
                 :
-                  null
+                null
                 }
                 {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0 ?
-                  null
+                null
                 :
                   <a href="/home">
                     <Button width={150} marginLeft={10}>Home</Button>
                   </a>
                 }
+              
             </div>
         </div>
         

@@ -3,31 +3,40 @@ const mongoose = require("mongoose")
 
 const PaygDataSchema = new mongoose.Schema({
     Email : {
-        type : String
+        type : String,
+        require : true
     },
     InvoiceNumber : {
-        type : String
+        type : String,
+        require : true
     },
     InvoiceDate : {
-        type : Date
+        type : Date,
+        require : true
     },
     BuyerName : {
-        type : String
+        type : String,
+        require : true
     },
     Amount : {
-        type : Number
+        type : Number,
+        require : true
     },
     Subject : {
-        type : String
+        type : String,
+        require : true
     },
     PaygAttachments : {
-        type : [[String]]
+        type : [[String]],
+        require : true
     },
     status : {
-        type : String
+        type : String,
+        require : true
     },
     submitted : {
-        type : String
+        type : String,
+        require : true
     }
 }, {timestamps : true})
 
