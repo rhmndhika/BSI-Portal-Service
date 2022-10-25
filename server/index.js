@@ -277,7 +277,7 @@ app.post("/createprofile", async (req, res) => {
 })
 
 app.get("/getprofile", async (req, res) => {
-  UserProfileModel.findOne({email : req.session.email}, (err, result) => {
+  UserProfileModel.findOne({Email : req.session.email.email}, (err, result) => {
     if (err) {
       console.log(err)
     } else {
