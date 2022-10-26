@@ -4,9 +4,7 @@ export const ProfileUser = createContext();
 export default function ProfileUserProvider({children}) {
   const [profileUser, setProfileUser] = useState({
    fullName : "",
-   profileEmail : "",
    entity : "",
-   profileEmail : "",
    supplierName : "",
   });
   return (

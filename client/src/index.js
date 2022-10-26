@@ -20,6 +20,7 @@ import Profile from './Component/Profile/Profile';
 import ProfileUserProvider from './Helper/ProfileUserProvider';
 import LandingPage from './Pages/LandingPage';
 import RoleUserProvider from './Helper/RoleUserProvider';
+import Error from './Component/Error/Error';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -40,6 +41,7 @@ root.render(
       <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
       <Route path='/landingpage' element={<LandingPage />} />
       <Route path='/profile' element={<Profile />} />
+      <Route path="*" element={<Error />} />
     </Routes>
   </BrowserRouter>
   </React.StrictMode>

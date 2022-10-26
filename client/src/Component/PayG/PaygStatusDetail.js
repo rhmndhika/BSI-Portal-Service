@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect, useRef} from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
-import { DataPayg } from '../../Helper/DataPaygProvider';
+import { DataPayg } from '../../Helper/DataPaygProvider'
+import { RoleUser } from '../../Helper/RoleUserProvider'
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx'
 import {
@@ -19,17 +20,13 @@ import {
     FormLabel,
     Input,
     Select,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
     FormHelperText,
     Textarea 
   } from '@chakra-ui/react'
 import './PaygStatus.css'
 import moment from 'moment';
 import emailjs from '@emailjs/browser';
+import Footer from '../Footer/Footer.tsx'
 
 const PaygStatusDetail = () => {
 
@@ -40,9 +37,10 @@ const PaygStatusDetail = () => {
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { payg, setPayg } = useContext(DataPayg);
-  const [ role, setRole ] = useState("");
+  const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ isLoading, setIsLoading ] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ dataListID, setDataListID ] = useState([]);
 
   const { 
     isOpen: isOpenSubmitModal, 
@@ -53,18 +51,13 @@ const PaygStatusDetail = () => {
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
 
-  const initialRefS = React.useRef(null)
-  const finalRefS = React.useRef(null)
- 
-
- const [ dataListID, setDataListID ] = useState([]);
 
   const userExpire = () => {
       Axios.get('https://empty-test-project.herokuapp.com/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
-          setRole(response.data.role);
+          setRoleUser(response.data.role);
         } else {
           navigate("/", {replace : true})
         }
@@ -141,8 +134,16 @@ const PaygStatusDetail = () => {
     <div>
       <Appbar />
       <div style={{display : "flex", justifyContent : "center", alignItems : "center", margin : "30px"}}>
+        {dataListID.submitted === "Submitted" ? 
+        null
+        :
         <Button width={20} onClick={onOpen}>Edit</Button>
+        }
+        {dataListID.submitted === "Submitted" ? 
+        null
+        :
         <Button width={20} onClick={onOpenSubmitModal} marginLeft={5}>Submit</Button>
+        }
       </div>
         <div style={{display : "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
           {isLoading ? 
@@ -203,14 +204,6 @@ const PaygStatusDetail = () => {
                       setPayg({...payg, newInvoiceSubject : e.target.value})
                       }} />
                 </FormControl>
-
-                <FormControl mt={4}>
-                  <FormLabel>New Attachments</FormLabel>
-                  <Input type="file" size="md" value={payg.newFilePayg? payg.newFilePayg : dataListID.PaygAttachments} multiple onChange={(e) => {
-                  setPayg({...payg, newFilePayg : e.target.files})
-                  }} />
-                </FormControl> 
-                
               </ModalBody>
 
               <ModalFooter>
@@ -282,7 +275,10 @@ const PaygStatusDetail = () => {
                 <p>Created At      : {moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
                 <p>Updated At      : {moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </div>
-
+              
+              {dataListID.status === "" || dataListID.status === null && dataListID.status.length <= 0 ?
+              <>
+              {roleUser === "Admin" ? 
               <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
                 <Button width={100} name="status" value="Approved" onClick={(e) => {
                   updateStatus(dataListID._id, e)
@@ -292,6 +288,13 @@ const PaygStatusDetail = () => {
                   updateStatus(dataListID._id, e)
                 }}>Reject</Button>
               </div>
+              :
+              null
+              }
+              </>
+              :
+              null
+              }
           </>
               }
         </div>

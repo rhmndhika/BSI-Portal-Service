@@ -1,20 +1,20 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { RoleUser } from '../../Helper/RoleUserProvider'
 import Axios from 'axios'
 import Appbar from '../Appbar/Appbar.tsx'
 import {
-    Button
+  Button
 } from '@chakra-ui/react';
 import PaygHomeAdmin from '../Admin/PaygHomeAdmin'
+import Footer from '../Footer/Footer.tsx'
 
 const PaygHome = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
-  
-  
+
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { roleUser, setRoleUser } = useContext(RoleUser);
   
@@ -37,7 +37,7 @@ const PaygHome = () => {
   return (
     <>
     {roleUser === "User" ?
-    <div>
+    <div style={{height : "650px"}}>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column" ,justifyContent : "center", alignItems : "center"}}>
          <p style={{marginTop : "30px"}}>
@@ -55,7 +55,8 @@ const PaygHome = () => {
     </div>
     :
     <PaygHomeAdmin />
-    }
+  }
+  <Footer />
     </>
   )
 }

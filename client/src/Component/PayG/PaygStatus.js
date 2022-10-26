@@ -18,6 +18,7 @@ import {
   } from '@chakra-ui/react';
 import './PaygStatus.css'
 import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
+import Footer from '../Footer/Footer.tsx';
 
 const PaygStatus = () => {
 
@@ -28,7 +29,7 @@ const PaygStatus = () => {
   
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
-    const [ roleUser, setRoleUser ] = useContext(RoleUser);
+    const { roleUser, setRoleUser } = useContext(RoleUser);
 
     const [ dataList, setDataList ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -64,29 +65,29 @@ const PaygStatus = () => {
         }); 
     }
 
-      useEffect(() => {
+    useEffect(() => {
         userExpire();
         getDataPayg();
-       }, [])
+    }, [])
   
   return (
     <>
     {roleUser === "User" ? 
-    <div>
-    <Appbar />
+    <div style={{height : "493px"}}>
+        <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
         { dataList.length <= 0 ?
         <p style={{marginTop: "150px"}}>No Data Available</p>
         :
-        <table class="table table-action">
+        <table className="table table-action">
             <thead>
                 <tr>
-                <th class="t-small"></th>
-                <th class="t-medium">Invoice Number</th>
-                <th class="t-medium">Email</th>
-                <th class="t-medium">Buyer Name</th>
-                <th class="t-medium">Status</th>
-                <th class="t-medium">Action</th>
+                <th className="t-small"></th>
+                <th className="t-medium">Invoice Number</th>
+                <th className="t-medium">Email</th>
+                <th className="t-medium">Buyer Name</th>
+                <th className="t-medium">Status</th>
+                <th className="t-medium">Action</th>
                 </tr>
             </thead>
             {isLoading ? <Spinner marginTop={30} /> : dataList.map((i, index) => {
@@ -127,16 +128,16 @@ const PaygStatus = () => {
                     <td>{i.BuyerName}</td>
                     {!i.status ?
                     <td className="t-status t-draft">
-                        Draft
+                        Submitted
                     </td>
                     :
                     <>
                     {i.status === "Approved" ? 
-                    <td class="t-status t-active">
+                    <td className="t-status t-active">
                       {i.status}
                     </td>
                     :
-                    <td class="t-status t-inactive">
+                    <td className="t-status t-inactive">
                       {i.status}
                     </td>
                     }
@@ -161,9 +162,10 @@ const PaygStatus = () => {
         }
         </div>
     </div>
-        :
-        <PaygStatusAdmin />
+    :
+    <PaygStatusAdmin />
     }
+    <Footer />
     </>
     )
 }

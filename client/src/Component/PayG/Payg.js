@@ -8,12 +8,8 @@ import './Payg.css'
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
   FormHelperText,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
   NumberInput,
   NumberInputField,
   NumberInputStepper,

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -39,31 +39,31 @@ const Header = () => {
     className="mySwiper"
   >
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-1.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-3.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-4.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-5.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-6.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-7.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-8.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+      <img src="https://swiperjs.com/demos/images/nature-9.jpg" alt="" />
     </SwiperSlide>
   </Swiper>
 </>

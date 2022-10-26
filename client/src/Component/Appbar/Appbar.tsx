@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Box,
   Flex,
@@ -28,15 +29,12 @@ import {
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  MoonIcon,
-  SunIcon,
   SettingsIcon
 } from '@chakra-ui/icons';
-import React, { useContext } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { IoLogOutSharp } from 'react-icons/io5'
 
 export default function Appbar() {
 
@@ -104,7 +102,17 @@ export default function Appbar() {
           direction={'row'}
           spacing={6}
           marginLeft={5}>
-          <Menu>
+          <IconButton
+            aria-label=''
+            display={{ md: 'inline-flex' }}
+            fontSize={'sm'}
+            fontWeight={600}
+            color={'black'}
+            onClick={logout}
+          >
+            <IoLogOutSharp />
+          </IconButton>
+          {/* <Menu>
                 <MenuButton
                   as={Button}
                   rounded={'full'}
@@ -138,7 +146,7 @@ export default function Appbar() {
                   </a>
 
                 </MenuList>
-              </Menu>
+              </Menu> */}
         </Stack>
       </Flex>
       <Collapse in={isOpen} animateOpacity>

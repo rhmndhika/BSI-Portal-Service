@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect} from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { ProfileUser } from '../../Helper/ProfileUserProvider'
@@ -69,9 +69,6 @@ const CreateProfile = () => {
     //     setIsLoading(true);
     //   })
   }
-
- 
-
 
   useEffect(() => {
     userExpire();

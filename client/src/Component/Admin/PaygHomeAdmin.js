@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { RoleUser } from '../../Helper/RoleUserProvider'
@@ -34,7 +34,7 @@ const PaygHomeAdmin = () => {
   }, [])
 
   return (
-    <div>
+    <div style={{height : "650px"}}>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column" ,justifyContent : "center", alignItems : "center"}}>
          <p style={{marginTop : "30px"}}>

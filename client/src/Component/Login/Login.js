@@ -19,17 +19,11 @@ import Log from '../../Images/log.svg';
 import './Login.css';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { useNavigate } from 'react-router-dom';
-
-/* thrid party */
 import Axios from 'axios';
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  MoonIcon,
-  SunIcon
-} from '@chakra-ui/icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Login = () => {
 
@@ -51,29 +45,57 @@ const Login = () => {
   const isErrorEmail = emailLog === '' || emailLog === null
   const isErrorUsername = usernameLog === ''
 
-  const login =  (e) => {
-    e.preventDefault()
-    Axios.post("https://empty-test-project.herokuapp.com/login" , {
+  const showToastSucces = () => {
+    toast.success('Succes!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+
+  const login = async (e) => {
+    e.preventDefault();
+
+    await Axios.post("https://empty-test-project.herokuapp.com/login" , {
       username : usernameLog,
       email: emailLog, 
       password: passwordLog
     }).then((response)=> {
-      if (response.data.result.email) {
+      if (response.data.result) {
         setEmailLog(response.data.email);  
-        alert("Succes");
-        setTimeout(() => navigate("/landingpage", {replace : true}), 1000);
+        showToastSucces();
+        setTimeout(() => navigate("/landingpage", {replace : true}), 2000);
       } 
     }).catch((error) => {
-      if (error.response.status === 400) {
-        alert(error.response.data.message)
-        setIsLoading(false)
-      } else if (error.response.status === 404) {
-        alert(error.response.data.message)
-        setIsLoading(false)
-      } else if (error.response.status === 406) {
-        alert(error.response.data.message)
-        setIsLoading(false)
+
+      const showToastError = () => {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       }
+      
+      if (error.response.status === 400) {
+        showToastError();
+        setTimeout(() => setIsLoading(false), 2000);
+      } else if (error.response.status === 404) {
+        showToastError();
+        setTimeout(() => setIsLoading(false), 2000);
+      } else if (error.response.status === 406) {
+        showToastError();
+        setTimeout(() => setIsLoading(false), 2000);
+      } 
     })
     setIsLoading(true)
   };
@@ -81,17 +103,17 @@ const Login = () => {
   return (
     <Box  bg={useColorModeValue('white', 'gray.800')}
     color={useColorModeValue('gray.600', 'white')}>
-
+    <ToastContainer />
     <div className='wrapperLogin'>
-      <div class="contain">
-      <div class="forms-container">
-        <div class="signin-signup">
+      <div className="contain">
+      <div className="forms-container">
+        <div className="signin-signup">
           <form className="sign-in-form">
             <div className='textCompany'>
               <h1>BSI PORTAL SERVICE</h1>
               {errMessage}
             </div>
-            <h2 class="title">Sign in</h2>
+            <h2 className="title">Sign in</h2>
 
             {/* <FormControl isInvalid={isErrorUsername}>
                 <FormLabel>Username</FormLabel>
@@ -157,7 +179,7 @@ const Login = () => {
             </InputGroup>
             </FormControl>
            { isLoading === false ?
-               <input type="submit" value="Login" class="btn solid" onClick={login} />
+               <input type="submit" value="Login" className="btn solid" onClick={login} />
                :
                <Spinner className='btnLoading' />
            }
@@ -165,21 +187,21 @@ const Login = () => {
         </div>
       </div>
 
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
+      <div className="panels-container">
+        <div className="panel left-panel">
+          <div className="content">
             <h3>New here ?</h3>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
               ex ratione. Aliquid!
             </p>
             <a href='/register'>
-            <button class="btn transparent" id="sign-up-btn">
+            <button className="btn transparent" id="sign-up-btn">
               Sign up
             </button>
             </a>
           </div>
-          <img src={Log}class="image" alt="" />
+          <img src={Log} className="image" alt="" />
         </div>
       </div>
     </div>

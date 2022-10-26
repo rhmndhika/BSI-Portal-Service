@@ -3,28 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Appbar from '../Appbar/Appbar.tsx';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import Axios from 'axios';
-import Admin from '../Admin/Admin';
 import {
-  Avatar,
-  AvatarGroup,
-  Badge,
   Flex,
-  Button,
-  Icon,
   Image,
   Text,
-  DarkMode,
-  Box,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
-import { MdPeople } from "react-icons/md";
-import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import LogoRegistration from '../../Images/LogoRegistration.png'
 import './Home.css'
 import Header from '../Header/Header';
 import {BsChatDots} from 'react-icons/bs';
 import { IconButton } from '@chakra-ui/react'
+import Footer from '../Footer/Footer.tsx';
 
 const Home = () => {
 
@@ -38,8 +28,7 @@ const Home = () => {
 
   let boxBg = useColorModeValue("white !important", "#111c44 !important");
   let mainText = useColorModeValue("gray.800", "white");
-  let iconBox = useColorModeValue("gray.100", "whiteAlpha.200");
-  let iconColor = useColorModeValue("brand.200", "white");
+ 
 
   const userExpire = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
@@ -106,7 +95,7 @@ const Home = () => {
     <Header />
     <a
       href="https://www.google.com/"
-      class="whatsapp_float"
+      className="whatsapp_float"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -121,7 +110,7 @@ const Home = () => {
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (
-        <>
+        <div key={index}>
           <Flex
             borderRadius='20px'
             bg={boxBg}
@@ -132,6 +121,7 @@ const Home = () => {
             w={{ base: "315px", md: "315px" }}
             alignItems='center'
             flexDirection="column"
+            key={index}
             >
             <a href={i.hrefUrl}>
             <Image
@@ -150,10 +140,11 @@ const Home = () => {
               {i.title}
             </Text>
             </Flex>
-            </>  
+            </div>  
             
     )})}
     </div>
+    <Footer />
   </>
   )
 }
