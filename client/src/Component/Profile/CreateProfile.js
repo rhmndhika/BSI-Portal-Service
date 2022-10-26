@@ -48,9 +48,9 @@ const CreateProfile = () => {
       FullName : profileUser.fullName,
       Entity : profileUser.entity,
       SupplierName : profileUser.supplierName
-    }).then((res) => {
+    }).then(() => {
       setIsLoading(true);
-      setTimeout(()=> navigate("/home"), 1000)
+      setTimeout(()=> navigate("/home", {replace : true}), 1000)
     })
 
     //  const formData = new FormData();

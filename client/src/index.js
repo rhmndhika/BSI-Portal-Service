@@ -21,6 +21,7 @@ import ProfileUserProvider from './Helper/ProfileUserProvider';
 import LandingPage from './Pages/LandingPage';
 import RoleUserProvider from './Helper/RoleUserProvider';
 import Error from './Component/Error/Error';
+import HeroPage from './Pages/HeroPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,7 +40,7 @@ root.render(
       <Route path='/paygHome' element={<PaygHome />} />
       <Route path='/paygStatus' element={<PaygStatus />} />
       <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
-      <Route path='/landingpage' element={<LandingPage />} />
+      <Route path='/landingpage' element={<HeroPage />} />
       <Route path='/profile' element={<Profile />} />
       <Route path="*" element={<Error />} />
     </Routes>
