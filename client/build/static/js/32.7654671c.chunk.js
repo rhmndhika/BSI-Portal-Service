@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[32],{9032:function(e,r,t){t.r(r),t.d(r,{ProfileUser:function(){return l},default:function(){return c}});var n=t(9439),u=t(2791),i=t(184),l=(0,u.createContext)();function c(e){var r=e.children,t=(0,u.useState)({fullName:"",entity:"",supplierName:""}),c=(0,n.Z)(t,2),s=c[0],f=c[1];return(0,i.jsx)(l.Provider,{value:{profileUser:s,setProfileUser:f},children:r})}}}]);
+//# sourceMappingURL=32.7654671c.chunk.js.map
