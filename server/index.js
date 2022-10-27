@@ -252,7 +252,19 @@ app.get("/paygdata", (req, res) => {
       res.send(result)
    }
   })
+});
+
+app.get("/getallpaygdata", (req, res) => {
+  PaygDataModel.find({}, (err, result) => {
+
+   if (err) {
+      res.send(err)
+   } else {
+      res.send(result)
+   }
+  })
 })
+
 
 app.get("/paygdata/:id", (req, res) => {
   const Id = req.params.id;
