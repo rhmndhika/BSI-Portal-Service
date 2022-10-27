@@ -28,7 +28,7 @@ const Register = () => {
   const [ usernameReg, setUsernameReg ] = useState("")
   const [ emailReg, setEmailReg ] = useState("")
   const [ passwordReg, setPasswordReg ] = useState("")
-
+  const [ messageDuplicate, setMessageDuplicate] = useState("")
 
   const handleClick = () => setShow(!show)
 
@@ -66,7 +66,7 @@ const Register = () => {
   const register = (e) => {
     e.preventDefault()
 
-    if (usernameReg.length > 0 && emailReg.length > 0 && passwordReg.length > 0) {
+    if (usernameReg.length > 0 && emailReg.length > 0 && passwordReg.length > 0 && messageDuplicate == "") {
       Axios.post("https://empty-test-project.herokuapp.com/register" , {
         username : usernameReg,
         email: emailReg, 
@@ -85,6 +85,7 @@ const Register = () => {
             });
         }
         if (error.response.status === 500) {
+          setMessageDuplicate(error.response.message);
           showToastWarning();
         }
       })
