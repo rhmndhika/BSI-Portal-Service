@@ -1,0 +1,12 @@
+.texter {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.texter p {
+    display: flex;
+    overflow-wrap: normal;
+    word-wrap: break-word;
+    white-space: pre-line;
+}
