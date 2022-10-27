@@ -4,6 +4,6 @@
   status = 200
 
 [build]
-  base = "client
+  base = "client"
   publish = "client/"
 
