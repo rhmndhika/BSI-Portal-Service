@@ -43,7 +43,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", ,"https://empty-test-project.herokuapp.com"],
+    origin: ["https://bsi-portal-supplier.netlify.app", ,"https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
@@ -73,7 +73,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "https://empty-test-project.herokuapp.com");
+    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
