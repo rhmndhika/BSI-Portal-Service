@@ -18,6 +18,7 @@ import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
 import './Login.css';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,6 +35,7 @@ const Login = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const [show, setShow] = React.useState(false)
   const { emailLog, setEmailLog } = useContext(EmailUser)
+  const { roleUser, setRoleUser } = useContext(RoleUser)
   const [ passwordLog, setPasswordLog  ] = useState("")
   const [ usernameLog, setUsernameLog ] = useState("")
   const [ isLoading, setIsLoading ] = useState(false)
@@ -68,6 +70,7 @@ const Login = () => {
     }).then((response)=> {
       if (response.data.result) {
         setEmailLog(response.data.email);  
+        setRoleUser(response.data.role)
         showToastSucces();
         setTimeout(() => navigate("/landingpage", {replace : true}), 2000);
       } 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -7,21 +7,23 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { Spinner } from '@chakra-ui/react';
 import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
-import Home from './Component/Home/Home'
-import EmailUserProvider from './Helper/EmailUserProvider';
-import PayG from './Component/PayG/Payg';
-import DataPaygProvider from './Helper/DataPaygProvider';
-import PaygHome from './Component/PayG/PaygHome';
-import PaygStatus from './Component/PayG/PaygStatus';
-import PaygStatusDetail from './Component/PayG/PaygStatusDetail';
-import Profile from './Component/Profile/Profile';
-import ProfileUserProvider from './Helper/ProfileUserProvider';
-import LandingPage from './Pages/LandingPage';
-import RoleUserProvider from './Helper/RoleUserProvider';
-import Error from './Component/Error/Error';
-import HeroPage from './Pages/HeroPage'
+import ProtectedRoutes from './ProtectedRoutes';
+
+const Home = lazy(() => import("./Component/Home/Home"));
+const EmailUserProvider = lazy(() => import("./Helper/EmailUserProvider"));
+const PayG = lazy(() => import("./Component/PayG/Payg"));
+const DataPaygProvider = lazy(() => import("./Helper/DataPaygProvider"));
+const PaygHome = lazy(() => import("./Component/PayG/PaygHome"));
+const PaygStatus = lazy(() => import("./Component/PayG/PaygStatus"));
+const PaygStatusDetail = lazy(() => import("./Component/PayG/PaygStatusDetail"));
+const Profile = lazy(() => import("./Component/Profile/Profile"));
+const ProfileUserProvider = lazy(() => import("./Helper/ProfileUserProvider"));
+const RoleUserProvider = lazy(() => import("./Helper/RoleUserProvider"));
+const Error = lazy(() => import("./Component/Error/Error"));
+const HeroPage = lazy(() => import("./Pages/HeroPage"));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,18 +34,29 @@ root.render(
   <ChakraProvider>
   <React.StrictMode>
   <BrowserRouter>
+  <Suspense fallback={
+  <div style={{display : "flex", justifyContent : "center", alignItems : "center", height: "100%", marginTop : "300px"}}>
+  <Spinner
+    thickness='4px'
+    speed='0.65s'
+    emptyColor='gray.200'
+    color='blue.500'
+    size='xl'
+  />
+  </div>}>
   <Routes>
       <Route path='/' element={<Login />} />
       <Route path='/register' element={<Register />} />
-      <Route path='/home' element={<Home/>} />
-      <Route path='/payg' element={<PayG />} />
-      <Route path='/paygHome' element={<PaygHome />} />
-      <Route path='/paygStatus' element={<PaygStatus />} />
-      <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
-      <Route path='/landingpage' element={<HeroPage />} />
-      <Route path='/profile' element={<Profile />} />
+        <Route path='/home' element={<Home/>} />
+        <Route path='/payg' element={<PayG />} />
+        <Route path='/paygHome' element={<PaygHome />} />
+        <Route path='/paygStatus' element={<PaygStatus />} />
+        <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
+        <Route path='/landingpage' element={<HeroPage />} />
+        <Route path='/profile' element={<Profile />} />
       <Route path="*" element={<Error />} />
     </Routes>
+  </Suspense>
   </BrowserRouter>
   </React.StrictMode>
   </ChakraProvider>

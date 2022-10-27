@@ -142,7 +142,13 @@ app.post("/register", async (req, res) => {
         message: "Password was not hashed successfully",
         e,
       });
-    });
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message : "Duplicate Email",
+        err
+      })
+    })
 });
 
 

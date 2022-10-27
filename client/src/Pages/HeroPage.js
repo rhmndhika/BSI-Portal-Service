@@ -100,7 +100,12 @@ import {
              null
              :
              <a href="/home">
-              <Button rounded={'full'} px={6} width={150}>
+              <Button  width={150}
+              rounded={'full'}
+              px={6}
+              colorScheme={'orange'}
+              bg={'orange.400'}
+              _hover={{ bg: 'orange.500' }}>
                 Home
               </Button>
              </a>

@@ -35,6 +35,8 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { IoLogOutSharp } from 'react-icons/io5'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Appbar() {
 
@@ -45,11 +47,25 @@ export default function Appbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { emailLog, setEmailLog } = useContext(EmailUser)
+  const { emailLog, setEmailLog } = useContext(EmailUser);
+
+  const showToastSucces = () => {
+    toast.success('Logging out', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
   const logout =  () => {
-    Axios.get('https://empty-test-project.herokuapp.com/logout');
-    alert("Logout successful");
+    Axios.get('https://empty-test-project.herokuapp.com/logout').then(() => {
+    })
+    showToastSucces();
     navigate("/", { replace : true });
   }
 

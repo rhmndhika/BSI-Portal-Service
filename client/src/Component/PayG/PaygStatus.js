@@ -165,7 +165,6 @@ const PaygStatus = () => {
     :
     <PaygStatusAdmin />
     }
-    <Footer />
     </>
     )
 }
