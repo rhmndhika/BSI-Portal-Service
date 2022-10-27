@@ -5,4 +5,5 @@
 
 [build]
   base = "client"
+  publish = ""
 
