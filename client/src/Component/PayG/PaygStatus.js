@@ -128,7 +128,7 @@ const PaygStatus = () => {
                     <td>{i.BuyerName}</td>
                     {!i.status ?
                     <td className="t-status t-draft">
-                        Submitted
+                    Draft
                     </td>
                     :
                     <>
