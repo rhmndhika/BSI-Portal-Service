@@ -126,24 +126,36 @@ const PaygStatus = () => {
                     <td>{i.InvoiceNumber}</td>
                     <td>{i.Email}</td>
                     <td>{i.BuyerName}</td>
-                    {!i.status ?
-                    <td className="t-status t-draft">
-                    Draft
-                    </td>
-                    :
-                    <>
-                    {i.status === "Approved" ? 
-                    <td className="t-status t-active">
-                      {i.status}
-                    </td>
-                    :
-                    <td className="t-status t-inactive">
-                      {i.status}
-                    </td>
+
+    
+                    {i.status ? 
+                        <>
+                          {i.status === "Approved" ?
+                            <td className="t-status t-active">
+                                {i.status}
+                            </td>
+                          :
+                            <td className="t-status t-inactive">
+                                {i.status}
+                            </td>
+                          }
+                        </>
+                        :
+                        <>
+                        {!i.submitted  ? 
+                            <td className="t-status t-draft">
+                            Draft
+                            </td>
+                        :
+                        <td className="t-status t-draft">
+                            {i.submitted}
+                        </td>
+                        }
+                        </>
                     }
                     
-                    </> 
-                    }
+                
+            
                     <td>
                         <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
                             <Link to={`/paygstatusdetail/${i._id}`}>

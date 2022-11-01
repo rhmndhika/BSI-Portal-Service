@@ -41,7 +41,7 @@ const PaygHome = () => {
         <Appbar />
         <div style={{display : "flex", flexDirection : "column" ,justifyContent : "center", alignItems : "center"}}>
          <p style={{marginTop : "30px"}}>
-            Welcome to PayG Vendor
+            Welcome to PayG Vendor {emailLog}
         </p>
         <div style={{display : "flex", margin : "20px"}}>
             <a href='/payg'>

@@ -278,8 +278,8 @@ const PaygStatusDetail = () => {
                       <p>Attachments     : {dataListID.PaygAttachments}</p>
                   </div>
                     
-              
-              {dataListID.status === "" || dataListID.status === null && dataListID.status.length <= 0 ?
+                
+              {!dataListID.status  ?
               <>
               {roleUser === "Admin" ? 
               <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>

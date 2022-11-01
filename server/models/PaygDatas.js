@@ -1,7 +1,10 @@
 const mongoose = require("mongoose")
-
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const PaygDataSchema = new mongoose.Schema({
+    ID : {
+        type : Number
+    },
     Email : {
         type : String,
         require : true
@@ -37,6 +40,8 @@ const PaygDataSchema = new mongoose.Schema({
         type : String
     }
 }, {timestamps : true})
+
+PaygDataModel.plugin(AutoIncrement, {inc_field : 'ID'})
 
 const PaygDataModel = mongoose.model("paygdatas", PaygDataSchema)
 module.exports = PaygDataModel
