@@ -43,7 +43,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", ,"https://empty-test-project.herokuapp.com"],
+    origin: ["http://localhost:3000", ,"https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
@@ -73,7 +73,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", "https://empty-test-project.herokuapp.com");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -104,154 +104,19 @@ transporter.verify((err, success) => {
 });
 
   
-app.post("/register", async (req, res) => {
-
-  const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';
-
-    bcrypt
-    .hash(req.body.password, 10)
-    .then((hashedPassword) => {
-      // create a new user instance and collect the data
-      const user = new UserModel({
-        username : req.body.username,
-        email: req.body.email,
-        password: hashedPassword,
-        role : role
-      });
-      // save the new user
-      user
-        .save()
-        // return success if the new user is added to the database successfully
-        .then((result) => {
-          res.status(201).send({
-            message: "User Created Successfully",
-            result,
-          });
-        })
-        // catch error if the new user wasn't added successfully to the database
-        .catch((error) => {
-          res.status(500).send({
-            message: "Error creating user",
-            error,
-          });
-        });
-    })
-    // catch error if the password hash isn't successful
-    .catch((e) => {
-      res.status(500).send({
-        message: "Password was not hashed successfully",
-        e,
-      });
-    })
-    .catch((err) => {
-      res.status(400).send({
-        message : "Duplicate Email",
-        err
-      })
-    })
-});
+const registerRoute = require("./routes/Register");
+const loginRoute = require("./routes/Login");
+const paygdataRoute = require("./routes/Paygdata");
+app.use("/register", registerRoute);
+app.use("/login", loginRoute);
+app.use("/paygdata", paygdataRoute)
 
 
-app.post("/login", (req, res) => {
-  // UserModel.findOneAndUpdate({ email: { $regex : "bsi"} || req.body.email }, {$set : {"role" : "Admin"}}).then((user)
- 
-  UserModel.findOne({ email: req.body.email }).then((user) => {
-        bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
-            if(!passwordCheck) {
-              return res.status(400).send({
-                message: "Passwords does not match",
-                error,
-                result,
-              });
-            }
-            const token = jwt.sign(
-                {
-                  userId: user._id,
-                  userEmail: user.email,
-                },
-                "RANDOM-TOKEN",
-                { expiresIn: "24h" }
-              );
-
-            const result = user.email
-              req.session.email = result
-            const role = user.role
-              req.session.role = role
-            const username = user.username
-              req.session.username = username
-            res.status(200).send({
-                message: "Login Successful",
-                username,
-                email: user.email,
-                result,
-                role,
-                token
-            });
-            }).catch((error) => {
-                res.status(400).send({
-                message: "Passwords does not match",
-                error
-            });
-            }).catch((e) => {
-                res.status(404).send({
-                message: "Email not found",
-                e,
-            });
-            }).catch((e) => {
-                res.status(406).send({
-                message: "Username not found",
-                e,
-            });
-    });   
-  });
-});
-
-app.get("/login", (req, res) => {
-
-  if(req.session.email) {
-    res.send({loggedIn: true, email: req.session.email, role : req.session.role, username : req.session.username })     
-  } else {
-    res.send({loggedIn: false})
-  }
-});
 
 app.get("/logout", (req, res) => {
    res.clearCookie("userId", {path : "/"})
    res.status(200).json({ success: true, message: "User logged out successfully" });
-});
-
-app.post("/paygdata", upload.array('file', 20), async (req, res) => {
-   
-  const reqFiles = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
-  for (var i = 0; i < req.files.length; i++) {
-      reqFiles.push(url + req.files[i].filename);       
-  };
-
-   const data = new PaygDataModel({
-    Email : req.body.email,
-    InvoiceNumber : req.body.InvoiceNumber,
-    InvoiceDate : req.body.InvoiceDate,
-    BuyerName : req.body.BuyerName ,
-    Amount : req.body.Amount,
-    Subject : req.body.Subject,
-    PaygAttachments : reqFiles
-  })
-
-  await data.save();
-  res.json(data);
-});
-
-app.get("/paygdata", (req, res) => {
-  PaygDataModel.find({Email : req.session.email}, (err, result) => {
-
-   if (err) {
-      res.send(err)
-   } else {
-      res.send(result)
-   }
-  })
 });
 
 app.get("/getallpaygdata", (req, res) => {
