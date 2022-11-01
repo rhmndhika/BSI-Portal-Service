@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 require('dotenv').config();
 
