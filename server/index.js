@@ -5,12 +5,12 @@ const app = express();
 const path = require('path');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 
 require('dotenv').config();
 
