@@ -43,7 +43,7 @@ const CreateProfile = () => {
 
     e.preventDefault();
 
-    await Axios.post("https://empty-test-project.herokuapp.com/createprofile" , {
+    await Axios.post("https://empty-test-project.herokuapp.com/profile" , {
       Email : emailLog,
       FullName : profileUser.fullName,
       Entity : profileUser.entity,

@@ -30,7 +30,16 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() +  path.extname(file.originalname))
+  }
+});
 
+const upload = multer({storage: storage});
 
 app.use(
     cors({
@@ -97,17 +106,47 @@ transporter.verify((err, success) => {
   
 const registerRoute = require("./routes/Register");
 const loginRoute = require("./routes/Login");
-const paygdataRoute = require("./routes/Paygdata");
+const profileRoute = require("./routes/Profile");
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
-app.use("/paygdata", paygdataRoute)
-
-
-
+app.use("/profile", profileRoute);
 
 app.get("/logout", (req, res) => {
    res.clearCookie("userId", {path : "/"})
    res.status(200).json({ success: true, message: "User logged out successfully" });
+});
+
+app.post("/paygdata", upload.array('file', 20), async (req, res) => {
+   
+  const reqFiles = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+      reqFiles.push(url + req.files[i].filename);       
+  };
+
+   const data = new PaygDataModel({
+    Email : req.body.email,
+    InvoiceNumber : req.body.InvoiceNumber,
+    InvoiceDate : req.body.InvoiceDate,
+    BuyerName : req.body.BuyerName ,
+    Amount : req.body.Amount,
+    Subject : req.body.Subject,
+    PaygAttachments : reqFiles
+  })
+
+  await data.save();
+  res.json(data);
+});
+
+app.get("/paygdata", (req, res) => {
+  PaygDataModel.find({Email : req.session.email}, (err, result) => {
+
+   if (err) {
+      res.send(err)
+   } else {
+      res.send(result)
+   }
+  })
 });
 
 app.get("/getallpaygdata", (req, res) => {
@@ -145,29 +184,6 @@ app.delete("/deletepaygdata/:id", (req, res) => {
       }
   });
 });
-
-app.post("/createprofile", async (req, res) => {
-
-  const Profile = new UserProfileModel({
-    Email : req.body.Email,
-    FullName : req.body.FullName,
-    Entity : req.body.Entity,
-    SupplierName : req.body.SupplierName
-  })
-
-  await Profile.save();
-  res.send(Profile);
-})
-
-app.get("/getprofile", async (req, res) => {
-  UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
-    if (err) {
-      console.log(err)
-    } else {
-      res.send(result)
-    }
-  })
-})
 
 app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
 

@@ -49,7 +49,7 @@ import {
   };
 
   const getProfileUser = async () => {
-    await Axios.get("https://empty-test-project.herokuapp.com/getprofile").then((response) => {
+    await Axios.get("https://empty-test-project.herokuapp.com/profile").then((response) => {
       setDataProfileUser(response.data);
     })
   }
