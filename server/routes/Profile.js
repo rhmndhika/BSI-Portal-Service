@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const UserProfileModel = require("../models/UserProfiles.js");
+
 router.post("/", async (req, res) => {
 
     const Profile = new UserProfileModel({

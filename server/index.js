@@ -14,9 +14,7 @@ const session = require('express-session');
 
 require('dotenv').config();
 
-const UserModel = require("./models/Users.js");
 const PaygDataModel = require('./models/PaygDatas.js');
-const UserProfileModel = require("./models/UserProfiles.js")
 
 
 const CONNECTION_URL =  process.env.MONGODB_HOST

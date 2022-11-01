@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
+const UserModel = require("../models/Users.js");
+
 router.post("/", async (req, res) => {
 
     const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';

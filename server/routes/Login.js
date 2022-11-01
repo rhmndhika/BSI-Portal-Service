@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+const UserModel = require("../models/Users.js");
+
+
 router.post("/", (req, res) => {
     // UserModel.findOneAndUpdate({ email: { $regex : "bsi"} || req.body.email }, {$set : {"role" : "Admin"}}).then((user)
    
