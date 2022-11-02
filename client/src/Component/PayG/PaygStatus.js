@@ -56,6 +56,16 @@ const PaygStatus = () => {
         });   
     };
 
+    const tryGet = () => {
+        try {
+            Axios.get("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/GetItemById(9000)").then((response) => {
+                console.log(response.data);
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     const deleteDataPayg = (id) => {
         Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
             setDataList(dataList.filter((val) => {

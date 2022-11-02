@@ -24,11 +24,14 @@ const ProfileUserProvider = lazy(() => import("./Helper/ProfileUserProvider"));
 const RoleUserProvider = lazy(() => import("./Helper/RoleUserProvider"));
 const Error = lazy(() => import("./Component/Error/Error"));
 const HeroPage = lazy(() => import("./Pages/HeroPage"));
+const Outsourcing = lazy(() => import("./Component/OutsourcingPortal/Home"));
+const OutsourcingProvider = lazy(() => import("./Helper/OutsourcingPortalProvider"))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <EmailUserProvider>
   <RoleUserProvider>
+  <OutsourcingProvider>
   <ProfileUserProvider>
   <DataPaygProvider>
   <ChakraProvider>
@@ -54,6 +57,7 @@ root.render(
         <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
         <Route path='/landingpage' element={<HeroPage />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/outsourcing' element={<Outsourcing />} />
       <Route path="*" element={<Error />} />
     </Routes>
   </Suspense>
@@ -62,6 +66,7 @@ root.render(
   </ChakraProvider>
   </DataPaygProvider>
   </ProfileUserProvider>
+  </OutsourcingProvider>
   </RoleUserProvider>
   </EmailUserProvider>
 );

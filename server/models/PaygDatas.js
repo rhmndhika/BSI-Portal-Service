@@ -41,7 +41,7 @@ const PaygDataSchema = new mongoose.Schema({
     }
 }, {timestamps : true}, {_id : false})
 
-PaygDataSchema.plugin(AutoIncrement)
+PaygDataSchema.plugin(AutoIncrement);
 
 const PaygDataModel = mongoose.model("paygdatas", PaygDataSchema)
 module.exports = PaygDataModel

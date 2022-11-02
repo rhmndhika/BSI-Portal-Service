@@ -15,6 +15,7 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 const PaygDataModel = require('./models/PaygDatas.js');
+const OutsourcingModel = require('./models/OutsourcingPortalData.js');
 
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
@@ -114,10 +115,10 @@ app.get("/logout", (req, res) => {
 
 app.post("/paygdata", upload.array('file', 20), async (req, res) => {
    
-  const reqFiles = [];
+  const reqFilesOutsourcing = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
   for (var i = 0; i < req.files.length; i++) {
-      reqFiles.push(url + req.files[i].filename);       
+      reqFilesOutsourcing.push(url + req.files[i].filename);       
   };
 
    const data = new PaygDataModel({
@@ -127,7 +128,7 @@ app.post("/paygdata", upload.array('file', 20), async (req, res) => {
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
     Subject : req.body.Subject,
-    PaygAttachments : reqFiles
+    PaygAttachments : reqFilesOutsourcing
   })
 
   await data.save();
@@ -183,10 +184,10 @@ app.delete("/deletepaygdata/:id", (req, res) => {
 
 app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
 
-  const reqFiles = [];
+  const reqFilesOutsourcing = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
   for (var i = 0; i < req.files.length; i++) {
-    reqFiles.push(url + req.files[i].filename);       
+    reqFilesOutsourcing.push(url + req.files[i].filename);       
   };
 
   PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
@@ -195,7 +196,7 @@ app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
     Subject : req.body.Subject,
-    Attachments : reqFiles
+    Attachments : reqFilesOutsourcing
   }, (err, result) => {
       if(err) {
         res.send(err)
@@ -269,6 +270,41 @@ app.get("/admin/paygdata/:id", (req, res) => {
       }else {
           res.send(result)
       }
+  })
+});
+
+app.post("/outsourcing", upload.array('fileOutsourcing', 20), async (req, res) => {
+   
+  const reqFilesOutsourcing = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+    reqFilesOutsourcing.push(url + req.files[i].filename);       
+  };
+
+   const dataOutsourcing = new OutsourcingModel({
+    Email : req.body.Email,
+    Name : req.body.Name,
+    IDLink : req.body.IDLink,
+    Supplier : req.body.Supplier,
+    User1 : req.body.User1,
+    User2 : req.body.User2,
+    RoleQuotation : req.body.RoleQuotation,
+    OutsourcingAttachments : reqFilesOutsourcing
+  })
+
+  await data.save();
+  res.json(dataOutsourcing);
+});
+
+app.get("/outsourcing", (req, res) => {
+  
+  OutsourcingModel.find({Email : req.session.email}, (err, result) => {
+
+   if (err) {
+      res.send(err)
+   } else {
+      res.send(result)
+   }
   })
 });
 

@@ -80,7 +80,7 @@ const Home = () => {
     {
       title : "Outsourcing Portal",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '/outsourcing'
     },
     {
       title : "Group Forum",
