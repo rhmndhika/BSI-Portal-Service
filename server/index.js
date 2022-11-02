@@ -292,7 +292,7 @@ app.post("/outsourcing", upload.array('fileOutsourcing', 20), async (req, res) =
     OutsourcingAttachments : reqFilesOutsourcing
   })
 
-  await data.save();
+  await dataOutsourcing.save();
   res.json(dataOutsourcing);
 });
 
