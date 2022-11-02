@@ -108,7 +108,7 @@ const paygRoute = require("./routes/Payg");
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/profile", profileRoute);
-app.use("/paydata", paygRoute)
+app.use("/paygdata", paygRoute)
 
 app.get("/logout", (req, res) => {
    res.clearCookie("userId", {path : "/"})
