@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 
 const OutsourcingSchema = new mongoose.Schema({
-   _id : {
-     type : Number,
-     require : true
-   },
    Email : {
      type : String,
      require : true
@@ -40,8 +36,6 @@ const OutsourcingSchema = new mongoose.Schema({
    },
 }, {timestamps : true}, {_id : false});
 
-
-OutsourcingSchema.plugin(AutoIncrement);
 
 const OutsourcingModel = mongoose.model("outsourcings", OutsourcingSchema);
 module.exports = OutsourcingModel;
