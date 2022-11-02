@@ -41,7 +41,7 @@ const OutsourcingSchema = new mongoose.Schema({
 }, {timestamps : true}, {_id : false});
 
 
-PaygDataSchema.plugin(AutoIncrement);
+OutsourcingSchema.plugin(AutoIncrement);
 
 const OutsourcingModel = mongoose.model("outsourcings", OutsourcingSchema);
 module.exports = OutsourcingModel;
