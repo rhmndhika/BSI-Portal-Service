@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const multer = require('multer');
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images')
