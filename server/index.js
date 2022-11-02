@@ -104,47 +104,18 @@ transporter.verify((err, success) => {
 const registerRoute = require("./routes/Register");
 const loginRoute = require("./routes/Login");
 const profileRoute = require("./routes/Profile");
+const paygRoute = require("./routes/Payg");
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/profile", profileRoute);
+app.use("/paydata", paygRoute)
 
 app.get("/logout", (req, res) => {
    res.clearCookie("userId", {path : "/"})
    res.status(200).json({ success: true, message: "User logged out successfully" });
 });
 
-app.post("/paygdata", upload.array('file', 20), async (req, res) => {
-   
-  const reqFilesOutsourcing = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
-  for (var i = 0; i < req.files.length; i++) {
-      reqFilesOutsourcing.push(url + req.files[i].filename);       
-  };
 
-   const data = new PaygDataModel({
-    Email : req.body.email,
-    InvoiceNumber : req.body.InvoiceNumber,
-    InvoiceDate : req.body.InvoiceDate,
-    BuyerName : req.body.BuyerName ,
-    Amount : req.body.Amount,
-    Subject : req.body.Subject,
-    PaygAttachments : reqFilesOutsourcing
-  })
-
-  await data.save();
-  res.json(data);
-});
-
-app.get("/paygdata", (req, res) => {
-  PaygDataModel.find({Email : req.session.email}, (err, result) => {
-
-   if (err) {
-      res.send(err)
-   } else {
-      res.send(result)
-   }
-  })
-});
 
 app.get("/getallpaygdata", (req, res) => {
   PaygDataModel.find({}, (err, result) => {
