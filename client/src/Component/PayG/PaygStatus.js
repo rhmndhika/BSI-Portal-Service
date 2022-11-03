@@ -57,23 +57,6 @@ const PaygStatus = () => {
         });   
     };
 
-    const tryGet = () => {
-        try {
-            Axios.get("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", {
-                auth : {
-                    username: "bsi90699@bsi.co.id",
-                    password : "Password.99"
-                },
-                headers : {
-                    'Accept': 'application/json; odata=verbose;'
-                }
-            }).then((response) => {
-                console.log(response.data);
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     const deleteDataPayg = (id) => {
         Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
@@ -94,7 +77,6 @@ const PaygStatus = () => {
     {roleUser === "User" ? 
     <div style={{height : "493px"}}>
         <Appbar />
-        <Button onClick={tryGet}>TRY</Button>
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
         { dataList.length <= 0 ?
         <p style={{marginTop: "150px"}}>No Data Available</p>
@@ -174,8 +156,6 @@ const PaygStatus = () => {
                         </>
                     }
                     
-                
-            
                     <td>
                         <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
                             <Link to={`/paygstatusdetail/${i._id}`}>

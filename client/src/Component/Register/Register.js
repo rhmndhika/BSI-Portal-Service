@@ -8,7 +8,14 @@ import {
     InputGroup,
     InputRightElement,
     InputLeftElement,
-    Button
+    Button,
+
+    Checkbox,
+    Flex,
+    Heading,
+    Link,
+    Stack,
+    Image,
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
@@ -100,17 +107,12 @@ const Register = () => {
   return (
     <>
     <ToastContainer />
-    <div className='wrapperLogin'>
-      <div className="contain">
-      <div className="forms-container">
-        <div className="signin-signup">
-          <form className="sign-in-form">
-            <div className='textCompany'>
-              <h1>BSI PORTAL SERVICE</h1>
-            </div>
-            <h2 className="title">Sign Up</h2>
-
-            <FormControl isInvalid={isErrorUsername}>
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex p={8} flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={4} w={'full'} maxW={'md'}>
+          <Heading fontSize={'2xl'}>Register to your account</Heading>
+          <form>
+          <FormControl isInvalid={isErrorUsername}>
                 <FormLabel>Username</FormLabel>
                 <InputGroup size='md'>
                 <InputLeftElement
@@ -179,33 +181,36 @@ const Register = () => {
                 </InputRightElement>
             </InputGroup>
             </FormControl>
-           
-            <input type="submit" value="Sign up" className="btn solid" onClick={register} />
+            
+          <Stack spacing={6}>
+            <Stack
+              direction={{ base: 'column', sm: 'row' }}
+              align={'start'}
+              justify={'space-between'}>
+              <div></div>
+              <Link href="/" color={'blue.500'}>Have an account ?</Link>
+            </Stack>
+            <Button type='submit' colorScheme={'blue'} variant={'solid'} onClick={register}>
+              Register
+            </Button>
+          </Stack>
           </form>
-        </div>
-      </div>
-
-      <div className="panels-container">
-        <div className="panel left-panel">
-          <div className="content">
-            <h3>Already have an account ?</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
-            </p>
-            <a href='/'>
-            <button className="btn transparent" id="sign-up-btn">
-              Login
-            </button>
-            </a>
-          </div>
-          <img src={Log} className="image" alt="" />
-        </div>
-      </div>
-    </div>
-    </div>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={'Login Image'}
+          objectFit={'cover'}
+          src={
+            'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
+          }
+        />
+      </Flex>
+    </Stack>
     </>
   )
 }
 
 export default Register
+
+
