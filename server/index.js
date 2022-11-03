@@ -17,8 +17,6 @@ require('dotenv').config();
 const PaygDataModel = require('./models/PaygDatas.js');
 const OutsourcingModel = require('./models/Outsourcing.js');
 
-// ICANT
-
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
 mongoose.connect(CONNECTION_URL, {
@@ -28,16 +26,16 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images')
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() +  path.extname(file.originalname))
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'images')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() +  path.extname(file.originalname))
+//   }
+// });
 
-const upload = multer({storage: storage});
+// const upload = multer({storage: storage});
 
 app.use(
     cors({
@@ -109,7 +107,7 @@ const paygRoute = require("./routes/Payg");
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/profile", profileRoute);
-app.use("/paygdata", paygRoute)
+app.use(paygRoute)
 
 app.get("/logout", (req, res) => {
    res.clearCookie("userId", {path : "/"})
@@ -118,65 +116,65 @@ app.get("/logout", (req, res) => {
 
 
 
-app.get("/getallpaygdata", (req, res) => {
-  PaygDataModel.find({}, (err, result) => {
+// app.get("/getallpaygdata", (req, res) => {
+//   PaygDataModel.find({}, (err, result) => {
 
-   if (err) {
-      res.send(err)
-   } else {
-      res.send(result)
-   }
-  })
-})
+//    if (err) {
+//       res.send(err)
+//    } else {
+//       res.send(result)
+//    }
+//   })
+// })
 
 
-app.get("/paygdata/:id", (req, res) => {
-  const Id = req.params.id;
+// app.get("/paygdata/:id", (req, res) => {
+//   const Id = req.params.id;
   
-  PaygDataModel.findById({_id : Id}, (err, result) => {
-      if (err) {
-          res.send(err)
-      }else {
-          res.send(result)
-      }
-  })
-});
+//   PaygDataModel.findById({_id : Id}, (err, result) => {
+//       if (err) {
+//           res.send(err)
+//       }else {
+//           res.send(result)
+//       }
+//   })
+// });
 
-app.delete("/deletepaygdata/:id", (req, res) => {
-  const Id = req.params.id;
+// app.delete("/deletepaygdata/:id", (req, res) => {
+//   const Id = req.params.id;
 
-  PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
-      if (err) {
-          console.log(err);
-      } else {
-          res.send(result);
-      }
-  });
-});
+//   PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
+//       if (err) {
+//           console.log(err);
+//       } else {
+//           res.send(result);
+//       }
+//   });
+// });
 
-app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
+// app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
 
-  const reqFilesOutsourcing = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
-  for (var i = 0; i < req.files.length; i++) {
-    reqFilesOutsourcing.push(url + req.files[i].filename);       
-  };
+//   const reqFilesOutsourcing = [];
+//   const url = "https://empty-test-project.herokuapp.com/images/";
+//   for (var i = 0; i < req.files.length; i++) {
+//     reqFilesOutsourcing.push(url + req.files[i].filename);       
+//   };
 
-  PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
-    InvoiceNumber : req.body.InvoiceNumber,
-    InvoiceDate : req.body.InvoiceDate,
-    BuyerName : req.body.BuyerName ,
-    Amount : req.body.Amount,
-    Subject : req.body.Subject,
-    Attachments : reqFilesOutsourcing
-  }, (err, result) => {
-      if(err) {
-        res.send(err)
-      } else {
-        res.send(result)
-      }
-  })
-})
+//   PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
+//     InvoiceNumber : req.body.InvoiceNumber,
+//     InvoiceDate : req.body.InvoiceDate,
+//     BuyerName : req.body.BuyerName ,
+//     Amount : req.body.Amount,
+//     Subject : req.body.Subject,
+//     Attachments : reqFilesOutsourcing
+//   }, (err, result) => {
+//       if(err) {
+//         res.send(err)
+//       } else {
+//         res.send(result)
+//       }
+//   })
+// })
 
 app.post("/sendnotification", function (req, res) {
   let mailOptions = {

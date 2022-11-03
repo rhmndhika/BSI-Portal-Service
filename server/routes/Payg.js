@@ -16,12 +16,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-router.post("/", upload.array('file', 20), async (req, res) => {
-   
+export const createPayg = async (req, res) => {
+
   const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
   for (var i = 0; i < req.files.length; i++) {
-      reqFiles.push(url + req.files[i].filename);       
+    reqFiles.push(url + req.files[i].filename);       
   };
 
    const data = new PaygDataModel({
@@ -36,16 +36,81 @@ router.post("/", upload.array('file', 20), async (req, res) => {
 
   await data.save();
   res.json(data);
-});
 
-router.get("/", (req, res) => {
+}
+
+export const getPaygByEmail = async (req, res) => {
   PaygDataModel.find({Email : req.session.email}, (err, result) => {
-   if (err) {
-    res.send(err)
-   } else {
-    res.send(result)
-   }
+    if (err) {
+     res.send(err)
+    } else {
+     res.send(result)
+    }
+   })
+}
+
+export const getPaygById = async (req, res) => {
+  const Id = req.params.id;
+
+  PaygDataModel.findById({_id : Id}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
   })
-});
+}
+
+export const deletePaygById = async (req, res) => {
+  const Id = req.params.id;
+
+  PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
+      if (err) {
+          console.log(err);
+      } else {
+          res.send(result);
+      }
+  });
+}
+
+export const getAllPaygData = async (req, res) => {
+  PaygDataModel.find({}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+   });
+}
+
+export const updatePaygData = async (req, res) => {
+  const reqFilesOutsourcing = [];
+  const url = "https://empty-test-project.herokuapp.com/images/";
+  for (var i = 0; i < req.files.length; i++) {
+    reqFilesOutsourcing.push(url + req.files[i].filename);       
+  };
+
+  PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
+    InvoiceNumber : req.body.InvoiceNumber,
+    InvoiceDate : req.body.InvoiceDate,
+    BuyerName : req.body.BuyerName ,
+    Amount : req.body.Amount,
+    Subject : req.body.Subject,
+    Attachments : reqFilesOutsourcing
+  }, (err, result) => {
+      if(err) {
+        res.send(err)
+      } else {
+        res.send(result)
+      }
+  })
+}
+
+router.post("/paygdata", upload.array('file', 20), createPayg);
+router.get("/getallpaygdata", getAllPaygData)
+router.get("/paygdata", getPaygByEmail);
+router.get("/paygdata/:id", getPaygById);
+router.put("/updatepaygdata", upload.array('file', 20), updatePaygData);
+router.delete("/deletepaygdata/:id", deletePaygById);
 
 module.exports = router
