@@ -61,10 +61,10 @@ const getPaygById = (req, res) => {
   })
 }
 
-const deletePaygById = async (req, res) => {
+const deletePaygById = (req, res) => {
   const Id = req.params.id;
 
-  await PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
+  PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
       if (err) {
           console.log(err);
       } else {
@@ -84,14 +84,14 @@ const getAllPaygData = (req, res) => {
    });
 }
 
-const updatePaygData = async (req, res) => {
+const updatePaygData = (req, res) => {
   const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
   for (var i = 0; i < req.files.length; i++) {
     reqFiles.push(url + req.files[i].filename);       
   };
 
-  await PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
+  PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
     InvoiceNumber : req.body.InvoiceNumber,
     InvoiceDate : req.body.InvoiceDate,
     BuyerName : req.body.BuyerName ,
@@ -107,11 +107,11 @@ const updatePaygData = async (req, res) => {
   })
 }
 
-const updateSubmittedById = async (req, res) => {
+const updateSubmittedById = (req, res) => {
   const Id = req.body.id;
   const submitted = req.body.submitted;
 
-  await PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
+  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
       if (err) {
         res.send(err);
       } else {
@@ -120,11 +120,11 @@ const updateSubmittedById = async (req, res) => {
   })
 }
 
-const updateStatusById = async (req, res) => {
+const updateStatusById = (req, res) => {
   const Id = req.body.id;
   const status = req.body.status;
 
-  await PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
+  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
       if (err) {
         res.send(err);
       } else {

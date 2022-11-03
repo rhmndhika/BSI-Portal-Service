@@ -5,8 +5,8 @@ const bcrypt = require('bcrypt');
 
 const UserModel = require("../models/Users.js");
 
-const createUser = async (req, res) => {
- await UserModel.findOne({ email: req.body.email }).then((user) => {
+const createUser = (req, res) => {
+ UserModel.findOne({ email: req.body.email }).then((user) => {
     bcrypt.compare(req.body.password, user.password).then((passwordCheck) => {
 
         if(!passwordCheck) {

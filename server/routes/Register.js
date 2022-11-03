@@ -4,10 +4,10 @@ const bcrypt = require('bcrypt');
 
 const UserModel = require("../models/Users.js");
 
-const createUserAccount = async (req, res) => {
+const createUserAccount = (req, res) => {
   const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';
   
-     await bcrypt
+     bcrypt
       .hash(req.body.password, 10)
       .then((hashedPassword) => {
         // create a new user instance and collect the data
