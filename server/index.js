@@ -9,10 +9,13 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
+const multer = require('multer');
 const nodemailer = require("nodemailer");
 
 require('dotenv').config();
 
+const PaygDataModel = require('./models/PaygDatas.js');
+const OutsourcingModel = require('./models/Outsourcing.js');
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
@@ -23,6 +26,16 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() +  path.extname(file.originalname))
+  }
+});
+
+const upload = multer({storage: storage});
 
 app.use(
     cors({
@@ -96,7 +109,7 @@ app.use(registerRoute);
 app.use(loginRoute);
 app.use(profileRoute);
 app.use(paygRoute);
-app.use(outsourcingRoute);
+app.use(outsourcingRoute)
 
 app.get("/logout", (req, res) => {
   res.clearCookie("userId", {path : "/"})
@@ -120,6 +133,8 @@ app.post("/sendnotification", function (req, res) {
     }
   });
  });
+
+
 
 
 app.listen(process.env.PORT || 3001 , ()=> {
