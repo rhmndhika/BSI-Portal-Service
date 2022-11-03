@@ -58,7 +58,7 @@ const createUser = async (req, res) => {
 });
 }
 
-const getUserByEmail = async (req, res) => {
+const getUserByEmail = (req, res) => {
   if(req.session.email) {
     res.send({loggedIn: true, email: req.session.email, role : req.session.role, username : req.session.username })     
   } else {

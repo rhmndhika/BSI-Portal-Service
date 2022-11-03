@@ -39,8 +39,8 @@ const createPayg = async (req, res) => {
 
 }
 
-const getPaygByEmail = async (req, res) => {
- await PaygDataModel.find({Email : req.session.email}, (err, result) => {
+const getPaygByEmail = (req, res) => {
+ PaygDataModel.find({Email : req.session.email}, (err, result) => {
     if (err) {
      res.send(err)
     } else {
@@ -49,10 +49,10 @@ const getPaygByEmail = async (req, res) => {
    })
 }
 
-const getPaygById = async (req, res) => {
+const getPaygById = (req, res) => {
   const Id = req.params.id;
 
-  await PaygDataModel.findById({_id : Id}, (err, result) => {
+  PaygDataModel.findById({_id : Id}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -73,9 +73,9 @@ const deletePaygById = async (req, res) => {
   });
 }
 
-const getAllPaygData = async (req, res) => {
+const getAllPaygData = (req, res) => {
 
-  await PaygDataModel.find({}, (err, result) => {
+  PaygDataModel.find({}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -133,9 +133,9 @@ const updateStatusById = async (req, res) => {
   })
 }
 
-const getPaygAdminByBuyerName = async (req, res) => {
+const getPaygAdminByBuyerName = (req, res) => {
 
-  await PaygDataModel.find({BuyerName : req.session.username}, (err, result) => {
+  PaygDataModel.find({BuyerName : req.session.username}, (err, result) => {
     if (err) {
       res.send(err)
     } else {
@@ -144,10 +144,10 @@ const getPaygAdminByBuyerName = async (req, res) => {
    })
 }
 
-const getPaygAdminById = async (req, res) => {
+const getPaygAdminById = (req, res) => {
   const Id = req.params.id;
   
-  await PaygDataModel.findById({_id : Id}, (err, result) => {
+  PaygDataModel.findById({_id : Id}, (err, result) => {
       if (err) {
           res.send(err)
       }else {

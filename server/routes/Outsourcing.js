@@ -38,7 +38,7 @@ const createOutsourcingCV = async (req, res) => {
     res.json(dataOutsourcing);
 }
 
-const getOutsourcingCVByEmail = async (req, res) => {
+const getOutsourcingCVByEmail = (req, res) => {
 
     OutsourcingModel.find({Email : req.session.email}, (err, result) => {
         if (err) {
