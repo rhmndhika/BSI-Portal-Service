@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-export const createPayg = async (req, res) => {
+const createPayg = async (req, res) => {
 
   const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
@@ -39,7 +39,7 @@ export const createPayg = async (req, res) => {
 
 }
 
-export const getPaygByEmail = async (req, res) => {
+const getPaygByEmail = async (req, res) => {
   PaygDataModel.find({Email : req.session.email}, (err, result) => {
     if (err) {
      res.send(err)
@@ -49,7 +49,7 @@ export const getPaygByEmail = async (req, res) => {
    })
 }
 
-export const getPaygById = async (req, res) => {
+const getPaygById = async (req, res) => {
   const Id = req.params.id;
 
   PaygDataModel.findById({_id : Id}, (err, result) => {
@@ -61,7 +61,7 @@ export const getPaygById = async (req, res) => {
   })
 }
 
-export const deletePaygById = async (req, res) => {
+const deletePaygById = async (req, res) => {
   const Id = req.params.id;
 
   PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
@@ -73,7 +73,7 @@ export const deletePaygById = async (req, res) => {
   });
 }
 
-export const getAllPaygData = async (req, res) => {
+const getAllPaygData = async (req, res) => {
   PaygDataModel.find({}, (err, result) => {
     if (err) {
       res.send(err);
@@ -83,11 +83,11 @@ export const getAllPaygData = async (req, res) => {
    });
 }
 
-export const updatePaygData = async (req, res) => {
-  const reqFilesOutsourcing = [];
+const updatePaygData = async (req, res) => {
+  const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
   for (var i = 0; i < req.files.length; i++) {
-    reqFilesOutsourcing.push(url + req.files[i].filename);       
+    reqFiles.push(url + req.files[i].filename);       
   };
 
   PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
@@ -96,7 +96,7 @@ export const updatePaygData = async (req, res) => {
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
     Subject : req.body.Subject,
-    Attachments : reqFilesOutsourcing
+    Attachments : reqFiles
   }, (err, result) => {
       if(err) {
         res.send(err)
