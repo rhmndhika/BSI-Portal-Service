@@ -15,8 +15,8 @@ const createProfile = async (req, res) => {
   res.send(Profile);
 }
 
-const getUserProfileByEmail = async (req, res) => {
-  await UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
+const getUserProfileByEmail = (req, res) => {
+  UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
     if (err) {
       console.log(err)
     } else {
