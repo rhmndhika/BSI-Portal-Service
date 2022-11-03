@@ -4,11 +4,10 @@ const bcrypt = require('bcrypt');
 
 const UserModel = require("../models/Users.js");
 
-router.post("/", async (req, res) => {
-
-    const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';
+const createUserAccount = async (req, res) => {
+  const role = new RegExp('bsi', 'gi').test(req.body.email) ? 'Admin' : 'User';
   
-      bcrypt
+     await bcrypt
       .hash(req.body.password, 10)
       .then((hashedPassword) => {
         // create a new user instance and collect the data
@@ -49,6 +48,8 @@ router.post("/", async (req, res) => {
           err
         })
       })
-  });
+}
+
+router.post("/register", createUserAccount);
 
 module.exports = router

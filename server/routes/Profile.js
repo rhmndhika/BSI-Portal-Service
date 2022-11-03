@@ -3,27 +3,29 @@ const router = express.Router();
 
 const UserProfileModel = require("../models/UserProfiles.js");
 
-router.post("/", async (req, res) => {
+const createProfile = async (req, res) => {
+  const Profile = new UserProfileModel({
+    Email : req.body.Email,
+    FullName : req.body.FullName,
+    Entity : req.body.Entity,
+    SupplierName : req.body.SupplierName
+  })
 
-    const Profile = new UserProfileModel({
-      Email : req.body.Email,
-      FullName : req.body.FullName,
-      Entity : req.body.Entity,
-      SupplierName : req.body.SupplierName
-    })
-  
-    await Profile.save();
-    res.send(Profile);
+  await Profile.save();
+  res.send(Profile);
+}
+
+const getUserProfileByEmail = async (req, res) => {
+  await UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
   })
+}
   
-  router.get("/", async (req, res) => {
-    UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
-      if (err) {
-        console.log(err)
-      } else {
-        res.send(result)
-      }
-    })
-  })
+router.post("/profile", createProfile);
+router.get("/profile", getUserProfileByEmail);
 
 module.exports = router

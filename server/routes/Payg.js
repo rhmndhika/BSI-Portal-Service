@@ -40,7 +40,7 @@ const createPayg = async (req, res) => {
 }
 
 const getPaygByEmail = async (req, res) => {
-  PaygDataModel.find({Email : req.session.email}, (err, result) => {
+ await PaygDataModel.find({Email : req.session.email}, (err, result) => {
     if (err) {
      res.send(err)
     } else {
@@ -52,7 +52,7 @@ const getPaygByEmail = async (req, res) => {
 const getPaygById = async (req, res) => {
   const Id = req.params.id;
 
-  PaygDataModel.findById({_id : Id}, (err, result) => {
+  await PaygDataModel.findById({_id : Id}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -64,7 +64,7 @@ const getPaygById = async (req, res) => {
 const deletePaygById = async (req, res) => {
   const Id = req.params.id;
 
-  PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
+  await PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
       if (err) {
           console.log(err);
       } else {
@@ -74,7 +74,8 @@ const deletePaygById = async (req, res) => {
 }
 
 const getAllPaygData = async (req, res) => {
-  PaygDataModel.find({}, (err, result) => {
+
+  await PaygDataModel.find({}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -90,7 +91,7 @@ const updatePaygData = async (req, res) => {
     reqFiles.push(url + req.files[i].filename);       
   };
 
-  PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
+  await PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
     InvoiceNumber : req.body.InvoiceNumber,
     InvoiceDate : req.body.InvoiceDate,
     BuyerName : req.body.BuyerName ,
@@ -106,11 +107,65 @@ const updatePaygData = async (req, res) => {
   })
 }
 
+const updateSubmittedById = async (req, res) => {
+  const Id = req.body.id;
+  const submitted = req.body.submitted;
+
+  await PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+  })
+}
+
+const updateStatusById = async (req, res) => {
+  const Id = req.body.id;
+  const status = req.body.status;
+
+  await PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+  })
+}
+
+const getPaygAdminByBuyerName = async (req, res) => {
+
+  await PaygDataModel.find({BuyerName : req.session.username}, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(result)
+    }
+   })
+}
+
+const getPaygAdminById = async (req, res) => {
+  const Id = req.params.id;
+  
+  await PaygDataModel.findById({_id : Id}, (err, result) => {
+      if (err) {
+          res.send(err)
+      }else {
+          res.send(result)
+      }
+  })
+}
+
 router.post("/paygdata", upload.array('file', 20), createPayg);
 router.get("/getallpaygdata", getAllPaygData)
 router.get("/paygdata", getPaygByEmail);
 router.get("/paygdata/:id", getPaygById);
+router.get("/admin/paygdata", getPaygAdminByBuyerName);
+router.get("/admin/paygdata/:id", getPaygAdminById);
+router.get("/paygdata/:id", getPaygById);
 router.put("/updatepaygdata", upload.array('file', 20), updatePaygData);
+router.put("/updateSubmitted", updateSubmittedById);
+router.put("/updateStatus", updateStatusById);
 router.delete("/deletepaygdata/:id", deletePaygById);
 
 module.exports = router

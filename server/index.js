@@ -9,13 +9,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
-const multer = require('multer');
 const nodemailer = require("nodemailer");
 
 require('dotenv').config();
 
-const PaygDataModel = require('./models/PaygDatas.js');
-const OutsourcingModel = require('./models/Outsourcing.js');
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
@@ -26,16 +23,6 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images')
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() +  path.extname(file.originalname))
-  }
-});
-
-const upload = multer({storage: storage});
 
 app.use(
     cors({
@@ -104,77 +91,17 @@ const registerRoute = require("./routes/Register");
 const loginRoute = require("./routes/Login");
 const profileRoute = require("./routes/Profile");
 const paygRoute = require("./routes/Payg");
-app.use("/register", registerRoute);
-app.use("/login", loginRoute);
-app.use("/profile", profileRoute);
-app.use(paygRoute)
+const outsourcingRoute = require("./routes/Outsourcing");
+app.use(registerRoute);
+app.use(loginRoute);
+app.use(profileRoute);
+app.use(paygRoute);
+app.use(outsourcingRoute);
 
 app.get("/logout", (req, res) => {
-   res.clearCookie("userId", {path : "/"})
-   res.status(200).json({ success: true, message: "User logged out successfully" });
+  res.clearCookie("userId", {path : "/"})
+  res.status(200).json({ success: true, message: "User logged out successfully" });
 });
-
-
-
-// app.get("/getallpaygdata", (req, res) => {
-//   PaygDataModel.find({}, (err, result) => {
-
-//    if (err) {
-//       res.send(err)
-//    } else {
-//       res.send(result)
-//    }
-//   })
-// })
-
-
-// app.get("/paygdata/:id", (req, res) => {
-//   const Id = req.params.id;
-  
-//   PaygDataModel.findById({_id : Id}, (err, result) => {
-//       if (err) {
-//           res.send(err)
-//       }else {
-//           res.send(result)
-//       }
-//   })
-// });
-
-// app.delete("/deletepaygdata/:id", (req, res) => {
-//   const Id = req.params.id;
-
-//   PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
-//       if (err) {
-//           console.log(err);
-//       } else {
-//           res.send(result);
-//       }
-//   });
-// });
-
-// app.put("/updatepaygdata", upload.array('file', 20), (req, res) => {
-
-//   const reqFilesOutsourcing = [];
-//   const url = "https://empty-test-project.herokuapp.com/images/";
-//   for (var i = 0; i < req.files.length; i++) {
-//     reqFilesOutsourcing.push(url + req.files[i].filename);       
-//   };
-
-//   PaygDataModel.findByIdAndUpdate({_id : req.body.id}, {
-//     InvoiceNumber : req.body.InvoiceNumber,
-//     InvoiceDate : req.body.InvoiceDate,
-//     BuyerName : req.body.BuyerName ,
-//     Amount : req.body.Amount,
-//     Subject : req.body.Subject,
-//     Attachments : reqFilesOutsourcing
-//   }, (err, result) => {
-//       if(err) {
-//         res.send(err)
-//       } else {
-//         res.send(result)
-//       }
-//   })
-// })
 
 app.post("/sendnotification", function (req, res) {
   let mailOptions = {
@@ -194,89 +121,6 @@ app.post("/sendnotification", function (req, res) {
   });
  });
 
- app.put("/updateSubmitted",  (req, res) => {
-
-  const Id = req.body.id;
-  const submitted = req.body.submitted;
-
-  PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(result);
-      }
-  })
-});
-
-app.put("/updateStatus", (req, res) => {
-  const Id = req.body.id;
-  const status = req.body.status;
-
-   PaygDataModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(result);
-      }
-  })
-});
-
-app.get("/admin/paygdata", (req, res) => {
-  PaygDataModel.find({BuyerName : req.session.username}, (err, result) => {
-    if (err) {
-       res.send(err)
-    } else {
-       res.send(result)
-    }
-   })
-})
-
-app.get("/admin/paygdata/:id", (req, res) => {
-  const Id = req.params.id;
-  
-  PaygDataModel.findById({_id : Id}, (err, result) => {
-      if (err) {
-          res.send(err)
-      }else {
-          res.send(result)
-      }
-  })
-});
-
-app.post("/outsourcing", upload.array('fileOutsourcing', 20), async (req, res) => {
-   
-  const reqFilesOutsourcing = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
-  for (var i = 0; i < req.files.length; i++) {
-    reqFilesOutsourcing.push(url + req.files[i].filename);       
-  };
-
-   const dataOutsourcing = new OutsourcingModel({
-    Email : req.body.Email,
-    Name : req.body.Name,
-    IDLink : req.body.IDLink,
-    Supplier : req.body.Supplier,
-    User1 : req.body.User1,
-    User2 : req.body.User2,
-    RoleQuotation : req.body.RoleQuotation,
-    OutsourcingAttachments : reqFilesOutsourcing
-  })
-
-  await dataOutsourcing.save();
-  res.json(dataOutsourcing);
-});
-
-app.get("/outsourcing", (req, res) => {
-  
-  OutsourcingModel.find({Email : req.session.email}, (err, result) => {
-
-   if (err) {
-      res.send(err)
-   } else {
-      res.send(result)
-   }
-  })
-});
 
 app.listen(process.env.PORT || 3001 , ()=> {
     console.log(`running on port`)
