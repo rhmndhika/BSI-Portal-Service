@@ -69,6 +69,10 @@ export default function Appbar() {
     navigate("/", { replace : true });
   }
 
+  const logout2 = () => {
+    document.cookie = "UserId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+  }
+
   return (
     <Box>
       <Flex
