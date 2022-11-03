@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { RoleUser } from '../../Helper/RoleUserProvider'
 import Axios from 'axios'
@@ -14,6 +14,7 @@ const PaygHome = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
+    const location = useLocation();
 
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { roleUser, setRoleUser } = useContext(RoleUser);

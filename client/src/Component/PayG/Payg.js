@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { DataPayg } from '../../Helper/DataPaygProvider';
 import Axios from 'axios';
@@ -24,6 +24,7 @@ const Payg = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
+    const location = useLocation();
   
   
     const { emailLog, setEmailLog } = useContext(EmailUser);

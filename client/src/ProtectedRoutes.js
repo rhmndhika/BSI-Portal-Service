@@ -27,7 +27,7 @@ const useAuth = () => {
     }, [])
     
 
-    return emailLog && roleUser
+    return emailLog  && EmailUser ? <Outlet /> : <Navigate to="/" />
 }
 
 const ProtectedRoutes = () => {
@@ -35,6 +35,7 @@ const ProtectedRoutes = () => {
     const isAuth = useAuth();
     
     return isAuth ? <Outlet /> : <Navigate to="/" />
+
 }
 
 export default ProtectedRoutes

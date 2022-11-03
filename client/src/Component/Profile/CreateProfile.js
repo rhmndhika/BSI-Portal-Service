@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { ProfileUser } from '../../Helper/ProfileUserProvider'
 import './CreateProfile.css'
@@ -18,7 +18,7 @@ const CreateProfile = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-
+  const location = useLocation();
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { profileUser, setProfileUser } = useContext(ProfileUser);
@@ -53,21 +53,6 @@ const CreateProfile = () => {
       setTimeout(()=> navigate("/home", {replace : true}), 1000)
     })
 
-    //  const formData = new FormData();
-
-    //   formData.append('email', emailLog);
-    //   formData.append('CompanyName', profileUser.companyName);
-    //   formData.append('PICName', profileUser.pic);
-    //   formData.append('PICEmail', profileUser.picEmail);
-    //   formData.append('Occupation', profileUser.occupation);
-     
-    //   await fetch("https://empty-test-project.herokuapp.com/createprofile", {
-    //     method: 'POST',
-    //     body: formData,
-    //   })
-    //   .then((res) => {
-    //     setIsLoading(true);
-    //   })
   }
 
   useEffect(() => {

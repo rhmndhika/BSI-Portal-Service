@@ -1,5 +1,5 @@
 import React,{ useContext, useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Appbar from '../Appbar/Appbar.tsx';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import Axios from 'axios';
@@ -21,6 +21,7 @@ const Home = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
+  const location = useLocation();
 
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
@@ -41,6 +42,7 @@ const Home = () => {
       }
     }, {withCredentials : true});
   };
+  
 
   useEffect(() => {
     userExpire();

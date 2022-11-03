@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
-import { DataPayg } from '../../Helper/DataPaygProvider';
 import { OutsourcingPortal } from '../../Helper/OutsourcingPortalProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx'
@@ -34,6 +33,7 @@ const Home = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
+  const location = useLocation();
 
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
@@ -42,6 +42,8 @@ const Home = () => {
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+
+  const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
 
   const userExpire = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
@@ -81,8 +83,11 @@ const Home = () => {
       })
   }
 
-  const cancelForm = (e) => {
-    e.target.reset();
+  const getOutsourcingData = async () => {
+    Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
+      console.log(response.data);
+      setDataOutsourcing(response.data);
+    })
   }
 
   useEffect(() => {
@@ -93,10 +98,31 @@ const Home = () => {
     <div>
         <Appbar />
         <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>Outsourcing Portal</h1>
-        <div style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>
-        <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-          Open
-        </Button>
+        <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
+          <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
+          <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+            Open
+          </Button>
+          <Button marginLeft={30} onClick={getOutsourcingData}>
+            Show
+          </Button>
+          </div>
+          <div style={{display : "flex"}}>
+            {dataOutsourcing.map((i, index) => {
+              return(
+                <div>
+                <p>{i.Email}</p>
+                <p>{i.Name}</p>
+                <p>{i.IDLink}</p>
+                <p>{i.Supplier}</p>
+                <p>{i.User1}</p>
+                <p>{i.User2}</p>
+                <p>{i.RoleQuotation}</p>
+                <p>{i.OutsourcingAttachments}</p>
+                </div>
+              )
+            })}
+          </div>
         <Drawer
           isOpen={isOpen}
           placement='right'
@@ -174,7 +200,7 @@ const Home = () => {
           </DrawerContent>
             </form>
         </Drawer>
-              </div>
+        </div>
     </div>
   )
 }

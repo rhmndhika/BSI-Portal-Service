@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { DataPayg } from '../../Helper/DataPaygProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
@@ -25,6 +25,7 @@ const PaygStatus = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
+    const location = useLocation();
   
   
     const { emailLog, setEmailLog } = useContext(EmailUser);
@@ -58,7 +59,15 @@ const PaygStatus = () => {
 
     const tryGet = () => {
         try {
-            Axios.get("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/GetItemById(9000)").then((response) => {
+            Axios.get("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", {
+                auth : {
+                    username: "bsi90699@bsi.co.id",
+                    password : "Password.99"
+                },
+                headers : {
+                    'Accept': 'application/json; odata=verbose;'
+                }
+            }).then((response) => {
                 console.log(response.data);
             })
         } catch (e) {
@@ -85,6 +94,7 @@ const PaygStatus = () => {
     {roleUser === "User" ? 
     <div style={{height : "493px"}}>
         <Appbar />
+        <Button onClick={tryGet}>TRY</Button>
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
         { dataList.length <= 0 ?
         <p style={{marginTop: "150px"}}>No Data Available</p>

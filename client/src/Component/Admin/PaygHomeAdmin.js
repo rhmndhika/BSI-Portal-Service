@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { EmailUser } from '../../Helper/EmailUserProvider'
 import { RoleUser } from '../../Helper/RoleUserProvider'
 import Axios from 'axios'
@@ -8,10 +8,12 @@ import {
     Button
 } from '@chakra-ui/react';
 
+
 const PaygHomeAdmin = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
+  const location = useLocation();
 
 
   const { emailLog, setEmailLog } = useContext(EmailUser);

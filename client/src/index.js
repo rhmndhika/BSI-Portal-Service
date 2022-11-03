@@ -12,6 +12,7 @@ import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import ProtectedRoutes from './ProtectedRoutes';
 
+
 const Home = lazy(() => import("./Component/Home/Home"));
 const EmailUserProvider = lazy(() => import("./Helper/EmailUserProvider"));
 const PayG = lazy(() => import("./Component/PayG/Payg"));
@@ -50,14 +51,16 @@ root.render(
   <Routes>
       <Route path='/' element={<Login />} />
       <Route path='/register' element={<Register />} />
+      <Route element={<ProtectedRoutes />}>
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/landingpage' element={<HeroPage />} />
         <Route path='/home' element={<Home/>} />
         <Route path='/payg' element={<PayG />} />
         <Route path='/paygHome' element={<PaygHome />} />
         <Route path='/paygStatus' element={<PaygStatus />} />
         <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
-        <Route path='/landingpage' element={<HeroPage />} />
-        <Route path='/profile' element={<Profile />} />
         <Route path='/outsourcing' element={<Outsourcing />} />
+      </Route>
       <Route path="*" element={<Error />} />
     </Routes>
   </Suspense>

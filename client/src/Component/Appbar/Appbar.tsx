@@ -357,7 +357,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Outsourcing Portal',
         subLabel: 'Up-and-coming Designers',
-        href: '#',
+        href: '/outsourcing',
       }
 
     ],

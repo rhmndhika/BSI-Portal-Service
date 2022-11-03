@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef} from 'react'
 import { EmailUser } from '../Helper/EmailUserProvider'
 import { RoleUser } from '../Helper/RoleUserProvider'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import Axios from 'axios'
 import '../Component/Profile/CreateProfile.css'
 import CreateProfile from '../Component/Profile/CreateProfile';
@@ -23,6 +23,7 @@ import {
     Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
+  const location = useLocation();
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
