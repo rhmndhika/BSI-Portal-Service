@@ -51,3 +51,5 @@ const getOutsourcingCVByEmail = async (req, res) => {
 
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingCV);
 router.get("/outsourcing", getOutsourcingCVByEmail);
+
+module.exports = router

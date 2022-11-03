@@ -14,9 +14,6 @@ const nodemailer = require("nodemailer");
 
 require('dotenv').config();
 
-const PaygDataModel = require('./models/PaygDatas.js');
-const OutsourcingModel = require('./models/Outsourcing.js');
-
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
 mongoose.connect(CONNECTION_URL, {
