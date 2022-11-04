@@ -12,7 +12,15 @@ import {
     Spinner,
     useColorMode,
     useColorModeValue,
-    Box
+    Box,
+
+
+    Checkbox,
+    Flex,
+    Heading,
+    Link,
+    Stack,
+    Image,
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
 import Log from '../../Images/log.svg';
@@ -42,7 +50,20 @@ const Login = () => {
 
   const [ errMessage, setErrMessage ] = useState("")
 
-  const handleClick = () => setShow(!show)
+  const handleClick = () => setShow(!show);
+
+  const showToastError1 = () => {
+    toast.error(' Please fill out the form!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
   const isErrorEmail = emailLog === '' || emailLog === null
   const isErrorUsername = usernameLog === ''
@@ -63,7 +84,8 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
 
-    await Axios.post("https://empty-test-project.herokuapp.com/login" , {
+    if(emailLog.length > 0 && passwordLog.length > 0) {
+    Axios.post("https://empty-test-project.herokuapp.com/login" , {
       username : usernameLog,
       email: emailLog, 
       password: passwordLog
@@ -98,118 +120,99 @@ const Login = () => {
       } else if (error.response.status === 406) {
         showToastError();
         setTimeout(() => setIsLoading(false), 2000);
-      } 
+      } else if (error.response.status === 503){
+        showToastError();
+        setTimeout(() => setIsLoading(false), 2000);
+      }
     })
     setIsLoading(true)
+    } else {
+      showToastError1();
+    }
   };
 
   return (
-    <Box  bg={useColorModeValue('white', 'gray.800')}
-    color={useColorModeValue('gray.600', 'white')}>
+    <>
     <ToastContainer />
-    <div className='wrapperLogin'>
-      <div className="contain">
-      <div className="forms-container">
-        <div className="signin-signup">
-          <form className="sign-in-form">
-            <div className='textCompany'>
-              <h1>BSI PORTAL SERVICE</h1>
-              {errMessage}
-            </div>
-            <h2 className="title">Sign in</h2>
-
-            {/* <FormControl isInvalid={isErrorUsername}>
-                <FormLabel>Username</FormLabel>
-                <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<EmailIcon color='gray.300' />}
-                />
-                <Input className='inputEmail' placeholder="Enter Username" type='text' onChange={(e)=> {
-                  setUsernameLog(e.target.value)
-                }}/>
-                </InputGroup>
-                {!isErrorUsername ? (
-                    <FormHelperText>
-                      Please input your username
-                    </FormHelperText>
-                ) : (
-                    <FormErrorMessage>Username is required.</FormErrorMessage>
-                )}
-            </FormControl> */}
-           
-            <FormControl isInvalid={isErrorEmail}>
-                <FormLabel>Email</FormLabel>
-                <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<EmailIcon color='gray.300' />}
-                />
-                <Input className='inputEmail' placeholder="Enter Email" type='email' onChange={(e)=> {
-                  setEmailLog(e.target.value)
-                }}/>
-                </InputGroup>
-                {!isErrorEmail ? (
-                    <FormHelperText>
-                      Please input email with the correct format
-                    </FormHelperText>
-                ) : (
-                    <FormErrorMessage>Email is required.</FormErrorMessage>
-                )}
-            </FormControl>
-            
-            <FormControl>
-                <FormLabel>Password</FormLabel>
-                <InputGroup size='md'>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<LockIcon color='gray.300' />}
-                />
-                <Input
-                    pr='4.5rem'
-                    type={show ? 'text' : 'password'}
-                    placeholder='Enter password'
-                    className='inputPassword'
-                    onChange={(e) => {
-                      setPasswordLog(e.target.value)
-                    }}
-                />
-                <InputRightElement width='4.5rem'>
-                    <Button h='1.75rem' size='sm' onClick={handleClick}>
-                    {show ? 'Hide' : 'Show'}
-                    </Button>
-                </InputRightElement>
-            </InputGroup>
-            </FormControl>
-           { isLoading === false ?
-               <input type="submit" value="Login" className="btn solid" onClick={login} />
-               :
-               <Spinner className='btnLoading' />
-           }
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex p={8} flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={4} w={'full'} maxW={'md'}>
+          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+          <form>
+          <FormControl isInvalid={isErrorEmail}>
+          <FormLabel>Email</FormLabel>
+          <InputGroup>
+          <InputLeftElement
+            pointerEvents='none'
+            children={<EmailIcon color='gray.300' />}
+          />
+          <Input required className='inputEmail' placeholder="Enter Email" type='email' onChange={(e)=> {
+            setEmailLog(e.target.value)
+          }}/>
+          </InputGroup>
+          {!isErrorEmail ? (
+              <FormHelperText>
+                Please input email with the correct format
+              </FormHelperText>
+          ) : (
+              <FormErrorMessage>Email is required.</FormErrorMessage>
+          )}
+          </FormControl>
+          
+          <FormControl>
+              <FormLabel>Password</FormLabel>
+              <InputGroup size='md'>
+              <InputLeftElement
+                pointerEvents='none'
+                children={<LockIcon color='gray.300' />}
+              />
+              <Input
+                  pr='4.5rem'
+                  type={show ? 'text' : 'password'}
+                  placeholder='Enter password'
+                  required
+                  className='inputPassword'
+                  onChange={(e) => {
+                    setPasswordLog(e.target.value)
+                  }}
+              />
+              <InputRightElement width='4.5rem'>
+                  <Button h='1.75rem' size='sm' onClick={handleClick}>
+                  {show ? 'Hide' : 'Show'}
+                  </Button>
+              </InputRightElement>
+          </InputGroup>
+          </FormControl>
+          <Stack spacing={6}>
+            <Stack
+              direction={{ base: 'column', sm: 'row' }}
+              align={'start'}
+              justify={'space-between'}>
+              <Checkbox>Remember me</Checkbox>
+              <Link href='/register' color={'blue.500'}>Dont have an account ?</Link>
+            </Stack>
+            {isLoading === false ?
+              <Button type='submit' colorScheme={'blue'} variant={'solid'} onClick={login}>
+                Sign in
+              </Button>
+              :
+              <Spinner className='btnLoading' />
+            }
+          </Stack>
           </form>
-        </div>
-      </div>
-
-      <div className="panels-container">
-        <div className="panel left-panel">
-          <div className="content">
-            <h3>New here ?</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
-            </p>
-            <a href='/register'>
-            <button className="btn transparent" id="sign-up-btn">
-              Sign up
-            </button>
-            </a>
-          </div>
-          <img src={Log} className="image" alt="" />
-        </div>
-      </div>
-    </div>
-    </div>
-    </Box>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={'Login Image'}
+          objectFit={'cover'}
+          src={
+            'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
+          }
+        />
+      </Flex>
+    </Stack>
+    </>
   )
 }
 
