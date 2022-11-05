@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect} from 'react'
-import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
+import React, { useState, useContext, useEffect} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
 import { DataPayg } from '../../Helper/DataPaygProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
-import Appbar from '../Appbar/Appbar.tsx'
+import Appbar from '../Appbar/Appbar.tsx';
 import {
     Button,
     Spinner,
@@ -18,20 +18,16 @@ import {
   } from '@chakra-ui/react';
 import './PaygStatus.css'
 import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
-import Footer from '../Footer/Footer.tsx';
 
 const PaygStatus = () => {
 
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
-    const location = useLocation();
-  
-  
+   
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
     const { roleUser, setRoleUser } = useContext(RoleUser);
-
     const [ dataList, setDataList ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure()

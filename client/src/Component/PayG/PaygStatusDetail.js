@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect, useRef} from 'react'
-import { useNavigate, useParams, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
-import { DataPayg } from '../../Helper/DataPaygProvider'
-import { RoleUser } from '../../Helper/RoleUserProvider'
+import React, { useState, useContext, useEffect, useRef} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
+import { DataPayg } from '../../Helper/DataPaygProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
-import Appbar from '../Appbar/Appbar.tsx'
+import Appbar from '../Appbar/Appbar.tsx';
 import {
     Button,
     Spinner,
@@ -21,22 +21,19 @@ import {
     Input,
     Select,
     FormHelperText,
-    Textarea,
-    Box,
-    Stack, HStack, VStack, Text
+    Textarea
   } from '@chakra-ui/react'
 import './PaygStatus.css'
 import moment from 'moment';
 import emailjs from '@emailjs/browser';
-import Footer from '../Footer/Footer.tsx';
-import './PaygStatusDetail.css'
+import './PaygStatusDetail.css';
 
 const PaygStatusDetail = () => {
 
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-  const location = useLocation();
+
   const {id} = useParams();
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
@@ -50,7 +47,7 @@ const PaygStatusDetail = () => {
     isOpen: isOpenSubmitModal, 
     onOpen: onOpenSubmitModal, 
     onClose: onCloseSubmitModal 
-} = useDisclosure()
+  } = useDisclosure()
 
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
@@ -68,13 +65,6 @@ const PaygStatusDetail = () => {
       }, {withCredentials : true});
     };
   
-    const fetchDataPayg = () => {
-      Axios.get(`https://empty-test-project.herokuapp.com/paygdata/${id}`).then((response) => {
-        setDataListID(response.data);
-        setIsLoading(false);
-      })
-    }
-   
     const updateDataPayg = async (id, InvoiceNumber, InvoiceDate, Amount, Subject, BuyerName, PaygAttachments) => {
   
       const formData = new FormData();
@@ -129,8 +119,29 @@ const PaygStatusDetail = () => {
     };
 
     useEffect(() => {
+      const cancelToken = Axios.CancelToken.source();
+
+      Axios.get(`https://empty-test-project.herokuapp.com/paygdata/${id}`, {
+        cancelToken : cancelToken.token,
+      }).then((response) => {
+        setDataListID(response.data);
+        setIsLoading(false);
+      }).catch((err) => {
+        if (Axios.isCancel(err)){
+          console.log("canceled");
+        } else {
+          console.log("not canceled")
+        }
+      });
+
+
+      return () => {
+        cancelToken.cancel();
+      }   
+     }, [id])
+
+     useEffect(() => {
       userExpire();
-      fetchDataPayg();
      }, [])
 
 

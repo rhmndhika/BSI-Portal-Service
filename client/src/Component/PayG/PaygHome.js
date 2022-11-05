@@ -1,21 +1,20 @@
-import React, { useContext, useEffect } from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
-import { RoleUser } from '../../Helper/RoleUserProvider'
-import Axios from 'axios'
-import Appbar from '../Appbar/Appbar.tsx'
+import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
+import Axios from 'axios';
+import Appbar from '../Appbar/Appbar.tsx';
 import {
   Button
 } from '@chakra-ui/react';
-import PaygHomeAdmin from '../Admin/PaygHomeAdmin'
-import Footer from '../Footer/Footer.tsx'
+import PaygHomeAdmin from '../Admin/PaygHomeAdmin';
+import Footer from '../Footer/Footer.tsx';
 
 const PaygHome = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
-    const location = useLocation();
-
+  
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { roleUser, setRoleUser } = useContext(RoleUser);
   

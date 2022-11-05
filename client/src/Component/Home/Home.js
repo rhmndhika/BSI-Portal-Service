@@ -1,5 +1,5 @@
-import React,{ useContext, useEffect, useState} from 'react';
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import React,{ useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Appbar from '../Appbar/Appbar.tsx';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import Axios from 'axios';
@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import LogoRegistration from '../../Images/LogoRegistration.png'
-import './Home.css'
+import './Home.css';
 import Header from '../Header/Header';
 import {BsChatDots} from 'react-icons/bs';
 import { IconButton } from '@chakra-ui/react'
@@ -21,9 +21,7 @@ const Home = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-  const location = useLocation();
-
-
+  
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const [ role, setRole ] = useState("");
 

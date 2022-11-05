@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect} from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
+import React, { useState, useContext, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
 import { DataPayg } from '../../Helper/DataPaygProvider';
 import Axios from 'axios';
-import Appbar from '../Appbar/Appbar.tsx'
-import './Payg.css'
+import Appbar from '../Appbar/Appbar.tsx';
+import './Payg.css';
 import {
   FormControl,
   FormLabel,
@@ -19,13 +19,12 @@ import {
   Button,
   Spinner
 } from '@chakra-ui/react';
+import { userSchema } from '../../Validations/UserValidation';
 
 const Payg = () => {
     Axios.defaults.withCredentials = true;
 
     let navigate = useNavigate();
-    const location = useLocation();
-  
   
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
@@ -59,11 +58,13 @@ const Payg = () => {
       for(let i = 0; i < payg.filePayg.length; i++) {
       formData.append('file', payg.filePayg[i]);
       }
+
      
-      fetch("https://empty-test-project.herokuapp.com/paygdata", {
-        method: 'POST',
-        body: formData,
-    })
+     
+        fetch("https://empty-test-project.herokuapp.com/paygdata", {
+          method: 'POST',
+          body: formData,
+        })
         .then((res) => {
           SetIsLoading(true);
           setTimeout(() => navigate("/paygHome"), 1000)

@@ -9,16 +9,13 @@ import {
     InputRightElement,
     InputLeftElement,
     Button,
-
-    Checkbox,
     Flex,
     Heading,
     Link,
     Stack,
-    Image,
+    Image
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
-import Log from '../../Images/log.svg';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -71,10 +68,9 @@ const Register = () => {
   }
  
   const register = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (usernameReg.length > 0 && emailReg.length > 0 && passwordReg.length > 0 && messageDuplicate == "") {
-      Axios.post("https://empty-test-project.herokuapp.com/register" , {
+     Axios.post("https://empty-test-project.herokuapp.com/register" , {
         username : usernameReg,
         email: emailReg, 
         password: passwordReg
@@ -98,9 +94,6 @@ const Register = () => {
       })
       showToastSucces();
       setTimeout(() => navigate("/"), 2000);
-    } else {
-      showToastError();
-    }
   }
 
   
@@ -111,7 +104,7 @@ const Register = () => {
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
           <Heading fontSize={'2xl'}>Register to your account</Heading>
-          <form>
+          <form onSubmit={register}>
           <FormControl isInvalid={isErrorUsername}>
                 <FormLabel>Username</FormLabel>
                 <InputGroup size='md'>
@@ -190,7 +183,7 @@ const Register = () => {
               <div></div>
               <Link href="/" color={'blue.500'}>Have an account ?</Link>
             </Stack>
-            <Button type='submit' colorScheme={'blue'} variant={'solid'} onClick={register}>
+            <Button type='submit' colorScheme={'blue'} variant={'solid'}>
               Register
             </Button>
           </Stack>

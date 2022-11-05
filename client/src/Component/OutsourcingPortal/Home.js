@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect} from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
+import React, { useState, useContext, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
 import { OutsourcingPortal } from '../../Helper/OutsourcingPortalProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx'
@@ -9,12 +9,6 @@ import {
   FormLabel,
   FormHelperText,
   Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Select,
   Button,
   Spinner,
   Drawer,
@@ -27,14 +21,12 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import '../PayG/Payg.css';
-import { SkipNavLink, SkipNavContent } from '@chakra-ui/skip-nav'
+
 
 const Home = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-  const location = useLocation();
-
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { outsourcingPortal, setOutsourcingPortal } = useContext(OutsourcingPortal);

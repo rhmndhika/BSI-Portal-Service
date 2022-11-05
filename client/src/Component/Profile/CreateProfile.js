@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { EmailUser } from '../../Helper/EmailUserProvider'
-import { ProfileUser } from '../../Helper/ProfileUserProvider'
-import './CreateProfile.css'
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EmailUser } from '../../Helper/EmailUserProvider';
+import { ProfileUser } from '../../Helper/ProfileUserProvider';
+import './CreateProfile.css';
 import {
   FormControl,
   FormLabel,
@@ -18,7 +18,6 @@ const CreateProfile = () => {
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-  const location = useLocation();
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { profileUser, setProfileUser } = useContext(ProfileUser);

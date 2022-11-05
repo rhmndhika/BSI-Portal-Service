@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import {
     FormControl,
     FormLabel,
@@ -13,8 +13,6 @@ import {
     useColorMode,
     useColorModeValue,
     Box,
-
-
     Checkbox,
     Flex,
     Heading,
@@ -23,7 +21,6 @@ import {
     Image,
 } from '@chakra-ui/react';
 import { LockIcon, EmailIcon } from '@chakra-ui/icons';
-import Log from '../../Images/log.svg';
 import './Login.css';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
@@ -33,40 +30,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-
 const Login = () => {
 
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
   
-  const { colorMode, toggleColorMode } = useColorMode()
-  const [show, setShow] = React.useState(false)
-  const { emailLog, setEmailLog } = useContext(EmailUser)
-  const { roleUser, setRoleUser } = useContext(RoleUser)
-  const [ passwordLog, setPasswordLog  ] = useState("")
-  const [ usernameLog, setUsernameLog ] = useState("")
-  const [ isLoading, setIsLoading ] = useState(false)
-
-  const [ errMessage, setErrMessage ] = useState("")
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [show, setShow] = React.useState(false);
+  const { emailLog, setEmailLog } = useContext(EmailUser);
+  const { roleUser, setRoleUser } = useContext(RoleUser);
+  const [ passwordLog, setPasswordLog  ] = useState("");
+  const [ usernameLog, setUsernameLog ] = useState("");
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const handleClick = () => setShow(!show);
 
-  const showToastError1 = () => {
-    toast.error(' Please fill out the form!', {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
-  }
-
   const isErrorEmail = emailLog === '' || emailLog === null
-  const isErrorUsername = usernameLog === ''
+  
 
   const showToastSucces = () => {
     toast.success('Succes!', {
@@ -84,7 +65,6 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
 
-    if(emailLog.length > 0 && passwordLog.length > 0) {
     Axios.post("https://empty-test-project.herokuapp.com/login" , {
       username : usernameLog,
       email: emailLog, 
@@ -92,7 +72,7 @@ const Login = () => {
     }).then((response)=> {
       if (response.data.result) {
         setEmailLog(response.data.email);  
-        setRoleUser(response.data.role)
+        setRoleUser(response.data.role);
         showToastSucces();
         setTimeout(() => navigate("/landingpage", {replace : true}), 2000);
       } 
@@ -120,15 +100,9 @@ const Login = () => {
       } else if (error.response.status === 406) {
         showToastError();
         setTimeout(() => setIsLoading(false), 2000);
-      } else if (error.response.status === 503){
-        showToastError();
-        setTimeout(() => setIsLoading(false), 2000);
-      }
+      } 
     })
     setIsLoading(true)
-    } else {
-      showToastError1();
-    }
   };
 
   return (
@@ -138,7 +112,7 @@ const Login = () => {
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
           <Heading fontSize={'2xl'}>Sign in to your account</Heading>
-          <form>
+          <form onSubmit={login}>
           <FormControl isInvalid={isErrorEmail}>
           <FormLabel>Email</FormLabel>
           <InputGroup>
@@ -192,7 +166,7 @@ const Login = () => {
               <Link href='/register' color={'blue.500'}>Dont have an account ?</Link>
             </Stack>
             {isLoading === false ?
-              <Button type='submit' colorScheme={'blue'} variant={'solid'} onClick={login}>
+              <Button type='submit' colorScheme={'blue'} variant={'solid'}>
                 Sign in
               </Button>
               :
