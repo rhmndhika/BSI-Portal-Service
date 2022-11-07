@@ -7,7 +7,7 @@ import {
   Flex,
   Image,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import LogoRegistration from '../../Images/LogoRegistration.png'
 import './Home.css';
@@ -15,6 +15,10 @@ import Header from '../Header/Header';
 import {BsChatDots} from 'react-icons/bs';
 import { IconButton } from '@chakra-ui/react'
 import Footer from '../Footer/Footer.tsx';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+AOS.init();
 
 const Home = () => {
 
@@ -112,6 +116,7 @@ const Home = () => {
         return (
         <div key={index}>
           <Flex
+            data-aos="fade-up"
             borderRadius='20px'
             bg={boxBg}
             p='20px'

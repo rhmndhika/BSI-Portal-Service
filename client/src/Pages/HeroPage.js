@@ -16,7 +16,11 @@ import {
     Icon,
     IconProps,
   } from '@chakra-ui/react';
-  import BusinessMain3D from '../Images/BusinessMain3D.png'
+  import BusinessMain3D from '../Images/BusinessMain3D.png';
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
+
+  AOS.init();
   
   export default function HeroPage() {
 
@@ -62,11 +66,13 @@ import {
   
     return (
       <Container maxW={'5xl'}>
-        <Stack
+        <Stack 
           textAlign={'center'}
           align={'center'}
           spacing={{ base: 8, md: 10 }}
-          py={{ base: 20, md: 28 }}>
+          py={{ base: 20, md: 28 }}
+          data-aos="zoom-in"
+          data-aos-duration="1000">
           <Heading
             fontWeight={600}
             fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}

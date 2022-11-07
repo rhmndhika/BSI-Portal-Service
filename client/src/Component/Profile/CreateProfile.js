@@ -101,12 +101,20 @@ const CreateProfile = () => {
              }
 
               {isLoading === false ?
-              <div className='btnSubmitPayg'>
-                <Button type="submit">Submit</Button>
+              <div className='btnSubmitPayg' style={{marginTop : "15px"}}>
+                <Button type="submit" colorScheme={"orange"} width={"130px"}>Submit</Button>
               </div>
               :
               <div className='btnSubmitPayg'>
-                <Spinner size='lg' />
+                <Button
+                  isLoading
+                  loadingText='Submitting'
+                  colorScheme={"orange"}
+                  variant='outline'
+                  width={"130px"}
+                >
+                  Submit
+                </Button>
               </div>
               }
             </FormControl>

@@ -141,7 +141,7 @@ const PaygStatus = () => {
                         :
                         <>
                         {!i.submitted  ? 
-                            <td className="t-status t-draft">
+                            <td className="t-status t-draft2">
                             Draft
                             </td>
                         :

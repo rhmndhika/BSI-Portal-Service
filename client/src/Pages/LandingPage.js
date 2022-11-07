@@ -57,6 +57,7 @@ const LandingPage = () => {
               Nam tempor venenatis cursus. In ullamcorper nec eros eu cursus. Pellentesque in mauris tempus, molestie lorem id, porttitor lectus. Cras eget neque nec enim rutrum pulvinar vel quis ex. Donec maximus at augue ut blandit. Morbi fermentum justo magna, ac facilisis est efficitur et. Aliquam erat volutpat. In rutrum ipsum a rhoncus ultrices. Morbi sollicitudin varius urna ac dapibus. Etiam euismod leo lacus, in malesuada odio pretium eget. Aenean aliquet felis nisl, quis tempus purus eleifend eu. Vestibulum in molestie quam. Curabitur quis diam sed nunc porttitor eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}> 
+            
                 {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0  ? 
                 <Button width={150} onClick={() => setIsHide(false)}>Create Profile</Button>
                 :

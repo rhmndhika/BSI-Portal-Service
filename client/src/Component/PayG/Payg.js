@@ -29,8 +29,8 @@ const Payg = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
     const [ role, setRole ] = useState("");
-    const [ isLoading , SetIsLoading ] = useState(false)
-
+    const [ isLoading , SetIsLoading ] = useState(false);
+    const [ isSaving, SetIsSaving ] = useState(false);
 
     const userExpire = () => {
       Axios.get('https://empty-test-project.herokuapp.com/login')
@@ -133,11 +133,19 @@ const Payg = () => {
               
               {isLoading === false ?
               <div className='btnSubmitPayg'>
-              <Button type="submit">Save</Button>
+              <Button type="submit" colorScheme={"blue"} width={"120px"}>Save</Button>
               </div>
               :
               <div className='btnSubmitPayg'>
-                <Spinner size='lg' />
+                 <Button
+                    isLoading
+                    loadingText='Saving'  
+                    colorScheme='blue'
+                    variant='outline'
+                    width={"120px"}
+                  >
+                    Save
+                  </Button>
               </div>
               }
              

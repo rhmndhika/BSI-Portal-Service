@@ -42,6 +42,8 @@ const PaygStatusDetail = () => {
   const [ isLoading, setIsLoading ] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ dataListID, setDataListID ] = useState([]);
+  const [ isSaving, setIsSaving ] = useState(false);
+  const [ isSubmit, setIsSubmit ] = useState(false);
 
   const { 
     isOpen: isOpenSubmitModal, 
@@ -84,7 +86,8 @@ const PaygStatusDetail = () => {
         body: formData,
       })
       .then((res) => {
-        setTimeout(() => window.location.reload(false), 1000);
+        setIsSaving(true);
+        setTimeout(() => window.location.reload(false), 1200);
       })
     }
 
@@ -105,6 +108,7 @@ const PaygStatusDetail = () => {
         submitted: e.target.name, 
         id : id
       }).then((response)=> {
+        setIsSubmit(true);
         setTimeout(() => window.location.reload(false), 1000);
       });
     };
@@ -223,12 +227,26 @@ const PaygStatusDetail = () => {
               </ModalBody>
 
               <ModalFooter>
-                <Button colorScheme='blue' mr={3} onClick={() => {updateDataPayg(
-                 dataListID._id, dataListID.InvoiceNumber, dataListID.InvoiceDate, dataListID.Amount, dataListID.Subject, dataListID.BuyerName, dataListID.PaygAttachments)
+                {isSaving === false ? 
+                <Button width={"100px"} colorScheme='blue' mr={3} onClick={() => {updateDataPayg(
+                  dataListID._id, dataListID.InvoiceNumber, dataListID.InvoiceDate, dataListID.Amount, dataListID.Subject, dataListID.BuyerName, dataListID.PaygAttachments)
                 }}>
                   Save
                 </Button>
-                <Button onClick={onClose}>Cancel</Button>
+                :
+                <Button
+                isLoading
+                loadingText='Saving'
+                colorScheme='blue'
+                variant='outline'
+                width={"100px"}
+                mr={3}
+                marginLeft={"1px"}
+                >
+                  Submit
+                </Button>
+                }
+                <Button width={"100px"} onClick={onClose}>Cancel</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -256,21 +274,32 @@ const PaygStatusDetail = () => {
                 <FormControl mt={4} isRequired>
                   <FormLabel>Message</FormLabel>
                   <Textarea name="message" placeholder='Please Input Your Email and Username' defaultValue={
-                  <>
-                    <p>Email : {dataListID.Email}</p>
-                  </>
-                  }/>
+                    `ID : ${dataListID._id}, Email : ${dataListID.Email}, Invoice Number : ${dataListID.InvoiceNumber}, Date : ${moment(dataListID.InvoiceDate).format("DD MMMM YYYY")}, Amount : ${dataListID.Amount}, Subject : ${dataListID.Subject}, BuyerName : ${dataListID.BuyerName}, Attachments : ${dataListID.PaygAttachments}, Created : ${moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}, Updated : ${moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
+                    }/>
                   <FormHelperText>Please make sure to fill out all the field, otherwise the message will not be sent.</FormHelperText>
                 </FormControl>
               </ModalBody>
 
               <ModalFooter>
-                <Button type="submit" name="Submitted" value="Submit" colorScheme='blue' mr={3} onClick={(e) => {
+                {isSubmit === false ?
+                <Button type="submit" name="Submitted" value="Submit" width={"110px"} colorScheme='blue' mr={3} onClick={(e) => {
                   updateSubmitted(dataListID._id, e)
                 }}>
                   Submit
                 </Button>
-                <Button onClick={onCloseSubmitModal}>Cancel</Button>
+                :
+                <Button
+                isLoading
+                loadingText='Submitting'
+                colorScheme='blue'
+                variant='outline'
+                mr={3}
+                width={"110px"}
+                >
+                  Submit
+                </Button>
+                }
+                <Button width={"110px"} onClick={onCloseSubmitModal}>Cancel</Button>
               </ModalFooter>
             </ModalContent>
             </form>

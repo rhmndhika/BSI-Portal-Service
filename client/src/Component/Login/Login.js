@@ -9,7 +9,6 @@ import {
     InputRightElement,
     InputLeftElement,
     Button,
-    Spinner,
     useColorMode,
     useColorModeValue,
     Box,
@@ -170,7 +169,14 @@ const Login = () => {
                 Sign in
               </Button>
               :
-              <Spinner className='btnLoading' />
+              <Button 
+                isLoading
+                loadingText='Signin in'
+                colorScheme='blue'
+                variant='outline'
+              >
+                Sign in
+              </Button>
             }
           </Stack>
           </form>

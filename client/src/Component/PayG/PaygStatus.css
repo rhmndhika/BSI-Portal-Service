@@ -52,6 +52,9 @@ table {
   .table .t-draft {
     color: #f89406;
   }
+  .table .t-draft2 {
+    color: grey;
+  }
   .table .t-scheduled {
     color: #049cdb;
   }

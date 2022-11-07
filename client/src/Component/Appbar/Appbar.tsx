@@ -121,14 +121,10 @@ export default function Appbar() {
           marginLeft={5}>
           <IconButton
             aria-label=''
-            display={{ md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'black'}
+            colorScheme="gray"
             onClick={logout}
-          >
-            <IoLogOutSharp />
-          </IconButton>
+            icon={<IoLogOutSharp />}
+          />
           {/* <Menu>
                 <MenuButton
                   as={Button}

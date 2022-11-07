@@ -3,14 +3,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { OutsourcingPortal } from '../../Helper/OutsourcingPortalProvider';
 import Axios from 'axios';
-import Appbar from '../Appbar/Appbar.tsx'
+import Appbar from '../Appbar/Appbar.tsx';
 import {
   FormControl,
   FormLabel,
   FormHelperText,
   Input,
   Button,
-  Spinner,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -22,15 +21,38 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
-  HStack
+  HStack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+  Badge,
+  useEditableControls,
+  ButtonGroup,
+  IconButton,
+  Flex,
+  Editable,
+  EditableInput,
+  EditableTextarea,
+  EditablePreview
 } from '@chakra-ui/react';
+import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
 import '../PayG/Payg.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Home = () => {
@@ -43,9 +65,25 @@ const Home = () => {
   const [ role, setRole ] = useState("");
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ isUploading, setIsUploading ] = useState(false);
   const btnRef = React.useRef();
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
+
+  const initialFocusRef = React.useRef()
+
+  const showToastWarning = () => {
+    toast.warning('You have no data!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
   const userExpire = () => {
     Axios.get('https://empty-test-project.herokuapp.com/login')
@@ -88,19 +126,30 @@ const Home = () => {
   const getOutsourcingData = () => {
      Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
+
+      if (response.data.length <= 0 ) {
+        showToastWarning();
+      }
     })
   }
 
   const fetchSharepoint = () => {
     const payload = {
       method: 'GET',
-      headers: { "Accept": "application/json; odata=verbose" },
+      headers: { 
+        "Accept"       : "application/json; odata=verbose",
+        "Content-Type" : "application/json;odata=verbose" 
+      },
+      auth : {
+        username : 'bsi90699@bsi.co.id',
+        password : 'Password.99'
+      },
       credentials: 'same-origin'    // or credentials: 'include'  
     }
   
   fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", payload)
       .then(response => {
-        console.log(response)
+        console.log(response);
       }
   )
   }
@@ -113,28 +162,49 @@ const Home = () => {
   });     
   }
 
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls()
+
+    return isEditing ? (
+      <ButtonGroup justifyContent='center' size='sm'>
+        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent='center' marginTop="8px">
+        <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
+      </Flex>
+    )
+  }
+
   useEffect(() => {
     userExpire();
-    getOutsourcingData();
    }, [])
 
   return (
     <div>
+        <ToastContainer />
         <Appbar />
-        <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>Outsourcing Portal</h1>
+        <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>Welcome to Outsourcing Portal</h1>
         <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
           <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
           <Button width={"100px"} ref={btnRef} colorScheme='teal' onClick={onOpen}>
             Upload CV
           </Button>
-          <Button width={"100px"} marginLeft={30} variant="solid" >
+          <Button width={"100px"} marginLeft={30} onClick={getOutsourcingData} variant="solid" >
             Show Data
           </Button>
           <Button width={"100px"} marginLeft={30} onClick={fetchSharepoint} variant="solid" >
             Sharepoint
           </Button>
           </div>
-          <TableContainer>
+          {dataOutsourcing.length ? 
+          <TableContainer marginTop={"30px"}>
             <Table variant='simple' colorScheme='teal'>
               <Thead>
               <Tr>
@@ -145,6 +215,7 @@ const Home = () => {
                 <Th>User 1</Th>
                 <Th>User 2</Th>
                 <Th>Role Quotation</Th>
+                <Th>Progress</Th>
                 <Th>Action</Th>
               </Tr>
             </Thead>
@@ -159,16 +230,44 @@ const Home = () => {
                   <Td key="Test5">{i.User1}</Td>
                   <Td key="Test6">{i.User2}</Td>
                   <Td key="Test7">{i.RoleQuotation}</Td>
+                  <Td key="Test8">
+                  <Popover
+                    initialFocusRef={initialFocusRef}
+                    placement='bottom'
+                    closeOnBlur={false}
+                    trigger="hover"
+                    >
+                    <PopoverTrigger>
+                    <Badge cursor={"pointer"}>Progress</Badge>
+                    </PopoverTrigger>
+                    <PopoverContent color='white' bg='blue.800' borderColor='blue.800' width={"480px"} height={"300px"}>
+                      <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                        Current Progress :
+                      </PopoverHeader>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverBody>
+                        <UnorderedList>
+                          <ListItem>SAB ABAP</ListItem>
+                          <ListItem>Start Mid of September</ListItem>
+                          <ListItem>Middle to senior level, min exp 5 years in related module</ListItem>
+                          <ListItem>Experience in interface to other system</ListItem>
+                          <ListItem>Onsite support pulomas or senayan office</ListItem>
+                        </UnorderedList>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+                  </Td>
                   <Td>
                   <HStack>
                   <Link to={`/outsourcingdetail/${i._id}`}>
-                    <Button>
+                    <Button width={"100px"}>
                       Edit
                     </Button>
                   </Link>
-                    <Button onClick={() => {
-                                    deleteDataOutsourcing(i._id)
-                                }}>
+                    <Button width={"100px"} onClick={() => {
+                      deleteDataOutsourcing(i._id)
+                    }}>
                       Delete 
                     </Button>
                   </HStack>
@@ -179,6 +278,11 @@ const Home = () => {
           })}
           </Table>
           </TableContainer>
+          :
+          <div style={{display : "flex", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
+            <p>NO DATA AVAILABLE</p>
+          </div>
+          }
           <Drawer
             isOpen={isOpen}
             placement='right'
@@ -237,19 +341,26 @@ const Home = () => {
             </DrawerBody>
 
             <DrawerFooter>
-            {isLoading === false ?
               <div className='btnSubmitPayg'>
-              <Button variant='outline' mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button variant='outline' type="submit" mr={3}>Upload</Button>
+                {isLoading === false ?
+                <Button width={"120px"} colorScheme={"teal"} type="submit" mr={3}>Upload</Button>
+                :
+                <Button
+                  isLoading
+                  loadingText='Uploading'
+                  colorScheme='teal'
+                  variant='outline'
+                  spinnerPlacement='start'
+                  width={"120px"}
+                  mr={3}
+                >
+                  Uploading
+                </Button>
+                }
+                <Button width={"120px"} variant='outline' mr={3} onClick={onClose}>
+                  Cancel
+                </Button>
               </div>
-              :
-              <div className='btnSubmitPayg'>
-                <Spinner size='lg' />
-              </div>
-              }
-              
             </DrawerFooter>
           </DrawerContent>
             </form>
