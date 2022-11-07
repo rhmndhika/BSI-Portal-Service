@@ -49,7 +49,7 @@ const getOutsourcingDataByEmail = (req, res) => {
     })    
 }
 
-const getOutsourcingDataById = () => {
+const getOutsourcingDataById = (req, res) => {
   const Id = req.params.id;
   
   OutsourcingModel.findById({_id : Id}, (err, result) => {
@@ -76,6 +76,6 @@ const deleteOutsourcingById = (req, res) => {
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
 router.get("/outsourcing", getOutsourcingDataByEmail);
 router.get("/outsourcing/:id", getOutsourcingDataById);
-router.get("/deleteoutsourcing/:id", deleteOutsourcingById);
+router.delete("/deleteoutsourcing/:id", deleteOutsourcingById);
 
 module.exports = router

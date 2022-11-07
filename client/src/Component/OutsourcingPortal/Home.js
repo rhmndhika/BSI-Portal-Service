@@ -85,9 +85,8 @@ const Home = () => {
       })
   }
 
-  const getOutsourcingData = async () => {
-    await Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
-      console.log(response.data);
+  const getOutsourcingData = () => {
+     Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
     })
   }
@@ -101,13 +100,22 @@ const Home = () => {
   
   fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", payload)
       .then(response => {
-          console.log(response)
+        console.log(response)
       }
   )
   }
 
+  const deleteDataOutsourcing = (id) => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/deleteoutsourcing/${id}`).then((response) => {
+      setDataOutsourcing(dataOutsourcing.filter((val) => {
+        return val._id != id
+      }))
+  });     
+  }
+
   useEffect(() => {
     userExpire();
+    getOutsourcingData();
    }, [])
 
   return (
@@ -119,7 +127,7 @@ const Home = () => {
           <Button width={"100px"} ref={btnRef} colorScheme='teal' onClick={onOpen}>
             Upload CV
           </Button>
-          <Button width={"100px"} marginLeft={30} onClick={getOutsourcingData} variant="solid" >
+          <Button width={"100px"} marginLeft={30} variant="solid" >
             Show Data
           </Button>
           <Button width={"100px"} marginLeft={30} onClick={fetchSharepoint} variant="solid" >
@@ -158,7 +166,9 @@ const Home = () => {
                       Edit
                     </Button>
                   </Link>
-                    <Button>
+                    <Button onClick={() => {
+                                    deleteDataOutsourcing(i._id)
+                                }}>
                       Delete 
                     </Button>
                   </HStack>
