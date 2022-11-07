@@ -12,7 +12,6 @@ import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import ProtectedRoutes from './ProtectedRoutes';
 
-
 const Home = lazy(() => import("./Component/Home/Home"));
 const EmailUserProvider = lazy(() => import("./Helper/EmailUserProvider"));
 const PayG = lazy(() => import("./Component/PayG/Payg"));
@@ -26,7 +25,8 @@ const RoleUserProvider = lazy(() => import("./Helper/RoleUserProvider"));
 const Error = lazy(() => import("./Component/Error/Error"));
 const HeroPage = lazy(() => import("./Pages/HeroPage"));
 const Outsourcing = lazy(() => import("./Component/OutsourcingPortal/Home"));
-const OutsourcingProvider = lazy(() => import("./Helper/OutsourcingPortalProvider"))
+const OutsourcingProvider = lazy(() => import("./Helper/OutsourcingPortalProvider"));
+const OutsourcingDetail = lazy(() => import("./Component/OutsourcingPortal/OutsourcingDetail"))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -60,6 +60,7 @@ root.render(
         <Route path='/paygStatus' element={<PaygStatus />} />
         <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
         <Route path='/outsourcing' element={<Outsourcing />} />
+        <Route path='/outsourcingdetail/:id' element={<OutsourcingDetail />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>

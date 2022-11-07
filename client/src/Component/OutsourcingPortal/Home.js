@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { OutsourcingPortal } from '../../Helper/OutsourcingPortalProvider';
 import Axios from 'axios';
@@ -18,7 +18,17 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure
+  useDisclosure,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  HStack
 } from '@chakra-ui/react';
 import '../PayG/Payg.css';
 
@@ -76,10 +86,24 @@ const Home = () => {
   }
 
   const getOutsourcingData = async () => {
-    Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
+    await Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       console.log(response.data);
       setDataOutsourcing(response.data);
     })
+  }
+
+  const fetchSharepoint = () => {
+    const payload = {
+      method: 'GET',
+      headers: { "Accept": "application/json; odata=verbose" },
+      credentials: 'same-origin'    // or credentials: 'include'  
+    }
+  
+  fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", payload)
+      .then(response => {
+          console.log(response)
+      }
+  )
   }
 
   useEffect(() => {
@@ -92,35 +116,65 @@ const Home = () => {
         <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>Outsourcing Portal</h1>
         <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
           <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
-          <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-            Open
+          <Button width={"100px"} ref={btnRef} colorScheme='teal' onClick={onOpen}>
+            Upload CV
           </Button>
-          <Button marginLeft={30} onClick={getOutsourcingData}>
-            Show
+          <Button width={"100px"} marginLeft={30} onClick={getOutsourcingData} variant="solid" >
+            Show Data
+          </Button>
+          <Button width={"100px"} marginLeft={30} onClick={fetchSharepoint} variant="solid" >
+            Sharepoint
           </Button>
           </div>
-          <div style={{display : "flex"}}>
-            {dataOutsourcing.map((i, index) => {
-              return(
-                <div>
-                <p>{i.Email}</p>
-                <p>{i.Name}</p>
-                <p>{i.IDLink}</p>
-                <p>{i.Supplier}</p>
-                <p>{i.User1}</p>
-                <p>{i.User2}</p>
-                <p>{i.RoleQuotation}</p>
-                <p>{i.OutsourcingAttachments}</p>
-                </div>
-              )
-            })}
-          </div>
-        <Drawer
-          isOpen={isOpen}
-          placement='right'
-          onClose={onClose}
-          finalFocusRef={btnRef}
-        >
+          <TableContainer>
+            <Table variant='simple' colorScheme='teal'>
+              <Thead>
+              <Tr>
+                <Th>Email</Th>
+                <Th>Name</Th>
+                <Th>ID Link</Th>
+                <Th>Supplier</Th>
+                <Th>User 1</Th>
+                <Th>User 2</Th>
+                <Th>Role Quotation</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+          {dataOutsourcing.map((i, index) => {
+            return(
+              <Tbody key={index}>
+                <Tr>
+                  <Td key="Test1">{i.Email}</Td>
+                  <Td key="Test2">{i.Name}</Td>
+                  <Td key="Test3">{i.IDLink}</Td>
+                  <Td key="Test4">{i.Supplier}</Td>
+                  <Td key="Test5">{i.User1}</Td>
+                  <Td key="Test6">{i.User2}</Td>
+                  <Td key="Test7">{i.RoleQuotation}</Td>
+                  <Td>
+                  <HStack>
+                  <Link to={`/outsourcingdetail/${i._id}`}>
+                    <Button>
+                      Edit
+                    </Button>
+                  </Link>
+                    <Button>
+                      Delete 
+                    </Button>
+                  </HStack>
+                  </Td>
+                </Tr>
+              </Tbody>           
+          )
+          })}
+          </Table>
+          </TableContainer>
+          <Drawer
+            isOpen={isOpen}
+            placement='right'
+            onClose={onClose}
+            finalFocusRef={btnRef}
+          >
           <DrawerOverlay />
           <form  method='POST' encType='multipart/form-data' onSubmit={handleSubmit}>
           <DrawerContent>
@@ -169,8 +223,6 @@ const Home = () => {
               <Input type='number' value={outsourcingPortal.roleQuotation} onChange={(e) => {
                 setOutsourcingPortal({...outsourcingPortal, roleQuotation : e.target.value})
               }} />
-
-             
               </FormControl>
             </DrawerBody>
 

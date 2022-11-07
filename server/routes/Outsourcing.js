@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   
 const upload = multer({storage: storage});
 
-const createOutsourcingCV = async (req, res) => {
+const createOutsourcingData = async (req, res) => {
     const reqFilesOutsourcing = [];
     const url = "https://empty-test-project.herokuapp.com/images/";
     for (var i = 0; i < req.files.length; i++) {
@@ -38,7 +38,7 @@ const createOutsourcingCV = async (req, res) => {
     res.json(dataOutsourcing);
 }
 
-const getOutsourcingCVByEmail = (req, res) => {
+const getOutsourcingDataByEmail = (req, res) => {
 
     OutsourcingModel.find({Email : req.session.email}, (err, result) => {
         if (err) {
@@ -49,7 +49,33 @@ const getOutsourcingCVByEmail = (req, res) => {
     })    
 }
 
-router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingCV);
-router.get("/outsourcing", getOutsourcingCVByEmail);
+const getOutsourcingDataById = () => {
+  const Id = req.params.id;
+  
+  OutsourcingModel.findById({_id : Id}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  })
+}
+
+const deleteOutsourcingById = (req, res) => {
+  const Id = req.params.id;
+
+  OutsourcingModel.findByIdAndDelete({_id : Id}, (err, result) => {
+    if (err) {
+        console.log(err);
+    } else {
+        res.send(result);
+    }
+});
+}
+
+router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
+router.get("/outsourcing", getOutsourcingDataByEmail);
+router.get("/outsourcing/:id", getOutsourcingDataById);
+router.get("/deleteoutsourcing/:id", deleteOutsourcingById);
 
 module.exports = router
