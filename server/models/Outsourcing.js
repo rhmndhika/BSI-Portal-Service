@@ -34,7 +34,7 @@ const OutsourcingSchema = new mongoose.Schema({
      type : [[String]],
      require : true
    },
-}, {timestamps : true}, {_id : false});
+}, {timestamps : true});
 
 
 const OutsourcingModel = mongoose.model("outsourcings", OutsourcingSchema);

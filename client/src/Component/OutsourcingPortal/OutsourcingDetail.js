@@ -59,9 +59,8 @@ const OutsourcingDetail = () => {
         }, {withCredentials : true});
       };
 
-      const updateDataOutsourcing = async (e, id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
-        e.preventDefault();
-    
+      const updateDataOutsourcing = async (id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
+       
         const formData = new FormData();
       
         formData.append('id', id);
@@ -73,13 +72,13 @@ const OutsourcingDetail = () => {
         formData.append('RoleQuotation', outsourcingPortal.newRoleQuotation ? outsourcingPortal.newRoleQuotation : RoleQuotation);
        
         await fetch("https://empty-test-project.herokuapp.com/updateoutsourcing", {
-          method: 'POST',
+          method: 'PUT',
           body: formData,
-      })
-          .then((res) => {
-            setIsSaving(true);
-            setTimeout(() => window.location.reload(false), 1000)
-          })
+        })
+        .then((res) => {
+          setIsSaving(true);
+          console.log(formData)
+        })
       }
     
     useEffect(() => {
@@ -175,8 +174,7 @@ const OutsourcingDetail = () => {
         <ModalFooter>
           {isSaving === false ? 
           <Button width={"100px"} colorScheme='blue' mr={3} 
-          onClick={() => {
-            updateDataOutsourcing(
+          onClick={() => {updateDataOutsourcing(
             dataOutsourcingID._id, dataOutsourcingID.Email, dataOutsourcingID.Name, dataOutsourcingID.IDLink, dataOutsourcingID.Supplier, dataOutsourcingID.User1,
             dataOutsourcingID.User2, dataOutsourcingID.RoleQuotation, dataOutsourcingID.OutsourcingAttachments)
           }}
