@@ -54,42 +54,50 @@ const Home = () => {
     {
       title : "Vendor Registration",
       imgUrl : LogoRegistration,
-      hrefUrl : 'https://bsivendorregistration.netlify.app'
+      hrefUrl : 'https://bsivendorregistration.netlify.app',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Sourcing",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '#',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "PO Management",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '#',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Social Media",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '#',
+      shadows : "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     },
     {
       title : "Delivery Monitoring",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '#',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Invoice Gateway",
       imgUrl : LogoRegistration,
-      hrefUrl : '/paygHome'
+      hrefUrl : '/paygHome',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Outsourcing Portal",
       imgUrl : LogoRegistration,
-      hrefUrl : '/outsourcing'
+      hrefUrl : '/outsourcing',
+      shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Group Forum",
       imgUrl : LogoRegistration,
-      hrefUrl : '#'
+      hrefUrl : '#',
+      shadows: "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     }
    ]
 
@@ -119,9 +127,10 @@ const Home = () => {
             data-aos="fade-up"
             borderRadius='20px'
             bg={boxBg}
+            // shadow="outline"
+            style={{boxShadow: i.shadows}}
             p='20px'
             h='225px'
-            shadow="outline"
             margin={5}
             w={{ base: "315px", md: "315px" }}
             alignItems='center'

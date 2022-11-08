@@ -112,6 +112,7 @@ const Home = () => {
     for(let i = 0; i < outsourcingPortal.fileOutsourcing.length; i++) {
     formData.append('fileOutsourcing', outsourcingPortal.fileOutsourcing[i]);
     }
+    formData.append('Message', outsourcingPortal.message);
    
     await fetch("https://empty-test-project.herokuapp.com/outsourcing", {
       method: 'POST',

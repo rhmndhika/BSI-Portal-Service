@@ -29,5 +29,9 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "node-sp-auth": "^3.0.7",
+    "request-promise": "^4.2.6"
   }
 }

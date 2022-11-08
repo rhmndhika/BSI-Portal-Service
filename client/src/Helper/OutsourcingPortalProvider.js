@@ -11,13 +11,15 @@ export default function OutsourcingPortalProvider({children}) {
     user2 : "",
     roleQuotation : "0",
     fileOutsourcing : [],
+    message : "Current Progress",
 
     newName : "",
     newIDLink : "",
     newSupplier : "",
     newUser1 : "",
     newUser2 : "",
-    newRoleQuotation : ""
+    newRoleQuotation : "",
+    newMessage : ""
   });
   return (
     <OutsourcingPortal.Provider value={{ outsourcingPortal, setOutsourcingPortal }}>

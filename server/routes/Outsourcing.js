@@ -31,7 +31,8 @@ const createOutsourcingData = async (req, res) => {
       User1 : req.body.User1,
       User2 : req.body.User2,
       RoleQuotation : req.body.RoleQuotation,
-      OutsourcingAttachments : reqFilesOutsourcing
+      OutsourcingAttachments : reqFilesOutsourcing,
+      Message : req.body.Message
     })
   
     await dataOutsourcing.save();
@@ -96,10 +97,24 @@ const updateOutsourcingById = (req, res) => {
   })
 }
 
+const updateMessageById = (req, res) => {
+  const Id = req.body.id;
+  const Message = req.body.message;
+
+  OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"Message" : Message}},  (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+  })
+}
+
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
 router.get("/outsourcing", getOutsourcingDataByEmail);
 router.get("/outsourcing/:id", getOutsourcingDataById);
 router.put("/updateoutsourcing", updateOutsourcingById);
+router.put("/updateoutsourcingmessage", updateMessageById);
 router.delete("/deleteoutsourcing/:id", deleteOutsourcingById);
 
 module.exports = router

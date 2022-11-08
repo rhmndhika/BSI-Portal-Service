@@ -25,8 +25,9 @@ import {
     Flex
   } from '@chakra-ui/react'
 import moment from 'moment';
-
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { Markup } from 'interweave';
 
 const OutsourcingDetail = () => {
     
@@ -42,8 +43,20 @@ const OutsourcingDetail = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ isSaving, setIsSaving ] = useState(false);
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    
 
+    
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const { 
+      isOpen: isOpenProgressModal, 
+      onOpen: onOpenProgressModal, 
+      onClose: onCloseProgressModal 
+    } = useDisclosure()
+
+    const [ isFalse, setIsFalse ] = useState(true);
+    
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
 
@@ -60,29 +73,63 @@ const OutsourcingDetail = () => {
       };
 
       const updateDataOutsourcing = async (id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
-       
-        const formData = new FormData();
-      
-        formData.append('id', id);
-        formData.append('Name', outsourcingPortal.newName ? outsourcingPortal.newName : Name);
-        formData.append('IDLink', outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink);
-        formData.append('Supplier', outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier);
-        formData.append('User1', outsourcingPortal.newUser1 ? outsourcingPortal.newUser1 : User1) ;
-        formData.append('User2', outsourcingPortal.newUser2 ? outsourcingPortal.newUser2 : User2);
-        formData.append('RoleQuotation', outsourcingPortal.newRoleQuotation ? outsourcingPortal.newRoleQuotation : RoleQuotation);
-       
-        await fetch("https://empty-test-project.herokuapp.com/updateoutsourcing", {
-          method: 'PUT',
-          body: formData,
-        })
-        .then((res) => {
+
+        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcing" , {
+          Name : outsourcingPortal.newName ? outsourcingPortal.newName : Name ,
+          IDLink :  outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink ,
+          Supplier : outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier ,
+          User1 : outsourcingPortal.newUser1 ? outsourcingPortal.newUser1 : User1 ,
+          User2 : outsourcingPortal.newUser2 ? outsourcingPortal.newUser2 : User2 ,
+          RoleQuotation : outsourcingPortal.newRoleQuotation ? outsourcingPortal.newRoleQuotation : RoleQuotation ,
+          id  : id
+        }).then(() => {
           setIsSaving(true);
-          console.log(id);
+          setTimeout(() => window.location.reload(false), 1200);
+        })
+       
+        // const formData = new FormData();
+      
+        // formData.append('id', id);
+        // formData.append('Name', outsourcingPortal.newName ? outsourcingPortal.newName : Name);
+        // formData.append('IDLink', outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink);
+        // formData.append('Supplier', outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier);
+        // formData.append('User1', outsourcingPortal.newUser1 ? outsourcingPortal.newUser1 : User1) ;
+        // formData.append('User2', outsourcingPortal.newUser2 ? outsourcingPortal.newUser2 : User2);
+        // formData.append('RoleQuotation', outsourcingPortal.newRoleQuotation ? outsourcingPortal.newRoleQuotation : RoleQuotation);
+       
+        // await fetch("https://empty-test-project.herokuapp.com/updateoutsourcing", {
+        //   method: 'PUT',
+        //   body: formData,
+        // })
+        // .then((res) => {
+        //   setIsSaving(true);
+        //   console.log(id);
+        // })
+      }
+
+      const updateMessageOutsourcing = (id, Message) => {
+        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcing", {
+          Message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
+          id : id
+        }).then(() => {
+          console.log("DONE");
         })
       }
-    
+      
+      function convertToPlain(html){
+
+        // Create a new div element
+        var tempDivElement = document.createElement("div");
+        
+        // Set the HTML content with the given value
+        tempDivElement.innerHTML = html;
+        
+        // Retrieve the text property of the element 
+        return tempDivElement.textContent || tempDivElement.innerText || "";
+      }
+      
     useEffect(() => {
-        userExpire();
+      userExpire();
     }, []);
 
     useEffect(() => {
@@ -106,6 +153,11 @@ const OutsourcingDetail = () => {
           cancelToken.cancel();
         }   
        }, [id])
+
+
+       const testSubmit = () => {
+        alert("HASIL :" + `${outsourcingPortal.message}`)
+       }
       
   return (
     <>
@@ -198,13 +250,34 @@ const OutsourcingDetail = () => {
       </ModalFooter>
       </ModalContent>            
       </Modal>
+      <Modal closeOnOverlayClick={false} isOpen={isOpenProgressModal} onClose={onCloseProgressModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Write your progress here</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+           <Textarea placeholder='Here is a sample placeholder' value={outsourcingPortal.newMessage ? outsourcingPortal.newMessage : dataOutsourcingID.Message} onChange={(e) => {
+            setOutsourcingPortal({...outsourcingPortal, newMessage : e.target.value})
+           }}  />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type='submit' colorScheme='blue' mr={3} onClick={(e) => {
+              updateMessageOutsourcing(dataOutsourcingID._id, dataOutsourcingID.Message)
+            }}>
+              Save
+            </Button>
+            <Button onClick={onCloseProgressModal} mr={3}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     <Appbar />
     <Flex 
       justifyContent="center"
       marginTop="30px"
     >
       <Button width={"140px"} onClick={onOpen}>Edit Data</Button>
-      <Button width={"140px"} marginLeft={"30px"}>Update Progress</Button>
+      <Button width={"140px"} onClick={onOpenProgressModal} marginLeft={"30px"}>Update Progress</Button>
     </Flex>
     {isLoading ?
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center", marginTop : "20px"}}>
@@ -213,6 +286,9 @@ const OutsourcingDetail = () => {
         :
         <div style={{display : "flex", flexDirection : "column", marginTop : "20px", marginLeft : "30px"}}>
           <div>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Markup content={outsourcingPortal.message} />
+            </Flex>
           <p>ID               : {dataOutsourcingID._id}</p>
           <p>Email            : {dataOutsourcingID.Email}</p>
           <p>Name             : {dataOutsourcingID.Name}</p>

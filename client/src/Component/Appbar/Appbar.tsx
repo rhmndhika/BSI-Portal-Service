@@ -103,6 +103,7 @@ export default function Appbar() {
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
+            fontWeight={'bold'}
             color={useColorModeValue('gray.800', 'white')}>
            BSI Supplier Portal
           </Text>
