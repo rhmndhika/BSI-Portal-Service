@@ -92,8 +92,6 @@ const updateOutsourcingById = (req, res) => {
     }
   }).catch((e) => {
     console.log(e);
-    console.log(ID);
-    console.log(req.body);
   })
 }
 
@@ -107,6 +105,10 @@ const updateMessageById = (req, res) => {
       } else {
         res.send(result);
       }
+  }).catch((e) => {
+    console.log(e);
+    console.log(Id);
+    console.log(Message);
   })
 }
 

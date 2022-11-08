@@ -132,6 +132,7 @@ const Home = () => {
             p='20px'
             h='225px'
             margin={5}
+            marginTop="50px"
             w={{ base: "315px", md: "315px" }}
             alignItems='center'
             flexDirection="column"
@@ -155,9 +156,9 @@ const Home = () => {
             </Text>
             </Flex>
             </div>  
-            
     )})}
     </div>
+    <div style={{marginTop : "30px", height : "100px"}}></div>
     <Footer />
   </>
   )

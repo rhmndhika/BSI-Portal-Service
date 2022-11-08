@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
@@ -19,8 +19,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Select,
-    FormHelperText,
     Textarea,
     Flex
   } from '@chakra-ui/react'
@@ -42,10 +40,7 @@ const OutsourcingDetail = () => {
     const [ dataOutsourcingID, setDataOutsourcingID ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ isSaving, setIsSaving ] = useState(false);
-
-    
-
-    
+    const [ isSavingProgress, setIsSavingProgress ] = useState(false);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -55,7 +50,6 @@ const OutsourcingDetail = () => {
       onClose: onCloseProgressModal 
     } = useDisclosure()
 
-    const [ isFalse, setIsFalse ] = useState(true);
     
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -107,12 +101,12 @@ const OutsourcingDetail = () => {
         // })
       }
 
-      const updateMessageOutsourcing = (id, Message) => {
-        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcing", {
+      const updateMessageOutsourcing = async (id, Message) => {
+        await Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
           Message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
           id : id
         }).then(() => {
-          console.log("DONE");
+          setIsSavingProgress(true);
         })
       }
       
@@ -126,8 +120,8 @@ const OutsourcingDetail = () => {
         
         // Retrieve the text property of the element 
         return tempDivElement.textContent || tempDivElement.innerText || "";
-      }
-      
+      }      
+
     useEffect(() => {
       userExpire();
     }, []);
@@ -153,11 +147,6 @@ const OutsourcingDetail = () => {
           cancelToken.cancel();
         }   
        }, [id])
-
-
-       const testSubmit = () => {
-        alert("HASIL :" + `${outsourcingPortal.message}`)
-       }
       
   return (
     <>
@@ -262,11 +251,25 @@ const OutsourcingDetail = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button type='submit' colorScheme='blue' mr={3} onClick={(e) => {
-              updateMessageOutsourcing(dataOutsourcingID._id, dataOutsourcingID.Message)
+            {isSavingProgress === false ?
+            <Button type='submit' colorScheme='blue' mr={3} onClick={() => {updateMessageOutsourcing(
+              dataOutsourcingID._id, dataOutsourcingID.Message)
             }}>
               Save
             </Button>
+            :
+            <Button
+            isLoading
+            loadingText='Saving'
+            colorScheme='blue'
+            variant='outline'
+            width={"100px"}
+            mr={3}
+            marginLeft={"1px"}
+            >
+            Saving
+            </Button>
+            }
             <Button onClick={onCloseProgressModal} mr={3}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
@@ -286,9 +289,6 @@ const OutsourcingDetail = () => {
         :
         <div style={{display : "flex", flexDirection : "column", marginTop : "20px", marginLeft : "30px"}}>
           <div>
-            <Flex justifyContent="flex-start" alignItems="center">
-              <Markup content={outsourcingPortal.message} />
-            </Flex>
           <p>ID               : {dataOutsourcingID._id}</p>
           <p>Email            : {dataOutsourcingID.Email}</p>
           <p>Name             : {dataOutsourcingID.Name}</p>
@@ -300,6 +300,7 @@ const OutsourcingDetail = () => {
           <p>Attachments      : {dataOutsourcingID.OutsourcingAttachments}</p>
           <p>Created          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Updated          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
+          <p>{dataOutsourcingID.Message}</p>
           </div>
         </div>
       }

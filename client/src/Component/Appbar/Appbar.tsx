@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Box,
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
@@ -16,24 +15,15 @@ import {
   useBreakpointValue,
   useDisclosure,
   useColorMode,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  Avatar,
-  Center
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
-  SettingsIcon
+  ChevronRightIcon
 } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { EmailUser } from '../../Helper/EmailUserProvider';
 import { IoLogOutSharp } from 'react-icons/io5'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -47,7 +37,6 @@ export default function Appbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { emailLog, setEmailLog } = useContext(EmailUser);
 
   const showToastSucces = () => {
     toast.success('Logging out', {
@@ -126,41 +115,6 @@ export default function Appbar() {
             onClick={logout}
             icon={<IoLogOutSharp />}
           />
-          {/* <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                <IconButton aria-label=''>  
-                  <SettingsIcon />
-                </IconButton>
-                </MenuButton>
-                <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
-                    />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>{emailLog}</p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <a href='/profile'>
-                  <MenuItem>Account Settings</MenuItem>
-                  </a>
-                  <MenuItem>Your Servers</MenuItem>
-                  <a onClick={logout}>
-                  <MenuItem>Logout</MenuItem>
-                  </a>
-
-                </MenuList>
-              </Menu> */}
         </Stack>
       </Flex>
       <Collapse in={isOpen} animateOpacity>

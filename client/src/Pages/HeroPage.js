@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef} from 'react'
 import { EmailUser } from '../Helper/EmailUserProvider'
 import { RoleUser } from '../Helper/RoleUserProvider'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Axios from 'axios'
 import '../Component/Profile/CreateProfile.css'
 import CreateProfile from '../Component/Profile/CreateProfile';
@@ -22,12 +22,12 @@ import {
 
   AOS.init();
   
-  export default function HeroPage() {
+export default function HeroPage() {
 
-    Axios.defaults.withCredentials = true;
+  Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
-  const location = useLocation();
+
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
@@ -119,10 +119,6 @@ import {
             }
           </Stack>
           <Flex w={'full'} justifyContent="center">
-            {/* <Illustration
-              height={{ sm: '24rem', lg: '28rem' }}
-              mt={{ base: 12, sm: 16 }}
-            /> */}
             <Image src={BusinessMain3D}  fill="none" alt="" height={{sm : '24rem', lg : '28rem'}} mt={{ base : 12, sm: 16}} />
           </Flex>
           {isHide === false ?

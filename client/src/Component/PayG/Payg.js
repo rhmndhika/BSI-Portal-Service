@@ -16,8 +16,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Select,
-  Button,
-  Spinner
+  Button
 } from '@chakra-ui/react';
 import { userSchema } from '../../Validations/UserValidation';
 
@@ -30,8 +29,7 @@ const Payg = () => {
     const { payg, setPayg } = useContext(DataPayg);
     const [ role, setRole ] = useState("");
     const [ isLoading , SetIsLoading ] = useState(false);
-    const [ isSaving, SetIsSaving ] = useState(false);
-
+  
     const userExpire = () => {
       Axios.get('https://empty-test-project.herokuapp.com/login')
       .then((response)=> {
@@ -59,16 +57,14 @@ const Payg = () => {
       formData.append('file', payg.filePayg[i]);
       }
 
-     
-     
-        fetch("https://empty-test-project.herokuapp.com/paygdata", {
-          method: 'POST',
-          body: formData,
-        })
-        .then((res) => {
-          SetIsLoading(true);
-          setTimeout(() => navigate("/paygHome"), 1000)
-        })
+      fetch("https://empty-test-project.herokuapp.com/paygdata", {
+        method: 'POST',
+        body: formData,
+      })
+      .then((res) => {
+        SetIsLoading(true);
+        setTimeout(() => navigate("/paygHome"), 1000)
+      })
     }
 
     useEffect(() => {
@@ -148,7 +144,6 @@ const Payg = () => {
                   </Button>
               </div>
               }
-             
             </FormControl>
             </form>
         </div>

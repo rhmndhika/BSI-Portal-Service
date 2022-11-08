@@ -8,7 +8,6 @@ import {
   FormLabel,
   Input,
   Button,
-  Spinner,
   Select
 } from '@chakra-ui/react';
 import Axios from 'axios';
@@ -70,11 +69,6 @@ const CreateProfile = () => {
               <Input type='text' value={profileUser.fullName} onChange={(e)=> {
                 setProfileUser({...profileUser, fullName : e.target.value})
               }}/>
-
-              {/* <FormLabel>Email</FormLabel>
-              <Input type='email' value={profileUser.profileEmail} onChange={(e)=> {
-                setProfileUser({...profileUser, profileEmail : e.target.value})
-              }}/> */}
 
               <FormLabel>Entity</FormLabel>
               <Select placeholder='Select Your Occupation' onChange={(e)=> {

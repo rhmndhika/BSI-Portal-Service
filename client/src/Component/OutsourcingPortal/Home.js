@@ -248,13 +248,11 @@ const Home = () => {
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverBody>
-                        <UnorderedList>
-                          <ListItem>SAB ABAP</ListItem>
-                          <ListItem>Start Mid of September</ListItem>
-                          <ListItem>Middle to senior level, min exp 5 years in related module</ListItem>
-                          <ListItem>Experience in interface to other system</ListItem>
-                          <ListItem>Onsite support pulomas or senayan office</ListItem>
-                        </UnorderedList>
+                        {dataOutsourcing.map((i, index) => {
+                          return(
+                            <p key={index}>{i.Message}</p>
+                          )
+                        })}
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>

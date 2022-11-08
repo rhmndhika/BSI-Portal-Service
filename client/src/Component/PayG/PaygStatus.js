@@ -53,7 +53,6 @@ const PaygStatus = () => {
         });   
     };
 
-
     const deleteDataPayg = (id) => {
         Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
             setDataList(dataList.filter((val) => {
@@ -124,8 +123,6 @@ const PaygStatus = () => {
                     <td>{i.InvoiceNumber}</td>
                     <td>{i.Email}</td>
                     <td>{i.BuyerName}</td>
-
-    
                     {i.status ? 
                         <>
                           {i.status === "Approved" ?
@@ -151,14 +148,13 @@ const PaygStatus = () => {
                         }
                         </>
                     }
-                    
                     <td>
                         <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
                             <Link to={`/paygstatusdetail/${i._id}`}>
                                 <Button width={100} >Edit</Button>
                             </Link>
                                 <Button width={100} marginLeft={5}  onClick={() => {
-                                    deleteDataPayg(i._id)
+                                deleteDataPayg(i._id)
                                 }}>Delete</Button>
                         </div>
                     </td>
