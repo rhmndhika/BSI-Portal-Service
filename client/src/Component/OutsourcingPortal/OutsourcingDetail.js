@@ -77,7 +77,7 @@ const OutsourcingDetail = () => {
         })
         .then((res) => {
           setIsSaving(true);
-          console.log(formData)
+          console.log(id);
         })
       }
     
@@ -175,8 +175,8 @@ const OutsourcingDetail = () => {
           {isSaving === false ? 
           <Button width={"100px"} colorScheme='blue' mr={3} 
           onClick={() => {updateDataOutsourcing(
-            dataOutsourcingID._id, dataOutsourcingID.Email, dataOutsourcingID.Name, dataOutsourcingID.IDLink, dataOutsourcingID.Supplier, dataOutsourcingID.User1,
-            dataOutsourcingID.User2, dataOutsourcingID.RoleQuotation, dataOutsourcingID.OutsourcingAttachments)
+            dataOutsourcingID._id, dataOutsourcingID.Name, dataOutsourcingID.IDLink, dataOutsourcingID.Supplier, dataOutsourcingID.User1,
+            dataOutsourcingID.User2, dataOutsourcingID.RoleQuotation)
           }}
           >
           Save

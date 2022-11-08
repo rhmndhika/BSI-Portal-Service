@@ -73,29 +73,33 @@ const deleteOutsourcingById = (req, res) => {
 });
 }
 
-const updateoutsourcingById = (req, res) => {
+const updateOutsourcingById = (req, res) => {
+  const ID = req.body.id
   
-  OutsourcingModel.findByIdAndUpdate({_id : req.body.id}, {
+  OutsourcingModel.findByIdAndUpdate({_id : ID}, {
     Name : req.body.Name,
     IDLink : req.body.IDLink,
     Supplier : req.body.Supplier ,
     User1 : req.body.User1,
     User2 : req.body.User2,
     RoleQuotation : req.body.RoleQuotation
-  }, 
-  (err, result) => {
+  }, (err, result) => {
     if(err) {
-      res.send(err)
+      res.send(err);
     } else {
-      res.send(result)
+      res.send(result);
     }
-  });
+  }).catch((e) => {
+    console.log(e);
+    console.log(ID);
+    console.log(req.body);
+  })
 }
 
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
 router.get("/outsourcing", getOutsourcingDataByEmail);
 router.get("/outsourcing/:id", getOutsourcingDataById);
-router.put("/updateoutsourcing", updateoutsourcingById);
+router.put("/updateoutsourcing", updateOutsourcingById);
 router.delete("/deleteoutsourcing/:id", deleteOutsourcingById);
 
 module.exports = router
