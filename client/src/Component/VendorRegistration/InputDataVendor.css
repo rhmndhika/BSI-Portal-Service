@@ -1,0 +1,56 @@
+.formForm{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 460px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+.inputVendor {
+    height: 38px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid rgb(137, 151, 155);
+    transition: border-color 150ms ease-in-out 0s;
+    outline: none;
+    color: rgb(33, 49, 60);
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+}
+
+.selectVendor {
+    width: 300px;
+    height: 120px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid rgb(137, 151, 155);
+    transition: border-color 150ms ease-in-out 0s;
+    outline: none;
+    color: rgb(33, 49, 60);
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+@media screen and (max-width: 500px){
+    .formForm{
+      width: 380px;
+    }
+   
+  }
+
+  @media screen and (max-width: 415px){
+    .formForm{
+      width: 350px;
+    }
+   
+  }
+
+
+  

@@ -99,12 +99,84 @@ const deleteVendorRegistrationById = (req, res) => {
         res.send(result);
       }
   });
-  }
+}
+
+const updateVendorRegistrationById = (req, res) => {
+  const Id = req.body.id;
+
+  VendorRegistrationModel.findByIdAndUpdate({_id : Id}, {
+    CompanyName : req.body.cName,
+    Address : req.body.Address,
+    PhoneNumber : req.body.phoneNumber,
+    PresidentName : req.body.presidentName,
+    ManagerEmail : req.body.managerEmail,
+    ManagerPhone : req.body.managerPhone,
+    PICEmail : req.body.picEmail,
+    PICPhone : req.body.picPhone,
+    EstablishedDate : req.body.date,  
+    EmployeeNumber : req.body.employeeNumber,
+    NumberCustomer : req.body.numberOfCustomer,
+    SKAny : req.body.skAny,
+    SKValid : req.body.skValid,
+    NPWPAny : req.body.npwpAny,
+    NPWPValid : req.body.npwpValid,
+    SIUPAny : req.body.siupAny,
+    SIUPValid : req.body.siupValid,
+    TDPAny : req.body.tdpAny,
+    TDPValid : req.body.tdpValid,
+    DomisiliAny : req.body.domisiliAny,
+    DomisiliValid : req.body.domisiliValid,
+    SPKPAny : req.body.spkpAny,
+    SPKPValid : req.body.spkpValid,
+    AuditAny : req.body.auditAny,
+    AuditValid : req.body.auditValid,
+    TaxAny : req.body.taxAny,
+    TaxValid : req.body.taxValid,
+    BankAny : req.body.bankAny,
+    BankValid : req.body.bankValid
+}, 
+(err, result) => {
+    if (err) {
+        console.log(err);
+    } else {
+        res.send(result);
+    }
+})
+}
+
+const updateStatusVendorById = (req, res) => {
+  const Id = req.body.id;
+  const status = req.body.status;
+
+   VendorRegistrationModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
+      if (err) {
+          console.log(err);
+      } else {
+          res.send(result);
+      }
+  })
+}
+
+const updateSubmittedById = (req, res) => {
+  const Id = req.body.id;
+    const submitted = req.body.submitted;
+
+    VendorRegistrationModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+}
 
 router.post("/vendorregistration", upload.array('fileVendorRegistration', 20), createVendorRegistration);
 router.get("/vendorregistration", getVendorRegistrationByEmail);
 router.get("/vendorregistration/:id", getVendorRegistrationById);
-router.get("/deletevendor/:id", deleteVendorRegistrationById);
+router.put("/updatevendor", updateVendorRegistrationById);
+router.put("/updatestatusvendor", updateStatusVendorById);
+router.put("/updatesubmittedvendor", updateSubmittedById);
+router.delete("/deletevendor/:id", deleteVendorRegistrationById);
 
 
 module.exports = router

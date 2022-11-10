@@ -117,7 +117,7 @@ app.get("/logout", (req, res) => {
   res.status(200).json({ success: true, message: "User logged out successfully" });
 });
 
-app.post("/sendnotification", function (req, res) {
+app.post("/sendNotification", function (req, res) {
   let mailOptions = {
     from: process.env.EMAIL,
     to: "rahmandhika5@gmail.com",
