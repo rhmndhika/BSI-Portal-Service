@@ -66,7 +66,7 @@ const createVendorRegistration = async (req, res) => {
     res.json(dataVendor);
 }
 
-const getVendorRegistrationByEmail = () => {
+const getVendorRegistrationByEmail = (req, res) => {
 
     VendorRegistrationModel.find({email : req.session.email.email} , (err, result) => {
         if (err) {
@@ -77,7 +77,7 @@ const getVendorRegistrationByEmail = () => {
     });
 }
 
-const getVendorRegistrationByID = () => {
+const getVendorRegistrationById = (req, res) => {
     const Id = req.params.id;
 
     VendorRegistrationModel.findById({_id : Id}, (err, result) => {
@@ -89,8 +89,22 @@ const getVendorRegistrationByID = () => {
     });
 }
 
+const deleteVendorRegistrationById = (req, res) => {
+    const Id = req.params.id;
+  
+    VendorRegistrationModel.findByIdAndDelete({_id : Id}, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+  });
+  }
+
 router.post("/vendorregistration", upload.array('fileVendorRegistration', 20), createVendorRegistration);
 router.get("/vendorregistration", getVendorRegistrationByEmail);
-router.get("/vendorregistration/:id", getVendorRegistrationByID);
+router.get("/vendorregistration/:id", getVendorRegistrationById);
+router.get("/deletevendor/:id", deleteVendorRegistrationById);
+
 
 module.exports = router
