@@ -68,7 +68,7 @@ const createVendorRegistration = async (req, res) => {
 
 const getVendorRegistrationByEmail = (req, res) => {
 
-    VendorRegistrationModel.find({email : req.session.email.email} , (err, result) => {
+    VendorRegistrationModel.find({email : req.session.email} , (err, result) => {
         if (err) {
             res.send(err);
         } else {
