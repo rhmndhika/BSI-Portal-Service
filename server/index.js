@@ -104,11 +104,13 @@ const loginRoute = require("./routes/Login");
 const profileRoute = require("./routes/Profile");
 const paygRoute = require("./routes/Payg");
 const outsourcingRoute = require("./routes/Outsourcing");
+const vendorRegistrationRoute = require("./routes/VendorRegistration");
 app.use(registerRoute);
 app.use(loginRoute);
 app.use(profileRoute);
 app.use(paygRoute);
-app.use(outsourcingRoute)
+app.use(outsourcingRoute);
+app.use(vendorRegistrationRoute);
 
 app.get("/logout", (req, res) => {
   res.clearCookie("userId", {path : "/"})
@@ -135,5 +137,5 @@ app.post("/sendnotification", function (req, res) {
 
 
 app.listen(process.env.PORT || 3001 , ()=> {
-  console.log(`Running on port 3001`)
+  console.log(`Running on port 3001`);
 });

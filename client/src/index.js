@@ -12,6 +12,7 @@ import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import ProtectedRoutes from './ProtectedRoutes';
 
+
 const Home = lazy(() => import("./Component/Home/Home"));
 const EmailUserProvider = lazy(() => import("./Helper/EmailUserProvider"));
 const PayG = lazy(() => import("./Component/PayG/Payg"));
@@ -26,7 +27,12 @@ const Error = lazy(() => import("./Component/Error/Error"));
 const HeroPage = lazy(() => import("./Pages/HeroPage"));
 const Outsourcing = lazy(() => import("./Component/OutsourcingPortal/Home"));
 const OutsourcingProvider = lazy(() => import("./Helper/OutsourcingPortalProvider"));
-const OutsourcingDetail = lazy(() => import("./Component/OutsourcingPortal/OutsourcingDetail"))
+const OutsourcingDetail = lazy(() => import("./Component/OutsourcingPortal/OutsourcingDetail"));
+const VendorRegistrationProvider = lazy(() => import("./Helper/VendorRegistrationProvider"));
+const RegistrationHome = lazy(() => import("./Component/VendorRegistration/Home"));
+const RegistrationInput = lazy(() => import("./Component/VendorRegistration/InputDataVendor"));
+const RegistrationHistory = lazy(() => import("./Component/VendorRegistration/History"));
+const RegistrationHistoryDetail = lazy(() => import("./Component/VendorRegistration/HistoryDetail"));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,6 +40,7 @@ root.render(
   <RoleUserProvider>
   <OutsourcingProvider>
   <ProfileUserProvider>
+  <VendorRegistrationProvider>
   <DataPaygProvider>
   <ChakraProvider>
   <React.StrictMode>
@@ -61,6 +68,10 @@ root.render(
         <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
         <Route path='/outsourcing' element={<Outsourcing />} />
         <Route path='/outsourcingdetail/:id' element={<OutsourcingDetail />} />
+        <Route path='/vendorregistration' element={<RegistrationHome />} />
+        <Route path='/inputdatavendor' element={<RegistrationInput />} />
+        <Route path='/registrationhistory' element={<RegistrationHistory />} />
+        <Route path='/registrationhistory/:id' element={<RegistrationHistoryDetail />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>
@@ -69,6 +80,7 @@ root.render(
   </React.StrictMode>
   </ChakraProvider>
   </DataPaygProvider>
+  </VendorRegistrationProvider>
   </ProfileUserProvider>
   </OutsourcingProvider>
   </RoleUserProvider>

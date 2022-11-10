@@ -241,18 +241,14 @@ const Home = () => {
                     <PopoverTrigger>
                     <Badge cursor={"pointer"}>Progress</Badge>
                     </PopoverTrigger>
-                    <PopoverContent color='white' bg='blue.800' borderColor='blue.800' width={"480px"} height={"300px"}>
+                    <PopoverContent color='white' bg='blue.800' borderColor='blue.800' width={"280px"} height={"300px"}>
                       <PopoverHeader pt={4} fontWeight='bold' border='0'>
                         Current Progress :
                       </PopoverHeader>
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverBody>
-                        {dataOutsourcing.map((i, index) => {
-                          return(
-                            <p key={index}>{i.Message}</p>
-                          )
-                        })}
+                       {i.Message}
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>

@@ -103,7 +103,7 @@ const OutsourcingDetail = () => {
 
       const updateMessageOutsourcing = async (id, Message) => {
         await Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
-          Message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
+          message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
           id : id
         }).then(() => {
           setIsSavingProgress(true);
