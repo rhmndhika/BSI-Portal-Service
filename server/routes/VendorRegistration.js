@@ -163,10 +163,12 @@ const updateSubmittedById = (req, res) => {
 
     VendorRegistrationModel.findByIdAndUpdate({_id : Id}, { $set : {"submitted" : submitted}},  (err, result) => {
         if (err) {
-            console.log(err);
+            req.send(err);
         } else {
             res.send(result);
         }
+    }).catch((error) => {
+        console.log(error);
     })
 }
 
