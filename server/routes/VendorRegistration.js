@@ -92,3 +92,5 @@ const getVendorRegistrationByID = () => {
 router.post("/vendorregistration", upload.array('fileVendorRegistration', 20), createVendorRegistration);
 router.get("/vendorregistration", getVendorRegistrationByEmail);
 router.get("/vendorregistration/:id", getVendorRegistrationByID);
+
+module.exports = router
