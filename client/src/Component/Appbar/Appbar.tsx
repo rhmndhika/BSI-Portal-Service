@@ -284,7 +284,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Vendor Registration',
         subLabel: 'BSI Vendor Registration',
-        href: '/vendorregistration'
+        href: '/registrationhistory'
       },
       {
         label: 'Sourcing',

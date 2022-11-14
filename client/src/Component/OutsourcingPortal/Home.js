@@ -85,17 +85,17 @@ const Home = () => {
       });
   }
 
-  const userExpire = () => {
-    Axios.get('https://empty-test-project.herokuapp.com/login')
-    .then((response)=> {
-      if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email);
-        setRole(response.data.role);
-      } else {
-        navigate("/", {replace : true})
-      }
-    }, {withCredentials : true});
-  };
+  // const userExpire = () => {
+  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   .then((response)=> {
+  //     if(response.data.loggedIn === true) {
+  //       setEmailLog(response.data.email);
+  //       setRole(response.data.role);
+  //     } else {
+  //       navigate("/", {replace : true})
+  //     }
+  //   }, {withCredentials : true});
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,8 +184,21 @@ const Home = () => {
   }
 
   useEffect(() => {
-    userExpire();
-   }, [])
+
+    async function userExpire2 () {
+      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      .then((response)=> {
+        if(response.data.loggedIn === true) {
+          setEmailLog(response.data.email);
+          setRole(response.data.role);
+        } else {
+          navigate("/", {replace : true})
+        }
+      }, {withCredentials : true});
+      return request;
+    }
+    userExpire2();
+   }, [emailLog])
 
   return (
     <div>

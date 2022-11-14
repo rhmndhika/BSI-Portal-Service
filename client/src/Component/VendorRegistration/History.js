@@ -7,9 +7,11 @@ import Appbar from '../Appbar/Appbar.tsx';
 import {
   Button,
   useDisclosure,
-  Spinner
+  Spinner,
+  Flex,
+  Input
 } from '@chakra-ui/react';
-import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
+import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
 import './History.css';
 
@@ -22,23 +24,25 @@ const History = () => {
   const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ dataVendorRegistration, setDataVendorRegistration ] = useState([]);
 
+  const [ search, setSearch ] = useState("");
+
   const [ isLoading, setIsLoading ] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
   let navigate = useNavigate();
 
-  const userExpire = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/login")
-    .then((response)=> {
-      if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email);
-        setRoleUser(response.data.role);
-      } else {
-        navigate("/", {replace : true})
-      }
-    }, {withCredentials : true});
-  };
+  // const userExpire = () => {
+  //   Axios.get("https://empty-test-project.herokuapp.com/login")
+  //   .then((response)=> {
+  //     if(response.data.loggedIn === true) {
+  //       setEmailLog(response.data.email);
+  //       setRoleUser(response.data.role);
+  //     } else {
+  //       navigate("/", {replace : true})
+  //     }
+  //   }, {withCredentials : true});
+  // };
 
   const getVendorRegistrationData = () => {
     Axios.get("https://empty-test-project.herokuapp.com/vendorregistration").then((response) => {
@@ -53,8 +57,42 @@ const History = () => {
     })
   }
 
+  const findID = async () => {
+    await Axios.get(`https://empty-test-project.herokuapp.com/vendorregistration/${search}`).then((res) => {
+     dataVendorRegistration.filter((val) => {
+      return val._id == search
+     })
+    })
+  }
+
+  const handleSearch = (event) => {
+    let value = event.target.value.toLowerCase();
+    let result = [];
+    console.log(value);
+    result = dataVendorRegistration.filter((data) => {
+    return data._id.search(value) != -1;
+    });
+    setDataVendorRegistration(result);
+    }
+  
+    useEffect(() => {
+
+      async function userExpire2 () {
+        const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+        .then((response)=> {
+          if(response.data.loggedIn === true) {
+            setEmailLog(response.data.email);
+            setRoleUser(response.data.role);
+          } else {
+            navigate("/", {replace : true})
+          }
+        }, {withCredentials : true});
+        return request;
+      }
+      userExpire2();
+     }, [emailLog])
+
   useEffect(() => {
-    userExpire();
     getVendorRegistrationData();
   }, [])
 
@@ -65,8 +103,25 @@ const History = () => {
         <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
         { dataVendorRegistration.length <= 0 ?
-        <p style={{marginTop: "150px"}}>No Data Available</p>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="120px">
+          <p>No Data Available</p>
+          <Link to="/inputdatavendor">
+            <Button>Input Data</Button>
+          </Link>
+        </Flex>
         :
+        <>
+        <Flex flexDirection="column" marginTop="10px">
+          <Flex justifyContent="center" alignItems="center" marginBottom="10px">
+            <Link to="/inputdatavendor">
+              <Button>Input Data</Button>
+            </Link>
+          </Flex>
+          <Flex>
+            <Input type="text" onChange={(event) =>handleSearch(event)} />
+            <Button onClick={() => findID()}>Search</Button>
+          </Flex>
+        </Flex>
         <table className="table table-action">
             <thead>
                 <tr>
@@ -127,11 +182,12 @@ const History = () => {
             </>
            )})}
         </table>
+        </>
         }
         </div>
     </div>
     :
-    <PaygStatusAdmin />
+    <VendorHistoryAdmin />
     }
     </>
   )

@@ -18,8 +18,22 @@ const PaygHome = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { roleUser, setRoleUser } = useContext(RoleUser);
   
-    const userExpire = () => {
-        Axios.get('https://empty-test-project.herokuapp.com/login')
+    // const userExpire = () => {
+    //     Axios.get('https://empty-test-project.herokuapp.com/login')
+    //     .then((response)=> {
+    //       if(response.data.loggedIn === true) {
+    //         setEmailLog(response.data.email);
+    //         setRoleUser(response.data.role);
+    //       } else {
+    //         navigate("/", {replace : true})
+    //       }
+    //     }, {withCredentials : true});
+    // };
+
+    useEffect(() => {
+
+      async function userExpire2 () {
+        const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);
@@ -28,11 +42,10 @@ const PaygHome = () => {
             navigate("/", {replace : true})
           }
         }, {withCredentials : true});
-    };
-
-    useEffect(() => {
-      userExpire();
-    }, [])
+        return request;
+      }
+      userExpire2();
+     }, [emailLog])
   
   return (
     <>

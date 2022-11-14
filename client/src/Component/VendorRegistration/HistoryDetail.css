@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
 .inputVendor {
     height: 38px;
     border-radius: 4px;
@@ -47,7 +45,6 @@
 .header-item-2 {
     margin-top: 20px;
     margin-left: 20px;
-    font-family: 'Roboto', sans-serif;
     margin-bottom: 20px;
 }
 
@@ -248,7 +245,6 @@ td {
     padding: 10px 20px;
     font-size: 14px;
     border: 1px solid black;
-    font-family: 'Roboto', sans-serif;
 }
 
 td img {
@@ -297,6 +293,7 @@ td button {
 .textStatusApprove  {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 10px;
 }
 
 .textStatusReject  {

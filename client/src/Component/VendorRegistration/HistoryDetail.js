@@ -36,6 +36,7 @@ const HistoryDetail = () => {
   
   const { id } = useParams();
   const { emailLog, setEmailLog } = useContext(EmailUser);
+  const [ role, setRole ] = useState("");
   const { vendorRegistration, setVendorRegistration } = useContext(VendorRegistration);
   const [ vendorRegistrationDataID, setVendorRegistrationDataID ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
@@ -75,16 +76,16 @@ const HistoryDetail = () => {
   };
 
   
-  const userExpire = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/login")
-    .then((response)=> {
-      if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email);
-      } else {
-        navigate("/", {replace : true})
-      }
-    }, {withCredentials : true});
-  };
+  // const userExpire = () => {
+  //   Axios.get("https://empty-test-project.herokuapp.com/login")
+  //   .then((response)=> {
+  //     if(response.data.loggedIn === true) {
+  //       setEmailLog(response.data.email);
+  //     } else {
+  //       navigate("/", {replace : true})
+  //     }
+  //   }, {withCredentials : true});
+  // };
 
   const updatevendorRegistration = (id, CompanyName, Address, PhoneNumber, PresidentName, AccountManagerEmail, AccountManagerPhone,
     PICEmail, PICPhone, EstablishedDate, EmployeeNumber, NumberOfCustomer, Attachments, SKAny, SKValid, NPWPAny, NPWPValid,
@@ -151,8 +152,21 @@ const HistoryDetail = () => {
   };
 
   useEffect(() => {
-    userExpire();
-  }, [id])
+
+    async function userExpire2 () {
+      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      .then((response)=> {
+        if(response.data.loggedIn === true) {
+          setEmailLog(response.data.email);
+          setRole(response.data.role);
+        } else {
+          navigate("/", {replace : true})
+        }
+      }, {withCredentials : true});
+      return request;
+    }
+    userExpire2();
+   }, [emailLog])
 
   useEffect(() => {
 
@@ -182,9 +196,9 @@ const HistoryDetail = () => {
     <div>
     <Appbar />
     <div className='btn-container'>
-    <Button style={{backgroundColor : " #DFF6FF", color : "black"}} variant="contained" onClick={handleDownload}>Download</Button>
+    <Button style={{backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={handleDownload}>Download</Button>
     {vendorRegistrationDataID ?
-    <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black"}} variant="contained" onClick={onOpen}>Edit</Button>
+    <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpen}>Edit</Button>
     :
     <div></div>
     }
@@ -192,7 +206,7 @@ const HistoryDetail = () => {
         {vendorRegistrationDataID.submitted ?
           <div></div>
         : 
-        <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black"}} variant="contained" onClick={onOpenSubmitModal}>Submit</Button>
+        <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpenSubmitModal}>Submit</Button>
         }
       </>
     </div>
@@ -303,7 +317,7 @@ const HistoryDetail = () => {
             Our company shall not give any gift in any other form to the parties represents PT. Berlian Sistem Informasi on conducting business transaction with our company.
             If on the future it is found that we breach our obligation as stated on point 2 of this letter, we are ready to accept any legal consequences that will be coming.  
           </p>
-          <p style={{textAlign : "right"}}>
+          <p style={{textAlign : "right", marginBottom : "20px"}}>
             Sign And Stamp
           </p>
           <div>
@@ -370,7 +384,7 @@ const HistoryDetail = () => {
         onClose={onClose}
       >
           <ModalOverlay />
-            <ModalContent>
+            <ModalContent marginLeft="6px">
               <ModalHeader>Edit Supplier Data</ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>

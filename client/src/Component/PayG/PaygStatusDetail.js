@@ -55,17 +55,17 @@ const PaygStatusDetail = () => {
   const finalRef = React.useRef(null)
 
 
-  const userExpire = () => {
-      Axios.get('https://empty-test-project.herokuapp.com/login')
-      .then((response)=> {
-        if(response.data.loggedIn === true) {
-          setEmailLog(response.data.email);
-          setRoleUser(response.data.role);
-        } else {
-          navigate("/", {replace : true})
-        }
-      }, {withCredentials : true});
-    };
+  // const userExpire = () => {
+  //     Axios.get('https://empty-test-project.herokuapp.com/login')
+  //     .then((response)=> {
+  //       if(response.data.loggedIn === true) {
+  //         setEmailLog(response.data.email);
+  //         setRoleUser(response.data.role);
+  //       } else {
+  //         navigate("/", {replace : true})
+  //       }
+  //     }, {withCredentials : true});
+  //   };
   
     const updateDataPayg = async (id, InvoiceNumber, InvoiceDate, Amount, Subject, BuyerName, PaygAttachments) => {
   
@@ -145,8 +145,21 @@ const PaygStatusDetail = () => {
      }, [id])
 
      useEffect(() => {
-      userExpire();
-     }, [])
+
+      async function userExpire2 () {
+        const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+        .then((response)=> {
+          if(response.data.loggedIn === true) {
+            setEmailLog(response.data.email);
+            setRoleUser(response.data.role);
+          } else {
+            navigate("/", {replace : true})
+          }
+        }, {withCredentials : true});
+        return request;
+      }
+      userExpire2();
+     }, [emailLog])
 
 
   return (

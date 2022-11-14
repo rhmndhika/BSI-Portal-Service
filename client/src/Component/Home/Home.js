@@ -33,28 +33,41 @@ const Home = () => {
   let mainText = useColorModeValue("gray.800", "white");
  
 
-  const userExpire = () => {
-    Axios.get('https://empty-test-project.herokuapp.com/login')
-    .then((response)=> {
-      if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email);
-        setRole(response.data.role);
-      } else {
-        navigate("/", {replace : true})
-      }
-    }, {withCredentials : true});
-  };
+  // const userExpire = () => {
+  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   .then((response)=> {
+  //     if(response.data.loggedIn === true) {
+  //       setEmailLog(response.data.email);
+  //       setRole(response.data.role);
+  //     } else {
+  //       navigate("/", {replace : true})
+  //     }
+  //   }, {withCredentials : true});
+  // };
   
 
   useEffect(() => {
-    userExpire();
-   }, [])
+
+    async function userExpire2 () {
+      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      .then((response)=> {
+        if(response.data.loggedIn === true) {
+          setEmailLog(response.data.email);
+          setRole(response.data.role);
+        } else {
+          navigate("/", {replace : true})
+        }
+      }, {withCredentials : true});
+      return request;
+    }
+    userExpire2();
+   }, [emailLog])
 
    const cardItem = [
     {
       title : "Vendor Registration",
       imgUrl : LogoRegistration,
-      hrefUrl : '/vendorregistration',
+      hrefUrl : '/registrationhistory',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
