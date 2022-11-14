@@ -65,13 +65,19 @@ const Payg = () => {
       .then((res) => {
         SetIsLoading(true);
         setTimeout(() => navigate("/paygHome"), 1000)
+      }).catch((error) => {
+        console.log(error);
+        if (error) {
+          alert("DUPLICATE INVOICE NUMBER")
+        }
       })
     }
 
     const getProfile = () => {
-      Axios.get("https://empty-test-project.herokuapp.com/profile").then((response) => {
-        setProfileList(response.data);
-        console.log(response.data);
+      Axios.get("https://empty-test-project.herokuapp.com/profileentity").then((response) => {
+        var result = Object.entries(response.data);
+        setProfileList(result)
+        console.log(response.data)
       })
     }
 
@@ -123,9 +129,10 @@ const Payg = () => {
               <FormLabel>Buyer Name</FormLabel>
               <Select placeholder='Select Target Name' onChange={(e) => {
                 setPayg({...payg, buyerName : e.target.value})}}>
-                <option value="Tovan Octa Ferdinan">Tovan Octa Ferdinan</option>
+                <option value="Tovan Octa Ferdinan"></option>
                 <option value="Muhammad Ridwan">Muhammad Ridwan</option>
                 <option value="Ismi Rahmawati">Ismi Rahmawati</option>
+               
               </Select>
 
               <FormLabel>Amount</FormLabel>

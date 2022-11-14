@@ -26,7 +26,7 @@ const getUserProfileByEmail = (req, res) => {
 }
 
 const getUserProfileByEntity = (req, res) => {
-  UserProfileModel.findOne({Entity : "BSI"}, (err, result) => {
+  UserProfileModel.find({Entity : "BSI"}, (err, result) => {
     if (err) {
       console.log(err)
     } else {

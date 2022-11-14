@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-const createPayg = async (req, res) => {
+const createPayg = async (req, res, err) => {
 
   const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
@@ -32,16 +32,17 @@ const createPayg = async (req, res) => {
     Amount : req.body.Amount,
     Subject : req.body.Subject,
     PaygAttachments : reqFiles
-  })
+  }, (err) => {
+     data.save()
 
-
-  data.save( function (err) {
     if (err) {
       console.log(err);
+      res.send(err);
     } else {
       res.json(data);
     }
-  });
+  })
+
 }
 
 const getPaygByEmail = (req, res) => {
