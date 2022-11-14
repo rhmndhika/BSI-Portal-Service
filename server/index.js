@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
-const MongoDBStore = require('connect-mongodb-session')(session);
+
 
 require('dotenv').config();
 
@@ -21,11 +21,6 @@ mongoose.connect(CONNECTION_URL, {
   useNewUrlParser : true
 }
 );
-
-const store = new MongoDBStore({
-  uri: CONNECTION_URL,
-  collection: 'mySessions'
-});
 
 app.set("trust proxy", 1);
 
@@ -64,7 +59,9 @@ app.use(session({
         maxAge: 1 * 60 * 60 * 1000
            },
     key: process.env.COOKIE_KEY,
-    store: store,
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+      }),
     secret: 'subscribe',
     saveUninitialized: true,
     resave: false,
@@ -116,10 +113,11 @@ app.use(paygRoute);
 app.use(outsourcingRoute);
 app.use(vendorRegistrationRoute);
 
+
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
-    req.session.email = null;
+    req.session = null;
     res.redirect("/");
   });
 });
