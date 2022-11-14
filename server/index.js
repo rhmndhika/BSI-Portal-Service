@@ -12,14 +12,6 @@ const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
 
-var http = require('http');  
-var spauth = require('node-sp-auth');  
-var requestprom = require('request-promise');  
-// Site and User Creds  
-var url = 'https://365bsi.sharepoint.com/sites/ProcPortal';  
-var username = "bsi90699@bsi.co.id";  
-var password = "Password.999"; 
-
 require('dotenv').config();
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
@@ -148,41 +140,7 @@ app.post("/sendNotification", function (req, res) {
  });
 
 
-// app.listen(process.env.PORT || 3001 , ()=> {
-//   console.log(`Running on port 3001`);
-// });
-
-var server = http.createServer(function(request, response) {  
-  // Authenticate with hardcoded credentials  
-  spauth.getAuth(url, {          
-      username:username,  
-      password:password,
-      clientId : "21092337-b9a6-4c17-9482-f56389af0bdd"
-  })  
-  .then(function(options){  
-      // Headers  
-      var headers = options.headers;  
-      headers['Accept'] = 'application/json;odata=verbose';  
-      // Pull the SharePoint list items  
-      requestprom.get({  
-      url: url+"/_api/web/lists/getbytitle('TestInvoiceGateway')/items",  
-          headers: headers,  
-          json: true  
-      }).then(function(listresponse){  
-          var items = listresponse.d.results;  
-          var responseJSON = [];  
-          // process  
-          items.forEach(function(item) {  
-              if(item.Title !=null){  
-                  responseJSON.push(item.Title);  
-              }                     
-          }, this);  
-          // Print / Send back the data  
-          response.end(JSON.stringify(responseJSON));  
-            
-      });  
-  });  
+app.listen(process.env.PORT || 3001 , ()=> {
+  console.log(`Running on port 3001`);
 });
 
-var port = process.env.PORT || 1337;  
-server.listen(port);  
