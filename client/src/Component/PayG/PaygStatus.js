@@ -14,7 +14,9 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
-    useDisclosure
+    useDisclosure,
+    Flex,
+    Input
   } from '@chakra-ui/react';
 import './PaygStatus.css'
 import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
@@ -29,6 +31,7 @@ const PaygStatus = () => {
     const { payg, setPayg } = useContext(DataPayg);
     const { roleUser, setRoleUser } = useContext(RoleUser);
     const [ dataList, setDataList ] = useState([]);
+    const [ search, setSearch ] = useState("");
     const [ isLoading, setIsLoading ] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
@@ -92,6 +95,12 @@ const PaygStatus = () => {
         { dataList.length <= 0 ?
         <p style={{marginTop: "150px"}}>No Data Available</p>
         :
+        <>
+         <Flex flexDirection="column" marginTop="30px">
+          <Flex>
+            <Input type="text" placeholder='Search By Invoice / Buyer' onChange={(e) => setSearch(e.target.value)} />
+          </Flex>
+        </Flex> 
         <table className="table table-action">
             <thead>
                 <tr>
@@ -103,7 +112,8 @@ const PaygStatus = () => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataList.map((i, index) => {
+            {isLoading ? <Spinner marginTop={30} /> : dataList.filter(i => i.InvoiceNumber.toLowerCase().includes(search) || i.BuyerName.toLowerCase().includes(search))
+            .map((i, index) => {
             return(
             <>
             <AlertDialog
@@ -179,6 +189,7 @@ const PaygStatus = () => {
             </>
            )})}
         </table>
+        </>
         }
         </div>
     </div>

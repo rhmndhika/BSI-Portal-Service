@@ -57,24 +57,7 @@ const History = () => {
     })
   }
 
-  const findID = async () => {
-    await Axios.get(`https://empty-test-project.herokuapp.com/vendorregistration/${search}`).then((res) => {
-     dataVendorRegistration.filter((val) => {
-      return val._id == search
-     })
-    })
-  }
 
-  const handleSearch = (event) => {
-    let value = event.target.value.toLowerCase();
-    let result = [];
-    console.log(value);
-    result = dataVendorRegistration.filter((data) => {
-    return data._id.search(value) != -1;
-    });
-    setDataVendorRegistration(result);
-    }
-  
     useEffect(() => {
 
       async function userExpire2 () {
@@ -118,8 +101,7 @@ const History = () => {
             </Link>
           </Flex>
           <Flex>
-            <Input type="text" onChange={(event) =>handleSearch(event)} />
-            <Button onClick={() => findID()}>Search</Button>
+            <Input type="text" placeholder='Search By ID' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>
         <table className="table table-action">
@@ -134,7 +116,7 @@ const History = () => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.map((i, index) => {
+            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(i=> i._id.toLowerCase().includes(search)).map((i, index) => {
             return(
             <>
             <tbody>

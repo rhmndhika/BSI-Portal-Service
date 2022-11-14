@@ -7,7 +7,9 @@ import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx';
 import {
   Button,
-  Spinner
+  Spinner,
+  Flex,
+  Input
 } from '@chakra-ui/react';
 
 
@@ -22,6 +24,7 @@ const PaygStatusAdmin = () => {
   const { roleUser, setRoleUser } = useContext(RoleUser);
 
   const [ dataList, setDataList ] = useState([]);
+  const [ search, setSearch ] = useState("");
   const [ isLoading, setIsLoading ] = useState(true);
 
   const userExpire = () => {
@@ -43,11 +46,20 @@ const PaygStatusAdmin = () => {
       });   
   };
 
-    useEffect(() => {
-      userExpire();
-      getAllDataPayg();
-     }, [])
-     
+  const deleteDataPayg = (id) => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
+        setDataList(dataList.filter((val) => {
+            return val._id != id
+        }))
+        setIsLoading(false);
+    }); 
+}
+
+  useEffect(() => {
+    userExpire();
+    getAllDataPayg();
+   }, [])
+    
   return (
     <div style={{height : "493px"}}>
         <Appbar />
@@ -55,6 +67,12 @@ const PaygStatusAdmin = () => {
         { dataList.length <= 0 ?
         <p style={{marginTop: "150px"}}>No Data Available</p>
         :
+        <>
+        <Flex flexDirection="column" marginTop="30px">
+          <Flex>
+            <Input type="text" placeholder='Search By Email / Invoice' onChange={(e) => setSearch(e.target.value)} />
+          </Flex>
+        </Flex>        
         <table className="table table-action">
             <thead>
                 <tr>
@@ -66,7 +84,8 @@ const PaygStatusAdmin = () => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataList.map((i, index) => {
+            {isLoading ? <Spinner marginTop={30} /> : dataList.filter(i=> i.InvoiceNumber.toLowerCase().includes(search) || i.Email.toLowerCase().includes(search) || i.status?.toLowerCase().includes(search))
+            .map((i, index) => {
             return(
             <>
             <tbody>
@@ -98,9 +117,9 @@ const PaygStatusAdmin = () => {
                             <Link to={`/paygstatusdetail/${i._id}`}>
                                 <Button width={100} >Edit</Button>
                             </Link>
-                                {/* <Button width={100} marginLeft={5}  onClick={() => {
+                                <Button width={100} marginLeft={5}  onClick={() => {
                                     deleteDataPayg(i._id)
-                                }}>Delete</Button> */}
+                                }}>Delete</Button>
                         </div>
                     </td>
                 </tr>
@@ -108,6 +127,7 @@ const PaygStatusAdmin = () => {
             </>
            )})}
         </table>
+        </>
         }
         </div>
     </div>

@@ -138,7 +138,6 @@ const PaygStatusDetail = () => {
         }
       });
 
-
       return () => {
         cancelToken.cancel();
       }   
@@ -167,16 +166,27 @@ const PaygStatusDetail = () => {
     <div style={{display : "flex", flexDirection : "column"}}>
     <Appbar />
       <div style={{display : "flex", justifyContent : "center", alignItems : "center", margin : "30px"}}>
-        {dataListID.submitted === "Submitted" ? 
-        null
-        :
-        <Button width={20} onClick={onOpen}>Edit</Button>
-        }
-        {dataListID.submitted === "Submitted" ? 
-        null
-        :
-        <Button width={20} onClick={onOpenSubmitModal} marginLeft={5}>Submit</Button>
-        }
+
+    { roleUser === "Admin" 
+      ? null
+      : <>
+          { dataListID.submitted === "Submitted" || dataListID.status === "Approved" || dataListID.status === "Rejected"
+             ?  null
+             :  <Button width={20} onClick={onOpen}>Edit</Button>
+          }
+          </>
+    }
+
+    { roleUser === "Admin" 
+      ? null
+      : <>
+          { dataListID.submitted === "Submitted" || dataListID.status === "Approved" || dataListID.status === "Rejected"
+            ?  null
+            :  <Button width={20} onClick={onOpenSubmitModal} marginLeft={5}>Submit</Button>
+          }
+        </>
+     }
+         
       </div>
         <div style={{display : "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
           {isLoading ? 
@@ -289,7 +299,6 @@ const PaygStatusDetail = () => {
                   <Textarea name="message" placeholder='Please Input Your Email and Username' defaultValue={
                     `ID : ${dataListID._id}, Email : ${dataListID.Email}, Invoice Number : ${dataListID.InvoiceNumber}, Date : ${moment(dataListID.InvoiceDate).format("DD MMMM YYYY")}, Amount : ${dataListID.Amount}, Subject : ${dataListID.Subject}, BuyerName : ${dataListID.BuyerName}, Attachments : ${dataListID.PaygAttachments}, Created : ${moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}, Updated : ${moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
                     }/>
-                  <FormHelperText>Please make sure to fill out all the field, otherwise the message will not be sent.</FormHelperText>
                 </FormControl>
               </ModalBody>
 

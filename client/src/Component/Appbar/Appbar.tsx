@@ -55,6 +55,7 @@ export default function Appbar() {
     Axios.get('https://empty-test-project.herokuapp.com/logout').then(() => {
     })
     showToastSucces();
+    setTimeout(() => navigate("/", { replace : true }), 1000);
   }
 
 
