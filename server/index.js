@@ -116,9 +116,10 @@ app.use(paygRoute);
 app.use(outsourcingRoute);
 app.use(vendorRegistrationRoute);
 
-app.post("/logout", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
+    req.session.email = null;
     res.redirect("/");
   });
 });
