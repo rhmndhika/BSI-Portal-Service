@@ -1,0 +1,23 @@
+.flexTable {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+.textMessage {
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+
+  @media (max-width: 730px) { 
+    .flexTable {
+      margin-left: 10px;
+      margin-right: 0;
+    }
+    .inputPortal {
+        width: 200px;
+    }
+  }

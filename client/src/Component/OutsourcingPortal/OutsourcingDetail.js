@@ -20,7 +20,8 @@ import {
     FormLabel,
     Input,
     Textarea,
-    Flex
+    Flex,
+    Text
   } from '@chakra-ui/react'
 import moment from 'moment';
 import ReactQuill from 'react-quill';
@@ -107,6 +108,7 @@ const OutsourcingDetail = () => {
           id : id
         }).then(() => {
           setIsSavingProgress(true);
+          setTimeout(() => window.location.reload(false), 1200);
         })
       }
       
@@ -261,6 +263,7 @@ const OutsourcingDetail = () => {
            <Textarea placeholder='Here is a sample placeholder' value={outsourcingPortal.newMessage ? outsourcingPortal.newMessage : dataOutsourcingID.Message} onChange={(e) => {
             setOutsourcingPortal({...outsourcingPortal, newMessage : e.target.value})
            }}  />
+            <Text fontSize='sm' marginTop="5px"><i>Please write in list format</i></Text>
           </ModalBody>
 
           <ModalFooter>
@@ -310,10 +313,10 @@ const OutsourcingDetail = () => {
           <p>User-1           : {dataOutsourcingID.User1}</p>
           <p>User-2           : {dataOutsourcingID.User2}</p>
           <p>Role Quotation   : {dataOutsourcingID.RoleQuotation}</p>
-          <p>Attachments      : {dataOutsourcingID.OutsourcingAttachments}</p>
+          <p className='textMessage'>Attachments      : {dataOutsourcingID.OutsourcingAttachments}</p>
           <p>Created          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Updated          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
-          <p>{dataOutsourcingID.Message}</p>
+          <p>Progress         : {dataOutsourcingID.Message}</p>
           </div>
         </div>
       }

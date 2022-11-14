@@ -28,6 +28,7 @@ const Payg = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
     const [ role, setRole ] = useState("");
+    const [ profileList, setProfileList ] = useState([]); 
     const [ isLoading , SetIsLoading ] = useState(false);
   
     // const userExpire = () => {
@@ -67,6 +68,13 @@ const Payg = () => {
       })
     }
 
+    const getProfile = () => {
+      Axios.get("https://empty-test-project.herokuapp.com/profile").then((response) => {
+        setProfileList(response.data);
+        console.log(response.data);
+      })
+    }
+
     useEffect(() => {
 
       async function userExpire2 () {
@@ -84,6 +92,9 @@ const Payg = () => {
       userExpire2();
      }, [emailLog])
 
+    useEffect(() => {
+      getProfile();
+    }, [])
    
   return (
     <div>

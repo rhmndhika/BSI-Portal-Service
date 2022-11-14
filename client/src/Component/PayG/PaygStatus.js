@@ -16,10 +16,13 @@ import {
     AlertDialogOverlay,
     useDisclosure,
     Flex,
-    Input
+    Input,
+    InputGroup,
+    InputLeftElement
   } from '@chakra-ui/react';
 import './PaygStatus.css'
 import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
+import { PhoneIcon, SearchIcon } from '@chakra-ui/icons';
 
 const PaygStatus = () => {
 
@@ -96,9 +99,15 @@ const PaygStatus = () => {
         <p style={{marginTop: "150px"}}>No Data Available</p>
         :
         <>
-         <Flex flexDirection="column" marginTop="30px">
-          <Flex>
-            <Input type="text" placeholder='Search By Invoice / Buyer' onChange={(e) => setSearch(e.target.value)} />
+         <Flex className='flexTable'>
+          <Flex marginTop="-15px" justifyContent="flex-end" float="right">
+            <InputGroup>
+            <InputLeftElement
+                pointerEvents='none'
+                children={<SearchIcon color='gray.300' />}
+            />
+                <Input type="text" placeholder='Search By Invoice / Buyer' outline="black" onChange={(e) => setSearch(e.target.value)} />
+            </InputGroup>
           </Flex>
         </Flex> 
         <table className="table table-action">

@@ -1,13 +1,27 @@
 
 /* Table Base */
 
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 table {
     font-family: arial;
     max-width: 100%;
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0;
+    border-radius: 30px;
   }
+
+.flexTable {
+  flex-direction: column;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: 10px;
+}
   
   .table { 
     width: 100%;
@@ -77,5 +91,10 @@ table {
     .table th,
     .table td {
       text-align: left;
+    }
+
+    .flexTable {
+      margin-left: 0;
+      margin-right: 0;
     }
   }

@@ -14,6 +14,7 @@ import {
 import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
 import './History.css';
+import '../PayG/PaygStatus.css'
 
 const History = () => {
 

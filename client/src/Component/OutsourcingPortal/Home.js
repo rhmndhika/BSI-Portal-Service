@@ -31,29 +31,21 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  List,
-  ListItem,
-  ListIcon,
-  OrderedList,
-  UnorderedList,
   Badge,
   useEditableControls,
   ButtonGroup,
   IconButton,
   Flex,
-  Editable,
-  EditableInput,
-  EditableTextarea,
-  EditablePreview
+  InputGroup,
+  InputLeftElement,
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import { CheckIcon, CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
 import '../PayG/Payg.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './Home.css'
 
 const Home = () => {
   Axios.defaults.withCredentials = true;
@@ -63,6 +55,7 @@ const Home = () => {
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { outsourcingPortal, setOutsourcingPortal } = useContext(OutsourcingPortal);
   const [ role, setRole ] = useState("");
+  const [ search, setSearch ] = useState("");
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ isUploading, setIsUploading ] = useState(false);
@@ -127,7 +120,7 @@ const Home = () => {
   const getOutsourcingData = () => {
      Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
-
+      
       if (response.data.length <= 0 ) {
         showToastWarning();
       }
@@ -163,26 +156,6 @@ const Home = () => {
   });     
   }
 
-  function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls()
-
-    return isEditing ? (
-      <ButtonGroup justifyContent='center' size='sm'>
-        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-      </ButtonGroup>
-    ) : (
-      <Flex justifyContent='center' marginTop="8px">
-        <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
-      </Flex>
-    )
-  }
-
   useEffect(() => {
 
     async function userExpire2 () {
@@ -200,26 +173,37 @@ const Home = () => {
     userExpire2();
    }, [emailLog])
 
+   useEffect(() => {
+    getOutsourcingData();
+   }, [])
+
   return (
     <div>
         <ToastContainer />
         <Appbar />
-        <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px"}}>Welcome to Outsourcing Portal</h1>
+        <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px", fontSize : "20px"}}>Welcome to Outsourcing Portal</h1>
         <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
           <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
-          <Button width={"100px"} ref={btnRef} colorScheme='teal' onClick={onOpen}>
-            Upload CV
-          </Button>
-          <Button width={"100px"} marginLeft={30} onClick={getOutsourcingData} variant="solid" >
-            Show Data
-          </Button>
-          <Button width={"100px"} marginLeft={30} onClick={fetchSharepoint} variant="solid" >
-            Sharepoint
-          </Button>
           </div>
           {dataOutsourcing.length ? 
-          <TableContainer marginTop={"30px"}>
-            <Table variant='simple' colorScheme='teal'>
+          <>
+           <Flex className='flexTable'>
+              <Flex marginTop="-15px" justifyContent="center" alignItems="center">
+                <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} onClick={onOpen}>
+                  Upload CV
+                </Button>
+                <InputGroup>
+                <InputLeftElement
+                    pointerEvents='none'
+                    children={<SearchIcon color='gray.300' />}
+                />
+                    <Input className='inputPortal' type="text" placeholder='Search...' outline="black" onChange={(e) => setSearch(e.target.value)} />
+                </InputGroup>
+              </Flex>
+             
+            </Flex> 
+          <TableContainer marginTop={"10px"}>
+            <Table variant='simple'>
               <Thead>
               <Tr>
                 <Th>Email</Th>
@@ -233,7 +217,13 @@ const Home = () => {
                 <Th>Action</Th>
               </Tr>
             </Thead>
-          {dataOutsourcing.map((i, index) => {
+          {dataOutsourcing.filter(i => 
+          i.Name.toLowerCase().includes(search) || 
+          i.IDLink.toLowerCase().includes(search) ||
+          i.Supplier.toLowerCase().includes(search) || 
+          i.User1.toLowerCase().includes(search) ||
+          i.User2.toLowerCase().includes(search) 
+          ).map((i, index) => {
             return(
               <Tbody key={index}>
                 <Tr>
@@ -261,7 +251,9 @@ const Home = () => {
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverBody>
-                       {i.Message}
+                      <div>
+                       <p className='textMessage'>{i.Message}</p>
+                      </div>
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>
@@ -286,6 +278,7 @@ const Home = () => {
           })}
           </Table>
           </TableContainer>
+          </>
           :
           <div style={{display : "flex", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
             <p>NO DATA AVAILABLE</p>

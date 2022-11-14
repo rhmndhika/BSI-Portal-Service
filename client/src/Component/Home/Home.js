@@ -12,6 +12,7 @@ import {
 import LogoRegistration from '../../Images/LogoRegistration.png'
 import './Home.css';
 import Header from '../Header/Header';
+import Carousel from '../Header/Carousel.tsx';
 import {BsChatDots} from 'react-icons/bs';
 import { IconButton } from '@chakra-ui/react'
 import Footer from '../Footer/Footer.tsx';
@@ -117,7 +118,7 @@ const Home = () => {
   return (
     <>
     <Appbar />
-    <Header />
+    <Carousel />
     <a
       href="https://www.google.com/"
       className="whatsapp_float"
