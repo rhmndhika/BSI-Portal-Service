@@ -116,23 +116,22 @@ const updateMessageById = (req, res) => {
       } else {
         res.send(result);
       }
-  }).catch((e) => {
-    console.log(e);
-    console.log(Id);
-    console.log(Message);
   })
 }
 
-const updateStatusById = (req, res) => {
+const updateStatusById = async (req, res) => {
   const Id = req.body.id;
   const Status = req.body.status;
 
-  OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"Status" : Status}}, (err, result) => {
+  const response = await OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"Status" : Status}}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(result);
+      res.send(response);
     }
+  }).catch((e) => {
+    console.log(e);
+    console.log(response);
   })
 }
 

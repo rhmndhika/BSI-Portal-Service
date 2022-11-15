@@ -93,10 +93,12 @@ const OutsourcingDetail = () => {
         })
       }
 
-      const updateStatusOutsourcing = async (id, e) => {
-        await Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
+      const updateStatusOutsourcing = (id, e) => {
+        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
           status : e.target.value,
           id : id
+        }).then(() => {
+          setTimeout(() => window.location.reload(false), 1000);
         })
       }
       
@@ -283,8 +285,28 @@ const OutsourcingDetail = () => {
       justifyContent="center"
       marginTop="30px"
     >
-      <Button width={"140px"} onClick={onOpen}>Edit Data</Button>
-      <Button width={"140px"} onClick={onOpenProgressModal} marginLeft={"30px"}>Update Progress</Button>
+    { roleUser === "Admin" 
+      ? null
+      : <>
+          { dataOutsourcingID.status === "Approved" || dataOutsourcingID.status === "Rejected"
+             ?  null
+             :   <Button width={"140px"} onClick={onOpen}>Edit Data</Button>
+          }
+          </>
+    }    
+
+    { roleUser === "Admin" 
+      ? null
+      : <>
+          { dataOutsourcingID.status === "Approved" || dataOutsourcingID.status === "Rejected"
+            ?  null
+            :  <Button width={"140px"} onClick={onOpenProgressModal} marginLeft={"30px"}>Update Progress</Button>
+          }
+        </>
+     }  
+
+     
+      
     </Flex>
     {isLoading ?
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center", marginTop : "20px"}}>
@@ -305,6 +327,7 @@ const OutsourcingDetail = () => {
           <p>Created          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Updated          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Progress         : {dataOutsourcingID.Message}</p>
+          <p>TEST : {dataOutsourcingID.Status}</p>
           </div>
         </div>
       }

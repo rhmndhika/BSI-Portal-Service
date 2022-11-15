@@ -253,7 +253,11 @@ const Home = () => {
                     </PopoverContent>
                   </Popover>
                   </Td>
+                  {i.Status === "" || i.Status == null ?
                   <Td key="Test5">None</Td>
+                  :
+                  <Td key="Test11">{i.Status}</Td>
+                  }
                   <Td>
                   <HStack>
                   <Link to={`/outsourcingdetail/${i._id}`}>
