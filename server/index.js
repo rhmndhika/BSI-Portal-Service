@@ -141,6 +141,6 @@ app.post("/sendNotification", function (req, res) {
 
 
 app.listen(process.env.PORT || 3001 , ()=> {
-  console.log(`Running on port 3001`);
+  console.log(`Still Running on port 3001`);
 });
 
