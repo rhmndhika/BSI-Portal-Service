@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import { OutsourcingPortal } from '../../Helper/OutsourcingPortalProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx';
@@ -46,6 +47,7 @@ import '../PayG/Payg.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Home.css'
+import OutsourcingHomeAdmin from '../Admin/OutsourcingHomeAdmin';
 
 const Home = () => {
   Axios.defaults.withCredentials = true;
@@ -54,7 +56,7 @@ const Home = () => {
 
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { outsourcingPortal, setOutsourcingPortal } = useContext(OutsourcingPortal);
-  const [ role, setRole ] = useState("");
+  const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ search, setSearch ] = useState("");
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -163,7 +165,7 @@ const Home = () => {
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
-          setRole(response.data.role);
+          setRoleUser(response.data.role);
         } else {
           navigate("/", {replace : true})
         }
@@ -178,6 +180,8 @@ const Home = () => {
    }, [])
 
   return (
+    <>
+    {roleUser === "User" ? 
     <div>
         <ToastContainer />
         <Appbar />
@@ -190,7 +194,7 @@ const Home = () => {
            <Flex className='flexTable'>
               <Flex marginTop="-15px" justifyContent="center" alignItems="center">
                 <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} onClick={onOpen}>
-                  Upload CV
+                   Upload CV
                 </Button>
                 <InputGroup>
                 <InputLeftElement
@@ -368,6 +372,10 @@ const Home = () => {
         </Drawer>
         </div>
     </div>
+    :
+    <OutsourcingHomeAdmin />
+    }
+    </>
   )
 }
 

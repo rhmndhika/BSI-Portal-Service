@@ -73,7 +73,7 @@ const Payg = () => {
       })
     }
 
-    const getProfile = () => {
+    const getProfileByEntity = () => {
       Axios.get("https://empty-test-project.herokuapp.com/profileentity").then((response) => {
         var result = Object.entries(response.data);
         setProfileList(result)
@@ -98,9 +98,6 @@ const Payg = () => {
       userExpire2();
      }, [emailLog])
 
-    useEffect(() => {
-      getProfile();
-    }, [])
    
   return (
     <div>
@@ -129,7 +126,7 @@ const Payg = () => {
               <FormLabel>Buyer Name</FormLabel>
               <Select placeholder='Select Target Name' onChange={(e) => {
                 setPayg({...payg, buyerName : e.target.value})}}>
-                <option value="Tovan Octa Ferdinan"></option>
+                <option value="Tovan Octa Ferdinan">Tovan Octa Ferdinan</option>
                 <option value="Muhammad Ridwan">Muhammad Ridwan</option>
                 <option value="Ismi Rahmawati">Ismi Rahmawati</option>
                

@@ -68,7 +68,6 @@ root.render(
         <Route path='/paygstatusdetail/:id' element={<PaygStatusDetail />} />
         <Route path='/outsourcing' element={<Outsourcing />} />
         <Route path='/outsourcingdetail/:id' element={<OutsourcingDetail />} />
-        <Route path='/vendorregistration' element={<RegistrationHome />} />
         <Route path='/inputdatavendor' element={<RegistrationInput />} />
         <Route path='/registrationhistory' element={<RegistrationHistory />} />
         <Route path='/registrationhistory/:id' element={<RegistrationHistoryDetail />} />

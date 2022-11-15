@@ -50,6 +50,17 @@ const getOutsourcingDataByEmail = (req, res) => {
     })    
 }
 
+const getAllOutsourcingData = (req, res) => {
+
+  OutsourcingModel.find({}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+   });
+}
+
 const getOutsourcingDataById = (req, res) => {
   const Id = req.params.id;
   
@@ -114,6 +125,7 @@ const updateMessageById = (req, res) => {
 
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
 router.get("/outsourcing", getOutsourcingDataByEmail);
+router.get("/outsourcing/all", getAllOutsourcingData);
 router.get("/outsourcing/:id", getOutsourcingDataById);
 router.put("/updateoutsourcing", updateOutsourcingById);
 router.put("/updateoutsourcingmessage", updateMessageById);

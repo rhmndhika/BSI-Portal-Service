@@ -18,6 +18,7 @@ import { IconButton } from '@chakra-ui/react'
 import Footer from '../Footer/Footer.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ChatwootWidget from '../Chatwoot/ChatwootWidget';
 
 AOS.init();
 
@@ -45,6 +46,7 @@ const Home = () => {
   //     }
   //   }, {withCredentials : true});
   // };
+  
   
 
   useEffect(() => {
@@ -119,7 +121,8 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    <a
+    <ChatwootWidget />
+    {/* <a
       href="https://www.google.com/"
       className="whatsapp_float"
       target="_blank"
@@ -132,7 +135,7 @@ const Home = () => {
       size="lg"
       icon={<BsChatDots />}
       />
-    </a>
+    </a> */}
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (

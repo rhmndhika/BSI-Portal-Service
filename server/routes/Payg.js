@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-const createPayg = async (req, res, err) => {
+const createPayg = async (req, res) => {
 
   const reqFiles = [];
   const url = "https://empty-test-project.herokuapp.com/images/";
@@ -24,25 +24,27 @@ const createPayg = async (req, res, err) => {
     reqFiles.push(url + req.files[i].filename);       
   };
 
-   const data = new PaygDataModel({
-    Email : req.body.email,
-    InvoiceNumber : req.body.InvoiceNumber,
-    InvoiceDate : req.body.InvoiceDate,
-    BuyerName : req.body.BuyerName ,
-    Amount : req.body.Amount,
-    Subject : req.body.Subject,
-    PaygAttachments : reqFiles
-  }, (err) => {
-     data.save()
+  
+  try {
 
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      res.json(data);
-    }
-  })
+    const data = new PaygDataModel({
+      Email : req.body.email,
+      InvoiceNumber : req.body.InvoiceNumber,
+      InvoiceDate : req.body.InvoiceDate,
+      BuyerName : req.body.BuyerName ,
+      Amount : req.body.Amount,
+      Subject : req.body.Subject,
+      PaygAttachments : reqFiles
+    })
 
+    await data.save();
+
+    res.json(data);
+
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
 }
 
 const getPaygByEmail = (req, res) => {

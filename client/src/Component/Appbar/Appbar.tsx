@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -15,13 +15,35 @@ import {
   useBreakpointValue,
   useDisclosure,
   useColorMode,
+  Menu,
+  MenuButton,
+  HStack,
+  VStack,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Center,
+  Button
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  SettingsIcon
 } from '@chakra-ui/icons';
+import {
+  FiHome,
+  FiTrendingUp,
+  FiCompass,
+  FiStar,
+  FiSettings,
+  FiMenu,
+  FiBell,
+  FiChevronDown,
+} from 'react-icons/fi';
+import { EmailUser } from '../../Helper/EmailUserProvider';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { IoLogOutSharp } from 'react-icons/io5'
@@ -34,6 +56,8 @@ export default function Appbar() {
 
   let navigate = useNavigate();
 
+
+  const {emailLog, setEmailLog } = useContext(EmailUser);
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -55,10 +79,10 @@ export default function Appbar() {
     Axios.get('https://empty-test-project.herokuapp.com/logout').then(() => {
     })
     showToastSucces();
-    setTimeout(() => navigate("/", { replace : true }), 1000);
+    setTimeout(() => window.location.assign("http://localhost:3000"), 1000);
   }
 
-
+  
   return (
     <Box>
       <Flex
@@ -110,12 +134,46 @@ export default function Appbar() {
           direction={'row'}
           spacing={6}
           marginLeft={5}>
-          <IconButton
+          {/* <IconButton
             aria-label=''
             colorScheme="gray"
             onClick={logout}
             icon={<IoLogOutSharp />}
-          />
+          /> */}
+         <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                <IconButton aria-label=''>  
+                  <SettingsIcon />
+                </IconButton>
+                </MenuButton>
+                <MenuList alignItems={'center'}>
+                  <br />
+                  <Center>
+                    <Avatar
+                      size={'md'}
+                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    />
+                  </Center>
+                  <br />
+                  <Center>
+                    <p>{emailLog}</p>
+                  </Center>
+                  <br />
+                  <MenuDivider />
+                  <a>
+                  <MenuItem>Account Settings</MenuItem>
+                  </a>
+                  <a onClick={logout}>
+                  <MenuItem>Logout</MenuItem>
+                  </a>
+
+                </MenuList>
+              </Menu>
         </Stack>
       </Flex>
       <Collapse in={isOpen} animateOpacity>

@@ -82,7 +82,7 @@ const History = () => {
 
   return (
     <>
-    {roleUser === "User" ? 
+   
     <div style={{height : "493px"}}>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
@@ -111,6 +111,7 @@ const History = () => {
                 <th className="t-small"></th>
                 <th className="t-medium">ID</th>
                 <th className="t-medium">Email</th>
+                <th className="t-medium">Company Name</th>
                 <th className="t-medium">Created</th>
                 <th className="t-medium">Updated</th>
                 <th className="t-medium">Status</th>
@@ -125,6 +126,7 @@ const History = () => {
                     <td key="table1"><label></label></td>
                     <td key="table2">{i._id}</td>
                     <td key="table3">{i.email}</td>
+                    <td key="table3">{i.CompanyName}</td>
                     <td key="table4">{moment(i.createdAt).format("DD MMMM YYYY, h:mm:ss a")}</td>
                     <td key="table5">{moment(i.updatedAt).format("DD MMMM YYYY, h:mm:ss a")}</td>
                     {i.status ? 
@@ -169,9 +171,7 @@ const History = () => {
         }
         </div>
     </div>
-    :
-    <VendorHistoryAdmin />
-    }
+   
     </>
   )
 }
