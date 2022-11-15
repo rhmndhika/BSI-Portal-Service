@@ -85,12 +85,13 @@ const History = () => {
    
     <div style={{height : "493px"}}>
         <Appbar />
+        <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px", fontSize : "20px"}}>Welcome to Vendor Registration</h1>
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
         { dataVendorRegistration.length <= 0 ?
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="120px">
-          <p>No Data Available</p>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
+          <p>NO DATA AVAILABLE</p>
           <Link to="/inputdatavendor">
-            <Button>Input Data</Button>
+            <Button mt="10px" width={"120px"} colorScheme='teal' mr={3}>Input Data</Button>
           </Link>
         </Flex>
         :

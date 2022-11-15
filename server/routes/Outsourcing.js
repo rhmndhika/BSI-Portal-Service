@@ -123,12 +123,26 @@ const updateMessageById = (req, res) => {
   })
 }
 
+const updateStatusById = (req, res) => {
+  const Id = req.body.id;
+  const Status = req.body.status;
+
+  OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"Status" : Status}}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  })
+}
+
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);
 router.get("/outsourcing", getOutsourcingDataByEmail);
 router.get("/outsourcing/all", getAllOutsourcingData);
 router.get("/outsourcing/:id", getOutsourcingDataById);
 router.put("/updateoutsourcing", updateOutsourcingById);
 router.put("/updateoutsourcingmessage", updateMessageById);
+router.put("/updateoutsourcingstatus", updateStatusById);
 router.delete("/deleteoutsourcing/:id", deleteOutsourcingById);
 
 module.exports = router

@@ -81,25 +81,6 @@ const OutsourcingDetail = () => {
           setIsSaving(true);
           setTimeout(() => window.location.reload(false), 1200);
         })
-       
-        // const formData = new FormData();
-      
-        // formData.append('id', id);
-        // formData.append('Name', outsourcingPortal.newName ? outsourcingPortal.newName : Name);
-        // formData.append('IDLink', outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink);
-        // formData.append('Supplier', outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier);
-        // formData.append('User1', outsourcingPortal.newUser1 ? outsourcingPortal.newUser1 : User1) ;
-        // formData.append('User2', outsourcingPortal.newUser2 ? outsourcingPortal.newUser2 : User2);
-        // formData.append('RoleQuotation', outsourcingPortal.newRoleQuotation ? outsourcingPortal.newRoleQuotation : RoleQuotation);
-       
-        // await fetch("https://empty-test-project.herokuapp.com/updateoutsourcing", {
-        //   method: 'PUT',
-        //   body: formData,
-        // })
-        // .then((res) => {
-        //   setIsSaving(true);
-        //   console.log(id);
-        // })
       }
 
       const updateMessageOutsourcing = async (id, Message) => {
@@ -320,6 +301,22 @@ const OutsourcingDetail = () => {
           </div>
         </div>
       }
+
+          {!dataOutsourcingID.status  ?
+              <>
+              {roleUser === "Admin" ? 
+              <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
+                <Button width={100} name="status" value="Approved">Approve</Button>
+
+                <Button width={100} marginLeft={30} name="status" value="Rejected">Reject</Button>
+              </div>
+              :
+              null
+              }
+              </>
+              :
+              null
+          }     
     </>
   )
 }

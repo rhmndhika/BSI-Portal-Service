@@ -64,7 +64,7 @@ const Payg = () => {
       })
       .then((res) => {
         SetIsLoading(true);
-        setTimeout(() => navigate("/paygHome"), 1000)
+        setTimeout(() => navigate("/paygHome"), 1000);
       }).catch((error) => {
         console.log(error);
         if (error) {

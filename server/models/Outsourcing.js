@@ -36,6 +36,9 @@ const OutsourcingSchema = new mongoose.Schema({
    },
    Message : {
     type : String
+   },
+   Status : {
+      type : String
    }
 }, {timestamps : true});
 

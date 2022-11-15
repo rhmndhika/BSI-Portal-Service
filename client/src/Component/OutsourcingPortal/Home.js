@@ -42,7 +42,7 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
+import { CheckIcon, CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import '../PayG/Payg.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +65,7 @@ const Home = () => {
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
 
-  const initialFocusRef = React.useRef()
+  const initialFocusRef = React.useRef();
 
   const showToastWarning = () => {
     toast.warning('You have no data!', {
@@ -122,10 +122,6 @@ const Home = () => {
   const getOutsourcingData = () => {
      Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
-      
-      if (response.data.length <= 0 ) {
-        showToastWarning();
-      }
     })
   }
 
@@ -214,10 +210,8 @@ const Home = () => {
                 <Th>Name</Th>
                 <Th>ID Link</Th>
                 <Th>Supplier</Th>
-                <Th>User 1</Th>
-                <Th>User 2</Th>
-                <Th>Role Quotation</Th>
                 <Th>Progress</Th>
+                <Th>Status</Th>
                 <Th>Action</Th>
               </Tr>
             </Thead>
@@ -235,10 +229,7 @@ const Home = () => {
                   <Td key="Test2">{i.Name}</Td>
                   <Td key="Test3">{i.IDLink}</Td>
                   <Td key="Test4">{i.Supplier}</Td>
-                  <Td key="Test5">{i.User1}</Td>
-                  <Td key="Test6">{i.User2}</Td>
-                  <Td key="Test7">{i.RoleQuotation}</Td>
-                  <Td key="Test8">
+                  <Td key="Test6">
                   <Popover
                     initialFocusRef={initialFocusRef}
                     placement='bottom'
@@ -262,6 +253,7 @@ const Home = () => {
                     </PopoverContent>
                   </Popover>
                   </Td>
+                  <Td key="Test5">None</Td>
                   <Td>
                   <HStack>
                   <Link to={`/outsourcingdetail/${i._id}`}>
@@ -284,8 +276,11 @@ const Home = () => {
           </TableContainer>
           </>
           :
-          <div style={{display : "flex", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
+          <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
             <p>NO DATA AVAILABLE</p>
+            <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} mt={"10px"} onClick={onOpen}>
+              Upload CV
+            </Button>
           </div>
           }
           <Drawer

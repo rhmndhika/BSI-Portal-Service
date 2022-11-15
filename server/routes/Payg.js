@@ -24,27 +24,24 @@ const createPayg = async (req, res) => {
     reqFiles.push(url + req.files[i].filename);       
   };
 
-  
-  try {
+   const data = new PaygDataModel({
+    Email : req.body.email,
+    InvoiceNumber : req.body.InvoiceNumber,
+    InvoiceDate : req.body.InvoiceDate,
+    BuyerName : req.body.BuyerName ,
+    Amount : req.body.Amount,
+    Subject : req.body.Subject,
+    PaygAttachments : reqFiles
+  }, (err) => {
+     data.save();
 
-    const data = new PaygDataModel({
-      Email : req.body.email,
-      InvoiceNumber : req.body.InvoiceNumber,
-      InvoiceDate : req.body.InvoiceDate,
-      BuyerName : req.body.BuyerName ,
-      Amount : req.body.Amount,
-      Subject : req.body.Subject,
-      PaygAttachments : reqFiles
-    })
-
-    await data.save();
-
-    res.json(data);
-
-  } catch (err) {
-    console.log(err);
-    res.send(err);
-  }
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.json(data);
+    }
+  })
 }
 
 const getPaygByEmail = (req, res) => {

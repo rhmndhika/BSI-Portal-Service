@@ -70,7 +70,7 @@ const PaygStatusAdmin = () => {
         <>
         <Flex flexDirection="column" marginTop="30px">
           <Flex>
-            <Input type="text" placeholder='Search By Email / Invoice' onChange={(e) => setSearch(e.target.value)} />
+            <Input type="text" placeholder='Search...' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>        
         <table className="table table-action">
