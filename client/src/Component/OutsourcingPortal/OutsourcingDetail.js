@@ -92,6 +92,13 @@ const OutsourcingDetail = () => {
           setTimeout(() => window.location.reload(false), 1200);
         })
       }
+
+      const updateStatusOutsourcing = async (id, e) => {
+        await Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
+          status : e.target.value,
+          id : id
+        })
+      }
       
       function convertToPlain(html){
 
@@ -306,9 +313,13 @@ const OutsourcingDetail = () => {
               <>
               {roleUser === "Admin" ? 
               <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
-                <Button width={100} name="status" value="Approved">Approve</Button>
+                <Button width={100} name="status" value="Approved" onClick={(e) => {
+                  updateStatusOutsourcing(dataOutsourcingID._id, e)
+                }}>Approve</Button>
 
-                <Button width={100} marginLeft={30} name="status" value="Rejected">Reject</Button>
+                <Button width={100} marginLeft={30} name="status" value="Rejected" onClick={(e) => {
+                  updateStatusOutsourcing(dataOutsourcingID._id, e)
+                }}>Reject</Button>
               </div>
               :
               null

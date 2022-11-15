@@ -12,6 +12,7 @@ export default function OutsourcingPortalProvider({children}) {
     roleQuotation : "0",
     fileOutsourcing : [],
     message : "Current Progress",
+    status : "",
 
     newName : "",
     newIDLink : "",
