@@ -66,7 +66,7 @@ const createVendorRegistration = async (req, res) => {
     res.json(dataVendor);
 }
 
-const getAllVendorRegistration = (res) => {
+const getAllVendorRegistration = (req, res) => {
 
     VendorRegistrationModel.find({} , (err, result) => {
         if (err) {

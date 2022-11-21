@@ -161,7 +161,7 @@ const getPaygAdminById = (req, res) => {
   })
 }
 
-router.post("/payg/all", upload.array('file', 20), createPayg);
+router.post("/paygdata", upload.array('file', 20), createPayg);
 router.get("/payg/all", getAllPaygData);
 router.get("/payg/email", getPaygByEmail);
 router.get("/paygdata/:id", getPaygById);

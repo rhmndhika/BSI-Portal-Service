@@ -58,7 +58,7 @@ const Payg = () => {
       formData.append('file', payg.filePayg[i]);
       }
 
-      fetch("https://empty-test-project.herokuapp.com/payg/all", {
+      fetch("https://empty-test-project.herokuapp.com/paygdata", {
         method: 'POST',
         body: formData,
       })
