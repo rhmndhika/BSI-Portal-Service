@@ -22,20 +22,14 @@ mongoose.connect(CONNECTION_URL, {
 }
 );
 
-const serverIO = app.listen(process.env.PORT || 3001);
-// const io = require('socket.io').listen(serverIO, {
-//   cors : {
-//     origin : "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
 
-const io = new Server(serverIO, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+const io = require('socket.io')(process.env.PORT || 3001, {
+  cors : {
+    origin : "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   },
-})
+});
+
 
 app.set("trust proxy", 1);
 
