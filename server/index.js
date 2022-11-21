@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
+const http = require("http");
 const { Server } = require("socket.io");
 
 require('dotenv').config();
@@ -22,14 +23,14 @@ mongoose.connect(CONNECTION_URL, {
 }
 );
 
+const server = http.createServer(app);
 
-const io = require('socket.io')(process.env.PORT || 3001, {
-  cors : {
-    origin : "http://localhost:3000",
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   },
 });
-
 
 app.set("trust proxy", 1);
 
@@ -167,7 +168,7 @@ app.post("/sendNotification", function (req, res) {
  });
 
 
-app.listen(process.env.PORT || 3001 , ()=> {
+server.listen(process.env.PORT || 3001 , ()=> {
   console.log(`Still Running on port 3001`);
 });
 
