@@ -40,14 +40,14 @@ const PaygStatusAdmin = () => {
     };
 
   const getAllDataPayg = () => {
-      Axios.get("https://empty-test-project.herokuapp.com/admin/paygdata").then((response) => {
+      Axios.get("https://empty-test-project.herokuapp.com/admin/payg/buyername").then((response) => {
           setDataList(response.data);
           setIsLoading(false);
       });   
   };
 
   const deleteDataPayg = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/payg/delete/${id}`).then((response) => {
         setDataList(dataList.filter((val) => {
             return val._id != id
         }))

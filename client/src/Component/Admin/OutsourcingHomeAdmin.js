@@ -5,19 +5,8 @@ import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx';
 import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
   Input,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
   Table,
   Thead,
   Tbody,
@@ -41,7 +30,7 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import '../PayG/Payg.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -88,7 +77,7 @@ const OutsourcingHomeAdmin = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/deleteoutsourcing/${id}`).then((response) => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then((response) => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))
@@ -197,10 +186,10 @@ const OutsourcingHomeAdmin = () => {
                     </PopoverContent>
                   </Popover>
                   </Td>
-                  {1 == 1 ?
+                  {i.status === "" || i.status == null ?
                   <Td key="Test4">None</Td>
                   :
-                  <Td key="Tes5">{i.Status}</Td>
+                  <Td key="Tes5">{i.status}</Td>
                   }
                   <Td>
                   <HStack>

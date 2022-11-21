@@ -69,7 +69,7 @@ const OutsourcingDetail = () => {
 
       const updateDataOutsourcing = async (id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
 
-        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcing" , {
+        Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update" , {
           Name : outsourcingPortal.newName ? outsourcingPortal.newName : Name ,
           IDLink :  outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink ,
           Supplier : outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier ,
@@ -84,7 +84,7 @@ const OutsourcingDetail = () => {
       }
 
       const updateMessageOutsourcing = async (id, Message) => {
-        await Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
+        await Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update/message", {
           message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
           id : id
         }).then(() => {
@@ -94,11 +94,11 @@ const OutsourcingDetail = () => {
       }
 
       const updateStatusOutsourcing = (id, e) => {
-        Axios.put("https://empty-test-project.herokuapp.com/updateoutsourcingmessage", {
+        Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update/status", {
           status : e.target.value,
           id : id
         }).then(() => {
-          
+          setTimeout(() => window.location.reload(false), 1000);
         })
       }
       
@@ -327,7 +327,7 @@ const OutsourcingDetail = () => {
           <p>Created          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Updated          : {moment(dataOutsourcingID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
           <p>Progress         : {dataOutsourcingID.Message}</p>
-          <p>TEST : {dataOutsourcingID.Status}</p>
+          <p>Status           : {dataOutsourcingID.status}</p>
           </div>
         </div>
       }

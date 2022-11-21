@@ -53,14 +53,14 @@ const PaygStatus = () => {
     //   };
 
     const getDataPayg = () => {
-        Axios.get("https://empty-test-project.herokuapp.com/paygdata").then((response) => {
+        Axios.get("https://empty-test-project.herokuapp.com/payg/email").then((response) => {
             setDataList(response.data);
             setIsLoading(false);
         });   
     };
 
     const deleteDataPayg = (id) => {
-        Axios.delete(`https://empty-test-project.herokuapp.com/deletepaygdata/${id}`).then((response) => {
+        Axios.delete(`https://empty-test-project.herokuapp.com/payg/delete/${id}`).then((response) => {
             setDataList(dataList.filter((val) => {
                 return val._id != id
             }))

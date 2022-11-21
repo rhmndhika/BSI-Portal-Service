@@ -19,6 +19,7 @@ import Footer from '../Footer/Footer.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ChatwootWidget from '../Chatwoot/ChatwootWidget';
+import ChatIO from '../ChatIO/ChatIO';
 
 AOS.init();
 
@@ -30,6 +31,7 @@ const Home = () => {
   
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const [ role, setRole ] = useState("");
+  const [ isHide, setIsHide ] = useState(true);
 
   let boxBg = useColorModeValue("white !important", "#111c44 !important");
   let mainText = useColorModeValue("gray.800", "white");
@@ -117,16 +119,24 @@ const Home = () => {
     }
    ]
 
+   const openChat = () => {
+    setIsHide(current => !current);
+   }
+
   return (
     <>
     <Appbar />
     <Carousel />
     {/* <ChatwootWidget /> */}
+    {isHide === false ? 
+      <ChatIO  />
+    :
+    null
+    }
     <a
-      href="https://www.google.com/"
       className="whatsapp_float"
-      target="_blank"
       rel="noopener noreferrer"
+      onClick={openChat}
     >
      <IconButton
       colorScheme='blue'

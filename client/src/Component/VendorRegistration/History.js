@@ -46,20 +46,20 @@ const History = () => {
   // };
 
   const getVendorRegistrationData = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/vendorregistration").then((response) => {
+    Axios.get("https://empty-test-project.herokuapp.com/vendor/registration").then((response) => {
       setDataVendorRegistration(response.data);
       setIsLoading(false);
     });
   }
 
   const deleteVendorRegistrationData = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/deletevendor/${id}`).then(() => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/vendor/delete/${id}`).then(() => {
       alert("Deleted");
     })
   }
 
 
-    useEffect(() => {
+  useEffect(() => {
 
       async function userExpire2 () {
         const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
@@ -82,7 +82,7 @@ const History = () => {
 
   return (
     <>
-   
+    {roleUser === "User" ? 
     <div style={{height : "493px"}}>
         <Appbar />
         <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px", fontSize : "20px"}}>Welcome to Vendor Registration</h1>
@@ -172,7 +172,9 @@ const History = () => {
         }
         </div>
     </div>
-   
+    :
+    <VendorHistoryAdmin />
+    }
     </>
   )
 }

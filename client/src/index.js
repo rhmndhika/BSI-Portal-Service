@@ -29,7 +29,6 @@ const Outsourcing = lazy(() => import("./Component/OutsourcingPortal/Home"));
 const OutsourcingProvider = lazy(() => import("./Helper/OutsourcingPortalProvider"));
 const OutsourcingDetail = lazy(() => import("./Component/OutsourcingPortal/OutsourcingDetail"));
 const VendorRegistrationProvider = lazy(() => import("./Helper/VendorRegistrationProvider"));
-const RegistrationHome = lazy(() => import("./Component/VendorRegistration/Home"));
 const RegistrationInput = lazy(() => import("./Component/VendorRegistration/InputDataVendor"));
 const RegistrationHistory = lazy(() => import("./Component/VendorRegistration/History"));
 const RegistrationHistoryDetail = lazy(() => import("./Component/VendorRegistration/HistoryDetail"));

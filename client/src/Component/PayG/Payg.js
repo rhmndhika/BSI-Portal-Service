@@ -58,7 +58,7 @@ const Payg = () => {
       formData.append('file', payg.filePayg[i]);
       }
 
-      fetch("https://empty-test-project.herokuapp.com/paygdata", {
+      fetch("https://empty-test-project.herokuapp.com/payg/all", {
         method: 'POST',
         body: formData,
       })
@@ -73,14 +73,7 @@ const Payg = () => {
       })
     }
 
-    const getProfileByEntity = () => {
-      Axios.get("https://empty-test-project.herokuapp.com/profileentity").then((response) => {
-        var result = Object.entries(response.data);
-        setProfileList(result)
-        console.log(response.data)
-      })
-    }
-
+    
     useEffect(() => {
 
       async function userExpire2 () {

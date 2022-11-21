@@ -35,14 +35,11 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Badge,
-  useEditableControls,
-  ButtonGroup,
-  IconButton,
   Flex,
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import '../PayG/Payg.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -60,7 +57,6 @@ const Home = () => {
   const [ search, setSearch ] = useState("");
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [ isUploading, setIsUploading ] = useState(false);
   const btnRef = React.useRef();
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
@@ -147,7 +143,7 @@ const Home = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/deleteoutsourcing/${id}`).then((response) => {
+    Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then((response) => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))
@@ -253,10 +249,16 @@ const Home = () => {
                     </PopoverContent>
                   </Popover>
                   </Td>
-                  {i.Status === "" || i.Status == null ?
+                  {i.status === "" || i.status == null ?
                   <Td key="Test5">None</Td>
                   :
-                  <Td key="Test11">{i.Status}</Td>
+                  <>
+                  {i.status === "Approved" ? 
+                  <Td key="Test11" style={{color : "green"}}>{i.status}</Td>
+                  :
+                  <Td key="Test16" style={{color : "red"}}>{i.status}</Td>
+                  }
+                  </>
                   }
                   <Td>
                   <HStack>

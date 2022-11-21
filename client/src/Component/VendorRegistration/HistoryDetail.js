@@ -90,7 +90,7 @@ const HistoryDetail = () => {
   const updatevendorRegistration = (id, CompanyName, Address, PhoneNumber, PresidentName, AccountManagerEmail, AccountManagerPhone,
     PICEmail, PICPhone, EstablishedDate, EmployeeNumber, NumberOfCustomer, Attachments, SKAny, SKValid, NPWPAny, NPWPValid,
     SIUPAny, SIUPValid, TDPAny, TDPValid, DomisiliAny, DomisiliValid, SPKPAny, SPKPValid, AuditAny, AuditValid, TaxAny, TaxValid, BankAny, BankValid ) => {
-    Axios.put("https://empty-test-project.herokuapp.com/updatevendor", {
+    Axios.put("https://empty-test-project.herokuapp.com/vendor/update", {
       cName           : vendorRegistration.newCName? vendorRegistration.newCName : CompanyName , 
       Address         : vendorRegistration.newAddress? vendorRegistration.newAddress : Address,
       phoneNumber     : vendorRegistration.newPhoneNumber? vendorRegistration.newPhoneNumber : PhoneNumber,
@@ -128,7 +128,7 @@ const HistoryDetail = () => {
   };
 
   const updateStatus = (id, Status, e) => {
-    Axios.put("https://empty-test-project.herokuapp.com/updatestatusvendor" , {
+    Axios.put("https://empty-test-project.herokuapp.com/vendor/update/status" , {
       status: e.target.value, 
       id : id
     }).then(() => {
@@ -143,7 +143,7 @@ const HistoryDetail = () => {
   };
 
   const updateSubmitted = (id, e) => {
-    Axios.put("https://empty-test-project.herokuapp.com/updatesubmittedvendor" , {
+    Axios.put("https://empty-test-project.herokuapp.com/vendor/update/submitted" , {
       submitted: e.target.name, 
       id : id
     }).then((response)=> {
@@ -172,7 +172,7 @@ const HistoryDetail = () => {
 
     const cancelToken = Axios.CancelToken.source();
   
-    Axios.get(`https://empty-test-project.herokuapp.com/vendorregistration/${id}`, {
+    Axios.get(`https://empty-test-project.herokuapp.com/vendor/registration/${id}`, {
       cancelToken : cancelToken.token,
     }).then((response) => {
         setVendorRegistrationDataID(response.data);

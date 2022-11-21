@@ -138,9 +138,10 @@ router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourci
 router.get("/outsourcing", getOutsourcingDataByEmail);
 router.get("/outsourcing/all", getAllOutsourcingData);
 router.get("/outsourcing/:id", getOutsourcingDataById);
-router.put("/updateoutsourcing", updateOutsourcingById);
-router.put("/updateoutsourcingmessage", updateMessageById);
-router.put("/updateoutsourcingstatus", updateStatusById);
-router.delete("/deleteoutsourcing/:id", deleteOutsourcingById);
+router.put("/outsourcing/update", updateOutsourcingById);
+router.put("/outsourcing/update/message", updateMessageById);
+router.put("/outsourcing/update/status", updateStatusById);
+router.delete("/outsourcing/delete/:id", deleteOutsourcingById);
+
 
 module.exports = router

@@ -66,6 +66,18 @@ const createVendorRegistration = async (req, res) => {
     res.json(dataVendor);
 }
 
+const getAllVendorRegistration = (res) => {
+
+    VendorRegistrationModel.find({} , (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    });
+}
+
+
 const getVendorRegistrationByEmail = (req, res) => {
 
     VendorRegistrationModel.find({email : req.session.email} , (err, result) => {
@@ -172,13 +184,14 @@ const updateSubmittedById = (req, res) => {
     })
 }
 
-router.post("/vendorregistration", upload.array('fileVendorRegistration', 20), createVendorRegistration);
-router.get("/vendorregistration", getVendorRegistrationByEmail);
-router.get("/vendorregistration/:id", getVendorRegistrationById);
-router.put("/updatevendor", updateVendorRegistrationById);
-router.put("/updatestatusvendor", updateStatusVendorById);
-router.put("/updatesubmittedvendor", updateSubmittedById);
-router.delete("/deletevendor/:id", deleteVendorRegistrationById);
+router.post("/vendor/registration", upload.array('fileVendorRegistration', 20), createVendorRegistration);
+router.get("/vendor/registration", getVendorRegistrationByEmail);
+router.get("/vendor/registration/all", getAllVendorRegistration);
+router.get("/vendor/registration/:id", getVendorRegistrationById);
+router.put("/vendor/update", updateVendorRegistrationById);
+router.put("/vendor/update/status", updateStatusVendorById);
+router.put("/vendor/update/submitted", updateSubmittedById);
+router.delete("/vendor/delete/:id", deleteVendorRegistrationById);
 
 
 module.exports = router

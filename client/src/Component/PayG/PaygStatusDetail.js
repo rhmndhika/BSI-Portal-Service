@@ -81,7 +81,7 @@ const PaygStatusDetail = () => {
       formData.append('file', payg.newFilePayg[i] ? payg.newFilePayg[i] : PaygAttachments);
       }
      
-      await fetch("https://empty-test-project.herokuapp.com/updatepaygdata", {
+      await fetch("https://empty-test-project.herokuapp.com/payg/update/all", {
         method: 'PUT',
         body: formData,
       })
@@ -104,7 +104,7 @@ const PaygStatusDetail = () => {
     };
 
     const updateSubmitted = (id, e) => {
-      Axios.put("https://empty-test-project.herokuapp.com/updateSubmitted" , {
+      Axios.put("https://empty-test-project.herokuapp.com/payg/update/submitted" , {
         submitted: e.target.name, 
         id : id
       }).then((response)=> {
@@ -114,7 +114,7 @@ const PaygStatusDetail = () => {
     };
 
     const updateStatus = (id, e) => {
-      Axios.put("https://empty-test-project.herokuapp.com/updateStatus" , {
+      Axios.put("https://empty-test-project.herokuapp.com/payg/update/status" , {
         status: e.target.value, 
         id : id
       }).then((response) => {
@@ -125,7 +125,7 @@ const PaygStatusDetail = () => {
     useEffect(() => {
       const cancelToken = Axios.CancelToken.source();
 
-      Axios.get(`https://empty-test-project.herokuapp.com/paygdata/${id}`, {
+      Axios.get(`https://empty-test-project.herokuapp.com/payg/${id}`, {
         cancelToken : cancelToken.token,
       }).then((response) => {
         setDataListID(response.data);
