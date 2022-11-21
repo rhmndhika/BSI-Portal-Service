@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const MemoryStore = require('memorystore')(session);
 const multer = require('multer');
 const nodemailer = require("nodemailer");
+const { Server } = require("socket.io");
 
 require('dotenv').config();
 
@@ -20,6 +21,14 @@ mongoose.connect(CONNECTION_URL, {
   useNewUrlParser : true
 }
 );
+
+const serverIO = app.listen(process.env.PORT || 3001);
+const io = require('socket.io').listen(serverIO, {
+  cors : {
+    origin : "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.set("trust proxy", 1);
 
@@ -111,6 +120,23 @@ app.use(profileRoute);
 app.use(paygRoute);
 app.use(outsourcingRoute);
 app.use(vendorRegistrationRoute);
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 
 
 app.get("/logout", (req, res) => {

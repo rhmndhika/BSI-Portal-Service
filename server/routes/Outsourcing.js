@@ -119,20 +119,19 @@ const updateMessageById = (req, res) => {
   })
 }
 
-const updateStatusById = async (req, res) => {
+const updateStatusById = (req, res) => {
   const Id = req.body.id;
-  const Status = req.body.status;
+  const status = req.body.status;
 
-  const response = await OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"Status" : Status}}, (err, result) => {
+  OutsourcingModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(response);
+      res.send(result);
     }
   }).catch((e) => {
     console.log(e);
-    console.log(response);
-  })
+  });
 }
 
 router.post("/outsourcing", upload.array('fileOutsourcing', 20), createOutsourcingData);

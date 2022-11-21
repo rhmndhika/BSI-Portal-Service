@@ -98,7 +98,7 @@ const OutsourcingDetail = () => {
           status : e.target.value,
           id : id
         }).then(() => {
-          setTimeout(() => window.location.reload(false), 1000);
+          
         })
       }
       

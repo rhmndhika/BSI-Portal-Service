@@ -121,8 +121,8 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    <ChatwootWidget />
-    {/* <a
+    {/* <ChatwootWidget /> */}
+    <a
       href="https://www.google.com/"
       className="whatsapp_float"
       target="_blank"
@@ -135,7 +135,7 @@ const Home = () => {
       size="lg"
       icon={<BsChatDots />}
       />
-    </a> */}
+    </a>
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (
