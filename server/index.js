@@ -155,7 +155,7 @@ app.post("/sendNotification", function (req, res) {
     from: process.env.EMAIL,
     to: "rahmandhika5@gmail.com",
     subject: "BSI Vendor Registration",
-    text: "Hi There !, this is a automatic notification email when user approved or rejected the draft.",
+    text: "Hi There!!, this is a automatic notification email when user approved or rejected the draft.",
   };
  
   transporter.sendMail(mailOptions, function (err, data) {
