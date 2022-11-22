@@ -34,8 +34,16 @@ const createPayg = async (req, res) => {
     PaygAttachments : reqFiles
   })
 
-  await data.save();
-  res.json(data);
+  data.save(function(err) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.json(data);
+    }
+  })
+
+  
 }
 
 const getPaygByEmail = (req, res) => {

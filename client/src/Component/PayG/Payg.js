@@ -19,6 +19,8 @@ import {
   Button
 } from '@chakra-ui/react';
 import { userSchema } from '../../Validations/UserValidation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Payg = () => {
     Axios.defaults.withCredentials = true;
@@ -43,6 +45,19 @@ const Payg = () => {
     //   }, {withCredentials : true});
     // };
 
+    const showToastError = () => {
+      toast.error("Duplicate Invoice Number", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+
     const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -65,11 +80,10 @@ const Payg = () => {
       .then((res) => {
         SetIsLoading(true);
         setTimeout(() => navigate("/paygHome"), 1000);
-      }).catch((error) => {
-        console.log(error);
-        if (error) {
-          alert("DUPLICATE INVOICE NUMBER")
-        }
+      }).catch((err) => {
+        console.log(err);
+        showToastError();
+        alert(err);
       })
     }
 

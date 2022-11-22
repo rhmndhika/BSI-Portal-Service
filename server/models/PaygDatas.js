@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const uniqueValidator = require('mongoose-unique-validator');
 
 const PaygDataSchema = new mongoose.Schema({
     _id : {
@@ -11,7 +12,8 @@ const PaygDataSchema = new mongoose.Schema({
     },
     InvoiceNumber : {
         type : String,
-        require : true
+        require : true,
+        unique : true
     },
     InvoiceDate : {
         type : Date,
@@ -41,7 +43,7 @@ const PaygDataSchema = new mongoose.Schema({
     }
 }, {timestamps : true}, {_id : false})
 
-PaygDataSchema.plugin(AutoIncrement);
+PaygDataSchema.plugin(AutoIncrement, uniqueValidator);
 
 const PaygDataModel = mongoose.model("paygdatas", PaygDataSchema)
 module.exports = PaygDataModel
