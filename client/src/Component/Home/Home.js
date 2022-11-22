@@ -21,6 +21,15 @@ import 'aos/dist/aos.css';
 import ChatwootWidget from '../Chatwoot/ChatwootWidget';
 import ChatIO from '../ChatIO/ChatIO';
 
+import VendorRegistration from '../../Images/VendorRegistration.jpg';
+import Sourcing from '../../Images/Sourcing.jpg';
+import POManagement from '../../Images/POManagement.jpg';
+import SocialMedia from '../../Images/SocialMedia.jpg';
+import DeliveryMonitoring from '../../Images/DeliveryMonitoring.jpg';
+import InvoiceGateway from '../../Images/InvoiceGateway.jpg';
+import OutsourcingPortal from '../../Images/OutsourcingPortal.jpg';
+import Forum from '../../Images/Forum.jpg';
+
 AOS.init();
 
 const Home = () => {
@@ -50,7 +59,6 @@ const Home = () => {
   // };
   
   
-
   useEffect(() => {
 
     async function userExpire2 () {
@@ -77,43 +85,43 @@ const Home = () => {
     },
     {
       title : "Sourcing",
-      imgUrl : LogoRegistration,
+      imgUrl : Sourcing,
       hrefUrl : '#',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "PO Management",
-      imgUrl : LogoRegistration,
+      imgUrl : POManagement,
       hrefUrl : '#',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Social Media",
-      imgUrl : LogoRegistration,
+      imgUrl : SocialMedia,
       hrefUrl : '#',
       shadows : "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     },
     {
       title : "Delivery Monitoring",
-      imgUrl : LogoRegistration,
+      imgUrl : DeliveryMonitoring,
       hrefUrl : '#',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Invoice Gateway",
-      imgUrl : LogoRegistration,
+      imgUrl : InvoiceGateway,
       hrefUrl : '/paygHome',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Outsourcing Portal",
-      imgUrl : LogoRegistration,
+      imgUrl : OutsourcingPortal,
       hrefUrl : '/outsourcing',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
     {
       title : "Group Forum",
-      imgUrl : LogoRegistration,
+      imgUrl : Forum,
       hrefUrl : '#',
       shadows: "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     }

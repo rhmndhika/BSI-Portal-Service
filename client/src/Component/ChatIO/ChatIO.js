@@ -6,7 +6,7 @@ import Axios from 'axios';
 import Chat from './Chat';
 import './Chat.css';
 
-const socket = io.connect("https://empty-test-project.herokuapp.com");
+// const socket = io.connect("https://empty-test-project.herokuapp.com");
 
 const ChatIO = () => {
 
@@ -22,7 +22,7 @@ const ChatIO = () => {
   
     const joinRoom = () => {
       if (emailLog !== "" && room !== "") {
-        socket.emit("join_room", room);
+        // socket.emit("join_room", room);
         setShowChat(true);
       }
     };
@@ -47,7 +47,7 @@ const ChatIO = () => {
 
        useEffect(() => {
         if (emailLog !== "" && room !== "") {
-          socket.emit("join_room", room);
+          // socket.emit("join_room", room);
           setShowChat(true);
         }
        }, [])
@@ -76,7 +76,8 @@ const ChatIO = () => {
           <button onClick={joinRoom}>Join A Room</button>
         </div>
       ) : (
-        <Chat socket={socket} username={emailLog} room={room} />
+        // <Chat socket={socket} username={emailLog} room={room} />
+        <Chat />
       )}
     </div>
   )
