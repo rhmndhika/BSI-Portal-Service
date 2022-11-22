@@ -32,16 +32,10 @@ const createPayg = async (req, res) => {
     Amount : req.body.Amount,
     Subject : req.body.Subject,
     PaygAttachments : reqFiles
-  }, (err) => {
-     data.save();
-
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      res.json(data);
-    }
   })
+
+  await data.save();
+  res.json(data);
 }
 
 const getPaygByEmail = (req, res) => {
