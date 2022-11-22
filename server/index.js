@@ -30,7 +30,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000",
+    origin: "https://bsi-portal-supplier.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   },
 });
@@ -48,7 +48,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", "https://empty-test-project.herokuapp.com"],
+    origin: ["https://bsi-portal-supplier.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     optionsSuccessStatus : 200
@@ -79,7 +79,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", "https://empty-test-project.herokuapp.com");
+    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
