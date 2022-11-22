@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 550px;
+    width: 500px;
     margin: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     overflow-wrap: break-word;
@@ -33,3 +33,26 @@
     justify-content: center;
     align-items: center;
 }
+
+@media screen and (max-width: 570px){
+    .formPayg {
+        width: 450px;
+    }
+}
+
+@media screen and (max-width: 475px){
+    .formPayg {
+        width: 350px;
+    }
+}
+
+@media screen and (max-width: 365px){
+    .formPayg {
+        width: 300px;
+    }
+}
+
+
+
+
+  

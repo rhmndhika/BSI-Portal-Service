@@ -124,6 +124,7 @@ const Payg = () => {
               <Input type='text' value={payg.invoiceNumber} onChange={(e) => {
                 setPayg({...payg, invoiceNumber : e.target.value})
               }} />
+              <FormHelperText><i>Please make sure not to input duplicate invoice number</i></FormHelperText>
 
               <FormLabel>Invoice Date</FormLabel>
               <Input type='date' value={payg.invoiceData} onChange={(e) => {

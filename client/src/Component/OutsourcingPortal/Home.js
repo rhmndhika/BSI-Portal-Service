@@ -225,7 +225,7 @@ const Home = () => {
                   <Td key="Test2">{i.Name}</Td>
                   <Td key="Test3">{i.IDLink}</Td>
                   <Td key="Test4">{i.Supplier}</Td>
-                  <Td key="Test6">
+                  {/* <Td key="Test6">
                   <Popover
                     initialFocusRef={initialFocusRef}
                     placement='bottom'
@@ -248,6 +248,11 @@ const Home = () => {
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>
+                  </Td> */}
+                  <Td>
+                    <a href="/progress">
+                    Progress
+                    </a>
                   </Td>
                   {i.status === "" || i.status == null ?
                   <Td key="Test5">None</Td>
