@@ -23,16 +23,17 @@ mongoose.connect(CONNECTION_URL, {
 }
 );
 
+
+app.set("trust proxy", 1);
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://bsi-portal-supplier.netlify.app",
+    origin: "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   },
 });
-
-app.set("trust proxy", 1);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -47,7 +48,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["https://bsi-portal-supplier.netlify.app", "https://empty-test-project.herokuapp.com"],
+    origin: ["https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", "https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     optionsSuccessStatus : 200
@@ -78,7 +79,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app", "https://empty-test-project.herokuapp.com");
+    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
