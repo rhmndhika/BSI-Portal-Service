@@ -26,14 +26,14 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "https://bsi-portal-supplier.netlify.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000",
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   },
+// });
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -48,7 +48,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["https://bsi-portal-supplier.netlify.app"],
+    origin: ["https://bsi-portal-supplier.netlify.app", "https://empty-test-project.herokuapp.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     optionsSuccessStatus : 200
@@ -79,7 +79,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app");
+    res.setHeader("Access-Control-Allow-Origin", "https://bsi-portal-supplier.netlify.app", "https://empty-test-project.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -124,22 +124,22 @@ app.use(paygRoute);
 app.use(outsourcingRoute);
 app.use(vendorRegistrationRoute);
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+// io.on("connection", (socket) => {
+//   console.log(`User Connected: ${socket.id}`);
 
-  socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`User with ID: ${socket.id} joined to room: ${data}`);
-  });
+//   socket.on("join_room", (data) => {
+//     socket.join(data);
+//     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
+//   });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
+//   socket.on("send_message", (data) => {
+//     socket.to(data.room).emit("receive_message", data);
+//   });
 
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-});
+//   socket.on("disconnect", () => {
+//     console.log("User Disconnected", socket.id);
+//   });
+// });
 
 
 app.get("/logout", (req, res) => {
@@ -169,7 +169,7 @@ app.post("/sendNotification", function (req, res) {
  });
 
 
-server.listen(process.env.PORT || 3001 , ()=> {
+app.listen(process.env.PORT || 3001 , ()=> {
   console.log(`Still Running on port 3001`);
 });
 
