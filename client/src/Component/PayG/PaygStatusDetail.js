@@ -302,7 +302,7 @@ const PaygStatusDetail = () => {
                 </FormControl>
               </ModalBody>
 
-              <ModalFooter>
+              <ModalFooter>x``
                 {isSubmit === false ?
                 <Button type="submit" name="Submitted" value="Submit" width={"110px"} colorScheme='blue' mr={3} onClick={(e) => {
                   updateSubmitted(dataListID._id, e)
