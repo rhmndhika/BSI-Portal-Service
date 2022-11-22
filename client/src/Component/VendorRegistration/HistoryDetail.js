@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import Axios from 'axios';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import { useNavigate, useParams } from 'react-router-dom';
 import { VendorRegistration } from '../../Helper/VendorRegistrationProvider';
 import Appbar from '../Appbar/Appbar.tsx';
@@ -22,10 +23,15 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Spinner
+  Spinner,
+  Textarea,
+  FormHelperText
 } from '@chakra-ui/react';
 import './HistoryDetail.css';
-import PTBSI from '../../Images/LogoPTBSI.png'
+import PTBSI from '../../Images/LogoPTBSI.png';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const HistoryDetail = () => {
   
@@ -36,11 +42,12 @@ const HistoryDetail = () => {
   
   const { id } = useParams();
   const { emailLog, setEmailLog } = useContext(EmailUser);
-  const [ role, setRole ] = useState("");
+  const { roleUser, setRoleUser } = useContext(RoleUser);
   const { vendorRegistration, setVendorRegistration } = useContext(VendorRegistration);
   const [ vendorRegistrationDataID, setVendorRegistrationDataID ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ isSubmitting, setIsSubmitting ] = useState(true);
 
   const { 
     isOpen: isOpenSubmitModal, 
@@ -74,6 +81,45 @@ const HistoryDetail = () => {
       }
     });
   };
+
+  const showToastUpdate = () => {
+    toast.success('Data Updated!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+
+  const showToastSubmit = () => {
+    toast.success('Data Submitted!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+
+  const showToastStatus = () => {
+    toast.success('Status Updated!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
   
   // const userExpire = () => {
@@ -124,6 +170,7 @@ const HistoryDetail = () => {
       id : id
     }).then((response)=> {
       setTimeout(() => window.location.reload(false), 1000);
+      showToastUpdate();
     });
   };
 
@@ -139,6 +186,7 @@ const HistoryDetail = () => {
         }
       });
       setTimeout(() => window.location.reload(false), 1000);
+      showToastStatus();
     });
   };
 
@@ -147,6 +195,8 @@ const HistoryDetail = () => {
       submitted: e.target.name, 
       id : id
     }).then((response)=> {
+      showToastSubmit();
+      setIsSubmitting(false);
       setTimeout(() => window.location.reload(false), 1000);
     });
   };
@@ -158,7 +208,7 @@ const HistoryDetail = () => {
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
-          setRole(response.data.role);
+          setRoleUser(response.data.role);
         } else {
           navigate("/", {replace : true})
         }
@@ -192,23 +242,33 @@ const HistoryDetail = () => {
 
   return (
     <>
+    <ToastContainer />
     {isLoading === false ? 
     <div>
     <Appbar />
     <div className='btn-container'>
     <Button style={{backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={handleDownload}>Download</Button>
-    {vendorRegistrationDataID ?
-    <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpen}>Edit</Button>
-    :
-    <div></div>
-    }
-      <>
-        {vendorRegistrationDataID.submitted ?
-          <div></div>
-        : 
-        <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpenSubmitModal}>Submit</Button>
+    
+    { roleUser === "Admin" 
+      ? null
+      : <>
+        { vendorRegistrationDataID.submitted === "Submitted" && vendorRegistrationDataID.status != ""
+          ? null
+          : <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpen}>Edit</Button>
         }
-      </>
+        </>
+    }
+
+    { roleUser === "Admin" 
+      ? null
+      : <>
+        { vendorRegistrationDataID.submitted === "Submitted"
+          ? null
+          : <Button style={{marginLeft : "20px", backgroundColor : " #DFF6FF", color : "black", width: "120px"}} variant="contained" onClick={onOpenSubmitModal}>Submit</Button>
+        }
+        </>
+    }
+
     </div>
 
     <div className='wrapperWrapper'>
@@ -347,32 +407,32 @@ const HistoryDetail = () => {
     </div>
       
    
-        <>
-        {vendorRegistrationDataID.submitted == "" ?
-        <div></div>
-        :
-        <>
-        {vendorRegistrationDataID.status == "" || vendorRegistrationDataID.status == null && vendorRegistrationDataID.submitted == "Submitted"  ? 
-          <div className='btnStatus'>
+      
+
+      {roleUser === "Admin" ? 
+      <>
+        { vendorRegistrationDataID.status === "" || vendorRegistrationDataID.status == null  && vendorRegistrationDataID.submitted === "Submitted" ?
+           <div className='btnStatus'>
             <div className='btnStatus-item-1'>
-              <Button style={{backgroundColor : "#367E18", color : "white"}} name="status" value="Approved" variant='contained'  onClick={(e)=> {
+              <Button style={{backgroundColor : "#367E18", color : "white", width : "100px"}} name="status" value="Approved" variant='contained'  onClick={(e)=> {
                 updateStatus(vendorRegistrationDataID._id, vendorRegistrationDataID.Status, e)}}>
-                Approve
+                Approve 
               </Button>
             </div>
             <div>
-              <Button style={{backgroundColor : "#FF1E00", color : "white"}} name="status" value="Rejected" variant='contained' onClick={(e)=> {
+              <Button style={{backgroundColor : "#FF1E00", color : "white", width : "100px"}} name="status" value="Rejected" variant='contained' onClick={(e)=> {
                 updateStatus(vendorRegistrationDataID._id, vendorRegistrationDataID.Status, e)}}>
                 Reject
               </Button>
             </div>
-          </div>
-        :
-        <div></div>  
+           </div>
+           :
+           null
         }
-        </>
-        }
-        </>
+      </>
+      :
+      null
+      }
     </div>
 
       <>
@@ -687,39 +747,47 @@ const HistoryDetail = () => {
             onClose={onCloseSubmitModal}
             >
             <ModalOverlay />
+            <form ref={form} onSubmit={sendEmail}>
             <ModalContent>
               <ModalHeader>Send an Email</ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>
-              <div className='formSendEmail'>
-                <div className="formemail-item-1">
-                  <form ref={form} onSubmit={sendEmail}>
-                    <div className='formInput'>
-                      <label>To Email</label>
-                      <input className='inputs' type="email" name="user_email" />
-                    </div>
-                    <div className="formInput">
-                      <label>Message</label>
-                      <textarea className='inputs' name="message" />
-                    </div>
+              <Flex marginTop="20px">
+                <FormControl isRequired>
+                  <FormLabel>To Email</FormLabel>
+                  <Input type="email" name="user_email" />
 
-                    <div className='btnInput'>
-                    <input type="submit" name="Submitted" value="Submit" onClick={(e) => {
-                      updateSubmitted(vendorRegistrationDataID._id, e)
-                    }} />
-                    </div>
-                  </form>
-                </div>
-              </div>
+                  <FormLabel>Message</FormLabel>
+                  <Textarea name="message" />
+                  <FormHelperText><i>Please write your credentials here</i></FormHelperText>
+                </FormControl>
+              </Flex>
               </ModalBody>
 
               <ModalFooter>
-                <Button colorScheme='blue' mr={3}>
-                  Save
+                { isSubmitting === true ? 
+                <Button type="submit" width="130px" name="Submitted" value="Submit" colorScheme='blue' mr={3} onClick={(e) => {
+                  updateSubmitted(vendorRegistrationDataID._id, e)
+                }}>
+                Submit
                 </Button>
-                <Button onClick={onCloseSubmitModal}>Cancel</Button>
+                :
+                <Button
+                  isLoading
+                  loadingText='Submitting'
+                  colorScheme='blue'
+                  variant='outline'
+                  width={"130px"}
+                  mr={3}
+                  marginLeft={"1px"}
+                  >
+                  Saving
+                </Button>
+                }
+                <Button width="130px" onClick={onCloseSubmitModal}>Cancel</Button>
               </ModalFooter>
             </ModalContent>
+          </form>
           </Modal>
           </>
   </div>

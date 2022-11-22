@@ -172,13 +172,5 @@ router.put("/payg/update/all", upload.array('file', 20), updatePaygData);
 router.put("/payg/update/submitted", updateSubmittedById);
 router.put("/payg/update/status", updateStatusById);
 router.delete("/payg/delete/:id", deletePaygById);
-// router.get("/getallpaygdata", getAllPaygData);
-// router.get("/paygdata", getPaygByEmail);
-// router.get("/admin/paygdata", getPaygAdminByBuyerName);
-// router.get("/admin/paygdata/:id", getPaygAdminById);
-// router.put("/updatepaygdata", upload.array('file', 20), updatePaygData);
-// router.put("/updateSubmitted", updateSubmittedById);
-// router.put("/updateStatus", updateStatusById);
-// router.delete("/deletepaygdata/:id", deletePaygById);
 
 module.exports = router

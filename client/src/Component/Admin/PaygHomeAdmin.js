@@ -41,11 +41,11 @@ const PaygHomeAdmin = () => {
             Welcome to PayG Vendor
         </p>
         <div style={{display : "flex", margin : "20px"}}>
-            <a href='/payg'>
+            {/* <a href='/payg'>
                 <Button width={150}>Input Data</Button>
-            </a>
+            </a> */}
             <a href='/paygStatus'>
-            <Button width={150} marginLeft={10}>Invoice Status</Button>
+            <Button width={150}>Invoice Status</Button>
             </a>
         </div>
         </div>

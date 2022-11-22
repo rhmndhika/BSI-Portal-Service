@@ -74,18 +74,18 @@ useEffect(() => {
         { dataVendorRegistration.length <= 0 ?
         <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
           <p>NO DATA AVAILABLE</p>
-          <Link to="/inputdatavendor">
+          {/* <Link to="/inputdatavendor">
             <Button mt="10px" width={"120px"} colorScheme='teal' mr={3}>Input Data</Button>
-          </Link>
+          </Link> */}
         </Flex>
         :
         <>
         <Flex flexDirection="column" marginTop="10px">
-          <Flex justifyContent="center" alignItems="center" marginBottom="10px">
+          {/* <Flex justifyContent="center" alignItems="center" marginBottom="10px">
             <Link to="/inputdatavendor">
               <Button>Input Data</Button>
             </Link>
-          </Flex>
+          </Flex> */}
           <Flex>
             <Input type="text" placeholder='Search By ID' onChange={(e) => setSearch(e.target.value)} />
           </Flex>

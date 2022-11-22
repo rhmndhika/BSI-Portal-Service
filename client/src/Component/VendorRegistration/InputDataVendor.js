@@ -14,6 +14,8 @@ import {
   Button
 } from '@chakra-ui/react';
 import './InputDataVendor.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InputDataVendor = () => {
 
@@ -37,6 +39,19 @@ const InputDataVendor = () => {
   //     }
   //   }, {withCredentials : true});
   // };
+
+  const showToastSucces = () => {
+    toast.success('Success!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,14 +93,27 @@ const InputDataVendor = () => {
     formData.append('fileVendorRegistration', vendorRegistration.fileVendor[i]);
     }
    
-    fetch("https://empty-test-project.herokuapp.com/vendorregistration", {
+    fetch("https://empty-test-project.herokuapp.com/vendor/registration", {
       method: 'POST',
       body: formData,
     }).then((res) => {
       setIsSubmit(true);
-      setTimeout(() => window.location.reload(false) ,1000);
+      setTimeout(() => window.location.reload(false) ,1200);
+      showToastSucces();
     }).catch((err) => {
-      (console.log(err))
+      const showToastError = () => {
+        toast.error(err.response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+      }
+      showToastError();
     });
   }
 
@@ -108,6 +136,7 @@ const InputDataVendor = () => {
 
   return (
     <>
+    <ToastContainer />
     <Appbar />
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
     <h2 style={{textAlign: "center", marginTop : "20px"}}>Supplier Data</h2>
@@ -125,7 +154,7 @@ const InputDataVendor = () => {
         <Flex marginTop="15px">
         <FormControl isRequired>
           <FormLabel>CompanyName</FormLabel>
-          <Input className="inputVendor" type='text' name="CompanyName"  value={vendorRegistration.cName} placeholder="Company Name"onChange={(e) => {
+          <Input className="inputVendor" type='text' name="CompanyName" placeholder="Company Name" value={vendorRegistration.cName} onChange={(e) => {
             setVendorRegistration({...vendorRegistration, cName : e.target.value})}} />
         </FormControl>
         </Flex>
@@ -235,7 +264,7 @@ const InputDataVendor = () => {
         <Flex marginTop="15px">
         <FormControl isRequired>
           <FormLabel>Attachments</FormLabel>
-          <Input className="inputVendor" type='file' multiple placeholder="Company Name"onChange={(e) => {
+          <Input className="inputVendor" type='file' multiple onChange={(e) => {
             setVendorRegistration({...vendorRegistration, fileVendor : e.target.files})}} />
           <FormHelperText><i style={{fontSize : "13px"}}>Please make sure to input the right file.</i></FormHelperText>
         </FormControl>
@@ -244,14 +273,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>SK Menhum</FormLabel>
-            <Select className="inputVendor" name='SKAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='SKAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, skAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='SKValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='SKValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, skValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -263,14 +292,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>NPWP</FormLabel>
-            <Select className="inputVendor" name='NPWPAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='NPWPAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, npwpAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='NPWPValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='NPWPValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, npwpValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -282,14 +311,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>SIUP</FormLabel>
-            <Select className="inputVendor" name='SIUPAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='SIUPAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, siupAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='SIUPAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='SIUPAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, siupValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -301,14 +330,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>TDP</FormLabel>
-            <Select className="inputVendor" name='TDPAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='TDPAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, tdpAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='TDPValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='TDPValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, tdpValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -320,14 +349,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>Surat Domisili</FormLabel>
-            <Select className="inputVendor" name='DomisiliAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='DomisiliAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, domisiliAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='DomisiliValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='DomisiliValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, domisiliValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -339,14 +368,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>SPKP</FormLabel>
-            <Select className="inputVendor" name='SPKPAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='SPKPAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, spkpAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='SPKPValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='SPKPValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, spkpValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -358,14 +387,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>Latest Financial Report</FormLabel>
-            <Select className="inputVendor" name='AuditAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='AuditAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, auditAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='AuditValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='AuditValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, auditValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -377,14 +406,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>Tax Report</FormLabel>
-            <Select className="inputVendor" name='TaxAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='TaxAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, taxAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='TaxValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='TaxValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, taxValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>
@@ -396,14 +425,14 @@ const InputDataVendor = () => {
         <Flex marginTop="20px">
           <FormControl isRequired>
             <FormLabel>Bank Account</FormLabel>
-            <Select className="inputVendor" name='BankAny'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" name='BankAny'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, bankAny : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Any / Not</option>
               <option value="Any">Any</option>
               <option value="Not">Not</option>
             </Select>
 
-            <Select className="inputVendor" marginTop="15px" name='BankValid'  placeholder="Company Name"onChange={(e) => {
+            <Select className="inputVendor" marginTop="15px" name='BankValid'  onChange={(e) => {
               setVendorRegistration({...vendorRegistration, bankValid : e.target.value})}}>
               <option value="" disabled selected hidden>Choose Valid / Invalid</option>
               <option value="Valid">Valid</option>

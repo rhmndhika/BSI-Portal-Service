@@ -127,8 +127,8 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    {/* <ChatwootWidget /> */}
-    {isHide === false ? 
+    <ChatwootWidget />
+    {/* {isHide === false ? 
       <ChatIO  />
     :
     null
@@ -145,7 +145,7 @@ const Home = () => {
       size="lg"
       icon={<BsChatDots />}
       />
-    </a>
+    </a> */}
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (

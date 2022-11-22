@@ -103,7 +103,7 @@ const History = () => {
             </Link>
           </Flex>
           <Flex>
-            <Input type="text" placeholder='Search By ID' onChange={(e) => setSearch(e.target.value)} />
+            <Input type="text" placeholder='Search...' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>
         <table className="table table-action">
@@ -119,7 +119,11 @@ const History = () => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(i=> i._id.toLowerCase().includes(search)).map((i, index) => {
+            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(
+            i=> i._id.toLowerCase().includes(search) || 
+            i.CompanyName.toLowerCase().includes(search) ||
+            i.createdAt.toLowerCase().includes(search) 
+            ).map((i, index) => {
             return(
             <>
             <tbody>
