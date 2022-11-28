@@ -21,5 +21,5 @@ const SosmedPostSchema = new mongoose.Schema({
 }, {timestamps : true});
 
 
-const SosmedPost = mongoose.model("sosmedposts", SosmedPostSchema);
-module.exports = SosmedPost;
+const SosmedPostModel = mongoose.model("sosmedposts", SosmedPostSchema);
+module.exports = SosmedPostModel;

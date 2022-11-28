@@ -11,6 +11,8 @@ import { Spinner } from '@chakra-ui/react';
 import Register from './Component/Register/Register';
 import Login from './Component/Login/Login';
 import ProtectedRoutes from './ProtectedRoutes';
+import ProfileSosmedProvider from './Helper/ProfileSosmedProvider';
+import PostSosmedProvider from './Helper/PostSosmed';
 
 
 const Home = lazy(() => import("./Component/Home/Home"));
@@ -44,6 +46,8 @@ root.render(
   <ProfileUserProvider>
   <VendorRegistrationProvider>
   <DataPaygProvider>
+  <ProfileSosmedProvider>
+  <PostSosmedProvider>
   <ChakraProvider>
   <React.StrictMode>
   <BrowserRouter>
@@ -83,6 +87,8 @@ root.render(
   </BrowserRouter>
   </React.StrictMode>
   </ChakraProvider>
+  </PostSosmedProvider>
+  </ProfileSosmedProvider>
   </DataPaygProvider>
   </VendorRegistrationProvider>
   </ProfileUserProvider>

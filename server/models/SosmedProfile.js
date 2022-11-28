@@ -17,5 +17,5 @@ const SosmedProfileSchema = new mongoose.Schema({
 }, {timestamps : true});
 
 
-const SosmedProfile = mongoose.model("sosmedprofiles", SosmedProfileSchema);
-module.exports = SosmedProfile;
+const SosmedProfileModel = mongoose.model("sosmedprofiles", SosmedProfileSchema);
+module.exports = SosmedProfileModel

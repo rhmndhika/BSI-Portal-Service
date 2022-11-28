@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
+import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,18 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    Flex
+    Flex,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    FormControl,
+    FormLabel,
+    Textarea
 } from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/card'
 import { 
@@ -40,7 +52,13 @@ const SocialMedia = () => {
     let navigate = useNavigate();
     
     const { emailLog, setEmailLog } = useContext(EmailUser);
+    const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
     const [ role, setRole ] = useState("");
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const initialRef = React.useRef(null);
+    const finalRef = React.useRef(null);
 
     useEffect(() => {
 
@@ -58,11 +76,78 @@ const SocialMedia = () => {
         }
         userExpire2();
        }, [emailLog])
+
+    const createProfile = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append('FullName', profileSosmed.fullName);
+        formData.append('Username', profileSosmed.username);
+        formData.append('ProfilePicture', profileSosmed.profilePicture);
+        formData.append('Bio', profileSosmed.bio);
+
+       
+        await fetch("https://empty-test-project.herokuapp.com/socialmedia/create", {
+            method: 'POST',
+            body: formData,
+        })
+    }
     
+
   return (
    <>
     <Appbar />
-    {1 == 1 ? 
+    <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        closeOnOverlayClick={false}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create your account</ModalHeader>
+          <ModalCloseButton />
+          <form method='POST' onSubmit={createProfile}>
+          <ModalBody pb={6}>
+            <FormControl isRequired>
+              <FormLabel>Full Name</FormLabel>
+              <Input ref={initialRef} placeholder='Full Name' value={profileSosmed.fullName} name="fullName" onChange={(e) => {
+                setProfileSosmed({...profileSosmed, fullName : e.target.value})
+              }} />
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input value={emailLog} disabled name="fullName" onChange={(e) => {
+                setProfileSosmed({...profileSosmed, username : e.target.value})
+              }}/>
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Bio</FormLabel>
+              <Textarea value={profileSosmed.Bio} name="bio" onChange={(e) => {
+                setProfileSosmed({...profileSosmed, bio : e.target.value})
+              }}  />
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Profile Picture</FormLabel>
+              <Input type="file" name="ProfilePicture" onChange={(e) => {
+                setProfileSosmed({...profileSosmed, profilePicture : e.target.files[0]})
+              }} />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button type='submit' colorScheme='blue' mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     <div>
         <Flex>
             <Flex justifyContent="center" border="1px solid" width="full" height="60px" margin="20px 10px 0 10px">
@@ -82,11 +167,17 @@ const SocialMedia = () => {
 
             <Flex flexDirection="column" justifyContent="center" alignItems="center">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
-                    <Flex justifyContent="center" width="300px">
-                        <Avatar width="250px" height="250px"  objectFit="cover" src="https://picsum.photos/id/237/200/300" />
+                    {2 == 1 ? 
+                    <Flex flexDirection="column" justifyContent="center" alignItems="center">
+                        <Flex justifyContent="center" width="300px">
+                            <Avatar width="250px" height="250px"  objectFit="cover" src="https://picsum.photos/id/237/200/300" />
+                        </Flex>
+                        <Text>Username</Text>
+                        <Text>@Username</Text>
                     </Flex>
-                    <Text>Username</Text>
-                    <Text>@Username</Text>
+                    :
+                        <Button onClick={onOpen}>Create profie</Button>
+                    }
                 </Flex>
 
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
@@ -301,13 +392,6 @@ const SocialMedia = () => {
 
         </Flex>
     </div>
-    :
-    <Flex justifyContent="center" alignItems="center" marginTop="50px">
-        <Button>
-            Create Profile
-        </Button>
-    </Flex>
-    }
    </>
   )
 }
