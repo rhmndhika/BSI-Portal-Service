@@ -117,12 +117,14 @@ const profileRoute = require("./routes/Profile");
 const paygRoute = require("./routes/Payg");
 const outsourcingRoute = require("./routes/Outsourcing");
 const vendorRegistrationRoute = require("./routes/VendorRegistration");
+const sosmedProfileRoute = require("./routes/SosmedProfile");
 app.use(registerRoute);
 app.use(loginRoute);
 app.use(profileRoute);
 app.use(paygRoute);
 app.use(outsourcingRoute);
 app.use(vendorRegistrationRoute);
+app.use(sosmedProfileRoute);
 
 // io.on("connection", (socket) => {
 //   console.log(`User Connected: ${socket.id}`);

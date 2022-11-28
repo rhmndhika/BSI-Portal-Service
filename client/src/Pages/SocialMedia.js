@@ -83,7 +83,7 @@ const SocialMedia = () => {
         const formData = new FormData();
 
         formData.append('FullName', profileSosmed.fullName);
-        formData.append('Username', profileSosmed.username);
+        formData.append('Username', emailLog);
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
 
