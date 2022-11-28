@@ -1,6 +1,6 @@
 @media (max-width: 809px) {
-  .flexContainerTop {
-   display: none;
+  .flexContainerSM {
+    flex-direction: column;
   }
 }
   

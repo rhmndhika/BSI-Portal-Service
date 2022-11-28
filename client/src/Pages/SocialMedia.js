@@ -163,7 +163,7 @@ const SocialMedia = () => {
             </Flex>
         </Flex>
 
-        <Flex flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
+        <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
 
             <Flex flexDirection="column" justifyContent="center" alignItems="center">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
@@ -270,8 +270,8 @@ const SocialMedia = () => {
                 </Flex>
             </Flex>
 
-            <Flex flexDirection="column" justifyContent="center" alignItems="center">
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="350px" height="max-content" border="1px solid">
+            <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px">
+                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid">
                     <Flex>
                         <Text>Who to find</Text>
                     </Flex>
@@ -301,13 +301,13 @@ const SocialMedia = () => {
                     </Flex> 
                 </Flex>
 
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="350px" height="max-content" border="1px solid" marginTop="20px">
+                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="20px">
                     <Flex>
                         <Text>Trending Post</Text>
                     </Flex>
 
                     <Flex>
-                        <Card shadow="lg" padding="20px">
+                        <Card shadow="lg" padding="20px" width="250px">
                         <CardHeader>
                             <Flex spacing='4'>
                             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
