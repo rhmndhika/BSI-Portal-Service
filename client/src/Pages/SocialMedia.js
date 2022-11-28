@@ -54,6 +54,7 @@ const SocialMedia = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
     const [ role, setRole ] = useState("");
+    const [ profileList, setProfileList ] = useState("");
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -93,6 +94,17 @@ const SocialMedia = () => {
             body: formData,
         })
     }
+
+    const getProfile = () => {
+        Axios.get("https://empty-test-project.herokuapp.com/socialmedia").then((response) => {
+            setProfileList(response.data);
+            console.log(response.data);
+        })
+    }
+
+    useEffect(() => {
+        getProfile();
+    }, [])
     
 
   return (
@@ -167,14 +179,20 @@ const SocialMedia = () => {
 
             <Flex flexDirection="column" justifyContent="center" alignItems="center">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
-                    {2 == 1 ? 
-                    <Flex flexDirection="column" justifyContent="center" alignItems="center">
-                        <Flex justifyContent="center" width="300px">
-                            <Avatar width="250px" height="250px"  objectFit="cover" src="https://picsum.photos/id/237/200/300" />
+                    {profileList.length > 0 ? 
+                    <>
+                    {profileList.map((i, index) => {
+                    return (
+                        <Flex flexDirection="column" justifyContent="center" alignItems="center">
+                            <Flex justifyContent="center" width="300px">
+                                <Avatar width="250px" height="250px"  objectFit="cover" src={Object.values(i.ProfilePicture)}/>
+                            </Flex>
+                            <Text>{i.FullName}</Text>
+                            <Text>{i.Username}</Text>
                         </Flex>
-                        <Text>Username</Text>
-                        <Text>@Username</Text>
-                    </Flex>
+                    )
+                    })}
+                    </>
                     :
                         <Button onClick={onOpen}>Create profie</Button>
                     }
