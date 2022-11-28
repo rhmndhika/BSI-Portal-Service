@@ -46,7 +46,7 @@ const OutsourcingHomeAdmin = () => {
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ search, setSearch ] = useState("");
-  const [ isLoading , SetIsLoading ] = useState(false);
+  
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
 
@@ -200,7 +200,7 @@ const OutsourcingHomeAdmin = () => {
                   <HStack>
                   <Link to={`/outsourcingdetail/${i._id}`}>
                     <Button width={"100px"}>
-                      Edit
+                      Detail
                     </Button>
                   </Link>
                     <Button width={"100px"} onClick={() => {

@@ -6,15 +6,15 @@ import { useNavigate, Link } from 'react-router-dom';
 import Appbar from '../Appbar/Appbar.tsx';
 import {
   Button,
-  useDisclosure,
   Spinner,
   Flex,
   Input
 } from '@chakra-ui/react';
 import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
-import './History.css';
-import '../PayG/PaygStatus.css'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+
+
 
 const History = () => {
 
@@ -28,9 +28,7 @@ const History = () => {
   const [ search, setSearch ] = useState("");
 
   const [ isLoading, setIsLoading ] = useState(true);
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = React.useRef()
-
+  
   let navigate = useNavigate();
 
   // const userExpire = () => {
@@ -91,13 +89,13 @@ const History = () => {
         <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
           <p>NO DATA AVAILABLE</p>
           <Link to="/inputdatavendor">
-            <Button mt="10px" width={"120px"} colorScheme='teal' mr={3}>Input Data</Button>
+            <Button mt="10px" width={"120px"} mr={3}>Input Data</Button>
           </Link>
         </Flex>
         :
         <>
         <Flex flexDirection="column" marginTop="10px">
-          <Flex justifyContent="center" alignItems="center" marginBottom="10px">
+          <Flex justifyContent="center" alignItems="center" marginBottom="20px">
             <Link to="/inputdatavendor">
               <Button>Input Data</Button>
             </Link>
@@ -106,72 +104,69 @@ const History = () => {
             <Input type="text" placeholder='Search...' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>
-        <table className="table table-action">
-            <thead>
-                <tr>
-                <th className="t-small"></th>
-                <th className="t-medium">ID</th>
-                <th className="t-medium">Email</th>
-                <th className="t-medium">Company Name</th>
-                <th className="t-medium">Created</th>
-                <th className="t-medium">Updated</th>
-                <th className="t-medium">Status</th>
-                <th className="t-medium">Action</th>
-                </tr>
-            </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th >Email</Th>
+              <Th >Company Name</Th>
+              <Th >Created</Th>
+              <Th >Status</Th>
+              <Th >Action</Th>
+            </Tr>
+          </Thead>
+          {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(
             i=> i._id.toLowerCase().includes(search) || 
+            i.email.toLowerCase().includes(search) ||
             i.CompanyName.toLowerCase().includes(search) ||
             i.createdAt.toLowerCase().includes(search) 
             ).map((i, index) => {
             return(
             <>
-            <tbody>
-                <tr key={index}>
-                    <td key="table1"><label></label></td>
-                    <td key="table2">{i._id}</td>
-                    <td key="table3">{i.email}</td>
-                    <td key="table3">{i.CompanyName}</td>
-                    <td key="table4">{moment(i.createdAt).format("DD MMMM YYYY, h:mm:ss a")}</td>
-                    <td key="table5">{moment(i.updatedAt).format("DD MMMM YYYY, h:mm:ss a")}</td>
+          <Tbody>
+          <Tr key={index}>
+                    <Td key="table2">{i._id}</Td>
+                    <Td key="table3">{i.email}</Td>
+                    <Td key="table3">{i.CompanyName}</Td>
+                    <Td key="table4">{moment(i.createdAt).format("DD MMMM YYYY")}</Td>
                     {i.status ? 
                         <>
-                          {i.status === "Approved" ?
-                            <td key="table6" className="t-status t-active">
-                                {i.status}
-                            </td>
-                          :
-                            <td key="table7" className="t-status t-inactive">
-                                {i.status}
-                            </td>
-                          }
+                        {i.status === "Approved" ?
+                          <Td key="table6" >
+                            {i.status}
+                          </Td>
+                        :
+                          <Td key="table7" >
+                            {i.status}
+                           </Td>
+                        }
                         </>
                         :
                         <>
                         {!i.submitted  ? 
-                            <td key="table8" className="t-status t-draft2">
-                            Draft
-                            </td>
+                        <Td key="table8" >
+                          Draft
+                        </Td>
                         :
-                        <td key="table9" className="t-status t-draft">
-                            {i.submitted}
-                        </td>
+                        <Td key="table9" >
+                          {i.submitted}
+                        </Td>
                         }
                         </>
                     }
-                    <td>
-                        <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
+                    <Td>
+                        <Flex flexDirection="column" justifyContent="center" alignItems="center">
                             <Link to={`/registrationhistory/${i._id}`}>
-                                <Button width={100} >Edit</Button>
+                                <Button width={100} marginTop={"5px"} marginBottom={"10px"}>Edit</Button>
                             </Link>
-                                <Button width={100} marginLeft={5} onClick={() => deleteVendorRegistrationData(i._id)}>Delete</Button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
+                                <Button width={100} marginBottom={"5px"} onClick={() => deleteVendorRegistrationData(i._id)}>Delete</Button>
+                        </Flex>
+                    </Td>
+                </Tr>
+          </Tbody>
             </>
-           )})}
-        </table>
+            )})}
+        </Table>
         </>
         }
         </div>

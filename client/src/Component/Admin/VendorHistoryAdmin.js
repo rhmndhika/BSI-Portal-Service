@@ -142,7 +142,7 @@ useEffect(() => {
                     <td>
                         <div style={{display: "flex", justifyContent : "center", alignItems : "center"}}>
                             <Link to={`/registrationhistory/${i._id}`}>
-                                <Button width={100} >Edit</Button>
+                                <Button width={100}>Detail</Button>
                             </Link>
                                 <Button width={100} marginLeft={5} onClick={() => deleteVendorRegistrationData(i._id)}>Delete</Button>
                         </div>

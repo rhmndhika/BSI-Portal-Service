@@ -27,6 +27,7 @@ import './PaygStatus.css'
 import moment from 'moment';
 import emailjs from '@emailjs/browser';
 import './PaygStatusDetail.css';
+import parse from 'html-react-parser';
 
 const PaygStatusDetail = () => {
 
@@ -159,6 +160,22 @@ const PaygStatusDetail = () => {
       }
       userExpire2();
      }, [emailLog])
+
+       
+     function convertToPlain(html){
+
+      // Create a new div element
+      var tempDivElement = document.createElement("div");
+      
+      // Set the HTML content with the given value
+      tempDivElement.innerHTML = html;
+      
+      // Retrieve the text property of the element 
+      return tempDivElement.textContent || tempDivElement.innerText || "";
+    } 
+
+    var htmlString= "<div><h1>Bears Beets Battlestar Galactica </h1>\n<p>Quote by Dwight Schrute</p></div>";
+    
 
 
   return (
@@ -296,13 +313,11 @@ const PaygStatusDetail = () => {
 
                 <FormControl mt={4} isRequired>
                   <FormLabel>Message</FormLabel>
-                  <Textarea name="message" placeholder='Please Input Your Email and Username' defaultValue={
-                    `ID : ${dataListID._id}, Email : ${dataListID.Email}, Invoice Number : ${dataListID.InvoiceNumber}, Date : ${moment(dataListID.InvoiceDate).format("DD MMMM YYYY")}, Amount : ${dataListID.Amount}, Subject : ${dataListID.Subject}, BuyerName : ${dataListID.BuyerName}, Attachments : ${dataListID.PaygAttachments}, Created : ${moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}, Updated : ${moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}`
-                    }/>
+                  <Textarea name="message" placeholder='Please Input Your Email and Username' defaultValue={convertToPlain(`<p>ID : ${dataListID._id}</p>\n<p>Email : ${dataListID.Email}</p>\n<p>Invoice Number : ${dataListID.InvoiceNumber}</p>\n<p>Invoice Date : ${moment(dataListID.InvoiceDate).format("DD MMMM YYYY")}</p>\n<p>Amount : ${dataListID.Amount}</p>\n<p>Subject : ${dataListID.Subject}</p>\n<p>Buyer Name : ${dataListID.BuyerName}</p>\n<p>Attachments : ${dataListID.PaygAttachments}</p>\n<p>Created : ${moment(dataListID.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>\n<p>Updated : ${moment(dataListID.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</p>\n`)}/>        
                 </FormControl>
               </ModalBody>
 
-              <ModalFooter>x``
+              <ModalFooter>
                 {isSubmit === false ?
                 <Button type="submit" name="Submitted" value="Submit" width={"110px"} colorScheme='blue' mr={3} onClick={(e) => {
                   updateSubmitted(dataListID._id, e)

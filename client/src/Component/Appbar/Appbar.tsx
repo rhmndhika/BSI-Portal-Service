@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import {
   Box,
   Flex,
@@ -17,8 +17,6 @@ import {
   useColorMode,
   Menu,
   MenuButton,
-  HStack,
-  VStack,
   Avatar,
   MenuList,
   MenuItem,
@@ -33,20 +31,9 @@ import {
   ChevronRightIcon,
   SettingsIcon
 } from '@chakra-ui/icons';
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from 'react-icons/fi';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { IoLogOutSharp } from 'react-icons/io5'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -54,9 +41,7 @@ export default function Appbar() {
 
   Axios.defaults.withCredentials = true;
 
-  let navigate = useNavigate();
-
-
+ 
   const {emailLog, setEmailLog } = useContext(EmailUser);
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -104,6 +89,7 @@ export default function Appbar() {
           display={{ base: 'flex', md: 'none' }}>
           <IconButton
             onClick={onToggle}
+            marginLeft={3}
             icon={
               isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
             }
@@ -147,7 +133,7 @@ export default function Appbar() {
                   variant={'link'}
                   cursor={'pointer'}
                   minW={0}>
-                <IconButton aria-label=''>  
+                <IconButton aria-label='btn-Logout' variant={'ghost'}>  
                   <SettingsIcon />
                 </IconButton>
                 </MenuButton>
@@ -341,7 +327,7 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       {
         label: 'Vendor Registration',
-        subLabel: 'BSI Vendor Registration',
+        subLabel: 'Vendor Registration',
         href: '/registrationhistory'
       },
       {
@@ -361,12 +347,12 @@ const NAV_ITEMS: Array<NavItem> = [
       },
       {
         label: 'Invoice Gateway',
-        subLabel: 'Vendor PayG',
+        subLabel: 'Invoice Gateway ( PayG )',
         href: '/paygHome',
       },
       {
         label: 'Outsourcing Portal',
-        subLabel: 'Up-and-coming Designers',
+        subLabel: 'Outsourcing Portal',
         href: '/outsourcing',
       }
 

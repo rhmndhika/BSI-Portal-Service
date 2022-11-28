@@ -13,9 +13,10 @@ import {
     Heading,
     Link,
     Stack,
-    Image
+    Image,
+    HStack
 } from '@chakra-ui/react';
-import { LockIcon, EmailIcon } from '@chakra-ui/icons';
+import { LockIcon, EmailIcon, PhoneIcon } from '@chakra-ui/icons';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -103,7 +104,11 @@ const Register = () => {
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
-          <Heading fontSize={'2xl'}>Register to your account</Heading>
+          <HStack display="flex" justifyContent="center" alignItems="center" textAlign={'center'} marginBottom={'30px'}>
+            <PhoneIcon  />
+            <Heading fontSize={'2xl'}color={'white.600'}>BSI Supplier Portal</Heading>
+          </HStack>
+          <Heading fontSize={'xl'}>Register to your account</Heading>
           <form onSubmit={register}>
           <FormControl isInvalid={isErrorUsername}>
                 <FormLabel>Username</FormLabel>

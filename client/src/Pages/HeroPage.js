@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect, useRef} from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { EmailUser } from '../Helper/EmailUserProvider'
 import { RoleUser } from '../Helper/RoleUserProvider'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 import '../Component/Profile/CreateProfile.css'
 import CreateProfile from '../Component/Profile/CreateProfile';
@@ -12,9 +12,7 @@ import {
     Stack,
     Text,
     Button,
-    Image,
-    Icon,
-    IconProps,
+    Image
   } from '@chakra-ui/react';
   import BusinessMain3D from '../Images/BusinessMain3D.png';
   import AOS from 'aos';

@@ -756,7 +756,7 @@ const HistoryDetail = () => {
                 <FormControl isRequired>
                   <FormLabel>To Email</FormLabel>
                   <Input type="email" name="user_email" />
-
+                    
                   <FormLabel>Message</FormLabel>
                   <Textarea name="message" />
                   <FormHelperText><i>Please write your credentials here</i></FormHelperText>

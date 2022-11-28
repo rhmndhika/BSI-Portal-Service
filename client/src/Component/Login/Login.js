@@ -16,8 +16,9 @@ import {
     Link,
     Stack,
     Image,
+    HStack
 } from '@chakra-ui/react';
-import { LockIcon, EmailIcon } from '@chakra-ui/icons';
+import { LockIcon, EmailIcon, PhoneIcon } from '@chakra-ui/icons';
 import './Login.css';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
@@ -108,7 +109,11 @@ const Login = () => {
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
-          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+          <HStack display="flex" justifyContent="center" alignItems="center" textAlign={'center'} marginBottom={'100px'}>
+           <PhoneIcon  />
+            <Heading fontSize={'2xl'}color={'white.600'}>BSI Supplier Portal</Heading>
+          </HStack>
+          <Heading fontSize={'xl'}>Sign in to your account</Heading>
           <form onSubmit={login}>
           <FormControl isInvalid={isErrorEmail}>
           <FormLabel>Email</FormLabel>
@@ -154,7 +159,7 @@ const Login = () => {
               </InputRightElement>
           </InputGroup>
           </FormControl>
-          <Stack spacing={6}>
+          <Stack spacing={6} marginTop={'10px'}>
             <Stack
               direction={{ base: 'column', sm: 'row' }}
               align={'start'}

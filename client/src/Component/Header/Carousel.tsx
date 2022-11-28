@@ -29,7 +29,7 @@ const settings = {
 export default function CaptionCarousel() {
   // As we have used custom buttons, we need a reference variable to
   // change the state
-  const [slider, setSlider] = React.useState<Slider | null>(null);
+  const [slider, setSlider] = React.useState<typeof Slider | null>(null);
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
@@ -67,6 +67,7 @@ export default function CaptionCarousel() {
       position={'relative'}
       height={'500px'}
       width={'full'}
+      padding={"35px"}
       overflow={'hidden'}>
       {/* CSS files for react-slick */}
       <link
@@ -89,6 +90,7 @@ export default function CaptionCarousel() {
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
+        marginLeft={5}
         onClick={() => slider?.slickPrev()}>
         <BiLeftArrowAlt size="40px" />
       </IconButton>
@@ -101,6 +103,7 @@ export default function CaptionCarousel() {
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
+        marginRight={5}
         onClick={() => slider?.slickNext()}>
         <BiRightArrowAlt size="40px" />
       </IconButton>
@@ -122,7 +125,7 @@ export default function CaptionCarousel() {
                 w={'full'}
                 maxW={'lg'}
                 position="absolute"
-                top="50%"
+                top="40%"
                 transform="translate(0, -50%)">
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                   {card.title}

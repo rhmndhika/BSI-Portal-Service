@@ -139,7 +139,7 @@ const InputDataVendor = () => {
     <ToastContainer />
     <Appbar />
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
-    <h2 style={{textAlign: "center", marginTop : "20px"}}>Supplier Data</h2>
+    <h1 style={{textAlign: "center", marginTop : "20px", fontSize : "20px"}}>Supplier Data</h1>
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
       <form className='formForm' method='POST' encType='multipart/form-data' action='#' onSubmit={handleSubmit}>
 

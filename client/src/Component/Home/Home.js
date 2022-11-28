@@ -1,34 +1,31 @@
 import React,{ useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Appbar from '../Appbar/Appbar.tsx';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import Axios from 'axios';
+import Appbar from '../Appbar/Appbar.tsx';
 import {
   Flex,
   Image,
   Text,
   useColorModeValue
 } from "@chakra-ui/react";
-import LogoRegistration from '../../Images/LogoRegistration.png'
 import './Home.css';
-import Header from '../Header/Header';
 import Carousel from '../Header/Carousel.tsx';
 import {BsChatDots} from 'react-icons/bs';
-import { IconButton } from '@chakra-ui/react'
 import Footer from '../Footer/Footer.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ChatwootWidget from '../Chatwoot/ChatwootWidget';
 import ChatIO from '../ChatIO/ChatIO';
-
-import VendorRegistration from '../../Images/VendorRegistration.jpg';
 import Sourcing from '../../Images/Sourcing.jpg';
 import POManagement from '../../Images/POManagement.jpg';
-import SocialMedia from '../../Images/SocialMedia.jpg';
 import DeliveryMonitoring from '../../Images/DeliveryMonitoring.jpg';
-import InvoiceGateway from '../../Images/InvoiceGateway.jpg';
 import OutsourcingPortal from '../../Images/OutsourcingPortal.jpg';
 import Forum from '../../Images/Forum.jpg';
+import VendorRegistrationV2 from '../../Images/VendorRegistrationV2.jpg';
+import InvoiceGatewayV2 from '../../Images/InvoiceGatewayV2.png';
+import SocialMediaV2 from '../../Images/SocialMediaV2.jpg';
+import LogoRegistration from '../../Images/LogoRegistration.png'
 
 AOS.init();
 
@@ -79,7 +76,7 @@ const Home = () => {
    const cardItem = [
     {
       title : "Vendor Registration",
-      imgUrl : LogoRegistration,
+      imgUrl : VendorRegistrationV2,
       hrefUrl : '/registrationhistory',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
@@ -97,8 +94,8 @@ const Home = () => {
     },
     {
       title : "Social Media",
-      imgUrl : SocialMedia,
-      hrefUrl : '#',
+      imgUrl : SocialMediaV2,
+      hrefUrl : '/socialmedia',
       shadows : "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     },
     {
@@ -109,7 +106,7 @@ const Home = () => {
     },
     {
       title : "Invoice Gateway",
-      imgUrl : InvoiceGateway,
+      imgUrl : InvoiceGatewayV2,
       hrefUrl : '/paygHome',
       shadows : "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
     },
@@ -166,7 +163,7 @@ const Home = () => {
             style={{boxShadow: i.shadows}}
             p='20px'
             h='225px'
-            margin={5}
+            margin={30}
             marginTop="50px"
             w={{ base: "315px", md: "315px" }}
             alignItems='center'
@@ -177,8 +174,10 @@ const Home = () => {
             <Image
               src={i.imgUrl}
               maxW='100%'
+              maxH='140px'
               borderRadius='20px'
               mb='10px'
+              alt='image-icon'
               />
             </a>
             <Text
