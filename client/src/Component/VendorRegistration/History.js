@@ -28,6 +28,7 @@ const History = () => {
   const [ search, setSearch ] = useState("");
 
   const [ isLoading, setIsLoading ] = useState(true);
+
   
   let navigate = useNavigate();
 
@@ -52,7 +53,9 @@ const History = () => {
 
   const deleteVendorRegistrationData = (id) => {
     Axios.delete(`https://empty-test-project.herokuapp.com/vendor/delete/${id}`).then(() => {
-      alert("Deleted");
+      setDataVendorRegistration(dataVendorRegistration.filter((val) => {
+        return val._id != id
+    }))
     })
   }
 
@@ -85,15 +88,15 @@ const History = () => {
         <Appbar />
         <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px", fontSize : "20px"}}>Welcome to Vendor Registration</h1>
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
-        { dataVendorRegistration.length <= 0 ?
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
-          <p>NO DATA AVAILABLE</p>
-          <Link to="/inputdatavendor">
-            <Button mt="10px" width={"120px"} mr={3}>Input Data</Button>
-          </Link>
+        { isLoading === true ?
+        <Flex>
+          <Spinner marginTop={30} />
         </Flex>
         :
         <>
+        { dataVendorRegistration.length <= 0 ? 
+        null
+        :
         <Flex flexDirection="column" marginTop="10px">
           <Flex justifyContent="center" alignItems="center" marginBottom="20px">
             <Link to="/inputdatavendor">
@@ -104,7 +107,16 @@ const History = () => {
             <Input type="text" placeholder='Search...' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>
+        }
         <Table>
+          { dataVendorRegistration.length <= 0 ?
+          <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
+            <p>NO DATA AVAILABLE</p>
+            <Link to="/inputdatavendor">
+              <Button mt="10px" width={"120px"} mr={3}>Input Data</Button>
+            </Link>
+          </Flex>
+          :
           <Thead>
             <Tr>
               <Th>ID</Th>
@@ -115,7 +127,8 @@ const History = () => {
               <Th >Action</Th>
             </Tr>
           </Thead>
-          {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(
+          }
+          {dataVendorRegistration.length <= 0 ? null : dataVendorRegistration.filter(
             i=> i._id.toLowerCase().includes(search) || 
             i.email.toLowerCase().includes(search) ||
             i.CompanyName.toLowerCase().includes(search) ||

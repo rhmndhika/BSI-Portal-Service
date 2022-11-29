@@ -41,9 +41,6 @@ const PaygHomeAdmin = () => {
             Welcome to PayG Vendor
         </p>
         <div style={{display : "flex", margin : "20px"}}>
-            {/* <a href='/payg'>
-                <Button width={150}>Input Data</Button>
-            </a> */}
             <a href='/paygStatus'>
             <Button width={150}>Invoice Status</Button>
             </a>

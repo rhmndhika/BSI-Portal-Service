@@ -18,7 +18,8 @@ import {
     Flex,
     Input,
     InputGroup,
-    InputLeftElement
+    InputLeftElement,
+    Text
   } from '@chakra-ui/react';
 import './PaygStatus.css'
 import PaygStatusAdmin from '../Admin/PaygStatusAdmin';
@@ -95,33 +96,40 @@ const PaygStatus = () => {
     <div style={{height : "493px"}}>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
-        { dataList.length <= 0 ?
-        <p style={{marginTop: "150px"}}>No Data Available</p>
-        :
-        <>
-         <Flex className='flexTable'>
-          <Flex marginTop="-15px" justifyContent="flex-end" float="right">
-            <InputGroup>
-            <InputLeftElement
-                pointerEvents='none'
-                children={<SearchIcon color='gray.300' />}
-            />
-                <Input type="text" placeholder='Search By Invoice / Buyer' outline="black" onChange={(e) => setSearch(e.target.value)} />
-            </InputGroup>
-          </Flex>
-        </Flex> 
-        <table className="table table-action">
+            { isLoading === false ? 
+            <>
+            <Flex className='flexTable'>
+                <Flex marginTop="-15px" justifyContent="flex-end" float="right">
+                    <InputGroup>
+                    <InputLeftElement
+                        pointerEvents='none'
+                        children={<SearchIcon color='gray.300' />}
+                    />
+                        <Input type="text" placeholder='Search By Invoice / Buyer' outline="black" onChange={(e) => setSearch(e.target.value)} />
+                    </InputGroup>
+                </Flex>
+            </Flex> 
+            <table className="table table-action">
+            {dataList.length <= 0 ? 
+            <Flex justifyContent="center" alignItems="center" textAlign="center">
+                <Text>No Data Available</Text> 
+            </Flex>
+            :
             <thead>
-                <tr>
-                <th className="t-small"></th>
-                <th className="t-medium">Invoice Number</th>
-                <th className="t-medium">Email</th>
-                <th className="t-medium">Buyer Name</th>
-                <th className="t-medium">Status</th>
-                <th className="t-medium">Action</th>
-                </tr>
+            <tr>
+            <th className="t-small"></th>
+            <th className="t-medium">Invoice Number</th>
+            <th className="t-medium">Email</th>
+            <th className="t-medium">Buyer Name</th>
+            <th className="t-medium">Status</th>
+            <th className="t-medium">Action</th>
+            </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataList.filter(i => i.InvoiceNumber.toLowerCase().includes(search) || i.BuyerName.toLowerCase().includes(search))
+            }
+            {dataList.length <= 0 ? 
+            null
+            : 
+            dataList.filter(i => i.InvoiceNumber.toLowerCase().includes(search) || i.BuyerName.toLowerCase().includes(search))
             .map((i, index) => {
             return(
             <>
@@ -160,15 +168,15 @@ const PaygStatus = () => {
                     <td>{i.BuyerName}</td>
                     {i.status ? 
                         <>
-                          {i.status === "Approved" ?
+                        {i.status === "Approved" ?
                             <td className="t-status t-active">
                                 {i.status}
                             </td>
-                          :
+                        :
                             <td className="t-status t-inactive">
                                 {i.status}
                             </td>
-                          }
+                        }
                         </>
                         :
                         <>
@@ -196,10 +204,12 @@ const PaygStatus = () => {
                 </tr>
             </tbody>
             </>
-           )})}
+        )})}
         </table>
-        </>
-        }
+            </>
+            :
+            <Spinner marginTop={30} />
+            }
         </div>
     </div>
     :

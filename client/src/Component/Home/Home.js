@@ -95,7 +95,7 @@ const Home = () => {
     {
       title : "Social Media",
       imgUrl : SocialMediaV2,
-      hrefUrl : '/socialmedia',
+      hrefUrl : '/socialmedia/home',
       shadows : "blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px"
     },
     {

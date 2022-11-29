@@ -9,7 +9,8 @@ import {
   Button,
   Spinner,
   Flex,
-  Input
+  Input,
+  Text
 } from '@chakra-ui/react';
 
 
@@ -64,8 +65,8 @@ const PaygStatusAdmin = () => {
     <div style={{height : "493px"}}>
         <Appbar />
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
-        { dataList.length <= 0 ?
-        <p style={{marginTop: "150px"}}>No Data Available</p>
+        { isLoading === true ?
+        <Spinner marginTop={30} />
         :
         <>
         <Flex flexDirection="column" marginTop="30px">
@@ -74,6 +75,11 @@ const PaygStatusAdmin = () => {
           </Flex>
         </Flex>        
         <table className="table table-action">
+        {dataList.length <= 0 ? 
+            <Flex justifyContent="center" alignItems="center" textAlign="center">
+                <Text>No Data Available</Text> 
+            </Flex>
+            :
             <thead>
                 <tr>
                 <th className="t-small"></th>
@@ -84,10 +90,10 @@ const PaygStatusAdmin = () => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataList.filter(i=> i.InvoiceNumber.toLowerCase().includes(search) || i.Email.toLowerCase().includes(search) || i.status?.toLowerCase().includes(search))
+            }
+            {dataList.length <= 0 ? null : dataList.filter(i=> i.InvoiceNumber.toLowerCase().includes(search) || i.Email.toLowerCase().includes(search) || i.status?.toLowerCase().includes(search))
             .map((i, index) => {
             return(
-            <>
             <tbody>
                 <tr key={index}>
                     <td><label></label></td>
@@ -124,7 +130,6 @@ const PaygStatusAdmin = () => {
                     </td>
                 </tr>
             </tbody>
-            </>
            )})}
         </table>
         </>

@@ -29,7 +29,8 @@ import {
     useDisclosure,
     FormControl,
     FormLabel,
-    Textarea
+    Textarea,
+    Spinner
 } from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/card'
 import { 
@@ -55,11 +56,20 @@ const SocialMedia = () => {
     const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
     const [ role, setRole ] = useState("");
     const [ profileList, setProfileList ] = useState("");
+    const [ image, setImage ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
+
+    const onImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+          setImage(URL.createObjectURL(event.target.files[0]));
+          setProfileSosmed({...profileSosmed, profilePicture : event.target.files[0]})
+        }
+       }
 
     useEffect(() => {
 
@@ -92,13 +102,15 @@ const SocialMedia = () => {
         await fetch("https://empty-test-project.herokuapp.com/socialmedia/create", {
             method: 'POST',
             body: formData,
+        }).then((response) => {
+            setTimeout(() => window.location.reload(false), 1000);
         })
     }
 
     const getProfile = () => {
         Axios.get("https://empty-test-project.herokuapp.com/socialmedia").then((response) => {
             setProfileList(response.data);
-            console.log(response.data);
+            setIsLoading(false);
         })
     }
 
@@ -146,9 +158,8 @@ const SocialMedia = () => {
 
             <FormControl mt={4} isRequired>
               <FormLabel>Profile Picture</FormLabel>
-              <Input type="file" name="ProfilePicture" onChange={(e) => {
-                setProfileSosmed({...profileSosmed, profilePicture : e.target.files[0]})
-              }} />
+              <Input type="file" name="ProfilePicture" onChange={onImageChange}/>
+              <img src={image} alt="preview image" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
@@ -160,16 +171,16 @@ const SocialMedia = () => {
           </form>
         </ModalContent>
       </Modal>
-    <div>
-        <Flex>
-            <Flex justifyContent="center" border="1px solid" width="full" height="60px" margin="20px 10px 0 10px">
+    <>
+        <Flex justifyContent="center">
+            <Flex justifyContent="center"  height="60px" margin="20px 10px 0 10px">
                 <Flex alignItems="center">
                 <InputGroup>
                     <InputLeftElement
                     pointerEvents='none'
                     children={<SearchIcon color='gray.300' />}
                     />
-                    <Input width="500px" type='text' placeholder='Search....' />
+                    <Input width="300px" type='text' placeholder='Search....' />
                 </InputGroup>
                 </Flex>
             </Flex>
@@ -177,27 +188,29 @@ const SocialMedia = () => {
 
         <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
 
-            <Flex flexDirection="column" justifyContent="center" alignItems="center">
+            <Flex className='flex-item-1' flexDirection="column" justifyContent="center" alignItems="center">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
-                    {profileList.length > 0 ? 
+                    { isLoading === false ? 
                     <>
-                    {profileList.map((i, index) => {
+                    {profileList.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> :  profileList.map((i, index) => {
                     return (
-                        <Flex flexDirection="column" justifyContent="center" alignItems="center">
+                        <Flex flexDirection="column" justifyContent="center" alignItems="center" key={index}>
                             <Flex justifyContent="center" width="300px">
-                                <Avatar width="250px" height="250px"  objectFit="cover" src={Object.values(i.ProfilePicture)}/>
+                                {/* <Avatar width="250px" height="250px"  objectFit="cover" src={i.ProfilePicture} crossOrigin="anonymous"/> */}
+                                <img width="250px" height="250px" crossOrigin="anonymous" src={i.ProfilePicture} />
                             </Flex>
-                            <Text>{i.FullName}</Text>
+                            <Text>@{i.FullName}</Text>
                             <Text>{i.Username}</Text>
                         </Flex>
                     )
                     })}
                     </>
                     :
-                        <Button onClick={onOpen}>Create profie</Button>
+                        <Spinner />
                     }
                 </Flex>
 
+                
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
                 <Card width="320px" marginTop="10px">
                 <CardBody>
@@ -231,7 +244,7 @@ const SocialMedia = () => {
             Create Post</Button>
             </Flex>
 
-            <Flex width="600px" flexDirection="column">
+            <Flex className='flex-item-2' width="750px" flexDirection="column">
                 <Flex marginTop="15px">
                     <Card shadow="lg" padding="10px">
                     <CardHeader>
@@ -253,15 +266,19 @@ const SocialMedia = () => {
                         </Flex>
                     </CardHeader>
                     <Image
+                        className='imgPost'
                         objectFit='cover'
                         src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
                         alt='Chakra UI'
                         marginTop="10px"
-                        maxW="600px"
+                        maxW="700px"
                         maxH="550px"
-                    />
+                        display="block"
+                        marginLeft="auto"
+                        marginRight="auto"
+                        />
                     <CardBody>
-                        <Text>
+                        <Text padding="15px">
                         With Chakra UI, I wanted to sync the speed of development with the speed
                         of design. I wanted the developer to be just as excited as the designer to
                         create a screen.
@@ -288,8 +305,8 @@ const SocialMedia = () => {
                 </Flex>
             </Flex>
 
-            <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px">
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid">
+            <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="300px">
+                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="15px">
                     <Flex>
                         <Text>Who to find</Text>
                     </Flex>
@@ -409,7 +426,7 @@ const SocialMedia = () => {
             </Flex>
 
         </Flex>
-    </div>
+    </>
    </>
   )
 }

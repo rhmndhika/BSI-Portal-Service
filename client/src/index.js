@@ -79,7 +79,7 @@ root.render(
         <Route path='/registrationhistory/:id' element={<RegistrationHistoryDetail />} />
         <Route path='/chatio' element={<ChatIO />} />
         <Route path='/progress' element={<ProgressOutsourcing />} />
-        <Route path='/socialmedia' element={<SocialMedia />} />
+        <Route path='/socialmedia/home' element={<SocialMedia />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>

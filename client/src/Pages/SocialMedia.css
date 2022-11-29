@@ -1,6 +1,29 @@
-@media (max-width: 809px) {
+@media (max-width: 1265px) {
   .flexContainerSM {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-item-1 {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .flex-item-2 {
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+  }
+
+  .imgPost {
+    max-width: 300px;
+  }
+
+  
+  .flex-item-3 {
+    justify-content: center;
+    align-items: center;
   }
 }
   

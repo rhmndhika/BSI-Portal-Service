@@ -38,6 +38,7 @@ import {
   Flex,
   InputGroup,
   InputLeftElement,
+  Spinner,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import '../PayG/Payg.css';
@@ -57,6 +58,7 @@ const Home = () => {
   const [ search, setSearch ] = useState("");
   const [ isLoading , SetIsLoading ] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ isFetching, setIsFetching ] = useState(true);
   const btnRef = React.useRef();
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
@@ -118,6 +120,7 @@ const Home = () => {
   const getOutsourcingData = () => {
      Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
+      setIsFetching(false);
     })
   }
 
@@ -181,8 +184,11 @@ const Home = () => {
         <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
           <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
           </div>
-          {dataOutsourcing.length ? 
+          { isFetching === false ? 
           <>
+          { dataOutsourcing.length <= 0 ? 
+          null
+          :
            <Flex className='flexTable'>
               <Flex marginTop="-15px" justifyContent="center" alignItems="center">
                 <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} onClick={onOpen}>
@@ -195,11 +201,19 @@ const Home = () => {
                 />
                     <Input className='inputPortal' type="text" placeholder='Search...' outline="black" onChange={(e) => setSearch(e.target.value)} />
                 </InputGroup>
-              </Flex>
-             
+              </Flex> 
             </Flex> 
+          }
           <TableContainer marginTop={"10px"}>
             <Table variant='simple'>
+            {dataOutsourcing.length <= 0 ? 
+            <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
+              <p>NO DATA AVAILABLE</p>
+              <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} mt={"10px"} onClick={onOpen}>
+                Upload CV
+              </Button>
+            </div>
+            :
               <Thead>
               <Tr>
                 <Th>Email</Th>
@@ -211,7 +225,11 @@ const Home = () => {
                 <Th>Action</Th>
               </Tr>
             </Thead>
-          {dataOutsourcing.filter(i => 
+            }
+          {dataOutsourcing.length <= 0 ? 
+          null
+          : 
+          dataOutsourcing.filter(i => 
           i.Name.toLowerCase().includes(search) || 
           i.IDLink.toLowerCase().includes(search) ||
           i.Supplier.toLowerCase().includes(search) || 
@@ -287,12 +305,9 @@ const Home = () => {
           </TableContainer>
           </>
           :
-          <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
-            <p>NO DATA AVAILABLE</p>
-            <Button width={"120px"} ref={btnRef} colorScheme='teal' mr={3} mt={"10px"} onClick={onOpen}>
-              Upload CV
-            </Button>
-          </div>
+          <Flex justifyContent="center" alignItems="center">
+            <Spinner />
+          </Flex>
           }
           <Drawer
             isOpen={isOpen}

@@ -29,6 +29,7 @@ import {
   Flex,
   InputGroup,
   InputLeftElement,
+  Spinner,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import '../PayG/Payg.css';
@@ -46,6 +47,7 @@ const OutsourcingHomeAdmin = () => {
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
   const [ search, setSearch ] = useState("");
+  const [ isFetching, setIsFetching ] = useState(true);
   
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
@@ -87,6 +89,7 @@ const OutsourcingHomeAdmin = () => {
   const getAllOutsourcingData = () => {
     Axios.get("https://empty-test-project.herokuapp.com/outsourcing/all").then((response) => {
       setDataOutsourcing(response.data);
+      setIsFetching(false);
     })
   }
 
@@ -120,8 +123,11 @@ const OutsourcingHomeAdmin = () => {
         <div style={{display : "flex", justifyContent : "center", marginTop : "35px", flexDirection : "column"}}>
           <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
           </div>
-          {dataOutsourcing.length ? 
+          { isFetching === false ? 
           <>
+          { dataOutsourcing.length <= 0 ? 
+          null
+          :
            <Flex className='flexTable'>
               <Flex marginTop="-15px" justifyContent="center" alignItems="center">
                 <InputGroup>
@@ -132,10 +138,15 @@ const OutsourcingHomeAdmin = () => {
                     <Input className='inputPortal' type="text" placeholder='Search...' outline="black" onChange={(e) => setSearch(e.target.value)} />
                 </InputGroup>
               </Flex>
-             
             </Flex> 
+          }
           <TableContainer marginTop={"10px"}>
             <Table variant='simple'>
+            { dataOutsourcing.length <= 0 ? 
+              <div style={{display : "flex", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
+                <p>NO DATA AVAILABLE</p>
+              </div>
+              :  
               <Thead>
               <Tr>
                 <Th>Email</Th>
@@ -147,7 +158,8 @@ const OutsourcingHomeAdmin = () => {
                 <Th>Action</Th>
               </Tr>
             </Thead>
-          {dataOutsourcing.filter(i => 
+            }
+          { dataOutsourcing.length <= 0 ? null : dataOutsourcing.filter(i => 
           i.Email.toLowerCase().includes(search) ||
           i.Name.toLowerCase().includes(search) || 
           i.IDLink.toLowerCase().includes(search) ||
@@ -218,9 +230,9 @@ const OutsourcingHomeAdmin = () => {
           </TableContainer>
           </>
           :
-          <div style={{display : "flex", justifyContent : "center", alignItems : "center", marginTop : "50px", fontWeight : "bold"}}>
-            <p>NO DATA AVAILABLE</p>
-          </div>
+          <Flex justifyContent="center" alignItems="center">
+            <Spinner />
+          </Flex>
           }
         </div>
     </div>

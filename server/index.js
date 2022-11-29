@@ -54,7 +54,7 @@ app.use(
     optionsSuccessStatus : 200
 }));
 
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({policy : "cross-origin"}));
 app.use(hpp());
 app.use(express.json());
 app.use(bodyParser.json())

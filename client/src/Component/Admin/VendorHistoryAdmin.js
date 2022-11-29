@@ -9,7 +9,8 @@ import {
   useDisclosure,
   Spinner,
   Flex,
-  Input
+  Input,
+  Text
 } from '@chakra-ui/react';
 import moment from 'moment';
 import '../VendorRegistration/History.css'; 
@@ -41,7 +42,9 @@ const VendorHistoryAdmin = () => {
 
   const deleteVendorRegistrationData = (id) => {
     Axios.delete(`https://empty-test-project.herokuapp.com/vendor/delete/${id}`).then(() => {
-      alert("Deleted");
+      setDataVendorRegistration(dataVendorRegistration.filter((val) => {
+        return val._id != id
+    }))
     })
   }
 
@@ -71,26 +74,27 @@ useEffect(() => {
         <Appbar />
         <h1 style={{display : "flex", justifyContent : "center", marginTop : "35px", fontSize : "20px"}}>Welcome to Vendor Registration</h1>
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
-        { dataVendorRegistration.length <= 0 ?
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
-          <p>NO DATA AVAILABLE</p>
-          {/* <Link to="/inputdatavendor">
-            <Button mt="10px" width={"120px"} colorScheme='teal' mr={3}>Input Data</Button>
-          </Link> */}
+        { isLoading === true ?
+        <Flex>
+          <Spinner marginTop={30} />
         </Flex>
         :
         <>
+        { dataVendorRegistration.length <= 0 ?
+        null
+        :
         <Flex flexDirection="column" marginTop="10px">
-          {/* <Flex justifyContent="center" alignItems="center" marginBottom="10px">
-            <Link to="/inputdatavendor">
-              <Button>Input Data</Button>
-            </Link>
-          </Flex> */}
           <Flex>
             <Input type="text" placeholder='Search By ID' onChange={(e) => setSearch(e.target.value)} />
           </Flex>
         </Flex>
+        }
         <table className="table table-action">
+          { dataVendorRegistration.length <= 0 ?
+          <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
+            <Text>NO DATA AVAILABLE</Text>
+          </Flex>
+          :
             <thead>
                 <tr>
                 <th className="t-small"></th>
@@ -103,9 +107,9 @@ useEffect(() => {
                 <th className="t-medium">Action</th>
                 </tr>
             </thead>
-            {isLoading ? <Spinner marginTop={30} /> : dataVendorRegistration.filter(i=> i._id.toLowerCase().includes(search)).map((i, index) => {
+            }
+            { dataVendorRegistration.length <= 0 ? null : dataVendorRegistration.filter(i=> i._id.toLowerCase().includes(search)).map((i, index) => {
             return(
-            <>
             <tbody>
                 <tr key={index}>
                     <td key="table1"><label></label></td>
@@ -149,7 +153,6 @@ useEffect(() => {
                     </td>
                 </tr>
             </tbody>
-            </>
            )})}
         </table>
         </>
