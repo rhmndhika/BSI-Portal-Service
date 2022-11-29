@@ -64,7 +64,7 @@ export default function Appbar() {
     Axios.get('https://empty-test-project.herokuapp.com/logout').then(() => {
     })
     showToastSucces();
-    setTimeout(() => window.location.assign("https://bsi-portal-supplier.netlify.app"), 1000);
+    setTimeout(() => window.location.assign("http://localhost:3000"), 1000);
   }
 
   
