@@ -4,7 +4,6 @@ export const PostSosmed = createContext();
 export default function PostSosmedProvider({children}) {
   const [postSosmed, setPostSosmed] = useState({
    username : "",
-   fullName : "",
    title : "",
    content : "",
    documents : ""

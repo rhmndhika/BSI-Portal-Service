@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
 import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
+import { PostSosmed } from '../Helper/PostSosmed';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -54,12 +55,19 @@ const SocialMedia = () => {
     
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
+    const { postSosmed, setPostSosmed } = useContext(PostSosmed);
     const [ role, setRole ] = useState("");
     const [ profileList, setProfileList ] = useState("");
     const [ image, setImage ] = useState(null);
+    const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { 
+        isOpen: isOpenPostModal, 
+        onOpen: onOpenPostModal, 
+        onClose: onClosePostModal 
+      } = useDisclosure()
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -69,7 +77,14 @@ const SocialMedia = () => {
           setImage(URL.createObjectURL(event.target.files[0]));
           setProfileSosmed({...profileSosmed, profilePicture : event.target.files[0]})
         }
-       }
+    }
+
+    const onImageChangePost = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImagePost(URL.createObjectURL(event.target.files[0]));
+            setPostSosmed({...postSosmed, documents : event.target.files[0]})
+        }
+    }
 
     useEffect(() => {
 
@@ -98,7 +113,6 @@ const SocialMedia = () => {
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
 
-       
         await fetch("https://empty-test-project.herokuapp.com/socialmedia/create", {
             method: 'POST',
             body: formData,
@@ -114,6 +128,24 @@ const SocialMedia = () => {
         })
     }
 
+    const submitPost = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append('Username', emailLog);
+        formData.append('Title', postSosmed.title);
+        formData.append('Content', postSosmed.content);
+        formData.append('Documents', postSosmed.documents);
+
+        await fetch("https://empty-test-project.herokuapp.com/socialmedia/post", {
+            method: 'POST',
+            body: formData,
+        }).then((response) => {
+            setTimeout(() => window.location.reload(false), 1000);
+        })
+    }
+
     useEffect(() => {
         getProfile();
     }, [])
@@ -123,6 +155,56 @@ const SocialMedia = () => {
    <>
     <Appbar />
     <Modal
+        isOpen={isOpenPostModal}
+        onClose={onClosePostModal}
+        closeOnOverlayClick={false}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create your post</ModalHeader>
+          <ModalCloseButton />
+          <form method='POST' onSubmit={submitPost}>
+          <ModalBody pb={6}>
+            <FormControl isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input value={emailLog} disabled />
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Title</FormLabel>
+              <Input type="text" value={postSosmed.title} name="title" onChange={(e) => {
+                setPostSosmed({...postSosmed, title : e.target.value});
+              }} />
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Content</FormLabel>
+              <Textarea value={postSosmed.content} name="content" onChange={(e) => {
+                setPostSosmed({...postSosmed, content : e.target.value});
+              }} />
+            </FormControl>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Picture</FormLabel>
+              <Input type="file"  name="documents" onChange={onImageChangePost} />
+              <img src={imagePost} alt="preview document post" />
+            </FormControl>
+
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type='submit' colorScheme='blue' mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClosePostModal}>Cancel</Button>
+          </ModalFooter>
+          </form>
+        </ModalContent>
+    </Modal>
+
+    {/* Profile Modal  */}
+
+    <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
@@ -131,7 +213,7 @@ const SocialMedia = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Create your Profile</ModalHeader>
           <ModalCloseButton />
           <form method='POST' onSubmit={createProfile}>
           <ModalBody pb={6}>
@@ -240,6 +322,7 @@ const SocialMedia = () => {
                 size="md"
                 width="full"
                 colorScheme="facebook"
+                onClick={onOpenPostModal}
             >
             Create Post</Button>
             </Flex>
