@@ -29,9 +29,21 @@ const createProfile = async (req, res) => {
   res.send(Profile);
 }
 
+const getAllProfiles = (req, res) => {
+    
+    SosmedProfileModel.find({}, (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+    })
+}
+
+
 const getProfileByEmail = (req, res) => {
     
-    SosmedProfileModel.find({Username : req.session.email}, (err, result) => {
+    SosmedProfileModel.findOne({Username : req.session.email}, (err, result) => {
         if (err) {
           res.send(err);
         } else {
@@ -43,6 +55,7 @@ const getProfileByEmail = (req, res) => {
 
   
 router.post("/socialmedia/create", upload.single('ProfilePicture'), createProfile);
+router.get("/socialmedia/all", getAllProfiles);
 router.get("/socialmedia", getProfileByEmail);
 
 module.exports = router

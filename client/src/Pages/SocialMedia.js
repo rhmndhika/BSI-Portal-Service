@@ -32,10 +32,17 @@ import {
     FormControl,
     FormLabel,
     Textarea,
-    Spinner
+    Spinner,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay
 } from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/card'
 import { 
+    EditIcon,
     SearchIcon
 } from '@chakra-ui/icons';
 import './SocialMedia.css'
@@ -64,13 +71,23 @@ const SocialMedia = () => {
     const [ image, setImage ] = useState(null);
     const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
+    const [ currentID, setCurrentID ] = useState("");
+    const [ search, setSearch ] = useState("");
+    
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { 
-        isOpen: isOpenPostModal, 
-        onOpen: onOpenPostModal, 
-        onClose: onClosePostModal 
+        isOpen  : isOpenPostModal, 
+        onOpen  : onOpenPostModal, 
+        onClose : onClosePostModal 
       } = useDisclosure()
+
+    const { 
+        isOpen  : isOpenAlertDialog, 
+        onOpen  : onOpenAlertDialog, 
+        onClose : onCloseAlertDialog
+     } = useDisclosure()
+    const cancelRef = React.useRef()
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -150,11 +167,15 @@ const SocialMedia = () => {
     }
 
     const getAllPost = () => {
-        Axios.get("https://empty-test-project.herokuapp.com/socialmedia/post/email").then((response) => {
+        Axios.get("https://empty-test-project.herokuapp.com/socialmedia/post/all").then((response) => {
             setPostList(response.data);
             setIsLoading(false);
             console.log(response.data);
         })
+    }
+
+    const deleteCurrentID = () => {
+        alert(currentID);
     }
 
     useEffect(() => {
@@ -166,6 +187,35 @@ const SocialMedia = () => {
   return (
    <>
     <Appbar />
+    {/* Alert Delete */}
+    <AlertDialog
+        isOpen={isOpenAlertDialog}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseAlertDialog}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete Customer
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onCloseAlertDialog}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={deleteCurrentID} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
+    {/* Modal CreatePost */}
     <Modal
         isOpen={isOpenPostModal}
         onClose={onClosePostModal}
@@ -274,7 +324,7 @@ const SocialMedia = () => {
                     pointerEvents='none'
                     children={<SearchIcon color='gray.300' />}
                     />
-                    <Input width="300px" type='text' placeholder='Search....' />
+                    <Input width="300px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
                 </InputGroup>
                 </Flex>
             </Flex>
@@ -340,9 +390,11 @@ const SocialMedia = () => {
             </Flex>
             
             { isLoading === false ? 
-            
             <Flex className='flex-item-2' width="750px" flexDirection="column">
-                { postList.length <= 0 ? null : postList.map((i, index) => {
+                { postList.length <= 0 ? null : postList.filter(i => 
+                i.Username.toLowerCase().includes(search) || 
+                i.Title.toLowerCase().includes(search)
+                ).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
                     <Card shadow="lg" padding="10px">
@@ -352,32 +404,57 @@ const SocialMedia = () => {
                             <Link to={`/socialmedia/${i._id}`}>
                                 {profileList.length <= 0 ? null : profileList.map((x, key) => {
                                     return (
-                                        <Avatar key={key} name={i.Username} src={x.ProfilePicture} />
+                                        <Avatar key={key} name={i.Username} src="" />
                                     )
                                 })}
                             </Link>
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
-                            {/* <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text> */}
-                            <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text>
+                            <Text>Created {moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
+                            {/* <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text> */}
                             </Box>
                         </Flex>
+                        {/* { i.Username === emailLog 
+                        ?
                         <IconButton
-                            variant='ghost'
-                            colorScheme='gray'
-                            aria-label='See menu'
-                            icon={<BsThreeDotsVertical />}
+                        variant='ghost'
+                        colorScheme='gray'
+                        aria-label='See menu'
+                        icon={<EditIcon />}
+                        />
+                        :
+                        <IconButton
+                        variant='ghost'
+                        colorScheme='gray'
+                        aria-label='See menu'
+                        icon={<BsThreeDotsVertical />}
+                        />
+                        } */}
+                        <IconButton
+                        variant='ghost'
+                        colorScheme='gray'
+                        aria-label='See menu'
+                        onClick={() => {
+                            setCurrentID(i._id);
+                            onOpenAlertDialog(i._id);
+                        }}
+                        icon={<BsThreeDotsVertical />}
                         />
                         </Flex>
                     </CardHeader>
+                    <Text marginTop={30}>
+                        {i.Title}
+                    </Text>
                     <Image
                         className='imgPost'
                         objectFit='cover'
                         src={i.Documents}
                         alt='Chakra UI'
                         marginTop="10px"
-                        maxW="700px"
-                        maxH="550px"
+                        // maxW="700px"
+                        // maxH="550px"
+                        width="700px"
+                        height="550px"
                         display="block"
                         marginLeft="auto"
                         marginRight="auto"
