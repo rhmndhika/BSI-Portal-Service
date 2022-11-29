@@ -98,6 +98,9 @@ const PaygStatus = () => {
         <div style={{display : "flex", flexDirection : "column", justifyContent : "center", alignItems : "center"}}>
             { isLoading === false ? 
             <>
+            { dataList.length <= 0 ?
+            null
+            :
             <Flex className='flexTable'>
                 <Flex marginTop="-15px" justifyContent="flex-end" float="right">
                     <InputGroup>
@@ -109,6 +112,7 @@ const PaygStatus = () => {
                     </InputGroup>
                 </Flex>
             </Flex> 
+            }
             <table className="table table-action">
             {dataList.length <= 0 ? 
             <Flex justifyContent="center" alignItems="center" textAlign="center">

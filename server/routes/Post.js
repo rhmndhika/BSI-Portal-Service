@@ -64,9 +64,22 @@ const getPostById = (req, res) => {
     })
 }
 
+const deletePostById = (req, res) => {
+  const Id = req.params.id;
+
+  SosmedPostModel.findByIdAndDelete({_id : Id}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  })
+}
+
 router.post("/socialmedia/post", upload.single('Documents'), createPost);
 router.get("/socialmedia/post/all", getAllPost);
 router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
+router.delete("/socialmedia/post/delete/:id", deletePostById);
 
 module.exports = router

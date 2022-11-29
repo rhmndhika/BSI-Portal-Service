@@ -32,6 +32,7 @@ import {
   SettingsIcon
 } from '@chakra-ui/icons';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -43,6 +44,7 @@ export default function Appbar() {
 
  
   const {emailLog, setEmailLog } = useContext(EmailUser);
+  const { roleUser, setRoleUser } = useContext(RoleUser);
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -147,7 +149,14 @@ export default function Appbar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>{emailLog}</p>
+                    <Flex flexDirection="column" >
+                      <Flex>
+                        <Text>{emailLog}</Text><br></br>
+                      </Flex>
+                      <Flex justifyContent="center">
+                        <Text>{roleUser}</Text>
+                      </Flex>
+                    </Flex>
                   </Center>
                   <br />
                   <MenuDivider />

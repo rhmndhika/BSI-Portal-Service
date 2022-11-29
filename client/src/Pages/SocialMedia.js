@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
 import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
 import { PostSosmed } from '../Helper/PostSosmed';
@@ -68,13 +68,13 @@ const SocialMedia = () => {
     const [ role, setRole ] = useState("");
     const [ profileList, setProfileList ] = useState("");
     const [ postList, setPostList ] = useState("");
+    const [ allProfile, setAllProfile ] = useState("");
     const [ image, setImage ] = useState(null);
     const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
     
-
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { 
         isOpen  : isOpenPostModal, 
@@ -170,16 +170,28 @@ const SocialMedia = () => {
         Axios.get("https://empty-test-project.herokuapp.com/socialmedia/post/all").then((response) => {
             setPostList(response.data);
             setIsLoading(false);
-            console.log(response.data);
         })
     }
 
-    const deleteCurrentID = () => {
-        alert(currentID);
+    const getAllProfile = () => {
+      Axios.get("https://empty-test-project.herokuapp.com/socialmedia/all").then((response) => {
+          setAllProfile(response.data);
+          setIsLoading(false);
+      })
     }
 
+    const deleteCurrentID = (id) => {
+       Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then(() => {
+        setPostList(postList.filter((val) => {
+          return val._id != currentID
+        }))
+      }); 
+    }
+
+   
     useEffect(() => {
         getProfile();
+        getAllProfile();
         getAllPost();
     }, [])
     
@@ -336,18 +348,15 @@ const SocialMedia = () => {
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
                     { isLoading === false ? 
                     <>
-                    {profileList.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> :  profileList.map((i, index) => {
-                    return (
-                        <Flex flexDirection="column" justifyContent="center" alignItems="center" key={index}>
+                    {profileList.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
+                        <Flex flexDirection="column" justifyContent="center" alignItems="center" >
                             <Flex justifyContent="center" width="300px">
-                                {/* <Avatar width="250px" height="250px"  objectFit="cover" src={i.ProfilePicture} crossOrigin="anonymous"/> */}
-                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={i.ProfilePicture} />
+                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileList.ProfilePicture} />
                             </Flex>
-                            <Text>@{i.FullName}</Text>
-                            <Text>{i.Username}</Text>
+                            <Text>@{profileList.FullName}</Text>
+                            <Text>{profileList.Username}</Text>
                         </Flex>
-                    )
-                    })}
+                    }
                     </>
                     :
                         <Spinner />
@@ -402,11 +411,9 @@ const SocialMedia = () => {
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                             <Link to={`/socialmedia/${i._id}`}>
-                                {profileList.length <= 0 ? null : profileList.map((x, key) => {
-                                    return (
-                                        <Avatar key={key} name={i.Username} src="" />
-                                    )
-                                })}
+                                {profileList.length <= 0 ? null : 
+                                  <Avatar name={i.Username} src="" />  
+                                }
                             </Link>
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
@@ -435,8 +442,8 @@ const SocialMedia = () => {
                         colorScheme='gray'
                         aria-label='See menu'
                         onClick={() => {
-                            setCurrentID(i._id);
-                            onOpenAlertDialog(i._id);
+                          setCurrentID(i._id);
+                          onOpenAlertDialog(i._id);
                         }}
                         icon={<BsThreeDotsVertical />}
                         />
