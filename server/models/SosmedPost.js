@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const UserModel = require("../models/Users");
 
 const SosmedPostSchema = new mongoose.Schema({
    Username : {
@@ -22,8 +23,6 @@ const SosmedPostSchema = new mongoose.Schema({
 
 
 const SosmedProfileModel = require("../models/SosmedProfile");
-
-const UserModel = require("../models/Users");
 
 const SosmedPostModel = mongoose.model("sosmedposts", SosmedPostSchema);
 module.exports = SosmedPostModel;
