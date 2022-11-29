@@ -17,7 +17,7 @@ const SosmedPostSchema = new mongoose.Schema({
    },
    PostedBy : {
      type : mongoose.Schema.Types.ObjectId,
-     ref : UserModel
+     ref : "UserModel"
    }
 }, {timestamps : true});
 

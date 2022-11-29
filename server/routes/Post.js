@@ -29,6 +29,17 @@ const createPost = async (req, res) => {
   res.send(Post);
 }
 
+const getAllPost = (req, res) => {
+    
+    SosmedPostModel.find({}, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result)
+        }
+    })
+}
+
 const getPostByEmail = (req, res) => {
 
     SosmedPostModel.find({Username : req.session.email}, (err, result) => {
@@ -38,7 +49,6 @@ const getPostByEmail = (req, res) => {
           res.send(result);
         }
     })
-   
 }
 
 
@@ -55,6 +65,7 @@ const getPostById = (req, res) => {
 }
 
 router.post("/socialmedia/post", upload.single('Documents'), createPost);
+router.get("/socialmedia/post/all", getAllPost);
 router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
 

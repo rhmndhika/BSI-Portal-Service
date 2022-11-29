@@ -4,7 +4,8 @@ import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
 import { PostSosmed } from '../Helper/PostSosmed';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import Axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import { 
     Box,
     Image,
@@ -47,6 +48,7 @@ import {
 } from 'react-icons/bi';
 
 
+
 const SocialMedia = () => {
 
     Axios.defaults.withCredentials = true;
@@ -58,6 +60,7 @@ const SocialMedia = () => {
     const { postSosmed, setPostSosmed } = useContext(PostSosmed);
     const [ role, setRole ] = useState("");
     const [ profileList, setProfileList ] = useState("");
+    const [ postList, setPostList ] = useState("");
     const [ image, setImage ] = useState(null);
     const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -146,8 +149,17 @@ const SocialMedia = () => {
         })
     }
 
+    const getAllPost = () => {
+        Axios.get("https://empty-test-project.herokuapp.com/socialmedia/post/email").then((response) => {
+            setPostList(response.data);
+            setIsLoading(false);
+            console.log(response.data);
+        })
+    }
+
     useEffect(() => {
         getProfile();
+        getAllPost();
     }, [])
     
 
@@ -279,7 +291,7 @@ const SocialMedia = () => {
                         <Flex flexDirection="column" justifyContent="center" alignItems="center" key={index}>
                             <Flex justifyContent="center" width="300px">
                                 {/* <Avatar width="250px" height="250px"  objectFit="cover" src={i.ProfilePicture} crossOrigin="anonymous"/> */}
-                                <img width="250px" height="250px" crossOrigin="anonymous" src={i.ProfilePicture} />
+                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={i.ProfilePicture} />
                             </Flex>
                             <Text>@{i.FullName}</Text>
                             <Text>{i.Username}</Text>
@@ -299,17 +311,17 @@ const SocialMedia = () => {
                     <Stack divider={<StackDivider />} spacing='4'>
                     <Box cursor="pointer">
                         <Heading size='xs' textTransform='uppercase'>
-                        Summary
+                        Profile
                         </Heading>
                     </Box>
                     <Box cursor="pointer">
                         <Heading size='xs' textTransform='uppercase'>
-                        Overview
+                        Your Post
                         </Heading>
                     </Box>
                     <Box cursor="pointer">
                         <Heading size='xs' textTransform='uppercase'>
-                        Analysis
+                        IDK
                         </Heading>
                     </Box>
                     </Stack>
@@ -326,18 +338,28 @@ const SocialMedia = () => {
             >
             Create Post</Button>
             </Flex>
-
+            
+            { isLoading === false ? 
+            
             <Flex className='flex-item-2' width="750px" flexDirection="column">
-                <Flex marginTop="15px">
+                { postList.length <= 0 ? null : postList.map((i, index) => {
+                return (
+                <Flex marginTop="15px" key={index}>
                     <Card shadow="lg" padding="10px">
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                            <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
+                            <Link to={`/socialmedia/${i._id}`}>
+                                {profileList.length <= 0 ? null : profileList.map((x, key) => {
+                                    return (
+                                        <Avatar key={key} name={i.Username} src={x.ProfilePicture} />
+                                    )
+                                })}
+                            </Link>
                             <Box>
-                            <Heading size='sm'>Segun Adebayo</Heading>
-                            <Text>Time</Text>
+                            <Heading size='sm'>{i.Username}</Heading>
+                            {/* <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text> */}
+                            <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text>
                             </Box>
                         </Flex>
                         <IconButton
@@ -351,7 +373,7 @@ const SocialMedia = () => {
                     <Image
                         className='imgPost'
                         objectFit='cover'
-                        src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+                        src={i.Documents}
                         alt='Chakra UI'
                         marginTop="10px"
                         maxW="700px"
@@ -362,9 +384,7 @@ const SocialMedia = () => {
                         />
                     <CardBody>
                         <Text padding="15px">
-                        With Chakra UI, I wanted to sync the speed of development with the speed
-                        of design. I wanted the developer to be just as excited as the designer to
-                        create a screen.
+                        {i.Content}
                         </Text>
                     </CardBody>
 
@@ -386,7 +406,12 @@ const SocialMedia = () => {
                     </CardFooter>
                     </Card>
                 </Flex>
+                )
+            })}
             </Flex>
+            :
+            <Spinner mt={150} />
+            }      
 
             <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="300px">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="15px">
