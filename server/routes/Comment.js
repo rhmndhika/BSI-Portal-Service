@@ -4,10 +4,11 @@ const router = express.Router();
 
 const CommentModel = require("../models/Comment");
 
+
 const createComment = async (req, res) => {
 
     const Comments = new CommentModel({
-        Content : req.body.Content
+        ContentMessage : req.body.Content
     })
 
     await Comments.save();
