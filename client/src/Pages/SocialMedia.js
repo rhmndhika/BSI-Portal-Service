@@ -181,10 +181,11 @@ const SocialMedia = () => {
     }
 
     const deleteCurrentID = (id) => {
-       Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then(() => {
+       Axios.delete(`https://empty-test-project.herokuapp.com/socialmedia/post/delete/${currentID}`).then(() => {
         setPostList(postList.filter((val) => {
           return val._id != currentID
         }))
+        onCloseAlertDialog();
       }); 
     }
 

@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const UserModel = require("../models/Users");
-
 const SosmedPostSchema = new mongoose.Schema({
    Username : {
         type : String
@@ -17,12 +15,12 @@ const SosmedPostSchema = new mongoose.Schema({
    },
    PostedBy : {
      type : mongoose.Schema.Types.ObjectId,
-     ref : "UserModel"
-   }
+     ref : "users"
+   },
+   Comment : [{ type : mongoose.Schema.Types.ObjectId, ref : "comments"}]
 }, {timestamps : true});
 
 
-const SosmedProfileModel = require("../models/SosmedProfile");
 
 const SosmedPostModel = mongoose.model("sosmedposts", SosmedPostSchema);
 module.exports = SosmedPostModel;
