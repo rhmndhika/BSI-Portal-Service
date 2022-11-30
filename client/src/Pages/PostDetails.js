@@ -31,15 +31,19 @@ const PostDetails = () => {
 
     e.preventDefault();
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    formData.append('Content', test);
+    // formData.append('Content', test);
 
-    await fetch("https://empty-test-project.herokuapp.com/socialmedia/comment", {
-        method: 'POST',
-        body: formData,
-    }).then((response) => {
+    // await fetch("https://empty-test-project.herokuapp.com/socialmedia/comment", {
+    //     method: 'POST',
+    //     body: formData,
+    // }).then((response) => {
        
+    // })
+
+    Axios.post("https://empty-test-project.herokuapp.com/socialmedia/comment", {
+      Content : test
     })
   }
 
@@ -64,9 +68,9 @@ const PostDetails = () => {
           <Text>{saveData.Title}</Text>
           <Text>{saveData.Content}</Text>
 
-          <form onSubmit={submitComment}>
-            <Input type="text" value={test} onChange={(e) => setTest(e.target.value)} />
-            <Button type="submit">Submit</Button>
+          <form>
+            <Input type="text" value={test} name="Content" onChange={(e) => setTest(e.target.value)} />
+            <Button onClick={submitComment} type="submit">Submit</Button>
           </form>
         </Flex>
         {saved}
