@@ -29,7 +29,7 @@ const getComment = (req, res) => {
 
 
 router.post("/socialmedia/comment", createComment);
-router.get("socialmedia/comment/all", getComment);
+router.get("/socialmedia/comment/all", getComment);
 
 
 module.exports = router

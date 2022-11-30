@@ -17,6 +17,8 @@ const PostDetails = () => {
 
   const [ test, setTest ] = useState("");
 
+  const [ saved, setSaved] = useState([]);
+
 
   const getPostDetails = () => {
     Axios.get(`https://empty-test-project.herokuapp.com/socialmedia/post/${id}`).then((response) => {
@@ -39,7 +41,12 @@ const PostDetails = () => {
     }).then((response) => {
        
     })
+  }
 
+  const getComment = () => {
+    Axios.get("https://empty-test-project.herokuapp.com/socialmedia/comment/all").then((response) => {
+      setSaved(response.data);
+    })
   }
 
   useEffect(() => {
@@ -62,6 +69,8 @@ const PostDetails = () => {
             <Button type="submit">Submit</Button>
           </form>
         </Flex>
+        {saved}
+        <Button onClick={getComment}>Click ME</Button>
       </div>  
     </div>
     
