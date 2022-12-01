@@ -26,14 +26,14 @@ mongoose.connect(CONNECTION_URL, {
 
 app.set("trust proxy", 1);
 
-// const server = http.createServer(app);
+const server = http.createServer(app);
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: "https://bsi-portal-supplier.netlify.app" || "http://localhost:3000",
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  },
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -120,6 +120,9 @@ const vendorRegistrationRoute = require("./routes/VendorRegistration");
 const sosmedProfileRoute = require("./routes/SosmedProfile");
 const sosmedPostRoute = require("./routes/Post");
 const commentRoute = require("./routes/Comment");
+const messageRoute = require("./routes/Message");
+const Mes = require("./models/Message");
+
 app.use(registerRoute);
 app.use(loginRoute);
 app.use(profileRoute);
@@ -129,23 +132,31 @@ app.use(vendorRegistrationRoute);
 app.use(sosmedProfileRoute);
 app.use(sosmedPostRoute);
 app.use(commentRoute);
+app.use(messageRoute)
 
-// io.on("connection", (socket) => {
-//   console.log(`User Connected: ${socket.id}`);
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
 
-//   socket.on("join_room", (data) => {
-//     socket.join(data);
-//     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
-//   });
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined to room: ${data}`);
+  });
 
-//   socket.on("send_message", (data) => {
-//     socket.to(data.room).emit("receive_message", data);
-//   });
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+    Mes.create({Message : data.message, User : data.author}, function (err, success)  {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(success);
+      }
+    })
+  });
 
-//   socket.on("disconnect", () => {
-//     console.log("User Disconnected", socket.id);
-//   });
-// });
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 
 
 app.get("/logout", (req, res) => {
@@ -175,7 +186,7 @@ app.post("/sendNotification", function (req, res) {
  });
 
 
-app.listen(process.env.PORT || 3001 , ()=> {
+server.listen(process.env.PORT || 3001 , ()=> {
   console.log(`Still Running on port 3001`);
 });
 

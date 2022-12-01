@@ -7,7 +7,8 @@ import {
   Flex,
   Image,
   Text,
-  useColorModeValue
+  useColorModeValue,
+  IconButton
 } from "@chakra-ui/react";
 import './Home.css';
 import Carousel from '../Header/Carousel.tsx';
@@ -132,8 +133,8 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    <ChatwootWidget />
-    {/* {isHide === false ? 
+    {/* <ChatwootWidget /> */}
+    {isHide === false ? 
       <ChatIO  />
     :
     null
@@ -150,7 +151,7 @@ const Home = () => {
       size="lg"
       icon={<BsChatDots />}
       />
-    </a> */}
+    </a>
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (

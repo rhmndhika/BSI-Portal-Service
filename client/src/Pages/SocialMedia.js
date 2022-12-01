@@ -259,7 +259,7 @@ const SocialMedia = () => {
               }} />
             </FormControl>
 
-            <FormControl mt={4} isRequired>
+            <FormControl mt={4}>
               <FormLabel>Picture</FormLabel>
               <Input type="file"  name="documents" onChange={onImageChangePost} />
               <img src={imagePost} alt="preview document post" />
