@@ -144,7 +144,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
-    Mes.create({Message : data.message, User : data.author}, function (err, success)  {
+    Mes.create({Message : data.message, User : data.author, Room : data.room}, function (err, success)  {
       if (err) {
         console.log(err)
       } else {

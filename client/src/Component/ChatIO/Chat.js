@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import ScrollToBottom from "react-scroll-to-bottom";
+import Axios from "axios";
 import './Chat.css';
+import { Button } from '@chakra-ui/react';
 
 const Chat = ({ socket, username, room }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
+    const [ savedMessage, setSavedMessage ] = useState([]);
+
+
+    const getMessage = () => {
+      Axios.get("https://empty-test-project.herokuapp.com/livechat/message").then((response) => {
+        setMessageList(response.data);
+      })
+    }
   
     const sendMessage = async () => {
       if (currentMessage !== "") {
@@ -29,6 +39,11 @@ const Chat = ({ socket, username, room }) => {
           setMessageList((list) => [...list, data]);
         });
       }, [socket]);
+
+    useEffect(() => {
+      getMessage();
+    }, []);
+    
   return (
     <div className="chat-window">
     <div className="chat-header">
@@ -40,15 +55,26 @@ const Chat = ({ socket, username, room }) => {
           return (
             <div
               className="message"
-              id={username === messageContent.author ? "you" : "other"}
+              id={username || messageList.User === messageContent.author ? "you" : "other"}
             >
               <div>
                 <div className="message-content">
-                  <p>{messageContent.message}</p>
+                    {messageContent.message ? 
+                      <p>{messageContent.message}</p>
+                      :
+                      <>
+                      <p>{messageContent.Message}</p>
+                      <p>{messageContent.message}</p>
+                      </>
+                    }
                 </div>
                 <div className="message-meta">
                   <p id="time">{messageContent.time}</p>
-                  <p id="author">{messageContent.author}</p>
+                  { messageContent.message ? 
+                    <p id="author">{messageContent.author}</p>
+                    :
+                    <p id="author">{messageContent.User}</p>
+                  }
                 </div>
               </div>
             </div>

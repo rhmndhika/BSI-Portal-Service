@@ -5,7 +5,7 @@ const MessageModel = require("../models/Message");
 
 const getMessageByEmail = (req, res) => {
 
-    MessageModel.find({User : req.session.email}, (err, result) => {
+    MessageModel.find({Room : 2001}, (err, result) => {
         if (err) {
             res.send(err);
         } else {

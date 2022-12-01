@@ -7,6 +7,9 @@ const MessageSchema = new mongoose.Schema({
     },
     Message : {
         type : String
+    },
+    Room : {
+        type : Number
     }
 })
 
