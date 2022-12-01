@@ -140,6 +140,14 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
+
+    Mes.create({Message : data.message, User : data.author, Room : data.room}, function (err, success)  {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(success);
+      }
+    })
   });
 
   socket.on("send_message", (data) => {
