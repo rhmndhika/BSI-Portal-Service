@@ -134,15 +134,16 @@ const Home = () => {
     <Appbar />
     <Carousel />
     {/* <ChatwootWidget /> */}
-    {isHide === false ? 
-      <ChatIO  />
+    {/* {isHide === false ? 
+      <ChatIO />
     :
     null
-    }
+    } */}
     <a
       className="whatsapp_float"
       rel="noopener noreferrer"
       onClick={openChat}
+      href="/chatio"
     >
      <IconButton
       colorScheme='blue'

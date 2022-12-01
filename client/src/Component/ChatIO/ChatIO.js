@@ -19,7 +19,10 @@ const ChatIO = () => {
     const [ username, setUsername ] = useState("");
     const [ room, setRoom ] = useState(2001);
     const [ showChat, setShowChat ] = useState(false);
-  
+
+    const [messageList, setMessageList] = useState([]);
+
+
     const joinRoom = () => {
       if (emailLog !== "" && room !== "") {
         socket.emit("join_room", room);
@@ -52,7 +55,9 @@ const ChatIO = () => {
         }
        }, [])
 
+  
   return (
+    <>
     <div className="App">
       {!showChat ? (
         <div className="joinChatContainer">
@@ -80,6 +85,7 @@ const ChatIO = () => {
         // <Chat />
       )}
     </div>
+    </>
   )
 }
 

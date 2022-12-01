@@ -2,17 +2,42 @@ import React, { useEffect, useState } from 'react'
 import ScrollToBottom from "react-scroll-to-bottom";
 import Axios from "axios";
 import './Chat.css';
-import { Button } from '@chakra-ui/react';
+import { 
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Input,
+  Flex,
+  Text
+ } from '@chakra-ui/react';
+import Appbar from "../Appbar/Appbar.tsx";
+
 
 const Chat = ({ socket, username, room }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
     const [ savedMessage, setSavedMessage ] = useState([]);
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+  
 
     const getMessage = () => {
       Axios.get("https://empty-test-project.herokuapp.com/livechat/message").then((response) => {
-        setMessageList(response.data);
+
+      for (var i = 0; i < response.data.length; i ++) {
+        if (response.data[i].Room === room) {
+          setMessageList(response.data);
+        } else {
+          console.log("No Message in the room")
+        }
+      }
       })
     }
   
@@ -45,6 +70,7 @@ const Chat = ({ socket, username, room }) => {
     }, []);
     
   return (
+    <div className='App'>
     <div className="chat-window">
     <div className="chat-header">
       <p>Live Chat</p>
@@ -55,7 +81,7 @@ const Chat = ({ socket, username, room }) => {
           return (
             <div
               className="message"
-              id={username || messageList.User === messageContent.author ? "you" : "other"}
+              id={username === messageContent.User ? "you" : username !== messageContent.author ? "other" : null}
             >
               <div>
                 <div className="message-content">
@@ -96,6 +122,7 @@ const Chat = ({ socket, username, room }) => {
       />
       <button onClick={sendMessage}>&#9658;</button>
     </div>
+  </div>
   </div>
   )
 }
