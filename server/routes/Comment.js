@@ -8,22 +8,26 @@ const CommentModel = require("../models/Comment");
 const createComment = async (req, res) => {
 
     const Comments = new CommentModel({
-        ContentMessage : req.body.Content
+        ContentMessage : req.body.Content,
+        RefPost : ""
     })
 
-    await Comments.save();
+    // await Comments.save();
 
-    res.send(Comments);
+    // res.send(Comments);
+
+    Comments.save().then(result => {
+        CommentModel.populate(Comments, { path : "RefPost" })
+        .then(comments => {
+            res.send(comments)
+        })
+    })
 }
 
 const getComment = (req, res) => {
 
-    CommentModel.find({}).populate("RefPost").then((err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result);
-        }
+    CommentModel.find({}).populate("RefPost").then(comment => {
+        res.send(comment);
     })
 }
 

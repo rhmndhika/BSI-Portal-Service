@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+const UserModel = require("../models/Users");
+const CommentModel = require("../models/Comment")
+
 const SosmedPostSchema = new mongoose.Schema({
    Username : {
         type : String
@@ -13,11 +16,14 @@ const SosmedPostSchema = new mongoose.Schema({
    Documents : {
         type : String
    },
-   PostedBy : {
+   PostedBy : [{
      type : mongoose.Schema.Types.ObjectId,
-     ref : "users"
-   },
-   Comment : [{ type : mongoose.Schema.Types.ObjectId, ref : "comments"}]
+     ref : UserModel
+   }],
+   Comment : [{ 
+     type : mongoose.Schema.Types.ObjectId, 
+     ref : CommentModel
+   }]
 }, {timestamps : true});
 
 
