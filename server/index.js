@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('get-messages-history', Room => {
-    Message.find({ Room }).then(result => {
+    Mes.find({ Room }).then(result => {
       socket.emit('output-messages', result)
     })
   })
