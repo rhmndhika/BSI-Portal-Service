@@ -8,8 +8,7 @@ const CommentModel = require("../models/Comment");
 const createComment = async (req, res) => {
 
     const Comments = new CommentModel({
-        ContentMessage : req.body.Content,
-        RefPost : ""
+        ContentMessage : req.body.Content
     })
 
     await Comments.save();
@@ -17,11 +16,17 @@ const createComment = async (req, res) => {
     res.send(Comments);
 }
 
-const getComment = (req, res) => {
+const getComment = async (req, res) => {
 
-    CommentModel.find({}).populate("RefPost").then(comment => {
-        res.send(comment);
-    })
+    try {
+        const COMMENT = await CommentModel.find({}).populate("RefPost");
+
+        res.send(COMMENT);
+    } catch (err) {
+        res.send(err);
+    }
+
+   
 }
 
 
