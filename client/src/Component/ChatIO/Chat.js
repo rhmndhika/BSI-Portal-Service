@@ -40,7 +40,7 @@ const Chat = ({ socket, username, room }) => {
         //     console.log("No message was found")
         //   }
         // }
-      setMessageList(response.data)
+      // setMessageList(response.data)
       })
     }
 
@@ -73,7 +73,7 @@ const Chat = ({ socket, username, room }) => {
     useEffect(() => {
       socket.emit('get-messages-history', room)
       socket.on('output-messages', savedMessage => {
-        setMessageList2(savedMessage)
+        setMessageList(savedMessage)
       })
     }, [])
 
