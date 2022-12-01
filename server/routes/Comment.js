@@ -12,16 +12,9 @@ const createComment = async (req, res) => {
         RefPost : ""
     })
 
-    // await Comments.save();
+    await Comments.save();
 
-    // res.send(Comments);
-
-    Comments.save().then(result => {
-        CommentModel.populate(Comments, { path : "RefPost" })
-        .then(comments => {
-            res.send(comments)
-        })
-    })
+    res.send(Comments);
 }
 
 const getComment = (req, res) => {
