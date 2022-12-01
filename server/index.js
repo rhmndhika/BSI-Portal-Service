@@ -71,7 +71,7 @@ app.use(session({
            },
     key: process.env.COOKIE_KEY,
     store: new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h / 1 dayszzzzzsssssssz
+        checkPeriod: 86400000 // prune expired entries every 24h / 1 dayszzzzzssssssszsszzz
       }),
     secret: 'subscribe',
     saveUninitialized: true,
