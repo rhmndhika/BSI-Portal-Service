@@ -17,7 +17,7 @@ const ChatIO = () => {
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const [ role, setRole ] = useState("");
     const [ username, setUsername ] = useState("");
-    const [ room, setRoom ] = useState(2001);
+    const [ room, setRoom ] = useState();
     const [ showChat, setShowChat ] = useState(false);
 
     const [messageList, setMessageList] = useState([]);

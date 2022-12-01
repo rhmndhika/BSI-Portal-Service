@@ -145,7 +145,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
-    Mes.create({Message : data.message, User : data.author, Room : data.room}, function (err, success)  {
+     Mes.create({Message : data.message, User : data.author, Room : data.room}, function (err, success)  {
       if (err) {
         console.log(err)
       } else {
@@ -153,6 +153,12 @@ io.on("connection", (socket) => {
       }
     })
   });
+
+  socket.on('get-messages-history', Room => {
+    Message.find({ Room }).then(result => {
+      socket.emit('output-messages', result)
+    })
+  })
 
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);

@@ -22,7 +22,9 @@ import Appbar from "../Appbar/Appbar.tsx";
 const Chat = ({ socket, username, room }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
-    const [ savedMessage, setSavedMessage ] = useState([]);
+    const [ savedMessage, setSavedMessage ] = useState("");
+
+    const [ messageList2, setMessageList2] = useState([])
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
@@ -31,15 +33,17 @@ const Chat = ({ socket, username, room }) => {
     const getMessage = () => {
       Axios.get("https://empty-test-project.herokuapp.com/livechat/message").then((response) => {
 
-      for (var i = 0; i < response.data.length; i ++) {
-        if (response.data[i].Room === room) {
-          setMessageList(response.data);
-        } else {
-          console.log("No Message in the room")
-        }
-      }
+        // for (var i = 0; i < response.data.length; i ++) {
+        //   if (response.data[i].Room === room) {
+        //     setMessageList(response.data);
+        //   } else {
+        //     console.log("No message was found")
+        //   }
+        // }
+      setMessageList(response.data)
       })
     }
+
   
     const sendMessage = async () => {
       if (currentMessage !== "") {
@@ -56,6 +60,7 @@ const Chat = ({ socket, username, room }) => {
         await socket.emit("send_message", messageData);
         setMessageList((list) => [...list, messageData]);
         setCurrentMessage("");
+        
       }
     };
 
@@ -64,6 +69,13 @@ const Chat = ({ socket, username, room }) => {
           setMessageList((list) => [...list, data]);
         });
       }, [socket]);
+
+    useEffect(() => {
+      socket.emit('get-messages-history', room)
+      socket.on('output-messages', savedMessage => {
+        setMessageList2(savedMessage)
+      })
+    }, [])
 
     useEffect(() => {
       getMessage();
