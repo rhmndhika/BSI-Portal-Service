@@ -32,18 +32,7 @@ const History = () => {
   
   let navigate = useNavigate();
 
-  // const userExpire = () => {
-  //   Axios.get("https://bsi-portal-service-production.up.railway.app/login")
-  //   .then((response)=> {
-  //     if(response.data.loggedIn === true) {
-  //       setEmailLog(response.data.email);
-  //       setRoleUser(response.data.role);
-  //     } else {
-  //       navigate("/", {replace : true})
-  //     }
-  //   }, {withCredentials : true});
-  // };
-
+  
   const getVendorRegistrationData = () => {
     Axios.get("https://bsi-portal-service-production.up.railway.app/vendor/registration").then((response) => {
       setDataVendorRegistration(response.data);

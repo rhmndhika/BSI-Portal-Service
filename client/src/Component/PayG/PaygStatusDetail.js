@@ -56,19 +56,7 @@ const PaygStatusDetail = () => {
   const finalRef = React.useRef(null)
 
 
-  // const userExpire = () => {
-  //     Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-  //     .then((response)=> {
-  //       if(response.data.loggedIn === true) {
-  //         setEmailLog(response.data.email);
-  //         setRoleUser(response.data.role);
-  //       } else {
-  //         navigate("/", {replace : true})
-  //       }
-  //     }, {withCredentials : true});
-  //   };
-  
-    const updateDataPayg = async (id, InvoiceNumber, InvoiceDate, Amount, Subject, BuyerName, PaygAttachments) => {
+  const updateDataPayg = async (id, InvoiceNumber, InvoiceDate, Amount, Subject, BuyerName, PaygAttachments) => {
   
       const formData = new FormData();
       

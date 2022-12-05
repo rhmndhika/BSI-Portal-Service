@@ -18,6 +18,7 @@ const ChatIO = () => {
     const [ role, setRole ] = useState("");
     const [ username, setUsername ] = useState("");
     const [ room, setRoom ] = useState();
+    const [ userId, setUserId ] = useState();
     const [ showChat, setShowChat ] = useState(false);
 
     const [messageList, setMessageList] = useState([]);
@@ -29,6 +30,13 @@ const ChatIO = () => {
         setShowChat(true);
       }
     };
+
+    const joinUser = () => {
+      if (emailLog !== "" && userId !== "") {
+        socket.emit("join_user", userId);
+        setShowChat(true);
+      }
+    }
 
     useEffect(() => {
 
@@ -55,13 +63,42 @@ const ChatIO = () => {
         }
        }, [])
 
+       useEffect(() => {
+        if (emailLog !== "" && userId !== "") {
+          socket.emit("join_user", userId);
+          setShowChat(true);
+        }
+       }, [])
+
   
   return (
     <>
     <div className="App">
       {!showChat ? (
+        <>
         <div className="joinChatContainer">
           <h3>Join A Chat</h3>
+          <input
+            type="text"
+            placeholder="Username..."
+            value={emailLog}
+            onChange={(event) => {
+              setUsername(event.target.value);
+            }}
+            />
+          <input
+            type="text"
+            placeholder="Room ID..."
+            value={room}
+            onChange={(event) => {
+              setRoom(event.target.value);
+            }}
+            />
+          <button onClick={joinRoom}>Join A Room</button>
+        </div>
+
+        <div className="joinChatContainer">
+          <h3>Chat /w User</h3>
           <input
             type="text"
             placeholder="Username..."
@@ -72,16 +109,17 @@ const ChatIO = () => {
           />
           <input
             type="text"
-            placeholder="Room ID..."
-            value={room}
+            placeholder="User ID"
+            value={userId}
             onChange={(event) => {
-              setRoom(event.target.value);
+              setUserId(event.target.value);
             }}
           />
-          <button onClick={joinRoom}>Join A Room</button>
+          <button onClick={joinUser}>Chat /w User</button>
         </div>
+        </>
       ) : (
-        <Chat socket={socket} username={emailLog} room={room} />
+        <Chat socket={socket} username={emailLog} room={room} id={userId} />
         // <Chat />
       )}
     </div>

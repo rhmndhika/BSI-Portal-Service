@@ -24,19 +24,7 @@ const CreateProfile = () => {
   const [ isLoading , setIsLoading ] = useState(false);
   const [ isHide, setIsHide ] = useState(true);
 
-
-  // const userExpire = () => {
-  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-  //   .then((response)=> {
-  //     if(response.data.loggedIn === true) {
-  //       setEmailLog(response.data.email);
-  //       setRole(response.data.role);
-  //     } else {
-  //       navigate("/", {replace : true})
-  //     }
-  //   }, {withCredentials : true});
-  // };
-
+  
   const handleSubmitProfile = async (e) => {
 
     e.preventDefault();

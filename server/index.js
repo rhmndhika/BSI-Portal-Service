@@ -132,7 +132,9 @@ app.use(vendorRegistrationRoute);
 app.use(sosmedProfileRoute);
 app.use(sosmedPostRoute);
 app.use(commentRoute);
-app.use(messageRoute)
+app.use(messageRoute);
+
+const users = [];
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
@@ -140,8 +142,16 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
-
   });
+
+  socket.on("join_user", (userId) => {
+    users[userId] = socket.id
+    console.log(users);
+  });
+
+  socket.on("send_private_message", (data) => {
+    socket.to(users[0]).emit("receive_privae_message", data);
+  })
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);

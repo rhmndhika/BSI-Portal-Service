@@ -29,16 +29,6 @@ const InputDataVendor = () => {
 
   let navigate = useNavigate();
 
-  // const userExpire = () => {
-  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-  //   .then((response)=> {
-  //     if(response.data.loggedIn === true) {
-  //       setEmailLog(response.data.email);
-  //     } else {
-  //       navigate("/", {replace : true})
-  //     }
-  //   }, {withCredentials : true});
-  // };
 
   const showToastSucces = () => {
     toast.success('Success!', {

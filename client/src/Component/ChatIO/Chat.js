@@ -19,11 +19,11 @@ import {
 import Appbar from "../Appbar/Appbar.tsx";
 
 
-const Chat = ({ socket, username, room }) => {
+const Chat = ({ socket, username, room, id }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
-    const [ savedMessage, setSavedMessage ] = useState("");
 
+    const [ savedMessage, setSavedMessage ] = useState("");
     const [ messageList2, setMessageList2] = useState([])
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,14 +33,6 @@ const Chat = ({ socket, username, room }) => {
     const getMessage = () => {
       Axios.get("https://bsi-portal-service-production.up.railway.app/livechat/message").then((response) => {
 
-        // for (var i = 0; i < response.data.length; i ++) {
-        //   if (response.data[i].Room === room) {
-        //     setMessageList(response.data);
-        //   } else {
-        //     console.log("No message was found")
-        //   }
-        // }
-      // setMessageList(response.data)
       })
     }
 
@@ -64,9 +56,33 @@ const Chat = ({ socket, username, room }) => {
       }
     };
 
+    const sendMessage2 = async () => {
+      if (savedMessage !== "") {
+        const messageData2 = {
+          id: id,
+          author: username,
+          message: savedMessage,
+          time:
+            new Date(Date.now()).getHours() +
+            ":" +
+            new Date(Date.now()).getMinutes(),
+        };
+  
+        await socket.emit("send_private_message", messageData2);
+        setSavedMessage((list) => [...list, messageData2]);
+        setSavedMessage("");
+      }
+    };
+
     useEffect(() => {
         socket.on("receive_message", (data) => {
           setMessageList((list) => [...list, data]);
+        });
+      }, [socket]);
+
+      useEffect(() => {
+        socket.on("receive_private_message", (data) => {
+          setMessageList2((list) => [...list, data]);
         });
       }, [socket]);
 
@@ -74,7 +90,7 @@ const Chat = ({ socket, username, room }) => {
       socket.emit('get-messages-history', room)
       socket.on('output-messages', savedMessage => {
         setMessageList(savedMessage)
-      })
+      });
     }, [])
 
     useEffect(() => {
@@ -83,7 +99,7 @@ const Chat = ({ socket, username, room }) => {
     
   return (
     <div className='App'>
-    <div className="chat-window">
+    {/* <div className="chat-window">
     <div className="chat-header">
       <p>Live Chat</p>
     </div>
@@ -133,6 +149,58 @@ const Chat = ({ socket, username, room }) => {
         }}
       />
       <button onClick={sendMessage}>&#9658;</button>
+    </div>
+  </div> */}
+  <div className="chat-window">
+    <div className="chat-header">
+      <p>Live Chat</p>
+    </div>
+    <div className="chat-body">
+      <ScrollToBottom className="message-container">
+        {messageList2.map((messageContent) => {
+          return (
+            <div
+              className="message"
+              id={username === messageContent.User ? "you" : username !== messageContent.author ? "other" : null}
+            >
+              <div>
+                <div className="message-content">
+                    {messageContent.message ? 
+                      <p>{messageContent.message}</p>
+                      :
+                      <>
+                      <p>{messageContent.Message}</p>
+                      <p>{messageContent.message}</p>
+                      </>
+                    }
+                </div>
+                <div className="message-meta">
+                  <p id="time">{messageContent.time}</p>
+                  { messageContent.message ? 
+                    <p id="author">{messageContent.author}</p>
+                    :
+                    <p id="author">{messageContent.User}</p>
+                  }
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </ScrollToBottom>
+    </div>
+    <div className="chat-footer">
+      <input
+        type="text"
+        value={savedMessage}
+        placeholder="Hey..."
+        onChange={(event) => {
+          setSavedMessage(event.target.value);
+        }}
+        onKeyPress={(event) => {
+          event.key === "Enter" && sendMessage2();
+        }}
+      />
+      <button onClick={sendMessage2}>&#9658;</button>
     </div>
   </div>
   </div>

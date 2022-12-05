@@ -40,19 +40,6 @@ const PaygStatus = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
   
-
-    // const userExpire = () => {
-    //     Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-    //     .then((response)=> {
-    //       if(response.data.loggedIn === true) {
-    //         setEmailLog(response.data.email);
-    //         setRoleUser(response.data.role);
-    //       } else {
-    //         navigate("/", {replace : true})
-    //       }
-    //     }, {withCredentials : true});
-    //   };
-
     const getDataPayg = () => {
         Axios.get("https://bsi-portal-service-production.up.railway.app/payg/email").then((response) => {
             setDataList(response.data);
