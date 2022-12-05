@@ -21,7 +21,7 @@ const createProfile = async (req, res) => {
   const Profile = new SosmedProfileModel({
     FullName : req.body.FullName,
     Username : req.body.Username,
-    ProfilePicture : `https://empty-test-project.herokuapp.com/images/${req.file.filename}`,
+    ProfilePicture : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
     Bio : req.body.Bio
   })
 

@@ -22,7 +22,7 @@ const createPost = async (req, res) => {
     Username : req.body.Username,
     Title : req.body.Title,
     Content : req.body.Content,
-    Documents : `https://empty-test-project.herokuapp.com/images/${req.file.filename}`
+    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
   })
 
   await Post.save();

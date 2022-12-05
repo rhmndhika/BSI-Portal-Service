@@ -18,7 +18,7 @@ const upload = multer({storage: storage});
 
 const createOutsourcingData = async (req, res) => {
     const reqFilesOutsourcing = [];
-    const url = "https://empty-test-project.herokuapp.com/images/";
+    const url = "https://bsi-portal-service-production.up.railway.app/images/";
     for (var i = 0; i < req.files.length; i++) {
       reqFilesOutsourcing.push(url + req.files[i].filename);       
     };

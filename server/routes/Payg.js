@@ -19,7 +19,7 @@ const upload = multer({storage: storage});
 const createPayg = async (req, res) => {
 
   const reqFiles = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
+  const url = "https://bsi-portal-service-production.up.railway.app/images/";
   for (var i = 0; i < req.files.length; i++) {
     reqFiles.push(url + req.files[i].filename);       
   };
@@ -93,7 +93,7 @@ const getAllPaygData = (req, res) => {
 
 const updatePaygData = (req, res) => {
   const reqFiles = [];
-  const url = "https://empty-test-project.herokuapp.com/images/";
+  const url = "https://bsi-portal-service-production.up.railway.app/images/";
   for (var i = 0; i < req.files.length; i++) {
     reqFiles.push(url + req.files[i].filename);       
   };

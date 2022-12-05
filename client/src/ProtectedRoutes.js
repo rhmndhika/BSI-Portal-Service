@@ -12,7 +12,7 @@ const useAuth = () => {
     const { roleUser, setRoleUser } = useContext(RoleUser);
 
     const userExpire = () => {
-        Axios.get('https://empty-test-project.herokuapp.com/login')
+        Axios.get('https://bsi-portal-service-production.up.railway.app/login')
         .then((response) => {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);
