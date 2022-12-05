@@ -94,6 +94,13 @@ const Chat = ({ socket, username, room, id }) => {
     }, [])
 
     useEffect(() => {
+      socket.emit('get-private-messages-history', id)
+      socket.on('output-private-messages', savedMessage => {
+        setMessageList2(savedMessage)
+      });
+    }, [])
+
+    useEffect(() => {
       getMessage();
     }, []);
     

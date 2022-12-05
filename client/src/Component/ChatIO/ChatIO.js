@@ -18,7 +18,7 @@ const ChatIO = () => {
     const [ role, setRole ] = useState("");
     const [ username, setUsername ] = useState("");
     const [ room, setRoom ] = useState();
-    const [ userId, setUserId ] = useState();
+    const [ userId, setUserId ] = useState("");
     const [ showChat, setShowChat ] = useState(false);
 
     const [messageList, setMessageList] = useState([]);
