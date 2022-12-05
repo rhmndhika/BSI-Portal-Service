@@ -31,7 +31,7 @@ const Chat = ({ socket, username, room }) => {
   
 
     const getMessage = () => {
-      Axios.get("https://empty-test-project.herokuapp.com/livechat/message").then((response) => {
+      Axios.get("https://bsi-portal-service-production.up.railway.app/livechat/message").then((response) => {
 
         // for (var i = 0; i < response.data.length; i ++) {
         //   if (response.data[i].Room === room) {

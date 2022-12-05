@@ -56,7 +56,7 @@ const OutsourcingDetail = () => {
     const finalRef = React.useRef(null)
 
     // const userExpire = () => {
-    //     Axios.get('https://empty-test-project.herokuapp.com/login')
+    //     Axios.get('https://bsi-portal-service-production.up.railway.app/login')
     //     .then((response)=> {
     //       if(response.data.loggedIn === true) {
     //         setEmailLog(response.data.email);
@@ -69,7 +69,7 @@ const OutsourcingDetail = () => {
 
       const updateDataOutsourcing = async (id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
 
-        Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update" , {
+        Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update" , {
           Name : outsourcingPortal.newName ? outsourcingPortal.newName : Name ,
           IDLink :  outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink ,
           Supplier : outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier ,
@@ -84,7 +84,7 @@ const OutsourcingDetail = () => {
       }
 
       const updateMessageOutsourcing = async (id, Message) => {
-        await Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update/message", {
+        await Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update/message", {
           message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
           id : id
         }).then(() => {
@@ -94,7 +94,7 @@ const OutsourcingDetail = () => {
       }
 
       const updateStatusOutsourcing = (id, e) => {
-        Axios.put("https://empty-test-project.herokuapp.com/outsourcing/update/status", {
+        Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update/status", {
           status : e.target.value,
           id : id
         }).then(() => {
@@ -117,7 +117,7 @@ const OutsourcingDetail = () => {
       useEffect(() => {
 
         async function userExpire2 () {
-          const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
@@ -134,7 +134,7 @@ const OutsourcingDetail = () => {
     useEffect(() => {
         const cancelToken = Axios.CancelToken.source();
   
-        Axios.get(`https://empty-test-project.herokuapp.com/outsourcing/${id}`, {
+        Axios.get(`https://bsi-portal-service-production.up.railway.app/outsourcing/${id}`, {
           cancelToken : cancelToken.token,
         }).then((response) => {
           setDataOutsourcingID(response.data);

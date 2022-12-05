@@ -33,7 +33,7 @@ const History = () => {
   let navigate = useNavigate();
 
   // const userExpire = () => {
-  //   Axios.get("https://empty-test-project.herokuapp.com/login")
+  //   Axios.get("https://bsi-portal-service-production.up.railway.app/login")
   //   .then((response)=> {
   //     if(response.data.loggedIn === true) {
   //       setEmailLog(response.data.email);
@@ -45,14 +45,14 @@ const History = () => {
   // };
 
   const getVendorRegistrationData = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/vendor/registration").then((response) => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/vendor/registration").then((response) => {
       setDataVendorRegistration(response.data);
       setIsLoading(false);
     });
   }
 
   const deleteVendorRegistrationData = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/vendor/delete/${id}`).then(() => {
+    Axios.delete(`https://bsi-portal-service-production.up.railway.app/vendor/delete/${id}`).then(() => {
       setDataVendorRegistration(dataVendorRegistration.filter((val) => {
         return val._id != id
     }))
@@ -63,7 +63,7 @@ const History = () => {
   useEffect(() => {
 
       async function userExpire2 () {
-        const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+        const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);

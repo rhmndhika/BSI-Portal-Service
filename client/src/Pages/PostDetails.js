@@ -21,7 +21,7 @@ const PostDetails = () => {
 
 
   const getPostDetails = () => {
-    Axios.get(`https://empty-test-project.herokuapp.com/socialmedia/post/${id}`).then((response) => {
+    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`).then((response) => {
       setSaveData(response.data);
       console.log(response.data);
     })
@@ -35,20 +35,20 @@ const PostDetails = () => {
 
     // formData.append('Content', test);
 
-    // await fetch("https://empty-test-project.herokuapp.com/socialmedia/comment", {
+    // await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
     //     method: 'POST',
     //     body: formData,
     // }).then((response) => {
        
     // })
 
-    Axios.post("https://empty-test-project.herokuapp.com/socialmedia/comment", {
+    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
       Content : test
     })
   }
 
   const getComment = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/socialmedia/comment/all").then((response) => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
       setSaved(response.data);
     })
   }

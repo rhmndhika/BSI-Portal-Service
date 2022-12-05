@@ -109,7 +109,7 @@ const SocialMedia = () => {
     useEffect(() => {
 
         async function userExpire2 () {
-          const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
@@ -133,7 +133,7 @@ const SocialMedia = () => {
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
 
-        await fetch("https://empty-test-project.herokuapp.com/socialmedia/create", {
+        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/create", {
             method: 'POST',
             body: formData,
         }).then((response) => {
@@ -142,7 +142,7 @@ const SocialMedia = () => {
     }
 
     const getProfile = () => {
-        Axios.get("https://empty-test-project.herokuapp.com/socialmedia").then((response) => {
+        Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
             setProfileList(response.data);
             setIsLoading(false);
         })
@@ -158,7 +158,7 @@ const SocialMedia = () => {
         formData.append('Content', postSosmed.content);
         formData.append('Documents', postSosmed.documents);
 
-        await fetch("https://empty-test-project.herokuapp.com/socialmedia/post", {
+        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
             method: 'POST',
             body: formData,
         }).then((response) => {
@@ -167,21 +167,21 @@ const SocialMedia = () => {
     }
 
     const getAllPost = () => {
-        Axios.get("https://empty-test-project.herokuapp.com/socialmedia/post/all").then((response) => {
+        Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
             setPostList(response.data);
             setIsLoading(false);
         })
     }
 
     const getAllProfile = () => {
-      Axios.get("https://empty-test-project.herokuapp.com/socialmedia/all").then((response) => {
+      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/all").then((response) => {
           setAllProfile(response.data);
           setIsLoading(false);
       })
     }
 
     const deleteCurrentID = (id) => {
-       Axios.delete(`https://empty-test-project.herokuapp.com/socialmedia/post/delete/${currentID}`).then(() => {
+       Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/delete/${currentID}`).then(() => {
         setPostList(postList.filter((val) => {
           return val._id != currentID
         }))

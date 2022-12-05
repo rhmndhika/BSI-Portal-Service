@@ -79,7 +79,7 @@ const OutsourcingHomeAdmin = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then((response) => {
+    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then((response) => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))
@@ -87,7 +87,7 @@ const OutsourcingHomeAdmin = () => {
   }
 
   const getAllOutsourcingData = () => {
-    Axios.get("https://empty-test-project.herokuapp.com/outsourcing/all").then((response) => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/outsourcing/all").then((response) => {
       setDataOutsourcing(response.data);
       setIsFetching(false);
     })
@@ -96,7 +96,7 @@ const OutsourcingHomeAdmin = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

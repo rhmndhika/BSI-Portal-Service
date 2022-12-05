@@ -22,7 +22,7 @@ const LandingPage = () => {
   const [ dataProfileUser, setDataProfileUser ] = useState([]);
 
   const userExpire = () => {
-    Axios.get('https://empty-test-project.herokuapp.com/login')
+    Axios.get('https://bsi-portal-service-production.up.railway.app/login')
     .then((response)=> {
       if(response.data.loggedIn === true) {
         setEmailLog(response.data.email);
@@ -34,7 +34,7 @@ const LandingPage = () => {
   };
 
   const getProfileUser = async () => {
-    await Axios.get("https://empty-test-project.herokuapp.com/getprofile").then((response) => {
+    await Axios.get("https://bsi-portal-service-production.up.railway.app/getprofile").then((response) => {
       setDataProfileUser(response.data);
     })
   }

@@ -30,7 +30,7 @@ const InputDataVendor = () => {
   let navigate = useNavigate();
 
   // const userExpire = () => {
-  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
   //   .then((response)=> {
   //     if(response.data.loggedIn === true) {
   //       setEmailLog(response.data.email);
@@ -93,7 +93,7 @@ const InputDataVendor = () => {
     formData.append('fileVendorRegistration', vendorRegistration.fileVendor[i]);
     }
    
-    fetch("https://empty-test-project.herokuapp.com/vendor/registration", {
+    fetch("https://bsi-portal-service-production.up.railway.app/vendor/registration", {
       method: 'POST',
       body: formData,
     }).then((res) => {
@@ -120,7 +120,7 @@ const InputDataVendor = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

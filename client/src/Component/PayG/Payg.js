@@ -34,7 +34,7 @@ const Payg = () => {
     const [ isLoading , SetIsLoading ] = useState(false);
   
     // const userExpire = () => {
-    //   Axios.get('https://empty-test-project.herokuapp.com/login')
+    //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
     //   .then((response)=> {
     //     if(response.data.loggedIn === true) {
     //       setEmailLog(response.data.email);
@@ -73,7 +73,7 @@ const Payg = () => {
       formData.append('file', payg.filePayg[i]);
       }
 
-      fetch("https://empty-test-project.herokuapp.com/paygdata", {
+      fetch("https://bsi-portal-service-production.up.railway.app/paygdata", {
         method: 'POST',
         body: formData,
       })
@@ -91,7 +91,7 @@ const Payg = () => {
     useEffect(() => {
 
       async function userExpire2 () {
-        const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+        const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);

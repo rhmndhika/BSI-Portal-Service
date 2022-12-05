@@ -45,7 +45,7 @@ const Home = () => {
  
 
   // const userExpire = () => {
-  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
   //   .then((response)=> {
   //     if(response.data.loggedIn === true) {
   //       setEmailLog(response.data.email);
@@ -60,7 +60,7 @@ const Home = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

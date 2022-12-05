@@ -26,7 +26,7 @@ const CreateProfile = () => {
 
 
   // const userExpire = () => {
-  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
   //   .then((response)=> {
   //     if(response.data.loggedIn === true) {
   //       setEmailLog(response.data.email);
@@ -41,7 +41,7 @@ const CreateProfile = () => {
 
     e.preventDefault();
 
-    await Axios.post("https://empty-test-project.herokuapp.com/profile" , {
+    await Axios.post("https://bsi-portal-service-production.up.railway.app/profile" , {
       Email : emailLog,
       FullName : profileUser.fullName,
       Entity : profileUser.entity,
@@ -56,7 +56,7 @@ const CreateProfile = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

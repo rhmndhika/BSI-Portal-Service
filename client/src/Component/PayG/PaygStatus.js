@@ -42,7 +42,7 @@ const PaygStatus = () => {
   
 
     // const userExpire = () => {
-    //     Axios.get('https://empty-test-project.herokuapp.com/login')
+    //     Axios.get('https://bsi-portal-service-production.up.railway.app/login')
     //     .then((response)=> {
     //       if(response.data.loggedIn === true) {
     //         setEmailLog(response.data.email);
@@ -54,14 +54,14 @@ const PaygStatus = () => {
     //   };
 
     const getDataPayg = () => {
-        Axios.get("https://empty-test-project.herokuapp.com/payg/email").then((response) => {
+        Axios.get("https://bsi-portal-service-production.up.railway.app/payg/email").then((response) => {
             setDataList(response.data);
             setIsLoading(false);
         });   
     };
 
     const deleteDataPayg = (id) => {
-        Axios.delete(`https://empty-test-project.herokuapp.com/payg/delete/${id}`).then((response) => {
+        Axios.delete(`https://bsi-portal-service-production.up.railway.app/payg/delete/${id}`).then((response) => {
             setDataList(dataList.filter((val) => {
                 return val._id != id
             }))
@@ -72,7 +72,7 @@ const PaygStatus = () => {
     useEffect(() => {
 
         async function userExpire2 () {
-          const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);

@@ -6,7 +6,7 @@ import Axios from 'axios';
 import Chat from './Chat';
 import './Chat.css';
 
-const socket = io.connect("https://empty-test-project.herokuapp.com");
+const socket = io.connect("https://bsi-portal-service-production.up.railway.app");
 
 const ChatIO = () => {
 
@@ -33,7 +33,7 @@ const ChatIO = () => {
     useEffect(() => {
 
         async function userExpire2 () {
-          const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);

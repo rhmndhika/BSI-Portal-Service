@@ -79,7 +79,7 @@ const Home = () => {
   }
 
   // const userExpire = () => {
-  //   Axios.get('https://empty-test-project.herokuapp.com/login')
+  //   Axios.get('https://bsi-portal-service-production.up.railway.app/login')
   //   .then((response)=> {
   //     if(response.data.loggedIn === true) {
   //       setEmailLog(response.data.email);
@@ -107,7 +107,7 @@ const Home = () => {
     }
     formData.append('Message', outsourcingPortal.message);
    
-    await fetch("https://empty-test-project.herokuapp.com/outsourcing", {
+    await fetch("https://bsi-portal-service-production.up.railway.app/outsourcing", {
       method: 'POST',
       body: formData,
   })
@@ -118,7 +118,7 @@ const Home = () => {
   }
 
   const getOutsourcingData = () => {
-     Axios.get("https://empty-test-project.herokuapp.com/outsourcing").then((response) => {
+     Axios.get("https://bsi-portal-service-production.up.railway.app/outsourcing").then((response) => {
       setDataOutsourcing(response.data);
       setIsFetching(false);
     })
@@ -146,7 +146,7 @@ const Home = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://empty-test-project.herokuapp.com/outsourcing/delete/${id}`).then((response) => {
+    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then((response) => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))
@@ -156,7 +156,7 @@ const Home = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://empty-test-project.herokuapp.com/login')
+      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

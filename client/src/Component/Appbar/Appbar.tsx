@@ -63,7 +63,7 @@ export default function Appbar() {
   }
 
   const logout =  () => {
-    Axios.get('https://empty-test-project.herokuapp.com/logout').then(() => {
+    Axios.get('https://bsi-portal-service-production.up.railway.app/logout').then(() => {
     })
     showToastSucces();
     setTimeout(() => window.location.assign("http://localhost:3000"), 1000);

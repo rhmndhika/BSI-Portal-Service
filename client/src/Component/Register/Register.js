@@ -71,7 +71,7 @@ const Register = () => {
   const register = (e) => {
     e.preventDefault();
 
-     Axios.post("https://empty-test-project.herokuapp.com/register" , {
+     Axios.post("https://bsi-portal-service-production.up.railway.app/register" , {
         username : usernameReg,
         email: emailReg, 
         password: passwordReg
