@@ -28,6 +28,7 @@ const LiveChat = () => {
     const joinRoom = () => {
         if (emailLog !== "" && room !== "") {
           socket.emit("join_room", room);
+          socket.emit('newUser', { emailLog, socketID: socket.id });
           setShowChat(true);
         }
     };
@@ -49,7 +50,6 @@ const LiveChat = () => {
        }, [emailLog])
 
     useEffect(() => {
-        socket.emit('newUser', { emailLog, socketID: socket.id });
         socket.on('newUserResponse', (data) => setUsers(data));
     }, [socket, users])
 
