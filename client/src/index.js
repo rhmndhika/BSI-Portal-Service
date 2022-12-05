@@ -38,6 +38,7 @@ const ProgressOutsourcing = lazy(() => import("./Component/OutsourcingPortal/Pro
 const ChatIO = lazy(() => import("./Component/ChatIO/ChatIO"));
 const SocialMedia = lazy(() => import("./Pages/SocialMedia"));
 const PostDetails = lazy(() => import("./Pages/PostDetails"));
+const LiveChat = lazy(() => import("./Component/ChatIO/LiveChat"));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -79,6 +80,7 @@ root.render(
         <Route path='/registrationhistory' element={<RegistrationHistory />} />
         <Route path='/registrationhistory/:id' element={<RegistrationHistoryDetail />} />
         <Route path='/chatio' element={<ChatIO />} />
+        <Route path='/livechat' element={<LiveChat />} />
         <Route path='/progress' element={<ProgressOutsourcing />} />
         <Route path='/socialmedia/home' element={<SocialMedia />} />
         <Route path='/socialmedia/:id' element={<PostDetails />} />

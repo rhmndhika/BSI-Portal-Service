@@ -31,13 +31,6 @@ const ChatIO = () => {
       }
     };
 
-    const joinUser = () => {
-      if (emailLog !== "" && userId !== "") {
-        socket.emit("join_user", userId);
-        setShowChat(true);
-      }
-    }
-
     useEffect(() => {
 
         async function userExpire2 () {
@@ -63,14 +56,7 @@ const ChatIO = () => {
         }
        }, [])
 
-       useEffect(() => {
-        if (emailLog !== "" && userId !== "") {
-          socket.emit("join_user", userId);
-          setShowChat(true);
-        }
-       }, [])
-
-  
+   
   return (
     <>
     <div className="App">
@@ -97,26 +83,6 @@ const ChatIO = () => {
           <button onClick={joinRoom}>Join A Room</button>
         </div>
 
-        <div className="joinChatContainer">
-          <h3>Chat /w User</h3>
-          <input
-            type="text"
-            placeholder="Username..."
-            value={emailLog}
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="User ID"
-            value={userId}
-            onChange={(event) => {
-              setUserId(event.target.value);
-            }}
-          />
-          <button onClick={joinUser}>Chat /w User</button>
-        </div>
         </>
       ) : (
         <Chat socket={socket} username={emailLog} room={room} id={userId} />

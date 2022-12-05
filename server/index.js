@@ -134,7 +134,7 @@ app.use(sosmedPostRoute);
 app.use(commentRoute);
 app.use(messageRoute);
 
-const users = [];
+let users = [];
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
@@ -144,21 +144,15 @@ io.on("connection", (socket) => {
     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
   });
 
-  socket.on("join_user", (userId) => {
-    users[userId] = socket.id
-    console.log(users);
+  socket.on('newUser', (data) => {
+    //Adds the new user to the list of users
+    users.push(data);
+    // console.log(users);
+    //Sends the list of users to the client
+    socket.emit('newUserResponse', users);
   });
 
-  socket.on("send_private_message", (data) => {
-    socket.to(users[0]).emit("receive_privae_message", data);
-    Mes.create({Message : data.message, User : data.author, SocketID : data.id}, function (err, success)  {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(success);
-      }
-    })
-  })
+  socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
@@ -177,14 +171,14 @@ io.on("connection", (socket) => {
     })
   })
 
-  socket.on('get-private-messages-history', SocketID => {
-    Mes.find({ SocketID }).then(result => {
-      socket.emit('output-private-messages', result)
-    })
-  })
-
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
+    //Updates the list of users when a user disconnects from the server
+    users = users.filter((user) => user.socketID !== socket.id);
+    // console.log(users);
+    //Sends the list of users to the client
+    socket.emit('newUserResponse', users);
+    socket.disconnect();
   });
 });
 
