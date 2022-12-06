@@ -22,15 +22,24 @@ const createPost = async (req, res) => {
     Username : req.body.Username,
     Title : req.body.Title,
     Content : req.body.Content,
-    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
-    PostedBy :  "698ef32d88beb6cd903991d2"
+    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
   })
 
- const post = await Post.save().then((result) => {
-    SosmedPostModel.populate(Post, { path : "PostedBy"}).then((comments => {
-      res.send(post)
-    }))
+//  const post = await Post.save().then((result) => {
+//     SosmedPostModel.populate(Post, { path : "PostedBy"}).then((comments => {
+//       res.send(post)
+//     }))
+//   })
+
+ await Post.save();
+
+ SosmedPostModel.find({ Username : req.session.email }).populate('PostedBy').exec(function (err, story) {
+  if (err) return handleError(err);
+  res.json({
+    Post,
+    story
   })
+});
 }
 
 const getAllPost = (req, res) => {
@@ -59,8 +68,7 @@ const getPostByEmail = (req, res) => {
 const getPostById = (req, res) => {
     const Id = req.params.id;
 
-
-   SosmedPostModel.findById({ _id: Id }).populate('PostedBy').exec(function (err, story) {
+   SosmedPostModel.find({ _id: Id }).populate('PostedBy').exec(function (err, story) {
       if (err) return handleError(err);
       res.send(story)
     });
