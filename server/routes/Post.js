@@ -23,7 +23,7 @@ const createPost = (req, res) => {
     Title : req.body.Title,
     Content : req.body.Content,
     Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
-    PostedBy :  ""
+    PostedBy :  "698ef32d88beb6cd903991d2"
   })
 
   Post.save().then((result) => {
@@ -62,13 +62,14 @@ const getPostByEmail = (req, res) => {
 const getPostById = async (req, res) => {
     const Id = req.params.id;
 
-    try{
-      let post = await SosmedPostModel.findById({_id : Id}).populate('PostedBy').exec().then(() => {
-        res.json(post);
-      })
-    }catch(err){
-      console.log(err);
-    }
+    SosmedPostModel.
+    findOne({ _id: Id }).
+    populate('PostedBy').
+    exec(function (err, story) {
+      if (err) return handleError(err);
+      console.log('The author is %s', story);
+      res.json(story);
+    });
 }
 
 const deletePostById = (req, res) => {
