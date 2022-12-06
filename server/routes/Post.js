@@ -40,14 +40,8 @@ const getAllPost = (req, res) => {
     SosmedPostModel.find().populate("PostedBy").exec(function(err, users) {
       if (err) throw err;
   
-      var adTimes = [];
-      users.forEach(function(user) {
-          user.PostedBy.forEach(function(friend) {
-              adTimes.push(friend.adTime);
-          });
-      });
-  
-      res.send(adTimes); // adTimes should contain all addTimes from his friends
+   
+      res.send(users); // adTimes should contain all addTimes from his friends
   });
 }
 

@@ -19,6 +19,8 @@ const PostDetails = () => {
 
   const [ saved, setSaved] = useState([]);
 
+  const [ bentar, setBentar ] = useState([]);
+
 
   const getPostDetails = () => {
     Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`).then((response) => {
@@ -47,13 +49,15 @@ const PostDetails = () => {
     })
   }
 
-  const getComment = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
-      setSaved(response.data);
+  const getAll = () => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
+    console.log(response.data)  
+    setBentar(response.data)
     })
   }
 
   useEffect(() => {
+    getAll();
     getPostDetails();
   }, [])
 
