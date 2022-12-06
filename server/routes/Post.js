@@ -31,26 +31,24 @@ const createPost = async (req, res) => {
 //     }))
 //   })
 
- await Post.save();
-
- SosmedPostModel.find({ Username : req.session.email }).populate('PostedBy').exec(function (err, story) {
-  if (err) return handleError(err);
-  res.json({
-    Post,
-    story
-  })
-});
+  await Post.save();
+  res.send(Post);
 }
 
 const getAllPost = (req, res) => {
     
-    SosmedPostModel.find({}, (err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result)
-        }
-    })
+    SosmedPostModel.find().populate("PostedBy").exec(function(err, users) {
+      if (err) throw err;
+  
+      var adTimes = [];
+      users.forEach(function(user) {
+          user.PostedBy.forEach(function(friend) {
+              adTimes.push(friend.adTime);
+          });
+      });
+  
+      res.send(adTimes); // adTimes should contain all addTimes from his friends
+  });
 }
 
 const getPostByEmail = (req, res) => {
