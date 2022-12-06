@@ -27,7 +27,7 @@ const createPost = (req, res) => {
   })
 
   Post.save().then((result) => {
-    SosmedPostModel.populate(newPost, { path : "PostedBy"}).then((comments => {
+    SosmedPostModel.populate(Post, { path : "PostedBy"}).then((comments => {
       res.json({
         message : "comment added",
         comments
