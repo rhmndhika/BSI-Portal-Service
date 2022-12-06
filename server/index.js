@@ -138,21 +138,22 @@ let users = [];
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
+  users.push(socket.id);
+  socket.emit("userList", users)
+  console.log("User that connected to the server : "+users);
+
+  socket.on("updateUsers", () => {
+    socket.emit("userList", users)
+  })
+
+  socket.on("newMessage", newMessage => {
+    socket.emit("newMessage", newMessage)
+  })
 
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined to room: ${data}`);
   });
-
-  socket.on('newUser', (data) => {
-    //Adds the new user to the list of users
-    users.push(data);
-    // console.log(users);
-    //Sends the list of users to the client
-    socket.emit('newUserResponse', users);
-  });
-
-  socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
@@ -174,11 +175,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
     //Updates the list of users when a user disconnects from the server
-    users = users.filter((user) => user.socketID !== socket.id);
-    // console.log(users);
-    //Sends the list of users to the client
-    socket.emit('newUserResponse', users);
-    socket.disconnect();
+    users = users.filter(user => user !== socket.id);
+    console.log("User after disconnected :"+users);
   });
 });
 

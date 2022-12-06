@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import Axios from 'axios';
 import Chat from './Chat';
 import './Chat.css';
+import { Select } from '@chakra-ui/react';
 
 const socket = io.connect("https://bsi-portal-service-production.up.railway.app");
 
@@ -72,17 +73,23 @@ const ChatIO = () => {
               setUsername(event.target.value);
             }}
             />
-          <input
+          {/* <input
             type="text"
             placeholder="Room ID..."
             value={room}
             onChange={(event) => {
               setRoom(event.target.value);
             }}
-            />
-          <button onClick={joinRoom}>Join A Room</button>
+            /> */}
+            <Select onChange={(e) => {
+                joinRoom()
+                setRoom(e.target.value)}}>
+                <option value="">Select Room</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </Select>
         </div>
-
         </>
       ) : (
         <Chat socket={socket} username={emailLog} room={room} id={userId} />

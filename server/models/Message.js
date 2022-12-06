@@ -11,7 +11,7 @@ const MessageSchema = new mongoose.Schema({
     Room : {
         type : Number
     }
-})
+}, {timestamps : true})
 
 const MessageModel = mongoose.model("messages", MessageSchema);
 module.exports = MessageModel

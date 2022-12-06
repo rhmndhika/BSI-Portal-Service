@@ -67,16 +67,11 @@ const Chat = ({ socket, username, room, id }) => {
       })
     }, [socket]);
 
-    useEffect(() => {
-      socket.on('typingResponse', (data) => setTypingStatus(data));
-    }, [socket]);
-
-
   return (
     <div className='App'>
     <div className="chat-window">
     <div className="chat-header">
-      <p>Live Chat</p>
+      <p>Live Chat {room}</p>
     </div>
     <div className="chat-body">
       <ScrollToBottom className="message-container">
@@ -90,7 +85,6 @@ const Chat = ({ socket, username, room, id }) => {
                 <div className="message-content">
                     {messageContent.message ?
                     <>
-                      <p>{typingStatus}</p>
                       <p>{messageContent.message}</p>
                     </> 
                       :
