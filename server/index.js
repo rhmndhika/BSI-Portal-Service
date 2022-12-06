@@ -139,7 +139,8 @@ let users = [];
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
   users.push(socket.id);
-  socket.emit("userList", users)
+  socket.emit("userList", users);
+  socket.join("General Chat");
   console.log("User that connected to the server : "+users);
 
   socket.on("updateUsers", () => {
@@ -147,7 +148,14 @@ io.on("connection", (socket) => {
   })
 
   socket.on("newMessage", newMessage => {
-    socket.emit("newMessage", newMessage)
+    socket.to(newMessage.room).emit("newMessage", { name : newMessage.name, msg : newMessage.msg })
+  })
+
+  socket.on("roomEntered", ({ oldRoom, newRoom }) => {
+    socket.leave(oldRoom);
+    socket.to(oldRoom).emit("newMessage", { name : "NEWS", msg: `${socket.id} just left the room`})
+    socket.to(newRoom).emit("newMessage", { name : "NEWS", msg: `${socket.id} just joined the room`})
+    socket.join(newRoom);
   })
 
   socket.on("join_room", (data) => {

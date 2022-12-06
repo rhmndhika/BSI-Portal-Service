@@ -25,7 +25,8 @@ const LiveChat = () => {
 
     const [messageList, setMessageList] = useState([]);
 
-    const [ chatMessage, setChatMessage ] = useState({name : "", msg: ""})
+    const [ chatMessage, setChatMessage ] = useState({name : "", msg: "", room : ""});
+    const [ currentRoom, setCurrentRoom ] = useState("General Chat");
 
 
     const joinRoom = () => {
@@ -58,12 +59,11 @@ const LiveChat = () => {
 
       const newMessage = {
         name : chatMessage.name,
-        msg  :chatMessage.msg
+        msg  :chatMessage.msg,
+        room : currentRoom
       }
 
       socket.emit("newMessage", newMessage)
-
-      console.log(newMessage);
 
       setChatMessage({
         name : socket.id,
@@ -88,10 +88,12 @@ const LiveChat = () => {
        }, [emailLog])
 
 
-       const [ newRoom, setNewRoom ] = useState("");
-
        const enteringRoom = (e) => {
-        setNewRoom(e.target.value)
+        let oldRoom = currentRoom
+        let newRoom = e.target.textContent
+        setCurrentRoom(newRoom);
+        socket.emit("roomEntered", { oldRoom, newRoom});
+        setMessageList([]);
        }
    
 
@@ -128,13 +130,36 @@ const LiveChat = () => {
     <>
     <Flex flexDirection="row" justifyContent="space-evenly" alignItems="center">
 
-      <Flex justifyContent={"center"} alignItems={"center"}>
-        <Text>Connected socket : </Text>
-        <Text>{users}</Text>
+      <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"}>
+
+        <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"}>
+          <h6 onClick={enteringRoom}>General Chat</h6>
+          <Text>Chat Rooms : </Text>
+          <ul style={{listStyle : "none", cursor : "pointer"}}>
+            <li onClick={enteringRoom}>Apple</li>
+            <li onClick={enteringRoom}>Banana</li>
+            <li onClick={enteringRoom}>Melon</li>
+          </ul>
+        </Flex>
+       
+       
+        <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"} mt="20px">
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            <Text>Connected socket : </Text>
+          </Flex>
+          <Flex justifyContent={"center"} alignItems={"center"}>
+          <ul style={{listStyle : "none"}}>
+            {users.map((user) => {
+              return <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}</li>;
+            })}
+          </ul>
+          </Flex>
+        </Flex>
+
       </Flex>
 
       <Flex flexDirection="column" justifyContent="center" alignItems="center">
-        <Text marginTop="15px">Chat Messages : </Text>
+        <Text marginTop="15px">Chat Messages ({currentRoom})</Text>
         <form onSubmit={newMessageSubmit}>
           <Input type="text" name="msg" marginTop="20px" width="300px" value={chatMessage.msg} onChange={handleChange} />
           <Button type="submit">Submit</Button>
