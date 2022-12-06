@@ -22,11 +22,18 @@ const createPost = async (req, res) => {
     Username : req.body.Username,
     Title : req.body.Title,
     Content : req.body.Content,
-    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
+    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
+    PostedBy :  req.body.Username
   })
 
-  await Post.save();
-  res.send(Post);
+  await Post.save().then((result) => {
+    SosmedPostModel.populate(newPost, { path : "PostedBy"}).then((comments => {
+      res.json({
+        message : "comment added",
+        comments
+      })
+    }))
+  })
 }
 
 const getAllPost = (req, res) => {
@@ -54,27 +61,13 @@ const getPostByEmail = (req, res) => {
 
 const getPostById = async (req, res) => {
     const Id = req.params.id;
-
-    // SosmedPostModel.findById({_id : Id}, (err, result) => {
-    //     if (err) {
-    //       res.send(err);
-    //     } else {
-    //       res.send(result);
-    //     }
-    // })
-
+    
     try{
-      let post = await SosmedPostModel.findById({_id : Id}).populate('PostedBy').exec()
-      if (!post)
-        return res.status(400).json({
-          error: "Post not found"
-        })
-      res.send(post);
-      next();
-    }catch(err){
-      return res.status(400).json({
-        error: "Could not retrieve use post"
+      let post = await SosmedPostModel.findById({_id : Id}).populate('PostedBy').exec().then(() => {
+        res.json(post);
       })
+    }catch(err){
+      console.log(err);
     }
 }
 
