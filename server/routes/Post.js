@@ -23,7 +23,7 @@ const createPost = (req, res) => {
     Title : req.body.Title,
     Content : req.body.Content,
     Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
-    PostedBy :  req.body.Username
+    PostedBy :  ""
   })
 
   Post.save().then((result) => {
