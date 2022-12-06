@@ -25,7 +25,7 @@ const LiveChat = () => {
 
     const [messageList, setMessageList] = useState([]);
 
-    const [ chatMessage, setChatMessage ] = useState({name : "", msg: "", room : ""});
+    const [ chatMessage, setChatMessage ] = useState({name : "", msg: "", room : "", isPrivate : false});
     const [ currentRoom, setCurrentRoom ] = useState("General Chat");
 
 
@@ -37,17 +37,17 @@ const LiveChat = () => {
     };
 
     useEffect(() => {
-      socket.emit("updateUsers");
+      socket.emit("userJoin", emailLog);
     }, []);
 
     socket.on("newMessage", newMessage => {
       console.log("Just ariived :", newMessage);
-      setMessageList([...messageList, { name : newMessage.name, msg : newMessage.msg}])
+      setMessageList([...messageList, { name : newMessage.name, msg : newMessage.msg, isPrivate : newMessage.isPrivate }])
     })
 
     socket.on("userList", userList => {
       setUsers(userList);
-      setChatMessage({name : socket.id, msg : chatMessage.msg})
+      setChatMessage({name : emailLog, msg : chatMessage.msg})
     })
 
     const handleChange = (e) => {
@@ -60,13 +60,14 @@ const LiveChat = () => {
       const newMessage = {
         name : chatMessage.name,
         msg  :chatMessage.msg,
-        room : currentRoom
+        room : currentRoom,
+        isPrivate : isChatPrivate(currentRoom, users)
       }
 
       socket.emit("newMessage", newMessage)
 
       setChatMessage({
-        name : socket.id,
+        name : emailLog,
         msg : ""
       })
     }
@@ -94,6 +95,16 @@ const LiveChat = () => {
         setCurrentRoom(newRoom);
         socket.emit("roomEntered", { oldRoom, newRoom});
         setMessageList([]);
+       }
+
+       const isChatPrivate = (roomName, userList) => {
+        let isPrivate = false
+        userList.forEach(roomName => {
+          if(emailLog === roomName) {
+            isPrivate = true
+          }
+        })
+        return isPrivate
        }
    
 
@@ -169,7 +180,12 @@ const LiveChat = () => {
             {messageList.map((messageList, index) => {
               return (
                 <li key={index}>
-                  <b>{messageList.name} : <i>{messageList.msg}</i></b>
+                  <b>{messageList.name}:</b> 
+                  <i>
+                    <span style={{color : messageList.isPrivate ? "red" : "black"}}>
+                      {messageList.msg}
+                    </span>
+                  </i>
                 </li>
               )
             })}

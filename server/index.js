@@ -134,27 +134,28 @@ app.use(sosmedPostRoute);
 app.use(commentRoute);
 app.use(messageRoute);
 
-let users = [];
+let users = {};
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
-  users.push(socket.id);
-  socket.emit("userList", users);
-  socket.join("General Chat");
-  console.log("User that connected to the server : "+users);
 
-  socket.on("updateUsers", () => {
-    socket.emit("userList", users)
+
+  socket.on("userJoin", username => {
+    users[socket.id] = username
+    socket.join(username)
+    socket.join("General Chat");
+    console.log("User Object connected to the server : "+users);
+    socket.emit("userList", [...new Set(Object.values(users))])
   })
 
   socket.on("newMessage", newMessage => {
-    socket.to(newMessage.room).emit("newMessage", { name : newMessage.name, msg : newMessage.msg })
+    socket.to(newMessage.room).emit("newMessage", { name : newMessage.name, msg : newMessage.msg, isPrivate : newMessage.isPrivate })
   })
 
   socket.on("roomEntered", ({ oldRoom, newRoom }) => {
     socket.leave(oldRoom);
-    socket.to(oldRoom).emit("newMessage", { name : "NEWS", msg: `${socket.id} just left the room`})
-    socket.to(newRoom).emit("newMessage", { name : "NEWS", msg: `${socket.id} just joined the room`})
+    socket.to(oldRoom).emit("newMessage", { name : "NEWS", msg: `${users[socket.id]} just left the room`})
+    socket.to(newRoom).emit("newMessage", { name : "NEWS", msg: `${users[socket.id]} just joined the room`})
     socket.join(newRoom);
   })
 
@@ -181,9 +182,8 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-    //Updates the list of users when a user disconnects from the server
-    users = users.filter(user => user !== socket.id);
+    delete users[socket.id]
+    socket.emit("userList", [...new Set(Object.values(users))]);
     console.log("User after disconnected :"+users);
   });
 });
