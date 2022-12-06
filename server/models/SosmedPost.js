@@ -13,8 +13,7 @@ const SosmedPostSchema = new mongoose.Schema({
    Documents : {
         type : String
    },
-   PostedBy : {type : mongoose.Schema.Types.ObjectId, ref : "sosmedprofiles"},
-   User : {type : mongoose.Schema.Types.ObjectId, ref : "users"}
+   PostedBy : {type : mongoose.Schema.Types.ObjectId, ref : "sosmedprofiles"}
 }, {timestamps : true});
 
 

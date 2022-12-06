@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-const createPost = (req, res) => {
+const createPost = async (req, res) => {
   
   const Post = new SosmedPostModel({
     Username : req.body.Username,
@@ -26,12 +26,9 @@ const createPost = (req, res) => {
     PostedBy :  "698ef32d88beb6cd903991d2"
   })
 
-  Post.save().then((result) => {
+ const post = await Post.save().then((result) => {
     SosmedPostModel.populate(Post, { path : "PostedBy"}).then((comments => {
-      res.json({
-        message : "comment added",
-        comments
-      })
+      res.send(post)
     }))
   })
 }
@@ -59,16 +56,13 @@ const getPostByEmail = (req, res) => {
 }
 
 
-const getPostById = async (req, res) => {
+const getPostById = (req, res) => {
     const Id = req.params.id;
 
-    SosmedPostModel.
-    findOne({ _id: Id }).
-    populate('PostedBy').
-    exec(function (err, story) {
+
+   SosmedPostModel.findById({ _id: Id }).populate('PostedBy').exec(function (err, story) {
       if (err) return handleError(err);
-      console.log('The author is %s', story);
-      res.json(story);
+      res.send(story)
     });
 }
 
