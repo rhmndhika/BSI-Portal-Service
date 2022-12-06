@@ -144,7 +144,7 @@ io.on("connection", (socket) => {
     users[socket.id] = username
     socket.join(username)
     socket.join("General Chat");
-    console.log("User Object connected to the server : "+users);
+    console.log("User Object connected to the server : ", users);
     socket.emit("userList", [...new Set(Object.values(users))])
   })
 

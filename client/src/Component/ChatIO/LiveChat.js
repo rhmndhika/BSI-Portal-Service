@@ -99,8 +99,8 @@ const LiveChat = () => {
 
        const isChatPrivate = (roomName, userList) => {
         let isPrivate = false
-        userList.forEach(roomName => {
-          if(emailLog === roomName) {
+        userList.forEach(userName => {
+          if(userName === roomName) {
             isPrivate = true
           }
         })
