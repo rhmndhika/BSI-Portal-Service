@@ -42,6 +42,7 @@ import {
 } from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/card'
 import { 
+  DeleteIcon,
     EditIcon,
     SearchIcon
 } from '@chakra-ui/icons';
@@ -209,7 +210,7 @@ const SocialMedia = () => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Customer
+              Delete Post
             </AlertDialogHeader>
 
             <AlertDialogBody>
@@ -411,33 +412,25 @@ const SocialMedia = () => {
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                            <Link to={`/socialmedia/${i._id}`}>
                                 {profileList.length <= 0 ? null : 
                                   <Avatar name={i.Username} src="" />  
                                 }
-                            </Link>
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
                             <Text>Created {moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
                             {/* <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text> */}
                             </Box>
                         </Flex>
-                        {/* { i.Username === emailLog 
+                        <Link to={`/socialmedia/${i._id}`}>
+                          <IconButton
+                          variant='ghost'
+                          colorScheme='gray'
+                          aria-label='See menu' 
+                          icon={<EditIcon />}
+                          />
+                        </Link>
+                        { i.Username === emailLog 
                         ?
-                        <IconButton
-                        variant='ghost'
-                        colorScheme='gray'
-                        aria-label='See menu'
-                        icon={<EditIcon />}
-                        />
-                        :
-                        <IconButton
-                        variant='ghost'
-                        colorScheme='gray'
-                        aria-label='See menu'
-                        icon={<BsThreeDotsVertical />}
-                        />
-                        } */}
                         <IconButton
                         variant='ghost'
                         colorScheme='gray'
@@ -446,8 +439,11 @@ const SocialMedia = () => {
                           setCurrentID(i._id);
                           onOpenAlertDialog(i._id);
                         }}
-                        icon={<BsThreeDotsVertical />}
+                        icon={<DeleteIcon />}
                         />
+                         :
+                        null
+                        }
                         </Flex>
                     </CardHeader>
                     <Text marginTop={30}>
@@ -459,10 +455,10 @@ const SocialMedia = () => {
                         src={i.Documents}
                         alt='Chakra UI'
                         marginTop="10px"
-                        // maxW="700px"
-                        // maxH="550px"
+                        maxW="700px"
+                        maxH="550px"
                         width="700px"
-                        height="550px"
+                        // height="550px"
                         display="block"
                         marginLeft="auto"
                         marginRight="auto"

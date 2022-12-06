@@ -52,16 +52,30 @@ const getPostByEmail = (req, res) => {
 }
 
 
-const getPostById = (req, res) => {
+const getPostById = async (req, res) => {
     const Id = req.params.id;
 
-    SosmedPostModel.findById({_id : Id}, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(result);
-        }
-    })
+    // SosmedPostModel.findById({_id : Id}, (err, result) => {
+    //     if (err) {
+    //       res.send(err);
+    //     } else {
+    //       res.send(result);
+    //     }
+    // })
+
+    try{
+      let post = await SosmedPostModel.findById({_id : Id}).populate('PostedBy').exec()
+      if (!post)
+        return res.status('400').json({
+          error: "Post not found"
+        })
+      res.send(post);
+      next();
+    }catch(err){
+      return res.status('400').json({
+        error: "Could not retrieve use post"
+      })
+    }
 }
 
 const deletePostById = (req, res) => {

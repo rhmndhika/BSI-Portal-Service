@@ -67,7 +67,7 @@ app.use(session({
     cookie:{
         secure: true,
         sameSite: "production" ? "none" : "lax",
-        maxAge: 1 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000
            },
     key: process.env.COOKIE_KEY,
     store: new MemoryStore({
@@ -144,7 +144,7 @@ io.on("connection", (socket) => {
     users[socket.id] = username
     socket.join(username)
     socket.join("General Chat");
-    console.log("User Object connected to the server : ", users);
+    console.log("User that connected to the server : ", users);
     socket.emit("userList", [...new Set(Object.values(users))])
   })
 
@@ -154,8 +154,8 @@ io.on("connection", (socket) => {
 
   socket.on("roomEntered", ({ oldRoom, newRoom }) => {
     socket.leave(oldRoom);
-    socket.to(oldRoom).emit("newMessage", { name : "NEWS", msg: `${users[socket.id]} just left the room`})
-    socket.to(newRoom).emit("newMessage", { name : "NEWS", msg: `${users[socket.id]} just joined the room`})
+    socket.to(oldRoom).emit("newMessage", { name : "News", msg: `${users[socket.id]} just left the room`})
+    socket.to(newRoom).emit("newMessage", { name : "News", msg: `${users[socket.id]} just joined the room`})
     socket.join(newRoom);
   })
 
@@ -184,7 +184,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     delete users[socket.id]
     socket.emit("userList", [...new Set(Object.values(users))]);
-    console.log("User after disconnected :"+users);
+    console.log("User after disconnected :", users);
   });
 });
 

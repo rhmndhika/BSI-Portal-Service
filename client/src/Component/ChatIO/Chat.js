@@ -124,7 +124,7 @@ const Chat = ({ socket, username, room, id }) => {
       />
       <button onClick={sendMessage}>&#9658;</button>
     </div>
-  </div>
+    </div>
   </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Input, Text } from '@chakra-ui/react';
 
 const PostDetails = () => {
 
@@ -59,23 +59,29 @@ const PostDetails = () => {
 
   return (
     <div>
-      PostDetails
-      <div>
         {/* Like : {count ? "Like" : "Dislike"}
         <Button onClick={() => setCount((prevCount) => !prevCount)}>Like</Button> */}
 
-        <Flex>
-          <Text>{saveData.Title}</Text>
-          <Text>{saveData.Content}</Text>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center">
+          <Flex mt="50px">
+            <Text>{saveData.Title}</Text>
+          </Flex>
 
-          <form>
+          <Flex>
+            <Text>{saveData.Content}</Text>
+          </Flex>
+
+          <Flex>
+            <Image w="150px" h="100px" alt="empty" src={saveData.Documents} />
+          </Flex>
+        </Flex>
+
+          {/* <form>
             <Input type="text" value={test} name="Content" onChange={(e) => setTest(e.target.value)} />
             <Button onClick={submitComment} type="submit">Submit</Button>
-          </form>
-        </Flex>
-        {saved}
-        <Button onClick={getComment}>Click ME</Button>
-      </div>  
+          </form> */}
+        {/* {saved}
+        <Button onClick={getComment}>Click ME</Button> */}
     </div>
     
   )

@@ -130,7 +130,7 @@ const Home = () => {
       className="whatsapp_float"
       rel="noopener noreferrer"
       onClick={openChat}
-      href="/chatio"
+      href="/livechat"
     >
      <IconButton
       colorScheme='blue'

@@ -6,6 +6,8 @@ import Axios from 'axios';
 import Chat from './Chat';
 import './Chat.css';
 import { Button, Flex, Input, Select, Text } from '@chakra-ui/react';
+import ScrollToBottom from "react-scroll-to-bottom";
+import Appbar from "../Appbar/Appbar.tsx";
 
 const socket = io.connect("https://bsi-portal-service-production.up.railway.app");
 
@@ -38,7 +40,7 @@ const LiveChat = () => {
 
     useEffect(() => {
       socket.emit("userJoin", emailLog);
-    }, []);
+    }, [emailLog, users]);
 
     socket.on("newMessage", newMessage => {
       console.log("Just ariived :", newMessage);
@@ -57,19 +59,22 @@ const LiveChat = () => {
     const newMessageSubmit = (e) => {
       e.preventDefault();
 
+      
       const newMessage = {
         name : chatMessage.name,
         msg  :chatMessage.msg,
         room : currentRoom,
         isPrivate : isChatPrivate(currentRoom, users)
       }
+      
+      if (newMessage !== "" ) {
+        socket.emit("newMessage", newMessage)
 
-      socket.emit("newMessage", newMessage)
-
-      setChatMessage({
-        name : emailLog,
-        msg : ""
-      })
+        setChatMessage({
+          name : emailLog,
+          msg : ""
+        })
+      } 
     }
 
     useEffect(() => {
@@ -139,29 +144,44 @@ const LiveChat = () => {
 //     )}
 //   </div>
     <>
+    <Appbar />
     <Flex flexDirection="row" justifyContent="space-evenly" alignItems="center">
 
       <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"}>
 
         <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"}>
-          <h6 onClick={enteringRoom}>General Chat</h6>
-          <Text>Chat Rooms : </Text>
-          <ul style={{listStyle : "none", cursor : "pointer"}}>
-            <li onClick={enteringRoom}>Apple</li>
-            <li onClick={enteringRoom}>Banana</li>
-            <li onClick={enteringRoom}>Melon</li>
-          </ul>
+          <Flex>
+            <Text>Chat Rooms : </Text>
+          </Flex>
+          <Flex>
+            <ul style={{listStyle : "none", cursor : "pointer"}}>
+              <li style={{display : "flex", justifyContent : "center"}} onClick={enteringRoom}>General Chat</li>
+              <li style={{display : "flex", justifyContent : "center"}} onClick={enteringRoom}>Apple</li>
+              <li style={{display : "flex", justifyContent : "center"}} onClick={enteringRoom}>Banana</li>
+              <li style={{display : "flex", justifyContent : "center"}} onClick={enteringRoom}>Melon</li>
+            </ul>
+          </Flex>
         </Flex>
        
        
         <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"} mt="20px">
           <Flex justifyContent={"center"} alignItems={"center"}>
-            <Text>Connected socket : </Text>
+            <Text>User Online: </Text>
           </Flex>
           <Flex justifyContent={"center"} alignItems={"center"}>
           <ul style={{listStyle : "none"}}>
             {users.map((user) => {
-              return <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}</li>;
+              return (
+                <>
+                <Flex justifyContent="center" alignItems="center">
+                { user === emailLog ?
+                  <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}(you)</li>
+                  :
+                  <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}</li>
+                }
+                </Flex>
+                </>
+              )
             })}
           </ul>
           </Flex>
@@ -170,7 +190,7 @@ const LiveChat = () => {
       </Flex>
 
       <Flex flexDirection="column" justifyContent="center" alignItems="center">
-        <Text marginTop="15px">Chat Messages ({currentRoom})</Text>
+        {/* <Text marginTop="15px">Chat Messages ({currentRoom})</Text>
         <form onSubmit={newMessageSubmit}>
           <Input type="text" name="msg" marginTop="20px" width="300px" value={chatMessage.msg} onChange={handleChange} />
           <Button type="submit">Submit</Button>
@@ -190,19 +210,62 @@ const LiveChat = () => {
               )
             })}
           </ul>
-        </Text>
+        </Text> */}
+        <Flex>
+        <div className="chat-window">
+          {currentRoom.length > 12 ? 
+           <div className="chat-header1">
+            <p>Chat Messages ({currentRoom})</p>
+           </div>
+           :
+          <div className="chat-header">
+            <p>Chat Messages ({currentRoom})</p>
+          </div>
+          }
+        <div className="chat-body">
+        <ScrollToBottom className="message-container">
+          {messageList.map((messageContent, index) => {
+          return (
+            <div
+              className="message"
+              id={emailLog === messageContent.name ? "you" : emailLog !== messageContent.name ? "other" : null}
+            >
+              <div>
+                <div className="message-content">
+                  <span style={{color : messageContent.isPrivate ? "red" : "white"}}>
+                      {messageContent.msg}
+                  </span>
+                </div>
+                <div className="message-meta">
+                  <p id="time">{messageContent.time}</p>
+                    <p id="author">{messageContent.name}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </ScrollToBottom>
+      </div>
+        <div className="chat-footer">
+        <form onSubmit={newMessageSubmit}>
+          {/* <Input type="text" name="msg" marginTop="20px" width="300px" value={chatMessage.msg} onChange={handleChange} />
+          <Button type="submit">Submit</Button> */}
+          <Flex flexDirection="row" justifyContent="center" alignItems="center">
+          <input
+            type="text"
+            name="msg"
+            value={chatMessage.msg}
+            placeholder="Hey..."
+            onChange={handleChange} 
+            />
+          <Button type="submit">&#9658;</Button>
+          </Flex>
+          </form>
+        </div>
+        </div>
+        </Flex>
       </Flex>
     </Flex>
-        {/* <Flex>
-            <p>Value : {newRoom}</p>
-            <Select onChange={(e) => {
-                setNewRoom(e.target.value)}}>
-                <option value="">Select</option>
-                <option value="Banana">Banana</option>
-                <option value="Apple">Apple</option>
-                <option value="Melon">Melon</option>
-            </Select>
-        </Flex> */}
     </>
   )
 }
