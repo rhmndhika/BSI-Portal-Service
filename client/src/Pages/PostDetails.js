@@ -24,6 +24,12 @@ const PostDetails = () => {
 
   const [ profileList, setProfileList] = useState([]);
 
+  const [ postId, setPostId] = useState("");
+
+  const [ empty , setEmpty ] = useState("")
+
+  const [ empty2 , setEmpty2 ] = useState("")
+
 
   const getPostDetails = () => {
     Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`).then((response) => {
@@ -35,20 +41,34 @@ const PostDetails = () => {
 
     e.preventDefault();
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    formData.append('Content', test);
-    formData.append('PostedBy', profileList._id);
+    // formData.append('Content', test);
+    // formData.append('PostedBy', profileList._id);
 
-    await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
-        method: 'POST',
-        body: formData,
-    }).then((response) => {
-       console.log(response);
-    })
+    // await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
+    //     method: 'POST',
+    //     body: formData,
+    // }).then((response) => {
+    //    console.log(response.data);
+    // })
 
-    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
-      Content : test
+    // Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
+    //   Content : test
+    // })
+
+    // name="Content" placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
+    // <Input type="text" value={profileList._id} name="WriterID" onChange={(e) => setComment(e.target.value)} />
+    // <Input type="text" value={id} name="PostID" onChange={(e) => setComment(e.target.value)} />
+    // <Input type="text" value={profileList._id} name="PostedBy"
+
+    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
+      Content : test,
+      WriterID: comment, 
+      PostedBy: empty,
+      PostID: empty2,
+    }).then((response)=> {
+      alert("Submitted")
     })
   }
 
@@ -83,7 +103,9 @@ const PostDetails = () => {
         </Flex>
           <form onSubmit={submitComment}>
             <Input type="text" value={test} name="Content" placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
-            <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setComment(e.target.value)} />
+            <Input type="text" value={profileList._id} name="WriterID" onChange={(e) => setComment(e.target.value)} />
+            <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} />
+            <Input type="text" value={id} name="PostID" onChange={(e) => setEmpty2(e.target.value)} />
             <Button type="submit">Submit</Button>
           </form>
         {/* {saved}

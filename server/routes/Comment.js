@@ -15,16 +15,13 @@ const createComment = async (req, res) => {
 
     // res.send(Comments);
 
-    const Comments = new CommentModel({
-        ContentMessage : req.body.Content,
-        PostedBy : req.body.PostedBy
-    })
+    const comment = new CommentModel(req.body) 
 
-    Comments.save((err, result) => {
+    comment.save((err, result) => {
         if (err) return res.json({success : false, err})
 
-        CommentModel.find({ _id : Comments.PostedBy })
-        .populate('PostedBy', '_id Username ProfilePicture')
+        CommentModel.find({ _id : comment._id })
+        .populate('PostedBy')
         .exec((err, result) => {
             if (err) return res.json({success : false, err})
             return res.send(result);
