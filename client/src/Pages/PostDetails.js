@@ -43,8 +43,10 @@ const PostDetails = () => {
 
     // const formData = new FormData();
 
-    // formData.append('Content', test);
-    // formData.append('PostedBy', profileList._id);
+    // formData.append('ContentMessage', test);
+    // formData.append('WriterID', comment);
+    // formData.append('PostedBy', empty);
+    // formData.append('PostID', empty2);
 
     // await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
     //     method: 'POST',
@@ -53,20 +55,12 @@ const PostDetails = () => {
     //    console.log(response.data);
     // })
 
-    // Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
-    //   Content : test
-    // })
 
-    // name="Content" placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
-    // <Input type="text" value={profileList._id} name="WriterID" onChange={(e) => setComment(e.target.value)} />
-    // <Input type="text" value={id} name="PostID" onChange={(e) => setComment(e.target.value)} />
-    // <Input type="text" value={profileList._id} name="PostedBy"
-
-    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
-      Content : test,
+    await Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
+      ContentMessage : test,
       WriterID: comment, 
-      PostedBy: empty,
       PostID: empty2,
+      PostedBy : empty
     }).then((response)=> {
       alert("Submitted")
     })
@@ -76,7 +70,8 @@ const PostDetails = () => {
     Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
         setProfileList(response.data);
     })
-}
+ }
+
 
   useEffect(() => {
     getPostDetails();

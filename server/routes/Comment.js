@@ -7,37 +7,24 @@ const CommentModel = require("../models/Comment");
 
 const createComment = async (req, res) => {
 
-    // const Comments = new CommentModel({
-    //     ContentMessage : req.body.Content,
-    // })
-
-    // await Comments.save();
-
-    // res.send(Comments);
-
-    const comment = new CommentModel(req.body) 
-
-    comment.save((err, result) => {
-        if (err) return res.json({success : false, err})
-
-        CommentModel.find({ _id : comment._id })
-        .populate('PostedBy')
-        .exec((err, result) => {
-            if (err) return res.json({success : false, err})
-            return res.send(result);
-        })
+    const Comments = new CommentModel({
+        ContentMessage : req.body.Content,
+        WriterID : req.body.WriterID,
+        PostID : req.body.PostID
     })
+
+    await Comments.save();
+
+    res.send(Comments);
 }
 
 const getComment = async (req, res) => {
 
-    try {
-        const COMMENT = await CommentModel.find({}).populate("RefPost");
-
-        res.send(COMMENT);
-    } catch (err) {
-        res.send(err);
-    }
+   CommentModel.find({_id : CommentModel._id}).populate("PostedBy").exec((err, result) => {
+    if (err) return res.send(err);
+    console.log("Populated User" + result);
+    res.send(result);
+   })
 
    
 }
