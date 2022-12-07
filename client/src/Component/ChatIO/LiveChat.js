@@ -40,7 +40,7 @@ const LiveChat = () => {
 
     useEffect(() => {
       socket.emit("userJoin", emailLog);
-    }, [emailLog, users]);
+    }, []);
 
     socket.on("newMessage", newMessage => {
       console.log("Just ariived :", newMessage);

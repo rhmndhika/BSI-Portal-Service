@@ -16,16 +16,18 @@ const PostDetails = () => {
   const [ count, setCount ] = useState(false);
 
   const [ test, setTest ] = useState("");
+  const [ comment, setComment ] = useState("");
 
   const [ saved, setSaved] = useState([]);
 
   const [ bentar, setBentar ] = useState([]);
 
+  const [ profileList, setProfileList] = useState([]);
+
 
   const getPostDetails = () => {
     Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`).then((response) => {
       setSaveData(response.data);
-      console.log(response.data);
     })
   }
 
@@ -33,32 +35,32 @@ const PostDetails = () => {
 
     e.preventDefault();
 
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // formData.append('Content', test);
+    formData.append('Content', test);
+    formData.append('PostedBy', profileList._id);
 
-    // await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
-    //     method: 'POST',
-    //     body: formData,
-    // }).then((response) => {
-       
-    // })
+    await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
+        method: 'POST',
+        body: formData,
+    }).then((response) => {
+       console.log(response);
+    })
 
     Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
       Content : test
     })
   }
 
-  const getAll = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
-    console.log(response.data)  
-    setBentar(response.data)
+  const getProfile = () => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
+        setProfileList(response.data);
     })
-  }
+}
 
   useEffect(() => {
-    getAll();
     getPostDetails();
+    getProfile();
   }, [])
 
   return (
@@ -79,11 +81,11 @@ const PostDetails = () => {
             <Image w="150px" h="100px" alt="empty" src={saveData.Documents} />
           </Flex>
         </Flex>
-
-          {/* <form>
-            <Input type="text" value={test} name="Content" onChange={(e) => setTest(e.target.value)} />
-            <Button onClick={submitComment} type="submit">Submit</Button>
-          </form> */}
+          <form onSubmit={submitComment}>
+            <Input type="text" value={test} name="Content" placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
+            <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setComment(e.target.value)} />
+            <Button type="submit">Submit</Button>
+          </form>
         {/* {saved}
         <Button onClick={getComment}>Click ME</Button> */}
     </div>

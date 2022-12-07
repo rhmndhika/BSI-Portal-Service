@@ -155,9 +155,9 @@ const SocialMedia = () => {
         const formData = new FormData();
 
         formData.append('Username', emailLog);
-        formData.append('Title', postSosmed.title);
         formData.append('Content', postSosmed.content);
         formData.append('Documents', postSosmed.documents);
+        formData.append('Tags', postSosmed.tags);
 
         await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
             method: 'POST',
@@ -244,13 +244,6 @@ const SocialMedia = () => {
             <FormControl isRequired>
               <FormLabel>Username</FormLabel>
               <Input value={emailLog} disabled />
-            </FormControl>
-
-            <FormControl mt={4} isRequired>
-              <FormLabel>Title</FormLabel>
-              <Input type="text" value={postSosmed.title} name="title" onChange={(e) => {
-                setPostSosmed({...postSosmed, title : e.target.value});
-              }} />
             </FormControl>
 
             <FormControl mt={4} isRequired>

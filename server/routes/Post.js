@@ -25,24 +25,19 @@ const createPost = async (req, res) => {
     Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
   })
 
-//  const post = await Post.save().then((result) => {
-//     SosmedPostModel.populate(Post, { path : "PostedBy"}).then((comments => {
-//       res.send(post)
-//     }))
-//   })
-
   await Post.save();
   res.send(Post);
 }
 
 const getAllPost = (req, res) => {
     
-    SosmedPostModel.find().populate("PostedBy").exec(function(err, users) {
-      if (err) throw err;
-  
-   
-      res.send(users); // adTimes should contain all addTimes from his friends
-  });
+    SosmedPostModel.find({}, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result)
+        }
+    })
 }
 
 const getPostByEmail = (req, res) => {

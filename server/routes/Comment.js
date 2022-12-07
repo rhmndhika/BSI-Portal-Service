@@ -7,13 +7,29 @@ const CommentModel = require("../models/Comment");
 
 const createComment = async (req, res) => {
 
+    // const Comments = new CommentModel({
+    //     ContentMessage : req.body.Content,
+    // })
+
+    // await Comments.save();
+
+    // res.send(Comments);
+
     const Comments = new CommentModel({
-        ContentMessage : req.body.Content
+        ContentMessage : req.body.Content,
+        PostedBy : req.body.PostedBy
     })
 
-    await Comments.save();
+    Comments.save((err, result) => {
+        if (err) return res.json({success : false, err})
 
-    res.send(Comments);
+        CommentModel.find({ _id : Comments.PostedBy })
+        .populate('PostedBy', '_id Username ProfilePicture')
+        .exec((err, result) => {
+            if (err) return res.json({success : false, err})
+            return res.send(result);
+        })
+    })
 }
 
 const getComment = async (req, res) => {

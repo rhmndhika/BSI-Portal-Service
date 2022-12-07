@@ -4,9 +4,11 @@ export const PostSosmed = createContext();
 export default function PostSosmedProvider({children}) {
   const [postSosmed, setPostSosmed] = useState({
    username : "",
-   title : "",
    content : "",
-   documents : ""
+   documents : "",
+   tags : [],
+   comment : [],
+   postedBy : ""
   });
   return (
     <PostSosmed.Provider value={{ postSosmed, setPostSosmed }}>

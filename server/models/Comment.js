@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
 
-const SosmedPostModel = require("../models/SosmedPost"); 
-
 const CommentSchema = new mongoose.Schema({
    ContentMessage : {
         type : String
    },
-   RefPost : [{
+   PostedBy : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : SosmedPostModel
-   }]
+        ref : "sosmedprofiles"
+   }
 }, {timestamps : true});
 
 
