@@ -14,26 +14,19 @@ const createComment = async (req, res) => {
         PostID : req.body.PostID
     })
     
-    await Comments.save();
-
-    res.send(Comments);
+    Comments.save().then(result => {
+        CommentModel.populate(Comments, { path : "WriterID" })
+        .then(comment => {
+            res.json({
+                message : "Comment Added",
+                comment
+            })
+        })
+    })
 }
 
 const getComment = async (req, res) => {
-       
-   CommentModel.aggregate([
-    {
-        $lookup : {
-            from : "sosmedpost",
-            localField : "WritedID",
-            foreignField : "_id",
-            as : "PostedBy"
-        }
-    }
-   ])
-
-
-   
+     
 }
 
 

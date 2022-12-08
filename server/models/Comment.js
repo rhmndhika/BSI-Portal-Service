@@ -9,6 +9,18 @@ const CommentSchema = new mongoose.Schema({
    },
    WriterID : {
           type : String
+   },
+   PostedBy : {
+          type : mongoose.Schema.Types.ObjectId,
+          ref : "sosmedprofiles"
+   },
+   user : {
+       type : mongoose.Schema.Types.ObjectId,
+       ref : "sosmedprofiles"
+   },
+   post : {
+         type : mongoose.Schema.Types.ObjectId,
+          ref : "sosmedposts"
    }
 }, {timestamps : true});
 

@@ -10,24 +10,14 @@ const SosmedPostSchema = new mongoose.Schema({
    Documents : {
         type : String
    },
-   PostedBy : {
-        type : String,
-        default : ""
+   user : {
+     type : mongoose.Schema.Types.ObjectId,
+     ref : "sosmedprofiles"
    },
-   Comments : [
-     {
-          text:{
-               type: String
-          },
-          created:{
-               type: Date,
-               default : Date.now
-          },
-          postedBy:{
-               type: String
-          }
-     }
-     ]
+   comments : [{
+     type: mongoose.Schema.Types.ObjectId,
+     ref: "comments"
+   }]
 }, {timestamps : true});
 
 

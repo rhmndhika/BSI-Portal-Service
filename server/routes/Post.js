@@ -55,10 +55,16 @@ const getPostByEmail = (req, res) => {
 const getPostById = (req, res) => {
     const Id = req.params.id;
 
-   SosmedPostModel.find({ _id: Id }).populate('PostedBy').exec(function (err, story) {
-      if (err) return handleError(err);
-      res.send(story)
-    });
+   SosmedPostModel.findOne({_id : Id})
+   .populate({
+      path : "sosmedprofiles",
+      populate : {
+        path : "comments"
+      }
+   })
+   .then(posts => {
+    res.json(posts);
+   })
 }
 
 const deletePostById = (req, res) => {

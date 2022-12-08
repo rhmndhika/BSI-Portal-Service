@@ -13,7 +13,11 @@ const SosmedProfileSchema = new mongoose.Schema({
    },
    Bio : {
         type : String
-   }
+   },
+   Post : [{
+     type : mongoose.Schema.Types.ObjectId,
+     ref : "sosmedposts"
+   }]
 }, {timestamps : true});
 
 
