@@ -3,6 +3,7 @@ const router = express.Router();
 
 
 const CommentModel = require("../models/Comment");
+const SosmedPostModel = require("../models/SosmedPost");
 
 
 const createComment = async (req, res) => {
@@ -12,15 +13,15 @@ const createComment = async (req, res) => {
         WriterID : req.body.WriterID,
         PostID : req.body.PostID
     })
-
+    
     await Comments.save();
 
     res.send(Comments);
 }
 
 const getComment = async (req, res) => {
-
-   CommentModel.find({_id : CommentModel._id}).populate("PostedBy").exec((err, result) => {
+    
+   CommentModel.find({WriterID : req.body.WriterID}).populate("PostedBy").exec((err, result) => {
     if (err) return res.send(err);
     console.log("Populated User" + result);
     res.send(result);

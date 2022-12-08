@@ -37,30 +37,31 @@ const PostDetails = () => {
     })
   }
 
+  
+
   const submitComment = async (e) => {
 
     e.preventDefault();
 
     // const formData = new FormData();
 
-    // formData.append('ContentMessage', test);
+    // formData.append('Content', test);
     // formData.append('WriterID', comment);
-    // formData.append('PostedBy', empty);
     // formData.append('PostID', empty2);
 
-    // await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
+    // fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
     //     method: 'POST',
     //     body: formData,
     // }).then((response) => {
-    //    console.log(response.data);
+    // }).catch((err) => {
+    //   console.log(err);
     // })
 
 
-    await Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
-      ContentMessage : test,
-      WriterID: comment, 
-      PostID: empty2,
-      PostedBy : empty
+    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
+      Content : test,
+      WriterID: profileList._id, 
+      PostID: id
     }).then((response)=> {
       alert("Submitted")
     })
@@ -72,8 +73,15 @@ const PostDetails = () => {
     })
  }
 
+ const getComment= () => {
+  Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
+    console.log(response.data);
+  })
+}
+
 
   useEffect(() => {
+    getComment();
     getPostDetails();
     getProfile();
   }, [])
@@ -96,11 +104,11 @@ const PostDetails = () => {
             <Image w="150px" h="100px" alt="empty" src={saveData.Documents} />
           </Flex>
         </Flex>
-          <form onSubmit={submitComment}>
-            <Input type="text" value={test} name="Content" placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
-            <Input type="text" value={profileList._id} name="WriterID" onChange={(e) => setComment(e.target.value)} />
-            <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} />
-            <Input type="text" value={id} name="PostID" onChange={(e) => setEmpty2(e.target.value)} />
+          <form onSubmit={submitComment} method="POST">
+            <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
+            <Input type="text" value={profileList._id} />
+            {/* <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} /> */}
+            <Input type="text" value={id} />
             <Button type="submit">Submit</Button>
           </form>
         {/* {saved}
