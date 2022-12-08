@@ -70,7 +70,7 @@ const getPostByEmail = (req, res) => {
 }
 
 
-const getPostById = (req, res) => {
+const getPostById = async (req, res) => {
     const Id = req.params.id;
 
   //  SosmedPostModel.findOne({_id : Id})
@@ -83,12 +83,15 @@ const getPostById = (req, res) => {
   //  .then(posts => {
   //   res.send(posts);
   //  })
-  SosmedPostModel.findOne({ _id: Id })
-  .populate('sosmedprofiles')
-  .exec((err, posts) => {
-    if (err) console.log(err);
-    else res.json(posts);
-  });
+  try {
+    let data = await SosmedPostModel.findOne({_id : Id}).populate({
+      path: 'sosmedprofiles'
+    });
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, msg: err.message });
+  }
 }
 
 const deletePostById = (req, res) => {
