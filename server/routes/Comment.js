@@ -14,19 +14,18 @@ const createComment = async (req, res) => {
         PostID : req.body.PostID
     })
     
-    Comments.save().then(result => {
-        CommentModel.populate(Comments, { path : "WriterID" })
-        .then(comment => {
-            res.json({
-                message : "Comment Added",
-                comment
-            })
-        })
-    })
+    await Comments.save();
+
+    res.send(Comments);
 }
 
 const getComment = async (req, res) => {
-     
+    
+   CommentModel.find({}).then((result)=> { 
+    if (err) return res.send(err);
+    console.log("Populated User" + result);
+    res.send(result);
+   })
 }
 
 
