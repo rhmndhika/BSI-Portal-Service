@@ -57,7 +57,7 @@ const getPostById = (req, res) => {
 
    SosmedPostModel.findOne({_id : Id})
    .populate({
-      path : "sosmedprofiles",
+      path : "user",
       populate : {
         path : "comments"
       }

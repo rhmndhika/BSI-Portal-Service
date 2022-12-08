@@ -21,11 +21,12 @@ const createComment = async (req, res) => {
 
 const getComment = async (req, res) => {
     
-   CommentModel.find({}).then((err, result)=> { 
-    if (err) return res.send(err);
-    console.log("Populated User" + result);
-    res.send(result);
-   })
+   CommentModel.find({}, (err, result) => {
+       if (err) return res.send(err);
+       console.log("Populated User" + result);
+       res.send(result);
+    }) 
+   
 }
 
 
