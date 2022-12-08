@@ -17,16 +17,34 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 const createPost = async (req, res) => {
-  
-  const Post = new SosmedPostModel({
-    Username : req.body.Username,
-    Title : req.body.Title,
-    Content : req.body.Content,
-    Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
-  })
 
-  await Post.save();
-  res.send(Post);
+  // const Post = new SosmedPostModel({
+  //   Username : req.body.Username,
+  //   Title : req.body.Title,
+  //   Content : req.body.Content,
+  //   Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
+  // })
+  // await Post.save();
+  // res.send(Post);
+  
+  if (req.file) {
+    const Post = new SosmedPostModel({
+      Username : req.body.Username,
+      Title : req.body.Title,
+      Content : req.body.Content,
+      Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
+    })
+    await Post.save();
+    res.send(Post);
+  } else {
+    const Post = new SosmedPostModel({
+      Username : req.body.Username,
+      Title : req.body.Title,
+      Content : req.body.Content
+    })
+    await Post.save();
+    res.send(Post);
+  }
 }
 
 const getAllPost = (req, res) => {
@@ -55,16 +73,23 @@ const getPostByEmail = (req, res) => {
 const getPostById = (req, res) => {
     const Id = req.params.id;
 
-   SosmedPostModel.findById({_id : Id})
-   .populate({
-      path : "user",
-      populate : {
-        path : "comments"
-      }
-   })
-   .then(posts => {
-    res.json(posts);
-   })
+  //  SosmedPostModel.findOne({_id : Id})
+  //  .populate({
+  //     path : "user",
+  //     populate : {
+  //       path : "comments"
+  //     }
+  //  })
+  //  .then(posts => {
+  //   res.send(posts);
+  //  })
+  SosmedPostModel.findOne({ _id: Id })
+  .populate('user')
+  .populate('comments')
+  .exec((err, posts) => {
+    if (err) console.log(err);
+    else res.json(posts);
+  });
 }
 
 const deletePostById = (req, res) => {

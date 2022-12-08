@@ -69,6 +69,7 @@ const PostDetails = () => {
     })
   }
 
+
   useEffect(() => {
     getPostDetails();
   }, [])
@@ -108,7 +109,7 @@ const PostDetails = () => {
           <ModalBody>
             {comment.map((i, index) => {
               return (
-              <Flex flexDirection="row">
+              <Flex flexDirection="row" key={index}>
                 {/* {i.WriterID === profileList._id ? i.WriterID = profileList.Username : null} */}
                 <Text fontWeight='bold' mb='1rem' key={index}>
                   {i.WriterID} :
@@ -117,7 +118,6 @@ const PostDetails = () => {
                    {i.ContentMessage}
                 </Text>
               </Flex>
-              
               )
             })}
             <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)}  />
