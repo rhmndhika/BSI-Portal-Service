@@ -79,7 +79,7 @@ const PostDetails = () => {
   }
 
   const getProfile = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
         setProfileList(response.data);
     })
  }

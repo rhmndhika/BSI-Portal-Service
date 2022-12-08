@@ -65,9 +65,9 @@ const deleteProfile = (req, res) => {
 
 
   
-router.post("/socialmedia/create", upload.single('ProfilePicture'), createProfile);
-router.get("/socialmedia/all", getAllProfiles);
-router.get("/socialmedia", getProfileByEmail);
-router.delete("/socialmedia/profile/delete", deleteProfile);
+router.post("/socialmedia/profile/create", upload.single('ProfilePicture'), createProfile);
+router.get("/socialmedia/profile/all", getAllProfiles);
+router.get("/socialmedia/profile/email", getProfileByEmail);
+router.delete("/socialmedia/profile/delete/:id", deleteProfile);
 
 module.exports = router

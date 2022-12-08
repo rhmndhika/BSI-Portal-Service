@@ -134,7 +134,7 @@ const SocialMedia = () => {
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
 
-        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/create", {
+        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/create", {
             method: 'POST',
             body: formData,
         }).then((response) => {
@@ -168,14 +168,14 @@ const SocialMedia = () => {
     }
 
     const getAllProfile = () => {
-      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/all").then((response) => {
+      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/all").then((response) => {
           setAllProfile(response.data);
           setIsLoading(false);
       })
     }
 
     const getProfile = () => {
-      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
+      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
           setProfileList(response.data);
           setIsLoading(false);
       })
@@ -191,18 +191,17 @@ const SocialMedia = () => {
     }
 
     const deleteProfile = (id) => {
-      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete}`).then(() => {
+      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete/${id}}`).then(() => {
         setProfileList(profileList.filter((val) => {
           return val._id != id
         }))
       }); 
     }
 
-   
     useEffect(() => {
-        getProfile();
-        getAllProfile();
-        getAllPost();
+      getProfile();
+      getAllProfile();
+      getAllPost();
     }, [])
     
 
