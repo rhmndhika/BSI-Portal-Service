@@ -84,8 +84,7 @@ const getPostById = (req, res) => {
   //   res.send(posts);
   //  })
   SosmedPostModel.findOne({ _id: Id })
-  .populate('user')
-  .populate('comments')
+  .populate('sosmedprofiles')
   .exec((err, posts) => {
     if (err) console.log(err);
     else res.json(posts);
