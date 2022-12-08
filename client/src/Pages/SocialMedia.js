@@ -14,7 +14,6 @@ import {
     Text,
     IconButton,
     Button,
-    Select,
     Stack,
     StackDivider,
     Input,
@@ -40,19 +39,24 @@ import {
     AlertDialogContent,
     AlertDialogOverlay
 } from '@chakra-ui/react';
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/card'
+import { 
+  Card, 
+  CardHeader, 
+  CardBody, 
+  CardFooter 
+} from '@chakra-ui/card'
 import { 
   DeleteIcon,
-    EditIcon,
-    SearchIcon
+  EditIcon,
+  SearchIcon
 } from '@chakra-ui/icons';
 import './SocialMedia.css'
 import {
-    BsThreeDotsVertical,
-    BsChat
+  BsThreeDotsVertical,
+  BsChat
 } from 'react-icons/bs';
 import {
-    BiLike
+  BiLike
 } from 'react-icons/bi';
 
 
@@ -67,48 +71,47 @@ const SocialMedia = () => {
     const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
     const { postSosmed, setPostSosmed } = useContext(PostSosmed);
     const [ role, setRole ] = useState("");
-    const [ profileList, setProfileList ] = useState("");
+    const [ profileUser, setProfileUser ] = useState([]);
+    const [ profileList, setProfileList ] = useState([]);
     const [ postList, setPostList ] = useState("");
-    const [ allProfile, setAllProfile ] = useState("");
     const [ image, setImage ] = useState(null);
     const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
-    
+  
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { 
         isOpen  : isOpenPostModal, 
         onOpen  : onOpenPostModal, 
         onClose : onClosePostModal 
-      } = useDisclosure()
+    } = useDisclosure()
 
     const { 
         isOpen  : isOpenAlertDialog, 
         onOpen  : onOpenAlertDialog, 
         onClose : onCloseAlertDialog
      } = useDisclosure()
-    const cancelRef = React.useRef()
 
+    const cancelRef = React.useRef();
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
 
     const onImageChange = (event) => {
-        if (event.target.files && event.target.files[0]) {
-          setImage(URL.createObjectURL(event.target.files[0]));
-          setProfileSosmed({...profileSosmed, profilePicture : event.target.files[0]})
-        }
+      if (event.target.files && event.target.files[0]) {
+        setImage(URL.createObjectURL(event.target.files[0]));
+        setProfileSosmed({...profileSosmed, profilePicture : event.target.files[0]})
+      }
     }
 
     const onImageChangePost = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            setImagePost(URL.createObjectURL(event.target.files[0]));
-            setPostSosmed({...postSosmed, documents : event.target.files[0]})
-        }
+      if (event.target.files && event.target.files[0]) {
+        setImagePost(URL.createObjectURL(event.target.files[0]));
+        setPostSosmed({...postSosmed, documents : event.target.files[0]})
+       }
     }
 
     useEffect(() => {
-
         async function userExpire2 () {
           const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
           .then((response)=> {
@@ -169,14 +172,14 @@ const SocialMedia = () => {
 
     const getAllProfile = () => {
       Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/all").then((response) => {
-          setAllProfile(response.data);
+          setProfileList(response.data);
           setIsLoading(false);
       })
     }
 
     const getProfile = () => {
       Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
-          setProfileList(response.data);
+          setProfileUser(response.data);
           setIsLoading(false);
       })
     }
@@ -191,8 +194,8 @@ const SocialMedia = () => {
     }
 
     const deleteProfile = (id) => {
-      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete/${id}}`).then(() => {
-        setProfileList(profileList.filter((val) => {
+      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete/${id}`).then(() => {
+        setProfileUser(profileUser.filter((val) => {
           return val._id != id
         }))
       }); 
@@ -330,8 +333,26 @@ const SocialMedia = () => {
         </ModalContent>
       </Modal>
     <>
-        <Flex justifyContent="center">
-            <Flex justifyContent="center"  height="60px" margin="20px 10px 0 10px">
+        <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
+            <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
+                <Flex alignItems="center">
+                <InputGroup>
+                    <InputLeftElement
+                    pointerEvents='none'
+                    children={<SearchIcon color='gray.300' />}
+                    />
+                    <Input width="300px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
+                </InputGroup>
+                </Flex>
+            </Flex>
+            <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
+              <Button  onClick={onOpenPostModal}>Create Post</Button>
+              <Button marginLeft={30}>Timeline</Button>
+            </Flex>
+        </Flex>
+
+        <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
+            <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
                 <Flex alignItems="center">
                 <InputGroup>
                     <InputLeftElement
@@ -350,13 +371,13 @@ const SocialMedia = () => {
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
                     { isLoading === false ? 
                     <>
-                    {profileList.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
+                    {profileUser.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
                         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
                             <Flex justifyContent="center" width="300px">
-                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileList.ProfilePicture} />
+                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileUser.ProfilePicture} />
                             </Flex>
-                            <Text>@{profileList.FullName}</Text>
-                            <Text>{profileList.Username}</Text>
+                            <Text>@{profileUser.FullName}</Text>
+                            <Text>{profileUser.Username}</Text>
                         </Flex>
                     }
                     </>
@@ -364,9 +385,7 @@ const SocialMedia = () => {
                         <Spinner />
                     }
                 </Flex>
-                    <Button mt={6} onClick={() => deleteProfile(profileList._id)}>Delete Profile</Button>
-
-                
+                   
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
                 <Card width="320px" marginTop="10px">
                 <CardBody>
@@ -398,14 +417,14 @@ const SocialMedia = () => {
                 colorScheme="facebook"
                 onClick={onOpenPostModal}
             >
-            Create Post</Button>
+            Create Post
+            </Button>
             </Flex>
             
             { isLoading === false ? 
-            <Flex className='flex-item-2' width="750px" flexDirection="column">
+            <Flex className='flex-item-2'  flexDirection="column">
                 { postList.length <= 0 ? null : postList.filter(i => 
-                i.Username.toLowerCase().includes(search) || 
-                i.Title.toLowerCase().includes(search)
+                i.Username.toLowerCase().includes(search) 
                 ).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
@@ -413,7 +432,7 @@ const SocialMedia = () => {
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                {profileList.length <= 0 ? null : 
+                                {profileUser.length <= 0 ? null : 
                                   <Avatar name={i.Username} src="" />  
                                 }
                             <Box>
@@ -473,11 +492,6 @@ const SocialMedia = () => {
                     <CardFooter
                         justify='space-between'
                         flexWrap='wrap'
-                        sx={{
-                        '& > button': {
-                            minW: '136px',
-                        },
-                        }}
                     >
                         <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
                         Like
@@ -495,35 +509,22 @@ const SocialMedia = () => {
             <Spinner mt={150} />
             }      
 
-            <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="300px">
+            <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="350px">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="15px">
                     <Flex>
                         <Text>Who to find</Text>
                     </Flex>
-
-                    <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px">
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                        <Text>Username</Text>
-                        <Button>View</Button>
-                    </Flex>
-
-                    <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px">
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                        <Text>Username</Text>
-                        <Button>View</Button>
-                    </Flex>
-
-                    <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px">
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                        <Text>Username</Text>
-                        <Button>View</Button>
-                    </Flex>
-
-                    <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px">
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                        <Text>Username</Text>
-                        <Button>View</Button>
-                    </Flex> 
+                    {profileList.map((i, index) => {
+                      return (
+                      <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px" key={index}>
+                          <Avatar name={i.Username} src={i.ProfilePicture} />
+                          <Text width="130px">{i.Username}</Text>
+                          <Link  to={`/socialmedia/profile/${i._id}`}>
+                            <Button>View</Button>
+                          </Link>
+                      </Flex>
+                      )
+                    })}
                 </Flex>
 
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="20px">
@@ -556,11 +557,6 @@ const SocialMedia = () => {
                         <CardFooter
                             justify='space-between'
                             flexWrap='wrap'
-                            sx={{
-                            '& > button': {
-                                minW: '136px',
-                            },
-                            }}
                         >
                             <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
                             
@@ -571,47 +567,7 @@ const SocialMedia = () => {
                         </CardFooter>
                         </Card>
                     </Flex>
-                    
-                    <Flex>
-                        <Card shadow="lg" padding="20px">
-                        <CardHeader>
-                            <Flex spacing='4'>
-                            <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
 
-                                <Box>
-                                <Heading size='sm'>Segun Adebayo</Heading>
-                                <Text>Time</Text>
-                                </Box>
-                            </Flex>
-                            </Flex>
-                        </CardHeader>
-                        <CardBody>
-                            <Flex justifyContent="center" margin="10px">
-                                <Text fontWeight="bold">
-                                    Title
-                                </Text>
-                            </Flex>
-                        </CardBody>
-
-                        <CardFooter
-                            justify='space-between'
-                            flexWrap='wrap'
-                            sx={{
-                            '& > button': {
-                                minW: '136px',
-                            },
-                            }}
-                        >
-                            <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
-                            
-                            </Button>
-                            <Button flex='1' variant='ghost' leftIcon={<BsChat />}>
-                            
-                            </Button>
-                        </CardFooter>
-                        </Card>
-                    </Flex>
                 </Flex>
             </Flex>
 

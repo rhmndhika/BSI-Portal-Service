@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,
-    InputGroup,
-    InputRightElement,
-    InputLeftElement,
-    Button,
-    Flex,
-    Heading,
-    Link,
-    Stack,
-    Image,
-    HStack
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
+  InputGroup,
+  InputRightElement,
+  InputLeftElement,
+  Button,
+  Flex,
+  Heading,
+  Link,
+  Stack,
+  Image,
+  HStack
 } from '@chakra-ui/react';
-import { LockIcon, EmailIcon, PhoneIcon } from '@chakra-ui/icons';
+import { 
+  LockIcon, 
+  EmailIcon, 
+  PhoneIcon 
+} from '@chakra-ui/icons';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -40,20 +44,7 @@ const Register = () => {
   const isErrorUsername = usernameReg === ''
   const isErrorEmail = emailReg === ''
 
-
   // 🦄
-  const showToastError = () => {
-    toast.error(' Please fill out the form!', {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
-  }
 
   const showToastSucces = () => {
     toast.success('Redirecting to login page', {

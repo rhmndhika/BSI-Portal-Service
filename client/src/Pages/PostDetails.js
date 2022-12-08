@@ -1,14 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Flex, Image, Input, Text,   Modal,
+import { 
+  Button, 
+  Flex, 
+  Image, 
+  Input, 
+  Text,   
+  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-useDisclosure
+  useDisclosure
 } from '@chakra-ui/react';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 
@@ -21,25 +27,12 @@ const PostDetails = () => {
   const { id } = useParams();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-
   const [ saveData, setSaveData ] = useState([]);
   const [ count, setCount ] = useState(false);
-
   const [ test, setTest ] = useState("");
   const [ comment, setComment ] = useState([]);
-
-  const [ saved, setSaved] = useState([]);
-
-  const [ bentar, setBentar ] = useState([]);
-
   const [ profileList, setProfileList] = useState([]);
 
-  const [ postId, setPostId] = useState("");
-
-  const [ empty , setEmpty ] = useState("")
-
-  const [ empty2 , setEmpty2 ] = useState("")
 
 
   const getPostDetails = () => {
@@ -48,52 +41,37 @@ const PostDetails = () => {
     })
   }
 
-  
-
   const submitComment = async (e) => {
 
     e.preventDefault();
-
-    // const formData = new FormData();
-
-    // formData.append('Content', test);
-    // formData.append('WriterID', comment);
-    // formData.append('PostID', empty2);
-
-    // fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/comment", {
-    //     method: 'POST',
-    //     body: formData,
-    // }).then((response) => {
-    // }).catch((err) => {
-    //   console.log(err);
-    // })
-
-
-    Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
-      Content : test,
-      WriterID: profileList._id, 
-      PostID: id
-    }).then((response)=> {
-      alert("Submitted")
-    })
-  }
+    if (test !== "") {
+      Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
+        Content : test,
+        WriterID: profileList._id, 
+        PostID: id
+        }).then((response)=> {
+          alert("Submitted")
+        })
+    } else {
+      alert("Cannot be Empty")
+    }
+    }
 
   const getProfile = () => {
     Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
         setProfileList(response.data);
     })
- }
+  }
 
- const getComment= () => {
-  Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
-    setComment(response.data);
-  })
-}
-
+  const getComment= () => {
+    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
+      setComment(response.data);
+    })
+  }
 
   useEffect(() => {
     getPostDetails();
-  }, [id])
+  }, [])
 
   useEffect(() => {
     getProfile();
@@ -105,7 +83,6 @@ const PostDetails = () => {
       <Appbar />
         {/* Like : {count ? "Like" : "Dislike"}
         <Button onClick={() => setCount((prevCount) => !prevCount)}>Like</Button> */}
-
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
           <Flex mt="50px">
             <Text>{saveData.Title}</Text>
@@ -132,7 +109,7 @@ const PostDetails = () => {
             {comment.map((i, index) => {
               return (
               <Flex flexDirection="row">
-                {i.WriterID === profileList._id ? i.WriterID = profileList.Username : null}
+                {/* {i.WriterID === profileList._id ? i.WriterID = profileList.Username : null} */}
                 <Text fontWeight='bold' mb='1rem' key={index}>
                   {i.WriterID} :
                 </Text>
@@ -158,8 +135,6 @@ const PostDetails = () => {
           </form>
         </ModalContent>
       </Modal>
-        {/* {saved}
-        <Button onClick={getComment}>Click ME</Button> */}
     </div>
     
   )

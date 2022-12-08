@@ -54,8 +54,8 @@ const createUser = (req, res) => {
             message: "Username not found",
             e,
         });
-});   
-});
+    });   
+  });
 }
 
 const getUserByEmail = (req, res) => {
