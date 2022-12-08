@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Flex, Image, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Input, Text,   Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+useDisclosure
+} from '@chakra-ui/react';
+import Appbar from '../Component/Appbar/Appbar.tsx';
 
 const PostDetails = () => {
 
@@ -11,12 +20,14 @@ const PostDetails = () => {
   
   const { id } = useParams();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   const [ saveData, setSaveData ] = useState([]);
   const [ count, setCount ] = useState(false);
 
   const [ test, setTest ] = useState("");
-  const [ comment, setComment ] = useState("");
+  const [ comment, setComment ] = useState([]);
 
   const [ saved, setSaved] = useState([]);
 
@@ -75,19 +86,23 @@ const PostDetails = () => {
 
  const getComment= () => {
   Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
-    console.log(response.data);
+    setComment(response.data);
   })
 }
 
 
   useEffect(() => {
-    getComment();
     getPostDetails();
+  }, [id])
+
+  useEffect(() => {
     getProfile();
+    getComment();
   }, [])
 
   return (
     <div>
+      <Appbar />
         {/* Like : {count ? "Like" : "Dislike"}
         <Button onClick={() => setCount((prevCount) => !prevCount)}>Like</Button> */}
 
@@ -104,13 +119,45 @@ const PostDetails = () => {
             <Image w="150px" h="100px" alt="empty" src={saveData.Documents} />
           </Flex>
         </Flex>
+        <Flex justifyContent="Center" alignItems="center" mt="5px">
+          <Button onClick={onOpen}>Open Modal Comment</Button>
+        </Flex>
+        <Modal closeOnOverlayClick={false}  isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Comments</ModalHeader>
+          <ModalCloseButton />
           <form onSubmit={submitComment} method="POST">
-            <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)} />
-            <Input type="text" value={profileList._id} />
+          <ModalBody>
+            {comment.map((i, index) => {
+              return (
+              <Flex flexDirection="row">
+                {i.WriterID === profileList._id ? i.WriterID = profileList.Username : null}
+                <Text fontWeight='bold' mb='1rem' key={index}>
+                  {i.WriterID} :
+                </Text>
+                <Text  mb='1rem' key={index}> 
+                   {i.ContentMessage}
+                </Text>
+              </Flex>
+              
+              )
+            })}
+            <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)}  />
+            <Input type="text" value={profileList._id} display="none" />
             {/* <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} /> */}
-            <Input type="text" value={id} />
-            <Button type="submit">Submit</Button>
+            <Input type="text" value={id} display="none" />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type="submit" mr={3}>Submit</Button>
+            <Button colorScheme='blue' onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
           </form>
+        </ModalContent>
+      </Modal>
         {/* {saved}
         <Button onClick={getComment}>Click ME</Button> */}
     </div>

@@ -25,6 +25,16 @@ const getUserProfileByEmail = (req, res) => {
   })
 }
 
+const getAllUserProfile = (req, res) => {
+  UserProfileModel.find({}, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  })
+}
+
 const getUserProfileByEntity = (req, res) => {
   UserProfileModel.find({Entity : "BSI"}, (err, result) => {
     if (err) {
@@ -34,9 +44,11 @@ const getUserProfileByEntity = (req, res) => {
     }
   })
 }
-  
+
+
 router.post("/profile", createProfile);
 router.get("/profile", getUserProfileByEmail);
+router.get("/profile/allprofile", getAllUserProfile);
 router.get("/profileentity", getUserProfileByEntity);
 
 module.exports = router

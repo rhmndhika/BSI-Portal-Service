@@ -40,7 +40,6 @@ const getAllProfiles = (req, res) => {
     })
 }
 
-
 const getProfileByEmail = (req, res) => {
     
     SosmedProfileModel.findOne({Username : req.session.email}, (err, result) => {
@@ -52,10 +51,23 @@ const getProfileByEmail = (req, res) => {
     })
 }
 
+const deleteProfile = (req, res) => {
+  const Id = req.params.id;
+
+  SosmedProfileModel.findById({_id : Id}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+})
+}
+
 
   
 router.post("/socialmedia/create", upload.single('ProfilePicture'), createProfile);
 router.get("/socialmedia/all", getAllProfiles);
 router.get("/socialmedia", getProfileByEmail);
+router.delete("/socialmedia/profile/delete", deleteProfile);
 
 module.exports = router

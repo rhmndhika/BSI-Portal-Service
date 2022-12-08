@@ -40,7 +40,7 @@ const LiveChat = () => {
 
     useEffect(() => {
       socket.emit("userJoin", emailLog);
-    }, []);
+    }, [emailLog]);
 
     socket.on("newMessage", newMessage => {
       console.log("Just ariived :", newMessage);
@@ -145,7 +145,7 @@ const LiveChat = () => {
 //   </div>
     <>
     <Appbar />
-    <Flex flexDirection="row" justifyContent="space-evenly" alignItems="center">
+    <Flex flexDirection="column" justifyContent="space-evenly" alignItems="center">
 
       <Flex flexDirection="column" justifyContent={"center"} alignItems={"center"}>
 

@@ -55,7 +55,7 @@ const getPostByEmail = (req, res) => {
 const getPostById = (req, res) => {
     const Id = req.params.id;
 
-   SosmedPostModel.findOne({_id : Id})
+   SosmedPostModel.findById({_id : Id})
    .populate({
       path : "user",
       populate : {

@@ -3,8 +3,6 @@ const router = express.Router();
 
 
 const CommentModel = require("../models/Comment");
-const SosmedPostModel = require("../models/SosmedPost");
-
 
 const createComment = async (req, res) => {
 
@@ -23,7 +21,6 @@ const getComment = async (req, res) => {
     
    CommentModel.find({}, (err, result) => {
        if (err) return res.send(err);
-       console.log("Populated User" + result);
        res.send(result);
     }) 
    

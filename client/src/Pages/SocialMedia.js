@@ -142,13 +142,6 @@ const SocialMedia = () => {
         })
     }
 
-    const getProfile = () => {
-        Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
-            setProfileList(response.data);
-            setIsLoading(false);
-        })
-    }
-
     const submitPost = async (e) => {
         e.preventDefault();
 
@@ -181,12 +174,27 @@ const SocialMedia = () => {
       })
     }
 
-    const deleteCurrentID = (id) => {
+    const getProfile = () => {
+      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia").then((response) => {
+          setProfileList(response.data);
+          setIsLoading(false);
+      })
+    }
+
+    const deleteCurrentID = () => {
        Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/delete/${currentID}`).then(() => {
         setPostList(postList.filter((val) => {
           return val._id != currentID
         }))
         onCloseAlertDialog();
+      }); 
+    }
+
+    const deleteProfile = (id) => {
+      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete}`).then(() => {
+        setProfileList(profileList.filter((val) => {
+          return val._id != id
+        }))
       }); 
     }
 
@@ -357,6 +365,7 @@ const SocialMedia = () => {
                         <Spinner />
                     }
                 </Flex>
+                    <Button mt={6} onClick={() => deleteProfile(profileList._id)}>Delete Profile</Button>
 
                 
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
