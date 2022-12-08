@@ -20,12 +20,18 @@ const createComment = async (req, res) => {
 }
 
 const getComment = async (req, res) => {
-    
-   CommentModel.find({WriterID : req.body.WriterID}).populate("PostedBy").exec((err, result) => {
-    if (err) return res.send(err);
-    console.log("Populated User" + result);
-    res.send(result);
-   })
+       
+   CommentModel.aggregate([
+    {
+        $lookup : {
+            from : "sosmedpost",
+            localField : "WritedID",
+            foreignField : "_id",
+            as : "PostedBy"
+        }
+    }
+   ])
+
 
    
 }
