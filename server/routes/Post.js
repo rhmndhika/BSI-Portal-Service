@@ -85,7 +85,8 @@ const getPostById = async (req, res) => {
   //  })
   try {
     let data = await SosmedPostModel.findOne({_id : Id}).populate({
-      path: 'sosmedprofiles'
+      path: 'sosmedprofiles',
+      strictPopulate : false
     });
     res.status(200).json(data);
   } catch (err) {
