@@ -77,19 +77,9 @@ const getPostById = async (req, res) => {
    .populate("Author")
    .exec(function (err, posts) {
       if (err) return handleError(err);
-      console.log('The author is %s', posts.Author.Username);
+      console.log('The author is %s', posts);
       res.send(posts)
    })
-  // try {
-  //   let data = await SosmedPostModel.findOne({_id : Id}).populate({
-  //     path: 'sosmedprofiles',
-  //     strictPopulate : false
-  //   });
-  //   res.status(200).json(data);
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(500).json({ success: false, msg: err.message });
-  // }
 }
 
 const deletePostById = (req, res) => {
