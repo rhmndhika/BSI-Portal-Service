@@ -13,7 +13,7 @@ const ProfileDetails = () => {
   const [ profileDetails, setProfileDetails ] = useState([]);
 
   const getProfileDetails = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/:id").then((response) => {
+    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}`).then((response) => {
       setProfileDetails(response.data);
     })
   }

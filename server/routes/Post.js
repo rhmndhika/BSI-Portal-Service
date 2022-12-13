@@ -73,13 +73,22 @@ const getPostByEmail = (req, res) => {
 const getPostById = async (req, res) => {
     const Id = req.params.id;
 
-   SosmedPostModel.findOne({_id : Id})
-   .populate("Author")
-   .exec(function (err, posts) {
-      if (err) return handleError(err);
-      console.log(posts);
-      res.send(posts)
-   })
+    try {
+      const risk = await SosmedPostModel.findById({_id : Id}).populate("Author")
+  
+      res.status(200).json(risk);
+    } catch (err) {
+      console.log("Something is Wrong, " + err);
+      res.status(444).send("No risk found with the given criteria!");
+    }
+
+  //   SosmedPostModel.findOne({_id : Id})
+  //  .populate("Author")
+  //  .exec(function (err, posts) {
+  //     if (err) return handleError(err);
+  //     console.log(posts);
+  //     res.send(posts)
+  //  })
 }
 
 const deletePostById = (req, res) => {
@@ -94,10 +103,32 @@ const deletePostById = (req, res) => {
   })
 }
 
+const getPostComment = async (req, res) => {
+
+  try {
+  let comments = await SosmedPostModel.aggregate([
+    {
+      $lookup : {
+        from: "comments",
+        localField : "_id",
+        foreignField : "PostID",
+        as : "Test"
+      }
+    }
+  ])
+  res.send(comments);
+
+ } catch (err) {
+   console.log(err);
+ }
+}
+
+
 router.post("/socialmedia/post", upload.single('Documents'), createPost);
 router.get("/socialmedia/post/all", getAllPost);
 router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
+router.get("/socialmedia/post/:id/comment", getPostComment);
 router.delete("/socialmedia/post/delete/:id", deletePostById);
 
 module.exports = router
