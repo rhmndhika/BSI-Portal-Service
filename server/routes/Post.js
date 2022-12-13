@@ -77,7 +77,7 @@ const getPostById = async (req, res) => {
    .populate("Author")
    .exec(function (err, posts) {
       if (err) return handleError(err);
-      console.log('The author is %s', story.Author.Username);
+      console.log('The author is %s', posts.Author.Username);
       res.send(posts)
    })
   // try {
