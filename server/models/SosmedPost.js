@@ -10,12 +10,9 @@ const SosmedPostSchema = new mongoose.Schema({
    Documents : {
         type : String
    },
-   Author : {
-     type : mongoose.Schema.Types.ObjectId,
-     ref : "sosmedprofiles"
-   }
+   Author : { type : mongoose.Schema.Types.ObjectId, ref : 'sosmedprofiles'}
 }, {timestamps : true});
 
 
-const SosmedPostModel = mongoose.model("sosmedposts", SosmedPostSchema);
+const SosmedPostModel = mongoose.model('sosmedposts', SosmedPostSchema);
 module.exports = SosmedPostModel;
