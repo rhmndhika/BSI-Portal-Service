@@ -12,9 +12,8 @@ const SosmedPostSchema = new mongoose.Schema({
    },
    Author : {
      type : mongoose.Schema.Types.ObjectId,
-     ref : "sosmedprofiles",
-     autopupulate : true
-   },
+     ref : "sosmedprofiles"
+   }
 //    comments : [{
 //      type: mongoose.Schema.Types.ObjectId,
 //      ref: "comments"
@@ -22,6 +21,5 @@ const SosmedPostSchema = new mongoose.Schema({
 }, {timestamps : true});
 
 
-SosmedPostSchema.plugin(require('mongoose-autopopulate'));
 const SosmedPostModel = mongoose.model("sosmedposts", SosmedPostSchema);
 module.exports = SosmedPostModel;

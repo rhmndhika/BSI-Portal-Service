@@ -73,26 +73,23 @@ const getPostByEmail = (req, res) => {
 const getPostById = async (req, res) => {
     const Id = req.params.id;
 
-  //  SosmedPostModel.findOne({_id : Id})
-  //  .populate({
-  //     path : "user",
-  //     populate : {
-  //       path : "comments"
-  //     }
-  //  })
-  //  .then(posts => {
-  //   res.send(posts);
-  //  })
-  try {
-    let data = await SosmedPostModel.findOne({_id : Id}).populate({
-      path: 'sosmedprofiles',
-      strictPopulate : false
-    });
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, msg: err.message });
-  }
+   SosmedPostModel.findOne({_id : Id})
+   .populate("Author")
+   .exec(function (err, posts) {
+      if (err) return handleError(err);
+      console.log('The author is %s', story.Author.Username);
+      res.send(posts)
+   })
+  // try {
+  //   let data = await SosmedPostModel.findOne({_id : Id}).populate({
+  //     path: 'sosmedprofiles',
+  //     strictPopulate : false
+  //   });
+  //   res.status(200).json(data);
+  // } catch (err) {
+  //   console.log(err);
+  //   res.status(500).json({ success: false, msg: err.message });
+  // }
 }
 
 const deletePostById = (req, res) => {
