@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import useAuth from '../../useAuth';
 
 const Login = () => {
 
@@ -69,6 +69,8 @@ const Login = () => {
       password: passwordLog
     }).then((response)=> {
       if (response.data.result) {
+        // const Role = response.data.role
+        // const Username = response.data.username
         setEmailLog(response.data.email);  
         setRoleUser(response.data.role);
         showToastSucces();
@@ -102,6 +104,7 @@ const Login = () => {
     })
     setIsLoading(true)
   };
+
 
   return (
     <>

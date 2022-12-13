@@ -141,22 +141,7 @@ const Home = () => {
   });     
   }
 
-  useEffect(() => {
-
-    async function userExpire2 () {
-      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-      .then((response)=> {
-        if(response.data.loggedIn === true) {
-          setEmailLog(response.data.email);
-          setRoleUser(response.data.role);
-        } else {
-          navigate("/", {replace : true})
-        }
-      }, {withCredentials : true});
-      return request;
-    }
-    userExpire2();
-   }, [emailLog])
+ 
 
    useEffect(() => {
     getOutsourcingData();

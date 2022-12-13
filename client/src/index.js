@@ -13,7 +13,8 @@ import Login from './Component/Login/Login';
 import ProtectedRoutes from './ProtectedRoutes';
 import ProfileSosmedProvider from './Helper/ProfileSosmedProvider';
 import PostSosmedProvider from './Helper/PostSosmed';
-
+import RequireAuth from './RequireAuth';
+import { AuthProvider } from './Helper/AuthProvider';
 
 const Home = lazy(() => import("./Component/Home/Home"));
 const EmailUserProvider = lazy(() => import("./Helper/EmailUserProvider"));
@@ -43,6 +44,7 @@ const SosmedProfile = lazy(() => import("./Component/SocialMedia/ProfileDetails"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <AuthProvider>
   <EmailUserProvider>
   <RoleUserProvider>
   <OutsourcingProvider>
@@ -101,6 +103,7 @@ root.render(
   </OutsourcingProvider>
   </RoleUserProvider>
   </EmailUserProvider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

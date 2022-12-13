@@ -10,6 +10,7 @@ import '../Component/Profile/CreateProfile.css'
 import CreateProfile from '../Component/Profile/CreateProfile';
 
 
+
 const LandingPage = () => {
   
   Axios.defaults.withCredentials = true;
@@ -21,17 +22,7 @@ const LandingPage = () => {
   const [ isHide, setIsHide ] = useState(true);
   const [ dataProfileUser, setDataProfileUser ] = useState([]);
 
-  const userExpire = () => {
-    Axios.get('https://bsi-portal-service-production.up.railway.app/login')
-    .then((response)=> {
-      if(response.data.loggedIn === true) {
-        setEmailLog(response.data.email);
-        setRoleUser(response.data.role);
-      } else {
-        navigate("/", {replace : true})
-      }
-    }, {withCredentials : true});
-  };
+
 
   const getProfileUser = async () => {
     await Axios.get("https://bsi-portal-service-production.up.railway.app/getprofile").then((response) => {
@@ -40,7 +31,6 @@ const LandingPage = () => {
   }
 
   useEffect(() => {
-   userExpire();
    getProfileUser();
   }, [])
   

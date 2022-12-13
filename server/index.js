@@ -30,7 +30,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.WEB_FRONTEND,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   },
 });
@@ -48,7 +48,7 @@ const upload = multer({storage: storage});
 
 app.use(
     cors({
-    origin: ["http://localhost:3000", "https://bsi-portal-service-production.up.railway.app"], 
+    origin: [process.env.WEB_FRONTEND, process.env.WEB_SERVER], 
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     optionsSuccessStatus : 200
@@ -79,7 +79,7 @@ app.use(session({
     }));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000" , "https://bsi-portal-service-production.up.railway.app");
+    res.setHeader("Access-Control-Allow-Origin", process.env.WEB_FRONTEND, process.env.WEB_SERVER);
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -137,14 +137,14 @@ app.use(messageRoute);
 let users = {};
 
 io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+  // console.log(`User Connected: ${socket.id}`);
 
 
   socket.on("userJoin", username => {
     users[socket.id] = username
     socket.join(username)
     socket.join("General Chat");
-    console.log("User that connected to the server : ", users);
+    // console.log("User that connected to the server : ", users);
     socket.emit("userList", [...new Set(Object.values(users))])
   })
 
@@ -161,7 +161,7 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(`User with ID: ${socket.id} joined to room: ${data}`);
+    // console.log(`User with ID: ${socket.id} joined to room: ${data}`);
   });
 
   socket.on("send_message", (data) => {
@@ -184,7 +184,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     delete users[socket.id]
     socket.emit("userList", [...new Set(Object.values(users))]);
-    console.log("User after disconnected :", users);
+    // console.log("User after disconnected :", users);
   });
 });
 

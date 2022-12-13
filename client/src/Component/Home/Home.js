@@ -1,6 +1,7 @@
 import React,{ useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx';
 import {
@@ -37,7 +38,7 @@ const Home = () => {
   let navigate = useNavigate();
   
   const { emailLog, setEmailLog } = useContext(EmailUser);
-  const [ role, setRole ] = useState("");
+  const { role, setRoleUser } = useContext(RoleUser);
   const [ isHide, setIsHide ] = useState(true);
 
   let boxBg = useColorModeValue("white !important", "#111c44 !important");
@@ -51,7 +52,7 @@ const Home = () => {
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
-          setRole(response.data.role);
+          setRoleUser(response.data.role);
         } else {
           navigate("/", {replace : true})
         }
