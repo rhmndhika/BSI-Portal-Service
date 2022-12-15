@@ -66,29 +66,27 @@ const getProfileById = (req, res) => {
 const deleteProfileById = async (req, res) => {
   const Id = req.params.id;
 
-  await SosmedProfileModel.findByIdAndDelete({_id : Id}, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-})
+  try {
+    const result = await SosmedProfileModel.findByIdAndDelete({_id : Id})
+    res.send(result)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const updateProfileById = async (req, res) => {
 
-  SosmedProfileModel.findByIdAndUpdate({_id : req.body.id}, {
-    FullName : req.body.FullName,
-    Username : req.body.Username,
-    ProfilePicture : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
-    Bio : req.body.Bio
-  }, (err, result) => {
-    if(err) {
-      res.send(err)
-    } else {
-      res.send(result)
-    }
-  })
+  try {
+   const updatedProfile = await SosmedProfileModel.findByIdAndUpdate({_id : req.body.id}, {
+      FullName : req.body.FullName,
+      Username : req.body.Username,
+      ProfilePicture : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
+      Bio : req.body.Bio
+    })
+   res.send(updatedProfile); 
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 router.post("/socialmedia/profile/create", upload.single('ProfilePicture'), createProfile);

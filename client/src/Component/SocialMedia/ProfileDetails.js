@@ -41,9 +41,11 @@ const ProfileDetails = () => {
     })
   }
 
-  const deleteProfile = () => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete/${id}`).then((response) => {
-     
+  const deleteProfile = (Id) => {
+    Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}/delete`).then(() => {
+      setProfileDetails(profileDetails.filter((val) => {
+        return val._id != Id
+    }))
     })
   }
 
@@ -62,7 +64,11 @@ const ProfileDetails = () => {
           <p>{profileDetails.FullName}</p>
           <p>{profileDetails.Bio}</p>
         </Flex>
-      <Button onClick={deleteProfile}>Delete my Profile</Button>
+      {profileDetails.Username === emailLog ? 
+      <Button onClick={deleteProfile(profileDetails._id)}>Delete my Profile</Button>
+      :
+      null
+      }
     </div>
   )
 }

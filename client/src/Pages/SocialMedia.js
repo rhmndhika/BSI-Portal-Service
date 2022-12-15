@@ -477,7 +477,7 @@ const SocialMedia = () => {
                     <Text marginTop={30}>
                         {i.Title}
                     </Text>
-                    {i.Documents.includes("png", "jpg", "jpeg", "svg", "apng") ? 
+                    {i.Documents?.includes("png", "jpg", "jpeg", "svg", "apng") ? 
                     <img
                       className='docPost'
                       src={i.Documents}
@@ -489,7 +489,7 @@ const SocialMedia = () => {
                       src={i.Documents}
                       controls
                       >
-                      </video>
+                    </video>
                     }
                     <CardBody>
                         <Text padding="15px" >
