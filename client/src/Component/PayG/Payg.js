@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
 import { DataPayg } from '../../Helper/DataPaygProvider';
 import Axios from 'axios';
 import Appbar from '../Appbar/Appbar.tsx';
@@ -29,7 +30,7 @@ const Payg = () => {
   
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { payg, setPayg } = useContext(DataPayg);
-    const [ role, setRole ] = useState("");
+    const [ roleUser, setRoleUser ] = useState(RoleUser);
     const [ profileList, setProfileList ] = useState([]); 
     const [ isLoading , SetIsLoading ] = useState(false);
   
@@ -83,7 +84,7 @@ const Payg = () => {
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);
-            setRole(response.data.role);
+            setRoleUser(response.data.role);
           } else {
             navigate("/", {replace : true})
           }

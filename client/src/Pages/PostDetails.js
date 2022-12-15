@@ -80,6 +80,7 @@ const PostDetails = () => {
     getProfile();
     getComment();
   }, [])
+  
 
   return (
     <div>
@@ -97,7 +98,7 @@ const PostDetails = () => {
             </Text>
           </Flex>
 
-          <Flex>
+          <Flex width="430px">
           {Object.values(saveData).includes("png", "jpg", "jpeg", "svg", "apng") ? 
             <img w="650px" h="200px" alt="empty" src={saveData.Documents} />
             :
@@ -143,7 +144,7 @@ const PostDetails = () => {
           </form>
         </ModalContent>
       </Modal>
-      <Button onClick={getPostDetailsComments}>Test</Button>
+      {/* <Button onClick={getPostDetailsComments}>Test</Button> */}
     </div>
     
   )

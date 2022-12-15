@@ -263,9 +263,6 @@ const SocialMedia = () => {
 
             <FormControl mt={4}>
               <FormLabel>Content</FormLabel>
-              {/* <Textarea value={postSosmed.content} name="content" onChange={(e) => {
-                setPostSosmed({...postSosmed, content : e.target.value});
-              }} /> */}
               <ReactQuill theme="snow" value={value} onChange={setValue} />
               <FormHelperText><i>*Please add http:// or https:// if you want to input a link</i></FormHelperText>
             </FormControl>
