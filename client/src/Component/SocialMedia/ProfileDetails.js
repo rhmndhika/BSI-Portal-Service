@@ -46,6 +46,13 @@ const ProfileDetails = () => {
       setProfileDetails(profileDetails.filter((val) => {
         return val._id != Id
     }))
+    setTimeout(() => navigate("/socialmedia/home", { replace : true}), 1000)
+    })
+  }
+
+  const getYourPost = async () => {
+    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/email").then((response) => {
+      console.log(response);
     })
   }
 
@@ -69,6 +76,7 @@ const ProfileDetails = () => {
       :
       null
       }
+      <Button onClick={getYourPost}>Get your button</Button>
     </div>
   )
 }

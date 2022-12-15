@@ -63,27 +63,29 @@ const getProfileById = (req, res) => {
   })
 }
 
-const deleteProfileById = async (req, res) => {
+const deleteProfileById = (req, res) => {
   const Id = req.params.id;
 
   try {
-    const result = await SosmedProfileModel.findByIdAndDelete({_id : Id})
-    res.send(result)
+    SosmedProfileModel.findByIdAndDelete({_id : Id}, (result) => {
+      res.send(result)
+    })
   } catch (err) {
     console.log(err)
   }
 }
 
-const updateProfileById = async (req, res) => {
+const updateProfileById = (req, res) => {
 
   try {
-   const updatedProfile = await SosmedProfileModel.findByIdAndUpdate({_id : req.body.id}, {
+   SosmedProfileModel.findByIdAndUpdate({_id : req.body.id}, {
       FullName : req.body.FullName,
       Username : req.body.Username,
       ProfilePicture : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
       Bio : req.body.Bio
+    }, (result) => {
+      res.send(result); 
     })
-   res.send(updatedProfile); 
   } catch (err) {
     console.log(err)
   }
