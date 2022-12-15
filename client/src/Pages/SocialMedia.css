@@ -2,6 +2,17 @@
   display: none;
 }
 
+.docPost {
+  margin-top: 10px;
+  max-width: 700px;
+  max-height: 550px;
+  width: 700px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: cover;
+}
+
 
 @media (max-width: 1265px) {
   .flex-nav-1 {
@@ -32,7 +43,7 @@
     width: 320px;
   }
 
-  .imgPost {
+  .docPost {
     max-width:100%;
     max-height:100%;
     object-fit: cover;

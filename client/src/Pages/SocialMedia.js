@@ -1,5 +1,6 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useState, useRef, useMemo } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
+import { RoleUser } from '../Helper/RoleUserProvider';
 import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
 import { PostSosmed } from '../Helper/PostSosmed';
 import Appbar from '../Component/Appbar/Appbar.tsx';
@@ -37,7 +38,8 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogContent,
-    AlertDialogOverlay
+    AlertDialogOverlay,
+    FormHelperText
 } from '@chakra-ui/react';
 import { 
   Card, 
@@ -58,8 +60,9 @@ import {
 import {
   BiLike
 } from 'react-icons/bi';
-
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import parse from 'html-react-parser';
 
 const SocialMedia = () => {
 
@@ -68,9 +71,9 @@ const SocialMedia = () => {
     let navigate = useNavigate();
     
     const { emailLog, setEmailLog } = useContext(EmailUser);
+    const { roleUser, setRoleUser } = useContext(RoleUser);
     const { profileSosmed, setProfileSosmed } = useContext(ProfileSosmed);
     const { postSosmed, setPostSosmed } = useContext(PostSosmed);
-    const [ role, setRole ] = useState("");
     const [ profileUser, setProfileUser ] = useState([]);
     const [ profileList, setProfileList ] = useState([]);
     const [ postList, setPostList ] = useState("");
@@ -79,6 +82,8 @@ const SocialMedia = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
+
+    const [value, setValue] = useState('');
   
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { 
@@ -117,7 +122,7 @@ const SocialMedia = () => {
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
-              setRole(response.data.role);
+              setRoleUser(response.data.role);
             } else {
               navigate("/", {replace : true})
             }
@@ -151,7 +156,7 @@ const SocialMedia = () => {
         const formData = new FormData();
 
         formData.append('Username', emailLog);
-        formData.append('Content', postSosmed.content);
+        formData.append('Content', value);
         formData.append('Documents', postSosmed.documents);
         formData.append('Tags', postSosmed.tags);
 
@@ -256,11 +261,13 @@ const SocialMedia = () => {
               <Input value={emailLog} disabled />
             </FormControl>
 
-            <FormControl mt={4} isRequired>
+            <FormControl mt={4}>
               <FormLabel>Content</FormLabel>
-              <Textarea value={postSosmed.content} name="content" onChange={(e) => {
+              {/* <Textarea value={postSosmed.content} name="content" onChange={(e) => {
                 setPostSosmed({...postSosmed, content : e.target.value});
-              }} />
+              }} /> */}
+              <ReactQuill theme="snow" value={value} onChange={setValue} />
+              <FormHelperText><i>*Please add http:// or https:// if you want to input a link</i></FormHelperText>
             </FormControl>
 
             <FormControl mt={4}>
@@ -346,11 +353,12 @@ const SocialMedia = () => {
                 </Flex>
             </Flex>
             <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
-              <Button  onClick={onOpenPostModal}>Create Post</Button>
-              <Button marginLeft={30}>Timeline</Button>
+              <Button  onClick={onOpenPostModal} width={120}>Create Post</Button>
+              <Button onClick={onOpen} marginLeft={30} width={120}>Create Profile</Button>
             </Flex>
         </Flex>
-
+        
+        {/* For the web version */}
         <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
                 <Flex alignItems="center">
@@ -373,9 +381,11 @@ const SocialMedia = () => {
                     <>
                     {profileUser.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
                         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
+                          <Link to={`/socialmedia/profile/${profileUser._id}`}>
                             <Flex justifyContent="center" width="300px">
-                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileUser.ProfilePicture} />
+                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileUser.ProfilePicture} title="Test" />
                             </Flex>
+                          </Link>
                             <Text>@{profileUser.FullName}</Text>
                             <Text>{profileUser.Username}</Text>
                         </Flex>
@@ -432,9 +442,7 @@ const SocialMedia = () => {
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                {profileUser.length <= 0 ? null : 
-                                  <Avatar name={i.Username} src="" />  
-                                }
+                            <Avatar src={i.ProfilePicture} />  
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
                             <Text>Created {moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
@@ -469,26 +477,25 @@ const SocialMedia = () => {
                     <Text marginTop={30}>
                         {i.Title}
                     </Text>
-                    <Image
-                        className='imgPost'
-                        objectFit='cover'
-                        src={i.Documents}
-                        alt='Chakra UI'
-                        marginTop="10px"
-                        maxW="700px"
-                        maxH="550px"
-                        width="700px"
-                        // height="550px"
-                        display="block"
-                        marginLeft="auto"
-                        marginRight="auto"
-                        />
+                    {i.Documents.includes("png", "jpg", "jpeg", "svg", "apng") ? 
+                    <img
+                      className='docPost'
+                      src={i.Documents}
+                      alt=''
+                     />
+                     : 
+                    <video 
+                      className='docPost'
+                      src={i.Documents}
+                      controls
+                      >
+                      </video>
+                    }
                     <CardBody>
-                        <Text padding="15px">
-                        {i.Content}
+                        <Text padding="15px" >
+                        {parse(i.Content)}
                         </Text>
                     </CardBody>
-
                     <CardFooter
                         justify='space-between'
                         flexWrap='wrap'
@@ -516,6 +523,8 @@ const SocialMedia = () => {
                     </Flex>
                     {profileList.map((i, index) => {
                       return (
+                      <>
+                      {i.Username !== emailLog ? 
                       <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px" key={index}>
                           <Avatar name={i.Username} src={i.ProfilePicture} />
                           <Text width="130px">{i.Username}</Text>
@@ -523,6 +532,10 @@ const SocialMedia = () => {
                             <Button>View</Button>
                           </Link>
                       </Flex>
+                     :
+                     null 
+                     }
+                      </>
                       )
                     })}
                 </Flex>
@@ -537,7 +550,7 @@ const SocialMedia = () => {
                         <CardHeader>
                             <Flex spacing='4'>
                             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                                <Avatar name='Segun Adebayo' src='' />
 
                                 <Box>
                                 <Heading size='sm'>Segun Adebayo</Heading>

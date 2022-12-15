@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const SosmedProfileSchema = new mongoose.Schema({
    Username : {
         type : String

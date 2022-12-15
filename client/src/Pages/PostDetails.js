@@ -17,13 +17,13 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import Appbar from '../Component/Appbar/Appbar.tsx';
+import parse from 'html-react-parser';
+
 
 const PostDetails = () => {
 
   Axios.defaults.withCredentials = true;
-  
-  let navigate = useNavigate();
-  
+    
   const { id } = useParams();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,6 +38,12 @@ const PostDetails = () => {
   const getPostDetails = () => {
     Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`).then((response) => {
       setSaveData(response.data);
+    })
+  }
+
+  const getPostDetailsComments = () => {
+    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}/comment`).then((response) => {
+    console.log(response.data);
     })
   }
 
@@ -68,13 +74,9 @@ const PostDetails = () => {
       setComment(response.data);
     })
   }
-
-
+  
   useEffect(() => {
     getPostDetails();
-  }, [])
-
-  useEffect(() => {
     getProfile();
     getComment();
   }, [])
@@ -90,11 +92,17 @@ const PostDetails = () => {
           </Flex>
 
           <Flex>
-            <Text>{saveData.Content}</Text>
+            <Text>
+              {parse(`${saveData.Content}`)}
+            </Text>
           </Flex>
 
           <Flex>
-            <Image w="150px" h="100px" alt="empty" src={saveData.Documents} />
+          {Object.values(saveData).includes("png", "jpg", "jpeg", "svg", "apng") ? 
+            <img w="650px" h="200px" alt="empty" src={saveData.Documents} />
+            :
+            <video w="650px" h="200px" alt="empty" src={saveData.Documents} controls></video>
+          }
           </Flex>
         </Flex>
         <Flex justifyContent="Center" alignItems="center" mt="5px">
@@ -135,6 +143,7 @@ const PostDetails = () => {
           </form>
         </ModalContent>
       </Modal>
+      <Button onClick={getPostDetailsComments}>Test</Button>
     </div>
     
   )

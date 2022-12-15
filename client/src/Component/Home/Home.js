@@ -44,7 +44,6 @@ const Home = () => {
   let boxBg = useColorModeValue("white !important", "#111c44 !important");
   let mainText = useColorModeValue("gray.800", "white");
  
-
   useEffect(() => {
 
     async function userExpire2 () {
@@ -61,6 +60,7 @@ const Home = () => {
     }
     userExpire2();
    }, [emailLog])
+  
 
    const cardItem = [
     {

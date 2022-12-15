@@ -18,11 +18,16 @@ require('dotenv').config();
 
 const CONNECTION_URL =  process.env.MONGODB_HOST
 
-mongoose.connect(CONNECTION_URL, {
-  useNewUrlParser : true
-}
-);
+// mongoose.connect(CONNECTION_URL, {
+//   useNewUrlParser : true
+// }
+// );
 
+mongoose.connect(CONNECTION_URL,
+  err => {
+      if(err) throw err;
+      console.log('connected to MongoDB')
+  });
 
 app.set("trust proxy", 1);
 
