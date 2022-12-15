@@ -82,7 +82,7 @@ const deleteOutsourcingById = (req, res) => {
     } else {
       res.send(result);
     }
-});
+  })
 }
 
 const updateOutsourcingById = (req, res) => {

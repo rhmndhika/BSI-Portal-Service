@@ -66,29 +66,30 @@ const getProfileById = (req, res) => {
 const deleteProfileById = (req, res) => {
   const Id = req.params.id;
 
-  try {
-    SosmedProfileModel.findByIdAndDelete({_id : Id}, (result) => {
-      res.send(result)
+    SosmedProfileModel.findByIdAndDelete({_id : Id}, (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result)
+      }
     })
-  } catch (err) {
-    console.log(err)
-  }
 }
 
 const updateProfileById = (req, res) => {
 
-  try {
    SosmedProfileModel.findByIdAndUpdate({_id : req.body.id}, {
       FullName : req.body.FullName,
       Username : req.body.Username,
       ProfilePicture : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
       Bio : req.body.Bio
-    }, (result) => {
-      res.send(result); 
+    }, (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result); 
+      }
     })
-  } catch (err) {
-    console.log(err)
-  }
+
 }
 
 router.post("/socialmedia/profile/create", upload.single('ProfilePicture'), createProfile);
