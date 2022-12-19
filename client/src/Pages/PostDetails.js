@@ -51,7 +51,7 @@ const PostDetails = () => {
 
     e.preventDefault();
     if (test !== "") {
-      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${profileList._id}/comment` , {
+      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}/comment` , {
         Text : test,
         PostedBy : profileList._id
         }).then((response)=> {
@@ -75,13 +75,13 @@ const PostDetails = () => {
   }
 
   const LikePost = () => {
-    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/like`, {
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
       Likes : profileList._id
     })
   }
 
   const UnlikePost = () => {
-    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/unlike`)
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`)
   }
   
   useEffect(() => {

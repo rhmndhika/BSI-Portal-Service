@@ -90,7 +90,7 @@ const likePost = (req, res) => {
     $push : {Likes : req.body.Likes}
   }, {
     new : true
-  }).exec((err, result) => {
+  }).populate("Likes").exec((err, result) => {
     if (err) {
       return res.status(422).send(err)
     } else {
@@ -103,7 +103,7 @@ const unlikePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $pull : {Likes : Id}
+    $pull : {Likes : req.body.Likes}
   }, {
     new : true
   }).exec((err, result) => {
@@ -127,7 +127,7 @@ const createComment = (req, res) => {
     $push : {Comments : comment}
   }, {
     new : true
-  }).populate("Comments.PostedBy", "_id Username Fullname")
+  }).populate("Comments.PostedBy")
   .exec((err, result) => {
     if (err) {
       return res.status(422).json({error : err})
