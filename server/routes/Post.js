@@ -142,7 +142,6 @@ router.post("/socialmedia/post", upload.single('Documents'), createPost);
 router.get("/socialmedia/post/all", getAllPost);
 router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
-router.get("/socialmedia/post/:id/comment", getPostComment);
 router.delete("/socialmedia/post/delete/:id", deletePostById);
 router.put("/socialmedia/:id/like", likePost);
 router.put("/socialmedia/:id/unlike", unlikePost);
