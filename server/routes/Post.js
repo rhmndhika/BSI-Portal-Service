@@ -71,12 +71,20 @@ const getPostByEmail = (req, res) => {
 const getPostById = (req, res) => {
     const Id = req.params.id;
 
-     SosmedPostModel.findById({_id : Id}, (err, result) => {
-      if (err) {
-        console.log(err)
-      } else {
-        res.send(result);
-      }
+    //  SosmedPostModel.findById({_id : Id}, (err, result) => {
+    //   if (err) {
+    //     console.log(err)
+    //   } else {
+    //     res.send(result);
+    //   }
+    // })
+
+    SosmedPostModel.findById({_id : Id})
+    .populate("Comments")
+    .exec(function (err, posts) {
+       if (err) return handleError(err);
+       console.log(posts);
+       res.send(posts)
     })
 }
 
