@@ -8,8 +8,8 @@ const createComment = async (req, res) => {
 
     try {
         const Comments = new CommentModel({
-            Text : req.body.Content,
-            PostedBy : req.body.WriterID
+            Text : req.body.Text,
+            PostedBy : req.body.PostedBy
         })
         await Comments.save().then(result => {
             CommentModel.populate(Comments, { path : "PostedBy" })

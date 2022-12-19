@@ -68,23 +68,16 @@ const getPostByEmail = (req, res) => {
 }
 
 
-const getPostById = async (req, res) => {
+const getPostById = (req, res) => {
     const Id = req.params.id;
 
-    const risk = await SosmedPostModel.findById({_id : Id}, (err, result) => {
+     SosmedPostModel.findById({_id : Id}, (err, result) => {
       if (err) {
         console.log(err)
       } else {
         res.send(result);
       }
     })
-    // try {
-    //   // const risk = await SosmedPostModel.findById({_id : Id}).populate("Author")
-    //   res.status(200).json(risk);
-    // } catch (err) {
-    //   console.log("Something is Wrong, " + err);
-    //   res.status(444).send("No risk found with the given criteria!");
-    // }
 }
 
 const deletePostById = (req, res) => {
