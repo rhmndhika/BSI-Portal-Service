@@ -87,7 +87,7 @@ const likePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $push : {Likes : Id}
+    $push : {Likes : req.body.Likes}
   }, {
     new : true
   }).exec((err, result) => {
@@ -120,7 +120,7 @@ const createComment = (req, res) => {
 
   const comment = {
     Text : req.body.Text,
-    PostedBy : req.body.Author
+    PostedBy : req.body.PostedBy
   }
 
   SosmedPostModel.findByIdAndUpdate({_id : Id}, {

@@ -53,7 +53,7 @@ const PostDetails = () => {
     if (test !== "") {
       Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${profileList._id}/comment` , {
         Text : test,
-        PostedBy : id
+        PostedBy : profileList._id
         }).then((response)=> {
           alert("Submitted")
         })
@@ -81,9 +81,7 @@ const PostDetails = () => {
   }
 
   const UnlikePost = () => {
-    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/unlike`, {
-      Likes : profileList._id
-    })
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/unlike`)
   }
   
   useEffect(() => {
