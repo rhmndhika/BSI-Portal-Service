@@ -27,26 +27,19 @@ const createPost = async (req, res) => {
   // await Post.save();
   // res.send(Post);
   try {
-  if (req.file) {
     const Post = new SosmedPostModel({
       Username : req.body.Username,
       Title : req.body.Title,
       Content : req.body.Content,
-      Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
+      Documents : req.file ? `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}` : "No Documents",
       Author : req.body.Author
     })
-    await Post.save();
-    res.send(Post);
-  } else {
-    const Post = new SosmedPostModel({
-      Username : req.body.Username,
-      Title : req.body.Title,
-      Content : req.body.Content,
-      Author : req.body.Author
+    await Post.save().then(result => {
+      SosmedPostModel.populate(Post, { path : "Author" })
+      .then((post => {
+        res.send(post)
+      }))
     })
-    await Post.save();
-    res.send(Post);
-  }
   } catch (err) {
     console.log(err);
   }
@@ -78,22 +71,20 @@ const getPostByEmail = (req, res) => {
 const getPostById = async (req, res) => {
     const Id = req.params.id;
 
-    try {
-      const risk = await SosmedPostModel.findById({_id : Id}).populate("Author")
-  
-      res.status(200).json(risk);
-    } catch (err) {
-      console.log("Something is Wrong, " + err);
-      res.status(444).send("No risk found with the given criteria!");
-    }
-
-  //   SosmedPostModel.findOne({_id : Id})
-  //  .populate("Author")
-  //  .exec(function (err, posts) {
-  //     if (err) return handleError(err);
-  //     console.log(posts);
-  //     res.send(posts)
-  //  })
+    const risk = await SosmedPostModel.findById({_id : Id}, (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send(result);
+      }
+    })
+    // try {
+    //   // const risk = await SosmedPostModel.findById({_id : Id}).populate("Author")
+    //   res.status(200).json(risk);
+    // } catch (err) {
+    //   console.log("Something is Wrong, " + err);
+    //   res.status(444).send("No risk found with the given criteria!");
+    // }
 }
 
 const deletePostById = (req, res) => {

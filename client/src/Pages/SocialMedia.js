@@ -159,7 +159,7 @@ const SocialMedia = () => {
         formData.append('Username', emailLog);
         formData.append('Content', value);
         formData.append('Documents', postSosmed.documents);
-        formData.append('Author', );
+        formData.append('Author', profileUser._id);
 
         await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
             method: 'POST',
