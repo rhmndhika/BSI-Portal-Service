@@ -35,7 +35,7 @@ const createPost = async (req, res) => {
       Author : req.body.Author
     })
     await Post.save().then(result => {
-      SosmedPostModel.populate(Post, { path : "Author" })
+      SosmedPostModel.populate(Post, { path : "Author", select : "_id Username Fullname createdAt"})
       .then((post => {
         res.send(post)
       }))
