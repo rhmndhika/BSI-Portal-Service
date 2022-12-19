@@ -6,6 +6,9 @@ const CommentSchema = new mongoose.Schema({
    },
    PostedBy : {
           type : mongoose.Schema.Types.ObjectId, ref : "sosmedprofiles"
+   },
+   Posts : {
+       type : mongoose.Schema.Types.ObjectId, ref : "sosmedposts"
    }
 }, {timestamps : true});
 

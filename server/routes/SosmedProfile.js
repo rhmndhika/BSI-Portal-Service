@@ -51,7 +51,7 @@ const getProfileByEmail = (req, res) => {
     })
 }
 
-const getProfileById = async (req, res) => {
+const getProfileById = (req, res) => {
   const Id = req.params.id;
 
   // SosmedProfileModel.findById({_id : Id}, (err, result) => {
@@ -63,11 +63,16 @@ const getProfileById = async (req, res) => {
   // })
 
   try {
-    const getProfile = await SosmedProfileModel.findOne({_id : Id})
-    .populate("Post")
-    .exec()
-
-    res.send(getProfile)
+    SosmedProfileModel.findOne({_id : Id})
+    .populate({
+      path : "Post",
+      populate : {
+        path : "Comments"
+      }
+    })
+    .then(profile => {
+      res.send(profile);
+    })
   } catch (err) {
     console.log(err);
   }

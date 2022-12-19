@@ -9,10 +9,11 @@ const createComment = async (req, res) => {
     try {
         const Comments = new CommentModel({
             Text : req.body.Text,
-            PostedBy : req.body.PostedBy
+            PostedBy : req.body.PostedBy,
+            Posts : req.body.PostsID
         })
         await Comments.save().then(result => {
-            CommentModel.populate(Comments, { path : "PostedBy" })
+            CommentModel.populate(Comments, { path : "PostedBy" }).populate(Comments, { path : "Posts"})
             .then((comment => {
               res.send(comment)
             }))

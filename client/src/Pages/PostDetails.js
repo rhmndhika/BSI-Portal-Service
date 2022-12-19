@@ -53,7 +53,8 @@ const PostDetails = () => {
     if (test !== "") {
       Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
         Text : test,
-        PostedBy: profileList._id
+        PostedBy: profileList._id,
+        Posts : id
         }).then((response)=> {
           alert("Submitted")
         })
@@ -131,6 +132,7 @@ const PostDetails = () => {
             <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)}  />
             <Input type="text" value={profileList._id} display="none" />
             {/* <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} /> */}
+            <Input type="text" value={id} display="none" />
           </ModalBody>
 
           <ModalFooter>

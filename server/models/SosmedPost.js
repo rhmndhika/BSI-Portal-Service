@@ -10,7 +10,11 @@ const SosmedPostSchema = new mongoose.Schema({
    Documents : {
         type : String
    },
-   Author : { type : mongoose.Schema.Types.ObjectId, ref : 'sosmedprofiles'}
+   Author : { type : mongoose.Schema.Types.ObjectId, ref : 'sosmedprofiles'},
+   Comments : [{
+          type : mongoose.Schema.Types.ObjectId,
+          ref : "comments"
+   }]
 }, {timestamps : true});
 
 
