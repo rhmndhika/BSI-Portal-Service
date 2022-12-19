@@ -448,7 +448,7 @@ const SocialMedia = () => {
                             <Avatar src={i.ProfilePicture} />  
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
-                            <Text>Created {moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
+                            <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
                             {/* <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text> */}
                             </Box>
                         </Flex>
