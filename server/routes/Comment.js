@@ -5,16 +5,21 @@ const router = express.Router();
 const CommentModel = require("../models/Comment");
 
 const createComment = async (req, res) => {
-
-    const Comments = new CommentModel({
-        ContentMessage : req.body.Content,
-        WriterID : req.body.WriterID,
-        PostID : req.body.PostID
-    })
     
-    await Comments.save();
-
-    res.send(Comments);
+    try {
+        const Comments = new CommentModel({
+            Text : req.body.Content,
+            PostedBy : req.body.WriterID
+        })
+        await CommentModel.save().then(result => {
+            CommentModel.populate(Comments, { path : "PostedBy" })
+            .then((comment => {
+              res.send(comment)
+            }))
+          })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const getComment = async (req, res) => {

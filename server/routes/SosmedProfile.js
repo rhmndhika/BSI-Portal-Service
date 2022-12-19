@@ -31,25 +31,13 @@ const createProfile = async (req, res) => {
 
 const getAllProfiles = (req, res) => {
     
-    // SosmedProfileModel.find({}, (err, result) => {
-    //     if (err) {
-    //       res.send(err);
-    //     } else {
-    //       res.send(result);
-    //     }
-    // })
-
-    try {
-      SosmedProfileModel.find({})
-      .populate("Post")
-      .exec(function (err, profile) {
-        if (err) return handleError(err);
-        console.log(profile);
-        res.send(profile)
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    SosmedProfileModel.find({}, (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+    })
 }
 
 const getProfileByEmail = (req, res) => {
@@ -66,25 +54,24 @@ const getProfileByEmail = (req, res) => {
 const getProfileById = (req, res) => {
   const Id = req.params.id;
 
-  SosmedProfileModel.findById({_id : Id}, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  })
+  // SosmedProfileModel.findById({_id : Id}, (err, result) => {
+  //   if (err) {
+  //     res.send(err);
+  //   } else {
+  //     res.send(result);
+  //   }
+  // })
 
-  // try {
-  //   SosmedProfileModel.findOne({_id : Id})
-  //   .populate("Post")
-  //   .exec(function (err, profile) {
-  //      if (err) return handleError(err);
-  //      console.log(profile);
-  //      res.send(profile)
-  //   })
-  // } catch (err) {
-  //   console.log(err);
-  // }
+  try {
+    SosmedProfileModel.findOne({_id : Id})
+    .populate("Post")
+    .exec(function (err, profile) {
+       if (err) return handleError(err);
+       res.send(profile)
+    })
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const deleteProfileById = (req, res) => {
