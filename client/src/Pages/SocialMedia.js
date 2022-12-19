@@ -82,6 +82,7 @@ const SocialMedia = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
+    const [ profileID, setProfileID ] = useState(""); 
 
     const [value, setValue] = useState('');
   
@@ -158,7 +159,7 @@ const SocialMedia = () => {
         formData.append('Username', emailLog);
         formData.append('Content', value);
         formData.append('Documents', postSosmed.documents);
-        formData.append('Author', profileList._id);
+        formData.append('Author', );
 
         await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
             method: 'POST',
@@ -263,7 +264,7 @@ const SocialMedia = () => {
 
             <FormControl isRequired>
               <FormLabel>Profile ID</FormLabel>
-              <Input value={profileList._id} disabled />
+              <Input value={profileUser._id} disabled />
             </FormControl>
 
             <FormControl mt={4}>

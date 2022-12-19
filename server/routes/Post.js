@@ -26,7 +26,7 @@ const createPost = async (req, res) => {
   // })
   // await Post.save();
   // res.send(Post);
-  
+  try {
   if (req.file) {
     const Post = new SosmedPostModel({
       Username : req.body.Username,
@@ -41,10 +41,14 @@ const createPost = async (req, res) => {
     const Post = new SosmedPostModel({
       Username : req.body.Username,
       Title : req.body.Title,
-      Content : req.body.Content
+      Content : req.body.Content,
+      Author : req.body.Author
     })
     await Post.save();
     res.send(Post);
+  }
+  } catch (err) {
+    console.log(err);
   }
 }
 

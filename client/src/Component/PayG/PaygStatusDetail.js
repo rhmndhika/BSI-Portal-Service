@@ -345,7 +345,7 @@ const PaygStatusDetail = () => {
                   </div>
                     
                 
-              {!dataListID.status  ?
+              {dataListID.status === "None"  ?
               <>
               {roleUser === "Admin" ? 
               <div style={{display : "flex", flexDirection : "row", justifyContent : "center", alignItems : "center", marginTop : "30px"}}>
