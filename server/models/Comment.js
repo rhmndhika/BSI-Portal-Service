@@ -4,10 +4,10 @@ const CommentSchema = new mongoose.Schema({
    Text : {
           type : String
    },
-   PostedBy : {
+   Writer : {
           type : mongoose.Schema.Types.ObjectId, ref : "sosmedprofiles"
    },
-   Posts : {
+   PostID : {
        type : mongoose.Schema.Types.ObjectId, ref : "sosmedposts"
    }
 }, {timestamps : true});

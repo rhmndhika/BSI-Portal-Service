@@ -9,11 +9,11 @@ const createComment = async (req, res) => {
     try {
         const Comments = new CommentModel({
             Text : req.body.Text,
-            PostedBy : req.body.PostedBy,
-            Posts : req.body.PostsID
+            Writer : req.body.Writer,
+            PostID : req.body.PostID
         })
         await Comments.save().then(result => {
-            CommentModel.populate(Comments, { path : "PostedBy" })
+            CommentModel.populate(Comments, { path : "Writer" })
             .then((comment => {
               res.send(comment)
             }))
@@ -25,10 +25,12 @@ const createComment = async (req, res) => {
 
 const getComment = async (req, res) => {
     
-   CommentModel.find({}, (err, result) => {
-       if (err) return res.send(err);
-       res.send(result);
-    }) 
+   CommentModel.find({ PostID : req.body.PostID })
+   .populate("Writer")
+   .exec((err, comments) => {
+    if (err) return res.status(400).send(err)
+    res.status(200).send(comments);
+   })
    
 }
 

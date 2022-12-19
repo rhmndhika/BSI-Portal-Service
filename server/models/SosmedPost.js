@@ -2,18 +2,25 @@ const mongoose = require("mongoose");
 
 const SosmedPostSchema = new mongoose.Schema({
    Username : {
-        type : String
+          type : String
    }, 
    Content : {
-        type : String
-   },
+          type : String
+   },     
    Documents : {
-        type : String
+          type : String
    },
-   Author : { type : mongoose.Schema.Types.ObjectId, ref : 'sosmedprofiles'},
+   Author : { 
+          type : mongoose.Schema.Types.ObjectId, 
+          ref : 'sosmedprofiles'
+   },
    Comments : [{
+          Text : String,
+          PostedBy : { type : mongoose.Schema.Types.ObjectId, ref : "sosmedprofiles"}
+   }],
+   Likes : [{
           type : mongoose.Schema.Types.ObjectId,
-          ref : "comments"
+          ref : "sosmedprofiles"
    }]
 }, {timestamps : true});
 

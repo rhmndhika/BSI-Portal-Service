@@ -18,14 +18,6 @@ const upload = multer({storage: storage});
 
 const createPost = async (req, res) => {
 
-  // const Post = new SosmedPostModel({
-  //   Username : req.body.Username,
-  //   Title : req.body.Title,
-  //   Content : req.body.Content,
-  //   Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
-  // })
-  // await Post.save();
-  // res.send(Post);
   try {
     const Post = new SosmedPostModel({
       Username : req.body.Username,
@@ -67,17 +59,8 @@ const getPostByEmail = (req, res) => {
     })
 }
 
-
 const getPostById = (req, res) => {
     const Id = req.params.id;
-
-    //  SosmedPostModel.findById({_id : Id}, (err, result) => {
-    //   if (err) {
-    //     console.log(err)
-    //   } else {
-    //     res.send(result);
-    //   }
-    // })
 
     SosmedPostModel.findById({_id : Id})
     .populate("Comments")
@@ -100,24 +83,58 @@ const deletePostById = (req, res) => {
   })
 }
 
-const getPostComment = async (req, res) => {
-
-  try {
-  let comments = await SosmedPostModel.aggregate([
-    {
-      $lookup : {
-        from: "comments",
-        localField : "_id",
-        foreignField : "PostID",
-        as : "Test"
-      }
+const likePost = (req, res) => {
+  const Id = req.params.id;
+  
+  SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
+    $push : {Likes : Id}
+  }, {
+    new : true
+  }).exec((err, result) => {
+    if (err) {
+      return res.status(422).send(err)
+    } else {
+      res.json(result)
     }
-  ])
-  res.send(comments);
+  })
+}
 
- } catch (err) {
-   console.log(err);
- }
+const unlikePost = (req, res) => {
+  const Id = req.params.id;
+  
+  SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
+    $pull : {Likes : Id}
+  }, {
+    new : true
+  }).exec((err, result) => {
+    if (err) {
+      return res.status(422).send(err)
+    } else {
+      res.json(result)
+    }
+  })
+}
+
+const createComment = (req, res) => {
+  const Id = req.params.id;
+
+  const comment = {
+    Text : req.body.Text,
+    PostedBy : req.body.Author
+  }
+
+  SosmedPostModel.findByIdAndUpdate({_id : Id}, {
+    $push : {Comments : comment}
+  }, {
+    new : true
+  }).populate("Comments.PostedBy", "_id Username Fullname")
+  .exec((err, result) => {
+    if (err) {
+      return res.status(422).json({error : err})
+    } else {
+      res.json(result)
+    }
+  })
 }
 
 
@@ -127,5 +144,8 @@ router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
 router.get("/socialmedia/post/:id/comment", getPostComment);
 router.delete("/socialmedia/post/delete/:id", deletePostById);
+router.put("/socialmedia/:id/like", likePost);
+router.put("/socialmedia/:id/unlike", unlikePost);
+router.put("/socialmedia/post/:id/comment", createComment);
 
 module.exports = router

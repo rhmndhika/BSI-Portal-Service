@@ -51,10 +51,9 @@ const PostDetails = () => {
 
     e.preventDefault();
     if (test !== "") {
-      Axios.post("https://bsi-portal-service-production.up.railway.app/socialmedia/comment" , {
+      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${profileList._id}/comment` , {
         Text : test,
-        PostedBy: profileList._id,
-        Posts : id
+        PostedBy : id
         }).then((response)=> {
           alert("Submitted")
         })
@@ -69,9 +68,21 @@ const PostDetails = () => {
     })
   }
 
-  const getComment= () => {
+  const getComment = () => {
     Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/comment/all").then((response) => {
       setComment(response.data);
+    })
+  }
+
+  const LikePost = () => {
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/like`, {
+      Likes : profileList._id
+    })
+  }
+
+  const UnlikePost = () => {
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${profileList._id}/unlike`, {
+      Likes : profileList._id
     })
   }
   
@@ -114,7 +125,7 @@ const PostDetails = () => {
         <ModalContent>
           <ModalHeader>Comments</ModalHeader>
           <ModalCloseButton />
-          <form onSubmit={submitComment} method="POST">
+          <form onSubmit={submitComment}>
           <ModalBody>
             {comment.map((i, index) => {
               return (
@@ -144,7 +155,8 @@ const PostDetails = () => {
           </form>
         </ModalContent>
       </Modal>
-      {/* <Button onClick={getPostDetailsComments}>Test</Button> */}
+      <Button onClick={LikePost}>Like</Button>
+      <Button onClick={UnlikePost}>Unlike</Button>
     </div>
     
   )
