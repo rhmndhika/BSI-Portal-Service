@@ -158,7 +158,7 @@ const SocialMedia = () => {
         formData.append('Username', emailLog);
         formData.append('Content', value);
         formData.append('Documents', postSosmed.documents);
-        formData.append('Tags', postSosmed.tags);
+        formData.append('Author', profileList._id);
 
         await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
             method: 'POST',
@@ -259,6 +259,11 @@ const SocialMedia = () => {
             <FormControl isRequired>
               <FormLabel>Username</FormLabel>
               <Input value={emailLog} disabled />
+            </FormControl>
+
+            <FormControl isRequired>
+              <FormLabel>Profile ID</FormLabel>
+              <Input value={profileList._id} disabled />
             </FormControl>
 
             <FormControl mt={4}>

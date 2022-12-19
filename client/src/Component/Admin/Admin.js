@@ -1,11 +1,11 @@
 import React from 'react'
 import Appbar from '../Appbar/Appbar.tsx';
+import SidebarWithHeader from '../Sidebar/Sidebar.tsx';
 const Admin = () => {
   return (
-    <div>
-        <Appbar />
-        <h1>ADMIN</h1>
-    </div>
+   <>
+   <SidebarWithHeader />
+   </>
   )
 }
 

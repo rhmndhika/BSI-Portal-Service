@@ -1,13 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
+import { RoleUser } from '../../Helper/RoleUserProvider';
+import { 
+  Button, 
+  Flex, 
+  Text 
+} from '@chakra-ui/react';
 import io from 'socket.io-client';
 import Axios from 'axios';
-import Chat from './Chat';
-import './Chat.css';
-import { Button, Flex, Input, Select, Text } from '@chakra-ui/react';
 import ScrollToBottom from "react-scroll-to-bottom";
 import Appbar from "../Appbar/Appbar.tsx";
+import './Chat.css';
 
 const socket = io.connect("https://bsi-portal-service-production.up.railway.app");
 
@@ -18,7 +22,7 @@ const LiveChat = () => {
     let navigate = useNavigate();
     
     const { emailLog, setEmailLog } = useContext(EmailUser);
-    const [ role, setRole ] = useState("");
+    const { roleUser, setRoleUser } = useContext(RoleUser);
     const [ username, setUsername ] = useState("");
     const [ room, setRoom ] = useState();
     const [ socketId, setSocketId ] = useState(socket.id);
@@ -83,7 +87,7 @@ const LiveChat = () => {
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
-              setRole(response.data.role);
+              setRoleUser(response.data.role);
             } else {
               navigate("/", {replace : true})
             }
@@ -175,7 +179,9 @@ const LiveChat = () => {
                 <>
                 <Flex justifyContent="center" alignItems="center">
                 { user === emailLog ?
-                  <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}(you)</li>
+                  <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>
+                    {user}(you)
+                  </li>
                   :
                   <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>{user}</li>
                 }

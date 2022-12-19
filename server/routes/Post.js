@@ -32,7 +32,8 @@ const createPost = async (req, res) => {
       Username : req.body.Username,
       Title : req.body.Title,
       Content : req.body.Content,
-      Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`
+      Documents : `https://bsi-portal-service-production.up.railway.app/images/${req.file.filename}`,
+      Author : req.body.Author
     })
     await Post.save();
     res.send(Post);

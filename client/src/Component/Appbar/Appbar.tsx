@@ -113,6 +113,8 @@ export default function Appbar() {
 
           <Flex display={{ base: 'none', md: 'flex' }} flex={{base : 1}} ml={10} justify="flex-end" justifyContent={'flex-end'}>
             <DesktopNav />
+            <Flex justifyContent="center" alignItems="center">
+            </Flex>
           </Flex>
         </Flex>
 
@@ -163,6 +165,13 @@ export default function Appbar() {
                   <a>
                   <MenuItem>Account Settings</MenuItem>
                   </a>
+                  {roleUser === "Admin" ?
+                  <a href='/admin/dashboard'>
+                  <MenuItem>Dashboard</MenuItem>
+                  </a>
+                  :
+                  null
+                  }
                   <a onClick={logout}>
                   <MenuItem>Logout</MenuItem>
                   </a>

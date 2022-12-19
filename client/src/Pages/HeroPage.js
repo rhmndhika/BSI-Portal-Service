@@ -81,10 +81,11 @@ export default function HeroPage() {
             </Text>
           </Heading>
           <Text color={'gray.500'} maxW={'3xl'}>
-            Never miss a meeting. Never be late for one too. Keep track of your
+            {/* Never miss a meeting. Never be late for one too. Keep track of your
             meetings and receive smart reminders in appropriate times. Read your
-            smart “Daily Agenda” every morning. <br></br>
-            Before you go to BSI Supplier Portal, please create your profil first so we know who you are.
+            smart “Daily Agenda” every morning. <br></br> */}
+            BSI Portal Supplier is a intermediary that can make both parties to communicate with each other by using a website. 
+            Before you enter the homepage, please create your profile first so we know who you are.
           </Text>
           <Stack spacing={6} direction={'row'}>
           {dataProfileUser.CompanyName === "" || dataProfileUser.length <= 0  ? 

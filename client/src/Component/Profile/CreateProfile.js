@@ -85,7 +85,7 @@ const CreateProfile = () => {
                 <Button type="submit" colorScheme={"orange"} width={"130px"}>Submit</Button>
               </div>
               :
-              <div className='btnSubmitPayg'>
+              <div className='btnSubmitPayg' style={{marginTop : "15px"}}>
                 <Button
                   isLoading
                   loadingText='Submitting'

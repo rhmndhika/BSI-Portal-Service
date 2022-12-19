@@ -31,7 +31,8 @@ const createPayg = async (req, res) => {
     BuyerName : req.body.BuyerName ,
     Amount : req.body.Amount,
     Subject : req.body.Subject,
-    PaygAttachments : reqFiles
+    PaygAttachments : reqFiles,
+    status : "None"
   })
 
   data.save(function(err) {
