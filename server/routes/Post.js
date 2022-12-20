@@ -54,7 +54,7 @@ const getPostById = (req, res) => {
 
     SosmedPostModel.findById({_id : Id})
     .populate("Author")
-    .populate("Comments")
+    .populate("Comments.PostedBy")
     .populate("Likes")
     .exec(function (err, posts) {
        if (err) return handleError(err);
