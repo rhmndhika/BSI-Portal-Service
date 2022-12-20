@@ -26,7 +26,10 @@ const SosmedPostSchema = new mongoose.Schema({
    Likes : [{
           type : mongoose.Schema.Types.ObjectId,
           ref : "sosmedprofiles"
-   }]
+   }],
+   Liked : {
+       type : String
+   }
 }, {timestamps : true});
 
 

@@ -112,16 +112,16 @@ const ProfileDetails = () => {
       </Flex>
       { isLoading === false ? 
             <Flex flexDirection="column" justifyContent="center" alignItems="center" width="430px">
-                { postLists.length <= 0 ? null : postLists.filter(i => i.Author === id).map((i, index) => {
+                { postLists.length <= 0 ? null : postLists.filter(i => i.Author._id === id).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
                     <Card shadow="lg" padding="10px">
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                            <Avatar src={i.ProfilePicture} />  
+                            <Avatar src={i.Author.ProfilePicture} />  
                             <Box>
-                            <Heading size='sm'>{i.Username}</Heading>
+                            <Heading size='sm'>{i.Author.FullName}</Heading>
                             <Text>Created {moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
                             {/* <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text> */}
                             </Box>

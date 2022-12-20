@@ -8,7 +8,9 @@ export default function PostSosmedProvider({children}) {
    documents : "",
    tags : [],
    comment : [],
-   postedBy : ""
+   postedBy : "",
+   likes : [],
+   liked : false
   });
   return (
     <PostSosmed.Provider value={{ postSosmed, setPostSosmed }}>

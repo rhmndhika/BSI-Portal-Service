@@ -53,12 +53,16 @@ import {
 } from '@chakra-ui/icons';
 import './SocialMedia.css'
 import {
-  BsThreeDotsVertical,
   BsChat
 } from 'react-icons/bs';
 import {
   BiLike
 } from 'react-icons/bi';
+import {
+  AiFillLike,
+  AiOutlineLike,
+  AiOutlineDislike
+} from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
@@ -81,7 +85,8 @@ const SocialMedia = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
-    const [ profileID, setProfileID ] = useState(""); 
+    const [ liked, setLiked ] = useState(false);
+    const [ likeCount, setLikeCount ] = useState([]);
 
     const [value, setValue] = useState('');
   
@@ -196,6 +201,22 @@ const SocialMedia = () => {
         }))
         onCloseAlertDialog();
       }); 
+    }
+
+    const LikePost = (id) => {
+      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
+        Likes : profileUser._id
+      }).then((response) => {
+        setLikeCount(response.data);
+      })
+      setPostSosmed({...postSosmed, liked : true})  
+    }
+  
+    const UnlikePost = (id) => {
+      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`, {
+        Likes : profileUser._id
+      })
+      setPostSosmed({...postSosmed, liked : false})  
     }
 
     useEffect(() => {
@@ -333,7 +354,8 @@ const SocialMedia = () => {
           </form>
         </ModalContent>
       </Modal>
-    <>
+    <>  
+       {/* Header for Mobile Version */}
         <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
                 <Flex alignItems="center">
@@ -352,7 +374,7 @@ const SocialMedia = () => {
             </Flex>
         </Flex>
         
-        {/* For the web version */}
+        {/* Header For the web version */}
         <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
                 <Flex alignItems="center">
@@ -366,7 +388,8 @@ const SocialMedia = () => {
                 </Flex>
             </Flex>
         </Flex>
-
+        
+        {/* Profile Component */}
         <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
 
             <Flex className='flex-item-1' flexDirection="column" justifyContent="center" alignItems="center">
@@ -389,8 +412,6 @@ const SocialMedia = () => {
                         <Spinner />
                     }
                 </Flex>
-
-                {/* <Button mt={5} onClick={() => deleteProfile(profileUser._id)}>Delete Profile</Button> */}
                    
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
                 <Card width="320px" marginTop="10px">
@@ -427,10 +448,11 @@ const SocialMedia = () => {
             </Button>
             </Flex>
             
+            {/* Card Post Social Media */}
             { isLoading === false ? 
             <Flex className='flex-item-2'  flexDirection="column">
                 { postList.length <= 0 ? null : postList.filter(i => 
-                i.Username.toLowerCase().includes(search) 
+                i.Author.FullName.toLowerCase().includes(search) 
                 ).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
@@ -438,9 +460,9 @@ const SocialMedia = () => {
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                              <Avatar src={i.ProfilePicture} />  
+                              <Avatar src={i.Author.ProfilePicture} />  
                             <Box>
-                            <Heading size='sm'>{i.Username}</Heading>
+                            <Heading size='sm'>{i.Author.FullName}</Heading>
                             <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
                             {/* <Text>{moment(i.createdAt).startOf('day').fromNow()}</Text> */}
                             </Box>
@@ -500,13 +522,10 @@ const SocialMedia = () => {
                     <CardFooter
                         justify='space-between'
                         flexWrap='wrap'
-                    >
-                        <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
-                        Like
-                        </Button>
-                        <Button flex='1' variant='ghost' leftIcon={<BsChat />}>
-                        Comment
-                        </Button>
+                    >                    
+                        <Button key={index} value="like" flex='1' variant='ghost' leftIcon={<AiOutlineLike />} onClick={() => LikePost(i._id)}>Like</Button>
+                        <Button key={index} value="dislike" flex='1' variant='ghost' leftIcon={<AiOutlineDislike />} onClick={() => UnlikePost(i._id)}>Dislike</Button>
+                        <Button flex='1' variant='ghost' leftIcon={<BsChat />}>Comment</Button>
                     </CardFooter>
                     </Card>
                 </Flex>
@@ -517,6 +536,7 @@ const SocialMedia = () => {
             <Spinner mt={150} />
             }      
 
+            {/* Right Side Component : Who to find and Trending Post */}
             <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="350px">
                 <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="15px">
                     <Flex>

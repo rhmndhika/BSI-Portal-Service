@@ -78,7 +78,7 @@ const likePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $push : {Likes : req.body.Likes}
+    $push : {Likes : req.body.Likes, Liked : "Liked"}
   }, {
     new : true
   }).populate("Likes").exec((err, result) => {
@@ -94,7 +94,7 @@ const unlikePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $pull : {Likes : req.body.Likes}
+    $pull : {Likes : req.body.Likes, Liked : "Liked"}
   }, {
     new : true
   }).exec((err, result) => {
@@ -126,12 +126,6 @@ const createComment = (req, res) => {
       res.json(result)
     }
   })
-}
-
-const getAllUserPosts = (req, res) => {
-  const Id = req.params.id;
-
-  
 }
 
 router.post("/socialmedia/post", upload.single('Documents'), createPost);

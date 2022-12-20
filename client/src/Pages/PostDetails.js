@@ -80,7 +80,6 @@ const PostDetails = () => {
       Likes : profileList._id
     }).then((response) => {
       setLikeCount(response.data);
-      console.log(response.data)
     })
     setLiked(true);
   }
