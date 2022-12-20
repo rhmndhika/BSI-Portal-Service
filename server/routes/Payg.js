@@ -37,7 +37,6 @@ const createPayg = async (req, res) => {
 
   data.save(function(err) {
     if (err) {
-      console.log(err);
       res.send(err);
     } else {
       res.json(data);
@@ -74,7 +73,7 @@ const deletePaygById = (req, res) => {
 
   PaygDataModel.findByIdAndDelete({_id : Id}, (err, result) => {
       if (err) {
-          console.log(err);
+          res.send(err);
       } else {
           res.send(result);
       }

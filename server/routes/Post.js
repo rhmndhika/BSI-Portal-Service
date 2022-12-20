@@ -33,29 +33,19 @@ const createPost = async (req, res) => {
       }))
     })
   } catch (err) {
-    console.log(err);
+    res.send(err);
   }
 }
 
 const getAllPost = (req, res) => {
     
-    SosmedPostModel.find({}, (err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result)
-        }
-    })
-}
-
-const getPostByEmail = (req, res) => {
-
-    SosmedPostModel.find({Username : req.session.email}, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(result);
-        }
+    SosmedPostModel.find({})
+    .populate("Author")
+    .populate("Comments")
+    .populate("Likes")
+    .exec((err, result) => {
+      if (err) return handleError(err);
+       res.send(result)
     })
 }
 
@@ -63,10 +53,11 @@ const getPostById = (req, res) => {
     const Id = req.params.id;
 
     SosmedPostModel.findById({_id : Id})
+    .populate("Author")
     .populate("Comments")
+    .populate("Likes")
     .exec(function (err, posts) {
        if (err) return handleError(err);
-       console.log(posts);
        res.send(posts)
     })
 }
@@ -137,10 +128,14 @@ const createComment = (req, res) => {
   })
 }
 
+const getAllUserPosts = (req, res) => {
+  const Id = req.params.id;
+
+  
+}
 
 router.post("/socialmedia/post", upload.single('Documents'), createPost);
 router.get("/socialmedia/post/all", getAllPost);
-router.get("/socialmedia/post/email", getPostByEmail);
 router.get("/socialmedia/post/:id", getPostById);
 router.delete("/socialmedia/post/delete/:id", deletePostById);
 router.put("/socialmedia/:id/like", likePost);

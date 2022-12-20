@@ -13,6 +13,10 @@
   object-fit: cover;
 }
 
+.noPost {
+  background-color: black;
+}
+
 
 @media (max-width: 1265px) {
   .flex-nav-1 {

@@ -9,7 +9,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { 
     Box,
-    Image,
     Avatar,
     Heading,
     Text,
@@ -196,14 +195,6 @@ const SocialMedia = () => {
           return val._id != currentID
         }))
         onCloseAlertDialog();
-      }); 
-    }
-
-    const deleteProfile = (id) => {
-      Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/delete/${id}`).then(() => {
-        setProfileUser(profileUser.filter((val) => {
-          return val._id != id
-        }))
       }); 
     }
 
@@ -398,6 +389,8 @@ const SocialMedia = () => {
                         <Spinner />
                     }
                 </Flex>
+
+                {/* <Button mt={5} onClick={() => deleteProfile(profileUser._id)}>Delete Profile</Button> */}
                    
                 <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
                 <Card width="320px" marginTop="10px">
@@ -445,7 +438,7 @@ const SocialMedia = () => {
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                            <Avatar src={i.ProfilePicture} />  
+                              <Avatar src={i.ProfilePicture} />  
                             <Box>
                             <Heading size='sm'>{i.Username}</Heading>
                             <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
@@ -480,19 +473,24 @@ const SocialMedia = () => {
                     <Text marginTop={30}>
                         {i.Title}
                     </Text>
-                    {i.Documents?.includes("png", "jpg", "jpeg", "svg", "apng") ? 
-                    <img
+                    { i.Documents?.includes("png", "jpg", "jpeg", "svg", "apng") ?
+                      <img
+                        className='docPost'
+                        src={i.Documents}
+                        alt=''
+                      />
+                    : i.Documents?.includes("mp4") ? 
+                     <video 
+                        className='docPost'
+                        src={i.Documents}
+                        controls
+                      />                      
+                    :
+                      <img
                       className='docPost'
                       src={i.Documents}
                       alt=''
-                     />
-                     : 
-                    <video 
-                      className='docPost'
-                      src={i.Documents}
-                      controls
-                      >
-                    </video>
+                    />
                     }
                     <CardBody>
                         <Text padding="15px" >

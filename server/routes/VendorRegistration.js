@@ -106,7 +106,7 @@ const deleteVendorRegistrationById = (req, res) => {
   
     VendorRegistrationModel.findByIdAndDelete({_id : Id}, (err, result) => {
       if (err) {
-        console.log(err);
+        res.send(err);
       } else {
         res.send(result);
       }
@@ -149,7 +149,7 @@ const updateVendorRegistrationById = (req, res) => {
 }, 
 (err, result) => {
     if (err) {
-        console.log(err);
+        res.send(err);
     } else {
         res.send(result);
     }
@@ -162,7 +162,7 @@ const updateStatusVendorById = (req, res) => {
 
    VendorRegistrationModel.findByIdAndUpdate({_id : Id}, { $set : {"status" : status}},  (err, result) => {
       if (err) {
-          console.log(err);
+          res.send(err);
       } else {
           res.send(result);
       }
@@ -179,8 +179,6 @@ const updateSubmittedById = (req, res) => {
         } else {
             res.send(result);
         }
-    }).catch((error) => {
-        console.log(error);
     })
 }
 

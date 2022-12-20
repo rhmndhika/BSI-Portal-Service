@@ -79,7 +79,7 @@ const ProfileDetails = () => {
   }
 
   const getYourPost = async () => {
-    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/email").then((response) => {
+    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
       setPostLists(response.data);
       setIsLoading(false);
     })
@@ -112,7 +112,7 @@ const ProfileDetails = () => {
       </Flex>
       { isLoading === false ? 
             <Flex flexDirection="column" justifyContent="center" alignItems="center" width="430px">
-                { postLists.length <= 0 ? null : postLists.map((i, index) => {
+                { postLists.length <= 0 ? null : postLists.filter(i => i.Author === id).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
                     <Card shadow="lg" padding="10px">
@@ -146,7 +146,7 @@ const ProfileDetails = () => {
                         }}
                         icon={<DeleteIcon />}
                         />
-                         :
+                         : 
                         null
                         }
                         </Flex>

@@ -78,7 +78,7 @@ const deleteOutsourcingById = (req, res) => {
 
   OutsourcingModel.findByIdAndDelete({_id : Id}, (err, result) => {
     if (err) {
-      console.log(err);
+      res.send(err);
     } else {
       res.send(result);
     }
@@ -102,7 +102,7 @@ const updateOutsourcingById = (req, res) => {
       res.send(result);
     }
   }).catch((e) => {
-    console.log(e);
+    res.send(e);
   })
 }
 
@@ -130,7 +130,7 @@ const updateStatusById = (req, res) => {
       res.send(result);
     }
   }).catch((e) => {
-    console.log(e);
+    res.send(e);
   });
 }
 

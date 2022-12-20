@@ -18,7 +18,7 @@ const createProfile = async (req, res) => {
 const getUserProfileByEmail = (req, res) => {
   UserProfileModel.findOne({Email : req.session.email}, (err, result) => {
     if (err) {
-      console.log(err)
+      res.send(err)
     } else {
       res.send(result)
     }
@@ -28,7 +28,7 @@ const getUserProfileByEmail = (req, res) => {
 const getAllUserProfile = (req, res) => {
   UserProfileModel.find({}, (err, result) => {
     if (err) {
-      console.log(err)
+      res.send(err)
     } else {
       res.send(result)
     }
@@ -38,7 +38,7 @@ const getAllUserProfile = (req, res) => {
 const getUserProfileByEntity = (req, res) => {
   UserProfileModel.find({Entity : "BSI"}, (err, result) => {
     if (err) {
-      console.log(err)
+      res.send(err)
     } else {
       res.send(result)
     }

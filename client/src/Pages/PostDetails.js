@@ -32,7 +32,8 @@ const PostDetails = () => {
   const [ test, setTest ] = useState("");
   const [ comment, setComment ] = useState([]);
   const [ profileList, setProfileList] = useState([]);
-
+  const [ liked, setLiked ] = useState(false);
+  const [ likeCount, setLikeCount ] = useState("");
 
 
   const getPostDetails = () => {
@@ -77,11 +78,18 @@ const PostDetails = () => {
   const LikePost = () => {
     Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
       Likes : profileList._id
+    }).then((response) => {
+      setLikeCount(response.data);
+      console.log(response.data)
     })
+    setLiked(true);
   }
 
   const UnlikePost = () => {
-    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`)
+    Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`, {
+      Likes : profileList._id
+    })
+    setLiked(false);
   }
   
   useEffect(() => {
@@ -125,27 +133,14 @@ const PostDetails = () => {
           <ModalCloseButton />
           <form onSubmit={submitComment}>
           <ModalBody>
-            {comment.map((i, index) => {
-              return (
-              <Flex flexDirection="row" key={index}>
-                {/* {i.WriterID === profileList._id ? i.WriterID = profileList.Username : null} */}
-                <Text fontWeight='bold' mb='1rem' key={index}>
-                  {i.WriterID} :
-                </Text>
-                <Text  mb='1rem' key={index}> 
-                   {i.ContentMessage}
-                </Text>
-              </Flex>
-              )
-            })}
             <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)}  />
-            <Input type="text" value={profileList._id} display="none" />
+            <Input type="text" defaultValue={profileList._id} display="none" disabled />
             {/* <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} /> */}
-            <Input type="text" value={id} display="none" />
+            <Input type="text" defaultValue={id} display="none" disabled />
           </ModalBody>
 
           <ModalFooter>
-            <Button type="submit" mr={3}>Submit</Button>
+            <Button type="submit" mr={3}>Comment</Button>
             <Button colorScheme='blue' onClick={onClose}>
               Close
             </Button>
@@ -153,8 +148,12 @@ const PostDetails = () => {
           </form>
         </ModalContent>
       </Modal>
+     {liked === false ? 
       <Button onClick={LikePost}>Like</Button>
+      :  
       <Button onClick={UnlikePost}>Unlike</Button>
+     }
+
     </div>
     
   )
