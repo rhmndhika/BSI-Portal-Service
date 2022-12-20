@@ -79,7 +79,7 @@ const SocialMedia = () => {
     const { postSosmed, setPostSosmed } = useContext(PostSosmed);
     const [ profileUser, setProfileUser ] = useState([]);
     const [ profileList, setProfileList ] = useState([]);
-    const [ postList, setPostList ] = useState("");
+    const [ postList, setPostList ] = useState([]);
     const [ image, setImage ] = useState(null);
     const [ imagePost, setImagePost ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -87,6 +87,8 @@ const SocialMedia = () => {
     const [ search, setSearch ] = useState("");
     const [ liked, setLiked ] = useState(false);
     const [ likeCount, setLikeCount ] = useState([]);
+    const [ text, setText ] = useState("");
+    const [ postID, setPostID ] = useState("");
 
     const [value, setValue] = useState('');
   
@@ -102,6 +104,12 @@ const SocialMedia = () => {
         onOpen  : onOpenAlertDialog, 
         onClose : onCloseAlertDialog
      } = useDisclosure()
+
+     const { 
+      isOpen  : isOpenCommentDialog, 
+      onOpen  : onOpenCommentDialog, 
+      onClose : onCloseCommentDialog
+   } = useDisclosure()
 
     const cancelRef = React.useRef();
     const initialRef = React.useRef(null);
@@ -215,15 +223,34 @@ const SocialMedia = () => {
     const UnlikePost = (id) => {
       Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`, {
         Likes : profileUser._id
+      }).then((response) => {
+        setLikeCount(response.data);
       })
-      setPostSosmed({...postSosmed, liked : false})  
+    }
+
+    const submitComment = async (e) => {
+
+      e.preventDefault();
+      if (text !== "" ) {
+        Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${postID}/comment` , {
+          Text : text,
+          PostedBy : profileUser._id
+          }).then((response)=> {
+            alert("Submitted")
+          })
+      } else {
+        alert("Cannot be Empty")
+      }
     }
 
     useEffect(() => {
       getProfile();
       getAllProfile();
-      getAllPost();
     }, [])
+    
+    useEffect(() => {
+      getAllPost();
+    }, [likeCount])
     
 
   return (
@@ -355,6 +382,33 @@ const SocialMedia = () => {
         </ModalContent>
       </Modal>
     <>  
+
+    {/* Modal Create Comment */}
+    {postList.map((i, index) => {
+      return (
+    <Modal closeOnOverlayClick={false}  isOpen={isOpenCommentDialog} onClose={onCloseCommentDialog}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Comments</ModalHeader>
+          <ModalCloseButton />
+          <form onSubmit={submitComment}>
+          <ModalBody>
+            <Input type="text" value={text} placeholder='Comment Here' onChange={(e) => setText(e.target.value)}  />
+            <Input type="text" defaultValue={profileUser._id} display="none" disabled />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type="submit" mr={3}>Comment</Button>
+            <Button colorScheme='blue' onClick={onCloseCommentDialog}>
+              Close
+            </Button>
+          </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
+      )
+    })}
+
        {/* Header for Mobile Version */}
         <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
@@ -515,17 +569,35 @@ const SocialMedia = () => {
                     />
                     }
                     <CardBody>
-                        <Text padding="15px" >
-                        {parse(i.Content)}
-                        </Text>
+                      <Text padding="15px" >
+                      {parse(i.Content)}
+                      </Text>
                     </CardBody>
                     <CardFooter
                         justify='space-between'
                         flexWrap='wrap'
-                    >                    
-                        <Button key={index} value="like" flex='1' variant='ghost' leftIcon={<AiOutlineLike />} onClick={() => LikePost(i._id)}>Like</Button>
-                        <Button key={index} value="dislike" flex='1' variant='ghost' leftIcon={<AiOutlineDislike />} onClick={() => UnlikePost(i._id)}>Dislike</Button>
-                        <Button flex='1' variant='ghost' leftIcon={<BsChat />}>Comment</Button>
+                    >            
+                    {/* Another User cant like         */}
+                      { i.Likes?.length <= 0 ?
+                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => LikePost(i._id)}>Like</Button>
+                      :
+                      <>
+                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
+                      </>
+                      }
+                    {/* All user can like infinitely */}
+                      {/* { i.Likes?.length <= 0 && i.Likes.includes(i.Author._id) ?
+                          <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
+                        :
+                        <>
+                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => LikePost(i._id)}>Like</Button>
+                        </>
+                      } */}
+                      <Button flex='1' variant='ghost' leftIcon={<BsChat />} onClick={() => {
+                        setPostID(i._id);
+                        onOpenCommentDialog(i._id);
+                      }}>
+                      Comment</Button>
                     </CardFooter>
                     </Card>
                 </Flex>

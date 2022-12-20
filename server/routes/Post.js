@@ -78,7 +78,7 @@ const likePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $push : {Likes : req.body.Likes, Liked : "Liked"}
+    $push : {Likes : req.body.Likes}
   }, {
     new : true
   }).populate("Likes").exec((err, result) => {
@@ -94,7 +94,7 @@ const unlikePost = (req, res) => {
   const Id = req.params.id;
   
   SosmedPostModel.findByIdAndUpdate({ _id : Id}, {
-    $pull : {Likes : req.body.Likes, Liked : "Liked"}
+    $pull : {Likes : req.body.Likes}
   }, {
     new : true
   }).exec((err, result) => {

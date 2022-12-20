@@ -177,12 +177,12 @@ const ProfileDetails = () => {
                         justify='space-between'
                         flexWrap='wrap'
                     >
-                        <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
+                        {/* <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
                         Like
                         </Button>
                         <Button flex='1' variant='ghost' leftIcon={<BsChat />}>
                         Comment
-                        </Button>
+                        </Button> */}
                     </CardFooter>
                     </Card>
                 </Flex>

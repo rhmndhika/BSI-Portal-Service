@@ -61,7 +61,7 @@ const PostDetails = () => {
     } else {
       alert("Cannot be Empty")
     }
-    }
+  }
 
   const getProfile = () => {
     Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
@@ -134,8 +134,7 @@ const PostDetails = () => {
           <ModalBody>
             <Input type="text" value={test} placeholder='Comment Here' onChange={(e) => setTest(e.target.value)}  />
             <Input type="text" defaultValue={profileList._id} display="none" disabled />
-            {/* <Input type="text" value={profileList._id} name="PostedBy" onChange={(e) => setEmpty(e.target.value)} /> */}
-            <Input type="text" defaultValue={id} display="none" disabled />
+            <Input type="text" defaultValue={id} disabled />
           </ModalBody>
 
           <ModalFooter>
