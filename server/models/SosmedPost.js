@@ -15,22 +15,18 @@ const SosmedPostSchema = new mongoose.Schema({
        ref : 'sosmedprofiles'
    },
    Comments : [{
-       Text : {
-              type : String
-       },
        PostedBy : { 
               type : mongoose.Schema.Types.ObjectId, 
               ref : "sosmedprofiles"
+       },
+       Text : {
+              type : String
        }
    }],
    Likes : [{
           type : mongoose.Schema.Types.ObjectId,
           ref : "sosmedprofiles"
-   }],
-   PostedBy : {
-          type : mongoose.Schema.Types.ObjectId,
-          ref : "sosmedprofiles"
-   }
+   }]
 }, {timestamps : true});
 
 
