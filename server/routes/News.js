@@ -7,7 +7,7 @@ const createNews = async (req, res) => {
 
   const reqTags = [];
 
-  for (var i = 0; i < req.body.Tags.length; i++) {
+  for (var i = 0; i < Object.keys(req.body.Tags).length; i++) {
    reqTags.push(req.body.Tags[i]);       
   };
 

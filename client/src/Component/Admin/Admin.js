@@ -126,7 +126,7 @@ const Admin = () => {
       <ModalContent>
         <ModalHeader>Create News / Announcement</ModalHeader>
         <ModalCloseButton />
-      <form onSubmit={submitNews}>
+  <form method='POST' onSubmit={submitNews}>
       <ModalBody pb={6}>
         <FormControl>
           <FormLabel>Title</FormLabel>
@@ -160,10 +160,9 @@ const Admin = () => {
           <ReactQuill theme="snow" message={message} onChange={setMessage} />
         </FormControl>
       </ModalBody>
-      </form>
 
       <ModalFooter>
-        <Button colorScheme='blue' mr={3}>
+        <Button type="submit" colorScheme='blue' mr={3}>
           Save
         </Button>
         <Button onClick={() => {
@@ -171,6 +170,7 @@ const Admin = () => {
           setMessage("")
         }}>Cancel</Button>
       </ModalFooter>
+      </form>
       </ModalContent>
   </Modal>  
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
