@@ -15,17 +15,6 @@ import {
   Td,
   TableContainer,
   HStack,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
-  Badge,
-  useEditableControls,
-  ButtonGroup,
-  IconButton,
   Flex,
   InputGroup,
   InputLeftElement,
@@ -79,7 +68,7 @@ const OutsourcingHomeAdmin = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then((response) => {
+    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then(() => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))

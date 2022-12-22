@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 
-
 const UserProfileSchema = new mongoose.Schema({
     Email : {
         type : String,

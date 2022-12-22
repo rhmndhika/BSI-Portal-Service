@@ -10,12 +10,14 @@ import {
 
 
 const PaygHomeAdmin = () => {
+
   Axios.defaults.withCredentials = true;
 
   let navigate = useNavigate();
  
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
+  
 
   
   return (

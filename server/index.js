@@ -127,6 +127,7 @@ const sosmedPostRoute = require("./routes/Post");
 const commentRoute = require("./routes/Comment");
 const messageRoute = require("./routes/Message");
 const Mes = require("./models/Message");
+const newsRoute = require("./routes/News");
 
 app.use(registerRoute);
 app.use(loginRoute);
@@ -138,12 +139,12 @@ app.use(sosmedProfileRoute);
 app.use(sosmedPostRoute);
 app.use(commentRoute);
 app.use(messageRoute);
+app.use(newsRoute);
 
 let users = {};
 
 io.on("connection", (socket) => {
   // console.log(`User Connected: ${socket.id}`);
-
 
   socket.on("userJoin", username => {
     users[socket.id] = username
@@ -220,8 +221,7 @@ app.post("/sendNotification", function (req, res) {
   });
  });
 
-
-server.listen(process.env.PORT || 3001 , ()=> {
+server.listen(process.env.PORT || 3001 , () => {
   console.log(`Still Running on port 3001`);
 });
 

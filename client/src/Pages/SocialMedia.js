@@ -38,7 +38,18 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
-    FormHelperText
+    FormHelperText,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverBody,
+    PopoverArrow,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
+    Center
 } from '@chakra-ui/react';
 import { 
   Card, 
@@ -63,6 +74,8 @@ import {
   AiOutlineLike,
   AiOutlineDislike
 } from 'react-icons/ai';
+import { BsThreeDotsVertical, BsChatSquareQuote } from 'react-icons/bs';
+import { RiShutDownLine, RiRestartLine, RiFileShredLine } from 'react-icons/ri';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
@@ -217,7 +230,6 @@ const SocialMedia = () => {
       }).then((response) => {
         setLikeCount(response.data);
       })
-      setPostSosmed({...postSosmed, liked : true})  
     }
   
     const UnlikePost = (id) => {
@@ -424,12 +436,12 @@ const SocialMedia = () => {
             </Flex>
             <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
               <Button  onClick={onOpenPostModal} width={120}>Create Post</Button>
-              <Button onClick={onOpen} marginLeft={30} width={120}>Create Profile</Button>
+              {/* <Button onClick={onOpen} marginLeft={30} width={120}>Create Profile</Button> */}
             </Flex>
         </Flex>
         
         {/* Header For the web version */}
-        <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
+        {/* <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
                 <Flex alignItems="center">
                 <InputGroup>
@@ -441,20 +453,20 @@ const SocialMedia = () => {
                 </InputGroup>
                 </Flex>
             </Flex>
-        </Flex>
+        </Flex> */}
         
-        {/* Profile Component */}
+        
         <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
-
+        {/* Profile Component */}
             <Flex className='flex-item-1' flexDirection="column" justifyContent="center" alignItems="center">
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" borderRadius="20px" width="320px" height="320px">
+                {/* <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" width="280px" height="320px">
                     { isLoading === false ? 
                     <>
                     {profileUser.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
                         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
                           <Link to={`/socialmedia/profile/${profileUser._id}`}>
-                            <Flex justifyContent="center" width="300px">
-                                <img style={{width : "250px", height: "250px"}} crossOrigin="anonymous" src={profileUser.ProfilePicture} title="Test" />
+                            <Flex justifyContent="center" alignItems="flex-start" width="300px">
+                                <Avatar size='2xl' name={profileUser.FullName}  crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
                             </Flex>
                           </Link>
                             <Text>@{profileUser.FullName}</Text>
@@ -465,9 +477,9 @@ const SocialMedia = () => {
                     :
                         <Spinner />
                     }
-                </Flex>
+                </Flex> */}
                    
-                <Flex width="320px" height="150px" padding="10px" marginTop="25px" borderRadius="20px" border="1px solid">
+                <Flex width="280px" height="150px" padding="10px" marginTop="25px" border="1px solid">
                 <Card width="320px" marginTop="10px">
                 <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
@@ -510,11 +522,11 @@ const SocialMedia = () => {
                 ).map((i, index) => {
                 return (
                 <Flex marginTop="15px" key={index}>
-                    <Card shadow="lg" padding="10px">
+                    <Card shadow="lg" padding="10px" borderRadius="25px">
                     <CardHeader>
-                        <Flex spacing='4'>
+                        <Flex spacing='4' borderRadius="20px">
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                              <Avatar src={i.Author.ProfilePicture} />  
+                            <Avatar src={i.Author.ProfilePicture} />  
                             <Box>
                             <Heading size='sm'>{i.Author.FullName}</Heading>
                             <Text>{moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
@@ -569,8 +581,9 @@ const SocialMedia = () => {
                     />
                     }
                     <CardBody>
-                      <Text padding="15px" >
+                      <Text paddingTop="15px" ml="20px" mb="20px">
                       {parse(i.Content)}
+                     
                       </Text>
                     </CardBody>
                     <CardFooter
@@ -609,20 +622,73 @@ const SocialMedia = () => {
             }      
 
             {/* Right Side Component : Who to find and Trending Post */}
+            
             <Flex className='flex-item-3' flexDirection="column" justifyContent="center" alignItems="center" width="350px">
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="15px">
-                    <Flex>
-                        <Text>Who to find</Text>
-                    </Flex>
-                    {profileList.map((i, index) => {
+            <Flex className="searchWEBV" width="320px" height="60px" borderRadius="40px" shadow="base">
+              <InputGroup margin="10px">
+              <InputLeftElement
+              pointerEvents='none'
+              children={<SearchIcon color='black.300' />}/>
+              <Input backgroundColor="gray.100" textColor="black.300" borderRadius="50px" width="230px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
+              </InputGroup>
+              { isLoading === false ? 
+                    <>
+                    {profileUser.length <= 0 ? <Button onClick={onOpen} mt="10px" mr="20px">New</Button> : 
+                      // <Link to={`/socialmedia/profile/${profileUser._id}`}>
+                      //   <Avatar size='md' name={profileUser.FullName} margin="5px" crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
+                      // </Link>
+                    <Menu>
+                    <MenuButton
+                      as={Button}
+                      rounded={'full'}
+                      variant={'link'}
+                      cursor={'pointer'}
+                      mr={'15px'}
+                      minW={0}>
+                    <Avatar size='md' name={profileUser.FullName} margin="5px" crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
+                    </MenuButton>
+                    <MenuList alignItems={'center'} borderRadius="20px">
+                      <br />
+                      <Center>
+                        <Flex flexDirection="column" >
+                          <Flex>
+                            <Text>👋Hey, Stranger</Text>
+                          </Flex>
+                        </Flex>
+                      </Center>
+                      <br />
+                      <MenuDivider />
+                      <a href={`/socialmedia/profile/${profileUser._id}`}>
+                      <MenuItem>Profile Settings</MenuItem>
+                      </a>
+                      <MenuItem>Delete Account</MenuItem>
+                    </MenuList>
+                    </Menu>
+                    }
+                    </>
+                    :
+                        <Spinner mt="20px" ml="20px" />
+                    }
+            </Flex>
+
+                <Flex flexDirection="column" justifyContent="flex-start" alignItems="center" width="330px" height="max-content" borderRadius="20px" shadow="md" marginTop="15px">
+                  <Flex justifyContent="flex-start">
+                    <Text textAlign="left">Suggestion For You</Text>
+                  </Flex>
+                    {profileList.slice(0, 5).map((i, index) => {
                       return (
                       <>
                       {i.Username !== emailLog ? 
-                      <Flex flexDirection="row" justifyContent="space-evenly" width="250px" alignItems="center" marginTop="10px" key={index}>
-                          <Avatar name={i.Username} src={i.ProfilePicture} />
-                          <Text width="130px">{i.Username}</Text>
+                      <Flex flexDirection="row" justifyContent="space-evenly" width="300px" alignItems="center" marginTop="10px" key={index}>
+                          <Avatar size="sm" name={i.Username} src={i.ProfilePicture} />
+                          <Flex flexDirection="column">
+                            <Text width="130px">{i.FullName}</Text>
+                            <Text fontSize='xs' textColor="gray.400" width="120px">{i.Username}</Text>
+                          </Flex>
                           <Link  to={`/socialmedia/profile/${i._id}`}>
-                            <Button>View</Button>
+                            <Text fontColor="purple.100">
+                              View
+                            </Text>
                           </Link>
                       </Flex>
                      :
@@ -630,50 +696,47 @@ const SocialMedia = () => {
                      }
                       </>
                       )
-                    })}
+                    })}    
                 </Flex>
 
-                <Flex flexDirection="column" justifyContent="center" alignItems="center" width="300px" height="max-content" border="1px solid" marginTop="20px">
+                <Flex flexDirection="column" justifyContent="flex-start" alignItems="center" width="330px" height="max-content" borderRadius="20px" shadow="md" marginTop="15px">
                     <Flex>
                         <Text>Trending Post</Text>
-                    </Flex>
-
-                    <Flex>
-                        <Card shadow="lg" padding="20px" width="250px">
+                    </Flex>                    
+                    { postList.length <= 0 ? null : postList.slice(0,5).map((i, index) => {
+                    return (
+                    <Flex margin="15px">
+                        <Card shadow="sm" padding="20px" width="250px">
                         <CardHeader>
                             <Flex spacing='4'>
                             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                <Avatar name='Segun Adebayo' src='' />
-
+                                <Avatar size="xs" name={i.Author.FullName} src={i.Author.ProfilePicture} />
                                 <Box>
-                                <Heading size='sm'>Segun Adebayo</Heading>
-                                <Text>Time</Text>
+                                <Heading size='sm'>{i.Author.FullName}</Heading>
+                                <Text>{moment(i.Author.createdAt).format('MMMM Do YYYY')}</Text>
                                 </Box>
                             </Flex>
                             </Flex>
                         </CardHeader>
-                        <CardBody>
-                            <Flex justifyContent="center" margin="10px">
-                                <Text fontWeight="bold">
-                                    Title
-                                </Text>
-                            </Flex>
-                        </CardBody>
-
+                        <Link to={`/socialmedia/${i._id}`}>
+                          <CardBody>
+                          <video src={i.Documents + "#t=10"}></video>
+                          {/* <Text>{parse(i.Content)}</Text> */}
+                          </CardBody>
+                        </Link>
                         <CardFooter
-                            justify='space-between'
-                            flexWrap='wrap'
+                          justify='space-between'
+                          flexWrap='wrap'
                         >
-                            <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
-                            
-                            </Button>
-                            <Button flex='1' variant='ghost' leftIcon={<BsChat />}>
-                            
-                            </Button>
+                        { i.Likes?.length  ?
+                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`}>Like</Button>
+                        :
+                        null
+                        }
                         </CardFooter>
                         </Card>
                     </Flex>
-
+                    )})}
                 </Flex>
             </Flex>
 

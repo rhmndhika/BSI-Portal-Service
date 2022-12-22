@@ -402,7 +402,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'News and Announcement',
         subLabel: 'Find your dream design job',
-        href: '#',
+        href: '/news',
       },
       {
         label: 'Procurement Guidance',
