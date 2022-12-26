@@ -1,35 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import { Flex, Heading, Text } from '@chakra-ui/react';
+import moment from 'moment';
+import parse from 'html-react-parser';
 
 const NewsDetails = () => {
+
+  Axios.defaults.withCredentials = true
+
+  let navigate = useNavigate();
+
+  const { id } = useParams();
+
+  const [ newsDetails, setNewsDetails ] = useState([]);
+
+  const getNewsById = async () => {
+    try {
+        await Axios.get(`https://bsi-portal-service-production.up.railway.app/news/details/${id}`).then((response) => {
+            setNewsDetails(response.data);
+        })
+    } catch (err) {
+        console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getNewsById();
+  }, [id])
+  
   return (
    <>
    <Appbar />
+   {newsDetails.map((i) => {
+   return (
    <Flex flexDirection="column" justifyContent="center" alignItems="center">
     <Flex width="620px" heigh="110px" border="1px solid" mt="50px">
-        <Heading>滕王阁序</Heading>
+        <Heading>{i.Title}</Heading>
     </Flex>
 
     <Flex width="620px" heigh="110px" border="1px solid" mt="10px">
-        <Text>Desember 2022, Health, Education, Gaming </Text>
+        <Text>{moment(i.createdAt).format("DD MMMM YYYY")}, {Object.values(i.Tags).join(", ")}</Text>
     </Flex>
 
     <Flex flexDirection="column" width="620px" heigh="110px" border="1px solid" mt="80px" alignItems="flex-start">
         <Text textAlign="justify" letterSpacing="1px" overflowWrap="break-word">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta augue nec nibh sagittis, vel feugiat dolor venenatis. 
-        Vivamus ut scelerisque lacus. Nam est neque, rutrum nec pulvinar id, maximus a eros. Curabitur dictum hendrerit venenatis. 
-        Fusce mattis, sapien vel vestibulum iaculis, est augue vehicula diam, at ullamcorper ante enim et mauris. Donec pretium bibendum euismod. 
-        Sed condimentum ex vitae tellus tincidunt ultrices. Nunc suscipit auctor odio, a lacinia sem posuere ut. 
-        Integer pellentesque pretium sem, sed hendrerit ipsum mattis non. Aliquam arcu sem, pretium non auctor in, tempor auctor turpis. A
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta augue nec nibh sagittis, vel feugiat dolor venenatis. 
-        Vivamus ut scelerisque lacus. Nam est neque, rutrum nec pulvinar id, maximus a eros. Curabitur dictum hendrerit venenatis. 
-        Fusce mattis, sapien vel vestibulum iaculis, est augue vehicula diam, at ullamcorper ante enim et mauris. Donec pretium bibendum euismod. 
-        Sed condimentum ex vitae tellus tincidunt ultrices. Nunc suscipit auctor odio, a lacinia sem posuere ut. 
-        Integer pellentesque pretium sem, sed hendrerit ipsum mattis non. Aliquam arcu sem, pretium non auctor in, tempor auctor turpis. 
+        {parse(i.Content)}
         </Text> 
     </Flex>
    </Flex>
+   )
+   })}
    </>
   )
 }

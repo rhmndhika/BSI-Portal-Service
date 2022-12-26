@@ -93,7 +93,7 @@ root.render(
         <Route path='/socialmedia/profile/:id' element={<SosmedProfile />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/news' element={<News />} />
-        <Route path='/news/details' element={<NewsDetails />} />
+        <Route path='/news/details/:id' element={<NewsDetails />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>

@@ -30,10 +30,23 @@ const getAllNews = async (req, res) => {
       message: err.message
     })
   }
-  
+}
+
+const getNewsById = async (req, res) => {
+  const Id = req.params.id;
+
+  try {
+    const newsId = await NewsModel.findById({_id : Id}).orFail();
+    return res.send(newsId);
+  } catch (err) {
+    return res.status(500).send({
+      message: err.message
+    })
+  }
 }
 
 router.post("/news/createNews", createNews);
 router.get("/news/allNews", getAllNews);
+router.get("/news/details/:id", getNewsById);
 
 module.exports = router

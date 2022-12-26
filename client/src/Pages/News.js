@@ -50,13 +50,6 @@ const News = () => {
     </Flex>
     <Flex flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" padding="20px" gap="30px" marginLeft="auto" marginRight="auto">
        <BlogCard />
-       <BlogCard />
-       <BlogCard />
-       <BlogCard />
-       <BlogCard />
-       <BlogCard />
-       <BlogCard />
-       <BlogCard />
     </Flex>
     </>
   )
