@@ -76,26 +76,38 @@ const Admin = () => {
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  
 
   const submitNews = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    formData.append('Email', emailLog);
-    formData.append('Username', username);
-    formData.append('Title', title);
-    for(let i = 0; i < tags.length; i++) {
-      formData.append('Tags', tags[i]);
-    }
-    formData.append('Content', message);
+    // formData.append('Email', emailLog);
+    // formData.append('Username', username);
+    // formData.append('Title', title);
+    // for(let i = 0; i < tags.length; i++) {
+    //   formData.append('Tags', tags[i]);
+    // }
+    // formData.append('Content', message);
 
-    await fetch("https://bsi-portal-service-production.up.railway.app/news/createNews", {
-      method: 'POST',
-      body: formData,
-    }).then(() => {
+    // await fetch("https://bsi-portal-service-production.up.railway.app/news/createNews", {
+    //   method: 'POST',
+    //   body: formData,
+    // }).then(() => {
      
-    })
+    // })
+    try {
+      Axios.post("https://bsi-portal-service-production.up.railway.app/news/createNews", {
+        Email : emailLog,
+        Username : username,
+        Title : title,
+        Tags : tags,
+        Content : message
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {

@@ -5,18 +5,12 @@ const NewsModel = require("../models/News");
 
 const createNews = async (req, res) => {
 
-  const reqTags = [];
-  
-  for (var i = 0; i < req.body.Tags; i++) {
-   reqTags.push(req.body.Tags[i]);       
-  };
-
   try {
     const News = new NewsModel({
       Email : req.body.Email,
       Username : req.body.Username,
       Title : req.body.Title,
-      Tags : reqTags,
+      Tags : req.body.Tags,
       Content : req.body.Content,
     })
     await News.save();
