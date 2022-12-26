@@ -5,13 +5,20 @@ const NewsModel = require("../models/News");
 
 const createNews = async (req, res) => {
 
+  const reqTags = [];
+  
+  for (var i = 0; i < req.body.Tags; i++) {
+   reqTags.push(req.body.Tags[i]);       
+  };
+
   try {
-    req.body.Tags = req.body.Tags.replace(/\s/g, '').split(",").map(function(tag) {
-      return { "name": tag };
-    });
-
-    var News = new NewsModel(req.body);
-
+    const News = new NewsModel({
+      Email : req.body.Email,
+      Username : req.body.Username,
+      Title : req.body.Title,
+      Tags : reqTags,
+      Content : req.body.Content,
+    })
     await News.save();
     res.json(News);
   } catch (err) {

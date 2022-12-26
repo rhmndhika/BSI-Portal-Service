@@ -94,7 +94,7 @@ const Admin = () => {
       method: 'POST',
       body: formData,
     }).then(() => {
-      setTimeout(() => window.location.reload(false), 1000);
+     
     })
   }
 
@@ -174,7 +174,6 @@ const Admin = () => {
       </ModalContent>
   </Modal>  
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
-      <Button onClick={onOpen}>Open Modal</Button>
       <Button onClick={onOpen}>Open Modal</Button>
     </Flex>
   </>
