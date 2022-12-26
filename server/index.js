@@ -76,7 +76,7 @@ app.use(session({
            },
     key: process.env.COOKIE_KEY,
     store: new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h / 1 dayszzzzzssssssszsszzz
+        checkPeriod: 86400000 // prune expired entries every 24h / one days
       }),
     secret: 'subscribe',
     saveUninitialized: true,
@@ -222,6 +222,6 @@ app.post("/sendNotification", function (req, res) {
  });
 
 server.listen(process.env.PORT || 3001 , () => {
-  console.log(`Still Running on port 3001`);
+  console.log(`Running on port 3001`);
 });
 

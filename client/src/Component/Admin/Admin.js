@@ -175,6 +175,7 @@ const Admin = () => {
   </Modal>  
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
       <Button onClick={onOpen}>Open Modal</Button>
+      <Button onClick={onOpen}>Open Modal</Button>
     </Flex>
   </>
   )
