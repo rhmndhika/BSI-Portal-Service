@@ -17,7 +17,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  useDisclosure
+  useDisclosure,
+  FormHelperText
 } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -164,6 +165,7 @@ const Admin = () => {
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
           onChange={onChange} />
+          <FormHelperText><i>Input your tag by pressing enter key</i></FormHelperText>
         </FormControl>
 
         <FormControl mt={4}>

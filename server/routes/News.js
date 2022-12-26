@@ -20,6 +20,20 @@ const createNews = async (req, res) => {
   }
 }
 
+const getAllNews = async (req, res) => {
+
+  try {
+    const news = await NewsModel.find({}).orFail();
+    return res.send(news);
+  } catch(err) {
+    return res.status(500).send({
+      message: err.message
+    })
+  }
+  
+}
+
 router.post("/news/createNews", createNews);
+router.get("/news/allNews", getAllNews);
 
 module.exports = router
