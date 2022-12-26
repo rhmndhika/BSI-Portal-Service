@@ -165,12 +165,11 @@ const Admin = () => {
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
           onChange={onChange} />
-          <FormHelperText><i>Input your tag by pressing enter key</i></FormHelperText>
+          <FormHelperText><i>Input your tag by pressing enter key. max 4</i></FormHelperText>
         </FormControl>
 
         <FormControl mt={4}>
           <FormLabel>Content</FormLabel>
-          {message}
           <ReactQuill theme="snow" message={message} onChange={setMessage} />
         </FormControl>
       </ModalBody>

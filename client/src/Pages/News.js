@@ -25,6 +25,7 @@ const News = () => {
 
     const { emailLog, setEmailLog } = useContext(EmailUser);
     const { roleUser, setRoleUser } = useContext(RoleUser);
+    const [ search, setSearch ] = useState("");
 
     useEffect(() => {
         async function userExpire2 () {
@@ -46,10 +47,10 @@ const News = () => {
     <>
     <Appbar />
     <Flex justifyContent="center" alignItems="center" mt="20px">
-        <Input width="320px" height="80px" placeholder='Search News...' backgroundColor="blackAlpha.300" />
+        <Input type="text" width="320px" height="50px" placeholder='Search News...' backgroundColor="blackAlpha.300" onChange={(e) => setSearch(e.target.value)} />
     </Flex>
     <Flex flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center" padding="20px" gap="30px" marginLeft="auto" marginRight="auto">
-       <BlogCard />
+       <BlogCard search={search} />
     </Flex>
     </>
   )

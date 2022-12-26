@@ -14,17 +14,18 @@ import {
   TagRightIcon,
   TagCloseButton,
   Image,
-  Button
+  Button,
+  HStack,
+  Flex
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import moment from 'moment';
 
-const BlogPostWithImage = () => {
+const BlogPostWithImage = (props) => {
 
   Axios.defaults.withCredentials = true;
 
-  
   const [ allNews, setAllNews ] = useState([]);
 
   const getAllNews = async () => {
@@ -39,12 +40,15 @@ const BlogPostWithImage = () => {
 
   useEffect(() => {
     getAllNews();
-  }, [allNews])
+  }, [])
 
     
   return (
   <>
-  {allNews.map((i) => { 
+  {allNews.filter(i => 
+  i.Title.toLowerCase().includes(props.search) || 
+  i.Tags[0].toLowerCase().includes(props.search)
+  ).map((i) => { 
     return (
     <Center py={6} key={i._id}>
       <Box
@@ -64,23 +68,32 @@ const BlogPostWithImage = () => {
           mb={6}
           pos={'relative'}>
           <Image
+            // src=
+            // 'none'
             src=
-            'none'
+            'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
           />
         </Box>
-        <Stack>
-          <Tag
-            colorScheme={'teal'}
-            variant='solid'
-            textTransform={'uppercase'}
-            fontWeight={500}
-            fontSize={'sm'}
-            letterSpacing={1.1}
-            mt={'10px'}
-            width="max-content">
-          {Object.values(i.Tags).join(", ")}
-          </Tag>
-          <Heading
+        <Flex height="max-content" flexDirection="row" alignItems="center" width="fit-content" gap="10px">
+          {i.Tags.map((x) => {
+            return (
+            <Flex flexDirection="row" justifyContent={"center"} mt="20px">
+            <Tag
+              colorScheme={'teal'}
+              variant='solid'
+              textTransform={'uppercase'}
+              fontWeight={500}
+              fontSize={'sm'}
+              letterSpacing={1.1}
+              >
+              {x}
+            </Tag>
+            </Flex>
+              )
+            })}
+        </Flex>
+        <Stack mt={"20px"}>
+        <Heading
             fontSize={'2xl'}
             fontFamily={'body'}>
            {i.Title}
@@ -94,7 +107,7 @@ const BlogPostWithImage = () => {
         <Stack mt={"6"} direction={'row'} spacing={4} align={'center'}>
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{i.Username}</Text>
-            <Text color={'gray.500'}>{moment(i.createdAt).format("DD MMMM YYYY")}</Text>
+            <Text color={'gray.500'}>{moment(i.createdAt).format("DD MMMM YYYY, h:mm:ss a")}</Text>
           </Stack>
         </Stack>
       </Box>

@@ -2,17 +2,22 @@ const mongoose = require("mongoose");
 
 const NewsSchema = new mongoose.Schema({
     Email : {
-        type : String
+        type : String,
+        require : true
     },
     Username : {
-        type : String
+        type : String,
+        require : true
     },
     Title : {
-        type : String
+        type : String,
+        maxLength : 24,
+        require : true
     },
     Tags : [String],
     Content : {
-        type : String
+        type : String,
+        require : true
     }
 }, {timestamps : true});
 
