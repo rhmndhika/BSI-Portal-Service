@@ -102,6 +102,7 @@ const SocialMedia = () => {
     const [ likeCount, setLikeCount ] = useState([]);
     const [ text, setText ] = useState("");
     const [ postID, setPostID ] = useState("");
+    const [ isLiked, setIsLiked ] = useState(false);
 
     const [value, setValue] = useState('');
   
@@ -224,6 +225,12 @@ const SocialMedia = () => {
       }); 
     }
 
+    const deleteProfile = async () => {
+      await Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${profileUser._id}/delete`).then(() => {
+        setTimeout(() => window.location.reload(false), 1000)
+      })
+    }
+
     const LikePost = (id) => {
       Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
         Likes : profileUser._id
@@ -254,6 +261,7 @@ const SocialMedia = () => {
         alert("Cannot be Empty")
       }
     }
+
 
     useEffect(() => {
       getProfile();
@@ -436,25 +444,10 @@ const SocialMedia = () => {
             </Flex>
             <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
               <Button  onClick={onOpenPostModal} width={120}>Create Post</Button>
-              {/* <Button onClick={onOpen} marginLeft={30} width={120}>Create Profile</Button> */}
             </Flex>
         </Flex>
         
-        {/* Header For the web version */}
-        {/* <Flex className='flex-nav-2' flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
-            <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
-                <Flex alignItems="center">
-                <InputGroup>
-                    <InputLeftElement
-                    pointerEvents='none'
-                    children={<SearchIcon color='gray.300' />}
-                    />
-                    <Input width="300px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
-                </InputGroup>
-                </Flex>
-            </Flex>
-        </Flex> */}
-        
+
         
         <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
         {/* Profile Component */}
@@ -590,22 +583,12 @@ const SocialMedia = () => {
                         justify='space-between'
                         flexWrap='wrap'
                     >            
-                    {/* Another User cant like         */}
-                      { i.Likes?.length <= 0 ?
-                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => LikePost(i._id)}>Like</Button>
-                      :
-                      <>
-                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
-                      </>
-                      }
                     {/* All user can like infinitely */}
-                      {/* { i.Likes?.length <= 0 && i.Likes.includes(i.Author._id) ?
-                          <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
+                      {i.Likes._id === profileUser._id ?
+                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
                         :
-                        <>
                         <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => LikePost(i._id)}>Like</Button>
-                        </>
-                      } */}
+                      }
                       <Button flex='1' variant='ghost' leftIcon={<BsChat />} onClick={() => {
                         setPostID(i._id);
                         onOpenCommentDialog(i._id);
@@ -634,9 +617,6 @@ const SocialMedia = () => {
               { isLoading === false ? 
                     <>
                     {profileUser.length <= 0 ? <Button onClick={onOpen} mt="10px" mr="20px">New</Button> : 
-                      // <Link to={`/socialmedia/profile/${profileUser._id}`}>
-                      //   <Avatar size='md' name={profileUser.FullName} margin="5px" crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
-                      // </Link>
                     <Menu>
                     <MenuButton
                       as={Button}
@@ -652,7 +632,7 @@ const SocialMedia = () => {
                       <Center>
                         <Flex flexDirection="column" >
                           <Flex>
-                            <Text>👋Hey, Stranger</Text>
+                            <Text>👋Hey, {profileUser.FullName}</Text>
                           </Flex>
                         </Flex>
                       </Center>
@@ -661,7 +641,6 @@ const SocialMedia = () => {
                       <a href={`/socialmedia/profile/${profileUser._id}`}>
                       <MenuItem>Profile Settings</MenuItem>
                       </a>
-                      <MenuItem>Delete Account</MenuItem>
                     </MenuList>
                     </Menu>
                     }
@@ -703,7 +682,7 @@ const SocialMedia = () => {
                     <Flex>
                         <Text>Trending Post</Text>
                     </Flex>                    
-                    { postList.length <= 0 ? null : postList.slice(0,5).map((i, index) => {
+                    { postList.length <= 0 ? null : postList.slice(0,5).filter(e => e.Likes.length > 5).map((i, index) => {
                     return (
                     <Flex margin="15px">
                         <Card shadow="sm" padding="20px" width="250px">
