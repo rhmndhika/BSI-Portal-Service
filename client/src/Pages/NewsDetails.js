@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { EmailUser } from '../Helper/EmailUserProvider';
+import { RoleUser } from '../Helper/RoleUserProvider';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Appbar from '../Component/Appbar/Appbar.tsx';
@@ -37,6 +39,9 @@ const NewsDetails = () => {
 
   const { id } = useParams();
 
+  const { emailLog, setEmailLog } = useContext(EmailUser);
+  const { roleUser, setRoleUser } = useContext(RoleUser);
+
   const [ newsDetails, setNewsDetails ] = useState([]);
   const { isLoading, setIsLoading } = useState(false);
   const [ isVisible, setIsVisible ] = useState(false);
@@ -71,10 +76,10 @@ const NewsDetails = () => {
 
     const formData = new FormData();
       
-      formData.append('Title', title);
-      formData.append('Content', message);
+      formData.append('Title', newsDetails.Title);
+      formData.append('Content', newsDetails.Content);
     
-      await fetch(`https://bsi-portal-service-production.up.railway.app/news/details/${newsDetails._id}/update`, {
+      await fetch(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/update`, {
         method: 'PUT',
         body: formData,
       })
@@ -85,9 +90,9 @@ const NewsDetails = () => {
   }
 
   const deleteNews = async () => {
-    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/news/details/${newsDetails._id}/delete`);
+    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/delete`);
+    setTimeout(() => navigate("/news"), 1000);
   }
-
 
   useEffect(() => {
     const cancelToken = Axios.CancelToken.source();
@@ -134,7 +139,7 @@ const NewsDetails = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3}>
+            <Button type='submit' colorScheme='blue' mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>
@@ -151,7 +156,7 @@ const NewsDetails = () => {
     <Container ml="-15px">
       <Flex justifyContent="space-evenly">
           <Button onClick={onOpen}>Update</Button>
-          <Button onClick={deleteNews()}>Delete</Button>
+          <Button onClick={deleteNews}>Delete</Button>
       </Flex>
 
       <Flex>

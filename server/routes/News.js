@@ -46,7 +46,7 @@ const getNewsById = async (req, res) => {
 }
 
 const updateNewsById = async (req, res) => {
-  const Id = req.body.id;
+  const Id = req.params.id;
 
   try {
     const updateNews = await NewsModel.findByIdAndUpdate({_id : Id}, {
