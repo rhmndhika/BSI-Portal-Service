@@ -62,7 +62,7 @@ export default function Appbar() {
       });
   }
 
-  const logout =  () => {
+  const logout = () => {
     Axios.get('https://bsi-portal-service-production.up.railway.app/logout').then(() => {
     })
     showToastSucces();
@@ -382,7 +382,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Live Chat',
         subLabel: 'Find your dream design job',
-        href: '#',
+        href: '/livechat',
       },
       {
         label: 'Social Media',

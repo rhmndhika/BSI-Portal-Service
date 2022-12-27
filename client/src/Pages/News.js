@@ -5,15 +5,6 @@ import Axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import {
-    Box,
-    Heading,
-    Container,
-    Text,
-    Button,
-    Stack,
-    Icon,
-    useColorModeValue,
-    createIcon,
     Flex,
     Input
   } from '@chakra-ui/react';

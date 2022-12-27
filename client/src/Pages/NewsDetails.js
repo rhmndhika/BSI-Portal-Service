@@ -2,9 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Appbar from '../Component/Appbar/Appbar.tsx';
-import { Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import { 
+  Flex, 
+  Heading, 
+  Spinner, 
+  Text, 
+  Container,
+  Box,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  useDisclosure,
+  FormHelperText
+} from '@chakra-ui/react';
+import { ArrowUpIcon } from '@chakra-ui/icons';
 import moment from 'moment';
 import parse from 'html-react-parser';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const NewsDetails = () => {
 
@@ -16,6 +39,54 @@ const NewsDetails = () => {
 
   const [ newsDetails, setNewsDetails ] = useState([]);
   const { isLoading, setIsLoading } = useState(false);
+  const [ isVisible, setIsVisible ] = useState(false);
+  const [ title, setTitle ] = useState("");
+  const [ message, setMessage ] = useState("");
+  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 140) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const updateNews = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+      
+      formData.append('Title', title);
+      formData.append('Content', message);
+    
+      await fetch(`https://bsi-portal-service-production.up.railway.app/news/details/${newsDetails._id}/update`, {
+        method: 'PUT',
+        body: formData,
+      })
+      .then((res) => {
+        // setTimeout(() => window.location.reload(false), 1200);
+        console.log(formData)
+      })
+  }
+
+  const deleteNews = async () => {
+    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/news/details/${newsDetails._id}/delete`);
+  }
 
 
   useEffect(() => {
@@ -41,26 +112,94 @@ const NewsDetails = () => {
 
   return (
    <>
+   <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeOnOverlayClick={false}
+      >
+        <ModalOverlay />
+        <form onSubmit={updateNews}>
+        <ModalContent>
+          <ModalHeader>Update News</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>        
+            <FormControl isRequired>
+              <FormLabel>Title</FormLabel>
+              <Input value={newsDetails.Title} onChange={(e) => setNewsDetails({...newsDetails, Title : e.target.value})} />
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Content</FormLabel>
+              <ReactQuill theme="snow" value={newsDetails.Content} message={newsDetails.Content} onChange={(e) => setNewsDetails({...newsDetails, Content : e.target.value})} />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+        </form>
+    </Modal>
    <Appbar />
    {isLoading === false ? 
     <Spinner />
     :
+  <Container maxW='550px' height="110px" mt="50px">
    <Flex flexDirection="column" justifyContent="center" alignItems="center" marginBottom="20px">
-    <Flex width="620px" heigh="110px" border="1px solid" mt="50px">
-        <Heading>{newsDetails.Title}</Heading>
-    </Flex>
+    <Container ml="-15px">
+      <Flex justifyContent="space-evenly">
+          <Button onClick={onOpen}>Update</Button>
+          <Button onClick={deleteNews()}>Delete</Button>
+      </Flex>
 
-    <Flex width="620px" heigh="110px" border="1px solid" mt="10px">
-        <Text>{moment(newsDetails.createdAt).format("DD MMMM YYYY, h:mm:ss a")}, {newsDetails.Tags}</Text>
-    </Flex>
+      <Flex>
+          <Heading>{newsDetails.Title}</Heading>
+      </Flex>
 
-    <Flex flexDirection="column" width="620px" heigh="110px" border="1px solid" mt="80px" alignItems="flex-start">
-        <Text textAlign="justify" letterSpacing="1px" overflowWrap="break-word">
+      <Flex mt="10px">
+          <Text>{moment(newsDetails.createdAt).format("DD MMMM YYYY, h:mm:ss a")}</Text>
+      </Flex>
+
+      <Flex mt="10px">
+          <Text>{newsDetails.Tags}</Text>
+      </Flex>
+    </Container>
+
+    {/* {Object.entries(newsDetails.Tags).map((i, index) => {
+      return (
+        <p>{i}</p>
+      )
+    })} */}
+
+    <Flex flexDirection="column" alignItems="flex-start" mt="50px">
+      <Text textAlign="justify" letterSpacing="1px" overflowWrap="break-word">
         {parse(`${newsDetails.Content}`)}
-        </Text> 
+      </Text> 
     </Flex>
    </Flex>
-   }
+   <Flex border="1px solid" height="350px">
+
+   </Flex>
+  </Container>
+  }
+   {isVisible && (
+        <Box
+          onClick={scrollToTop}
+          position='fixed'
+          bottom='20px'
+          right={['16px', '84px']}
+          zIndex={3}>
+          <Button
+            size={'sm'}
+            rightIcon={<ArrowUpIcon />}
+            colorScheme='whatsapp'
+            variant='solid'>
+            Scroll To Top
+          </Button>
+        </Box>
+    )}
    </>
   )
 }

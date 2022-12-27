@@ -103,8 +103,9 @@ const SocialMedia = () => {
     const [ text, setText ] = useState("");
     const [ postID, setPostID ] = useState("");
     const [ isLiked, setIsLiked ] = useState(false);
-
-    const [value, setValue] = useState('');
+    const [ value, setValue ] = useState('');
+    const [ isSaving, setIsSaving ] = useState(false);
+    const [ isSavingProfile, setIsSavingProfile ] = useState(false);
   
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { 
@@ -168,11 +169,12 @@ const SocialMedia = () => {
         formData.append('Username', emailLog);
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
-
+        
         await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/create", {
             method: 'POST',
             body: formData,
         }).then((response) => {
+            setIsSavingProfile(true);
             setTimeout(() => window.location.reload(false), 1000);
         })
     }
@@ -187,12 +189,17 @@ const SocialMedia = () => {
         formData.append('Documents', postSosmed.documents);
         formData.append('Author', profileUser._id);
 
-        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
-            method: 'POST',
+        if (value === "") {
+          alert("Please input the content")
+        } else { 
+          await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
+            method : "POST",
             body: formData,
-        }).then((response) => {
+          }).then((response) => {
+            setIsSaving(true);
             setTimeout(() => window.location.reload(false), 1000);
-        })
+          })
+        }
     }
 
     const getAllPost = () => {
@@ -326,7 +333,7 @@ const SocialMedia = () => {
               <Input value={profileUser._id} disabled />
             </FormControl>
 
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>Content</FormLabel>
               <ReactQuill theme="snow" value={value} onChange={setValue} />
               <FormHelperText><i>*Please add http:// or https:// if you want to input a link</i></FormHelperText>
@@ -341,9 +348,22 @@ const SocialMedia = () => {
           </ModalBody>
 
           <ModalFooter>
+          {isSaving === true ? 
+            <Button
+            isLoading
+            loadingText='Saving'
+            colorScheme='blue'  
+            variant='outline'
+            spinnerPlacement='start'
+            mr="10px"
+            >
+            Saving 
+            </Button>
+          :
             <Button type='submit' colorScheme='blue' mr={3}>
               Save
             </Button>
+          }
             <Button onClick={onClosePostModal}>Cancel</Button>
           </ModalFooter>
           </form>
@@ -363,7 +383,7 @@ const SocialMedia = () => {
         <ModalContent>
           <ModalHeader>Create your Profile</ModalHeader>
           <ModalCloseButton />
-          <form method='POST' onSubmit={createProfile}>
+          <form onSubmit={createProfile}>
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Full Name</FormLabel>
@@ -393,9 +413,22 @@ const SocialMedia = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
+          { isSavingProfile === false ? 
             <Button type='submit' colorScheme='blue' mr={3}>
               Save
             </Button>
+          :
+            <Button
+              isLoading
+              loadingText='Saving'
+              colorScheme='blue'
+              variant='outline'
+              spinnerPlacement='start'
+              mr="10px"
+            >
+              Saving
+            </Button>
+          }
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
           </form>

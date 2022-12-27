@@ -40,6 +40,7 @@ const Admin = () => {
   const [ input, setInput ] = useState('');
   const [ tags, setTags ] = useState([]);
   const [ isKeyReleased, setIsKeyReleased ] = useState(false);
+  const [ isSaving, setIsSaving ] = useState(false);
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -99,7 +100,8 @@ const Admin = () => {
      
     // })
     try {
-      Axios.post("https://bsi-portal-service-production.up.railway.app/news/createNews", {
+      setIsSaving(true);
+      await Axios.post("https://bsi-portal-service-production.up.railway.app/news/createNews", {
         Email : emailLog,
         Username : username,
         Title : title,
@@ -109,6 +111,12 @@ const Admin = () => {
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const logout = () => {
+    Axios.get('https://bsi-portal-service-production.up.railway.app/logout').then(() => {
+    })
+    window.location.assign("http://localhost:3000")
   }
 
   useEffect(() => {
@@ -129,6 +137,8 @@ const Admin = () => {
 
   return (
   <>
+  {roleUser !== "Admin" ? <div>NOT ADMIN!!!</div> : 
+  <div>
   <Appbar />
   <Modal
     initialFocusRef={initialRef}
@@ -139,15 +149,15 @@ const Admin = () => {
       <ModalContent>
         <ModalHeader>Create News / Announcement</ModalHeader>
         <ModalCloseButton />
-  <form method='POST' onSubmit={submitNews}>
+  <form onSubmit={submitNews}>
       <ModalBody pb={6}>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Title</FormLabel>
           <Input ref={initialRef} value={title} placeholder='Title' onChange={(e) => setTitle(e.target.value)} />
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Title</FormLabel>
+        <FormControl isRequired>
+          <FormLabel>Username</FormLabel>
           <Input value={username} placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
         </FormControl>
 
@@ -168,27 +178,42 @@ const Admin = () => {
           <FormHelperText><i>Input your tag by pressing enter key. max 4</i></FormHelperText>
         </FormControl>
 
-        <FormControl mt={4}>
+        <FormControl mt={4} isRequired>
           <FormLabel>Content</FormLabel>
           <ReactQuill theme="snow" message={message} onChange={setMessage} />
         </FormControl>
       </ModalBody>
 
       <ModalFooter>
+      { isSaving === false ? 
         <Button type="submit" colorScheme='blue' mr={3}>
           Save
         </Button>
+      :
+        <Button
+          isLoading
+          loadingText='Saving'
+          colorScheme='blue'
+          variant='outline'
+          spinnerPlacement='start'
+          mr="10px"
+        >
+          Saving
+        </Button>
+      }
         <Button onClick={() => {
           onClose()
           setMessage("")
         }}>Cancel</Button>
       </ModalFooter>
-      </form>
+  </form>
       </ModalContent>
   </Modal>  
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
       <Button mt="300px" onClick={onOpen}>Create News</Button>
     </Flex>
+    </div>
+    }
   </>
   )
 }

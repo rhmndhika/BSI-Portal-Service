@@ -45,8 +45,40 @@ const getNewsById = async (req, res) => {
   }
 }
 
+const updateNewsById = async (req, res) => {
+  const Id = req.body.id;
+
+  try {
+    const updateNews = await NewsModel.findByIdAndUpdate({_id : Id}, {
+      Title : req.body.Title,
+      Tags : req.body.Tags,
+      Content : req.body.Content,
+    })
+      return res.send(updateNews)
+  } catch (err) {
+    return res.status(500).send({
+      message: err.message
+    })
+  }
+}
+
+const deleteNewsById = async (req, res) => {
+  const Id = req.params.id;
+
+  try {
+    const deleteNews = await NewsModel.findByIdAndDelete({_id : Id});
+    return res.send(deleteNews);
+  } catch (err) {
+    return res.status(500).send({
+      message: err.message
+    })
+  }
+}
+
 router.post("/news/createNews", createNews);
 router.get("/news/allNews", getAllNews);
 router.get("/news/details/:id", getNewsById);
+router.put("/news/details/:id/update", updateNewsById);
+router.delete("/news/details/:id/delete", deleteNewsById);
 
 module.exports = router

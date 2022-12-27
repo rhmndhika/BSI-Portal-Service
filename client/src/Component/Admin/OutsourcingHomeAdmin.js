@@ -104,7 +104,6 @@ const OutsourcingHomeAdmin = () => {
    }, [])
 
   return (
-    <>
      <div>
         <ToastContainer />
         <Appbar />
@@ -225,7 +224,6 @@ const OutsourcingHomeAdmin = () => {
           }
         </div>
     </div>
-    </>
   )
 }
 

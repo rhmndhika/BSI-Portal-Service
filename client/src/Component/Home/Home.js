@@ -1,5 +1,5 @@
 import React,{ useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
 import Axios from 'axios';
@@ -127,24 +127,21 @@ const Home = () => {
     :
     null
     } */}
-    <a
+    <Link to="/livechat">
+     <IconButton
       className="whatsapp_float"
       rel="noopener noreferrer"
-      onClick={openChat}
-      href="/livechat"
-    >
-     <IconButton
       colorScheme='blue'
       aria-label='Search database'
       isRound={true}
       size="lg"
+      onClick={openChat}
       icon={<BsChatDots />}
       />
-    </a>
+    </Link>
     <div className='wrapperHome'>
       {cardItem.map((i, index) => {
         return (
-        <div key={index}>
           <Flex
             data-aos="fade-up"
             borderRadius='20px'
@@ -158,7 +155,7 @@ const Home = () => {
             w={{ base: "315px", md: "315px" }}
             alignItems='center'
             flexDirection="column"
-            key={index}
+            key={i._id}
             >
             <a href={i.hrefUrl}>
             <Image
@@ -179,7 +176,6 @@ const Home = () => {
               {i.title}
             </Text>
             </Flex>
-            </div>  
     )})}
     </div>
     <div style={{marginTop : "30px", height : "100px"}}></div>
