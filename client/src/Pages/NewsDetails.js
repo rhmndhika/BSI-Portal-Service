@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
 import { RoleUser } from '../Helper/RoleUserProvider';
 import Axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Appbar from '../Component/Appbar/Appbar.tsx';
 import { 
   Flex, 
@@ -23,13 +23,16 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-  FormHelperText
+  FormHelperText,
+  IconButton
 } from '@chakra-ui/react';
-import { ArrowUpIcon } from '@chakra-ui/icons';
+import { ArrowUpIcon, CheckIcon, EditIcon, EmailIcon } from '@chakra-ui/icons';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import "../Component/Home/Home.css"
+import { BsChatDots } from 'react-icons/bs';
 
 const NewsDetails = () => {
 
@@ -45,21 +48,29 @@ const NewsDetails = () => {
   const [ newsDetails, setNewsDetails ] = useState([]);
   const { isLoading, setIsLoading } = useState(false);
   const [ isVisible, setIsVisible ] = useState(false);
-  const [ title, setTitle ] = useState("");
-  const [ message, setMessage ] = useState("");
+  const [ isUpdating, setIsUpdating ] = useState(false);
   
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'     
     });
   };
 
+  const handleQuillEdit = (value) => {
+    setNewsDetails((prev) => {
+      return {
+        ...prev,
+        Content: value
+      }
+    })
+  }
+
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 140) {
+      if (window.pageYOffset > 540) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -73,20 +84,17 @@ const NewsDetails = () => {
 
   const updateNews = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-      
-      formData.append('Title', newsDetails.Title);
-      formData.append('Content', newsDetails.Content);
     
-      await fetch(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/update`, {
-        method: 'PUT',
-        body: formData,
+    try {
+      await Axios.put(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/update`, {
+        Title : newsDetails.Title,
+        Content : newsDetails.Content
       })
-      .then((res) => {
-        // setTimeout(() => window.location.reload(false), 1200);
-        console.log(formData)
-      })
+      setIsUpdating(true);
+      setTimeout(() => onClose(), 1200);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const deleteNews = async () => {
@@ -117,6 +125,16 @@ const NewsDetails = () => {
 
   return (
    <>
+    <IconButton
+      className="whatsapp_float"
+      rel="noopener noreferrer"
+      colorScheme='teal'
+      aria-label='Search database'
+      isRound={true}
+      size="lg"
+      onClick={onOpen}
+      icon={<EditIcon />}
+      />
    <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -134,14 +152,27 @@ const NewsDetails = () => {
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Content</FormLabel>
-              <ReactQuill theme="snow" value={newsDetails.Content} message={newsDetails.Content} onChange={(e) => setNewsDetails({...newsDetails, Content : e.target.value})} />
+              <ReactQuill theme="snow" value={newsDetails.Content} onChange={ handleQuillEdit } />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
+          { isUpdating === false ? 
             <Button type='submit' colorScheme='blue' mr={3}>
-              Save
+              Update
             </Button>
+          :
+            <Button
+            isLoading
+            loadingText='Updating'
+            colorScheme='blue'
+            variant='outline'
+            spinnerPlacement='start'
+            mr="10px"
+            >
+              Updating
+            </Button>
+          }
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
@@ -151,13 +182,16 @@ const NewsDetails = () => {
    {isLoading === false ? 
     <Spinner />
     :
-  <Container maxW='550px' height="110px" mt="50px">
+  <Container maxW='550px' maxH="full" mt="50px">
    <Flex flexDirection="column" justifyContent="center" alignItems="center" marginBottom="20px">
     <Container ml="-15px">
+      { roleUser === "Admin" ? 
       <Flex justifyContent="space-evenly">
-          <Button onClick={onOpen}>Update</Button>
           <Button onClick={deleteNews}>Delete</Button>
       </Flex>
+      :
+      null
+      }
 
       <Flex>
           <Heading>{newsDetails.Title}</Heading>
@@ -168,7 +202,7 @@ const NewsDetails = () => {
       </Flex>
 
       <Flex mt="10px">
-          <Text>{newsDetails.Tags}</Text>
+          <Text>Tags : {newsDetails.Tags}</Text>
       </Flex>
     </Container>
 
@@ -184,26 +218,36 @@ const NewsDetails = () => {
       </Text> 
     </Flex>
    </Flex>
-   <Flex border="1px solid" height="350px">
-
+   <Flex flexDirection="row" justifyContent="space-between" alignItems="center" border="1px solid" height="50px" background="gray.100">
+      <Flex justifyContent="center" alignItems="center" gap="20px" ml="5px">
+        <Text fontSize="sm">If you have any questions, please contact me.</Text>
+      </Flex>
+      <Flex gap="15px" mr="5px">
+        <Button width="90px" size='sm' colorScheme="teal" leftIcon={<CheckIcon />}>Cooffe</Button>
+        <Link to="/contact">
+            <Button width="90px" size='sm' colorScheme="teal" leftIcon={<EmailIcon />}>Contact</Button>
+        </Link>
+      </Flex>
    </Flex>
   </Container>
   }
    {isVisible && (
-        <Box
-          onClick={scrollToTop}
-          position='fixed'
-          bottom='20px'
-          right={['16px', '84px']}
-          zIndex={3}>
-          <Button
-            size={'sm'}
-            rightIcon={<ArrowUpIcon />}
-            colorScheme='whatsapp'
-            variant='solid'>
-            Scroll To Top
-          </Button>
-        </Box>
+         <IconButton
+         onClick={scrollToTop}
+         className="edit_float"
+         position='fixed'
+         bottom='110px'
+         right={['16px', '40px']}
+         width="60px"
+         height="60px"
+         zIndex={3}
+         rel="noopener noreferrer"
+         colorScheme='teal'
+         aria-label='scroll up'
+         isRound={true}
+         size="lg"
+         icon={<ArrowUpIcon />}
+         />
     )}
    </>
   )

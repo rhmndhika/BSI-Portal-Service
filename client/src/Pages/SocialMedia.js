@@ -528,7 +528,7 @@ const SocialMedia = () => {
                 </CardBody>
                 </Card>
                 </Flex>
-
+            { profileUser ? 
             <Button 
                 marginTop="20px"
                 size="md"
@@ -538,6 +538,11 @@ const SocialMedia = () => {
             >
             Create Post
             </Button>
+            :
+            <Flex>
+              <Text>Create profile first</Text>
+            </Flex>
+            }
             </Flex>
             
             {/* Card Post Social Media */}
@@ -649,7 +654,7 @@ const SocialMedia = () => {
               </InputGroup>
               { isLoading === false ? 
                     <>
-                    {profileUser.length <= 0 ? <Button onClick={onOpen} mt="10px" mr="20px">New</Button> : 
+                    {profileUser.length <= 0 ? <Button borderRadius="30px" onClick={onOpen} mt="10px" mr="20px">New</Button> : 
                     <Menu>
                     <MenuButton
                       as={Button}
@@ -679,7 +684,7 @@ const SocialMedia = () => {
                     }
                     </>
                     :
-                        <Spinner mt="20px" ml="20px" />
+                        <Spinner mt="20px" ml="70px" />
                     }
             </Flex>
 

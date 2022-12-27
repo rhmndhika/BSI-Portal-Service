@@ -44,6 +44,7 @@ const SosmedProfile = lazy(() => import("./Component/SocialMedia/ProfileDetails"
 const AdminDashboard = lazy(() => import("./Component/Admin/Admin"));
 const News = lazy(() => import("./Pages/News"));
 const NewsDetails = lazy(() => import("./Pages/NewsDetails"));
+const Contact = lazy(() => import("./Component/Contact/Contact"));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -94,6 +95,7 @@ root.render(
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/news' element={<News />} />
         <Route path='/news/details/:id' element={<NewsDetails />} />
+        <Route path='/contact' element={<Contact />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>
