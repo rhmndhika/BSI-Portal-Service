@@ -50,6 +50,24 @@ const ProfileDetails = () => {
   const [ isLoading, setIsLoading ] = useState(true);
   const [ currentID, setCurrentID ] = useState("");
 
+
+  const deleteProfile = async () => {
+    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}/delete`).then(() => {
+      setTimeout(() => navigate("/socialmedia/home", { replace : true}), 1000)
+    })
+  }
+
+  const getYourPost = async () => {
+    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
+      setPostLists(response.data);
+      setIsLoading(false);
+    })
+  }
+
+  useEffect(() => {
+    getYourPost();
+  }, [])
+
   useEffect(() => {
     async function userExpire2 () {
       const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
@@ -66,32 +84,25 @@ const ProfileDetails = () => {
     userExpire2();
    }, [emailLog])
 
-  const getProfileDetails = () => {
-    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}`).then((response) => {
+  useEffect(() => {
+    const cancelToken = Axios.CancelToken.source();
+
+    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}`, {
+      cancelToken : cancelToken.token,
+    }).then((response) => {
       setProfileDetails(response.data);
-    })
-  }
+    }).catch((err) => {
+      if (Axios.isCancel(err)){
+        console.log("canceled");
+      } else {
+        console.log("not canceled")
+      }
+    });
 
-  const deleteProfile = async () => {
-    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}/delete`).then(() => {
-      setTimeout(() => navigate("/socialmedia/home", { replace : true}), 1000)
-    })
-  }
-
-  const getYourPost = async () => {
-    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
-      setPostLists(response.data);
-      setIsLoading(false);
-    })
-  }
-
-  useEffect(() => {
-    getProfileDetails();
-  }, [id])
-
-  useEffect(() => {
-    getYourPost();
-  }, [])
+    return () => {
+      cancelToken.cancel();
+    }   
+   }, [id])
 
   return (
     <>
@@ -114,8 +125,8 @@ const ProfileDetails = () => {
             <Flex flexDirection="column" justifyContent="center" alignItems="center" width="430px">
                 { postLists.length <= 0 ? null : postLists.filter(i => i.Author._id === id).map((i, index) => {
                 return (
-                <Flex marginTop="15px" key={index}>
-                    <Card shadow="lg" padding="10px">
+                <Flex marginTop="15px">
+                    <Card shadow="lg" padding="10px" key={i._id}>
                     <CardHeader>
                         <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>

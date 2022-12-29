@@ -12,7 +12,7 @@ import {
   IconButton
 } from "@chakra-ui/react";
 import './Home.css';
-import Carousel from '../Header/Carousel.tsx';
+import Carousel from '../Header/Carousel';
 import {BsChatDots} from 'react-icons/bs';
 import Footer from '../Footer/Footer.tsx';
 import AOS from 'aos';
@@ -140,7 +140,7 @@ const Home = () => {
       />
     </Link>
     <div className='wrapperHome'>
-      {cardItem.map((i, index) => {
+      {cardItem.map((i) => {
         return (
           <Flex
             data-aos="fade-up"

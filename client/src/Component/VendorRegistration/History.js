@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 
 
 
@@ -127,18 +127,18 @@ const History = () => {
             <>
           <Tbody>
           <Tr key={index}>
-                    <Td key="table2">{i._id}</Td>
-                    <Td key="table3">{i.email}</Td>
-                    <Td key="table3">{i.CompanyName}</Td>
-                    <Td key="table4">{moment(i.createdAt).format("DD MMMM YYYY")}</Td>
+                    <Td key={i._id}>{i._id}</Td>
+                    <Td key={i._id}>{i.email}</Td>
+                    <Td key={i._id}>{i.CompanyName}</Td>
+                    <Td key={i._id}>{moment(i.createdAt).format("DD MMMM YYYY")}</Td>
                     {i.status ? 
                         <>
                         {i.status === "Approved" ?
-                          <Td key="table6" >
+                          <Td key={i._id} >
                             {i.status}
                           </Td>
                         :
-                          <Td key="table7" >
+                          <Td key={i._id} >
                             {i.status}
                            </Td>
                         }
@@ -146,11 +146,11 @@ const History = () => {
                         :
                         <>
                         {!i.submitted  ? 
-                        <Td key="table8" >
+                        <Td key={i._id} >
                           Draft
                         </Td>
                         :
-                        <Td key="table9" >
+                        <Td key={i._id} >
                           {i.submitted}
                         </Td>
                         }

@@ -60,7 +60,7 @@ const OutsourcingHomeAdmin = () => {
       credentials: 'same-origin'    // or credentials: 'include'  
     }
   
-  fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle('TestInvoiceGateway')/items", payload)
+  fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle({i._id}voiceGateway')/items", payload)
       .then(response => {
         console.log(response);
       }
@@ -158,11 +158,11 @@ const OutsourcingHomeAdmin = () => {
             return(
               <Tbody key={index}>
                 <Tr>
-                  <Td key="Test1">{i.Email}</Td>
-                  <Td key="Test2">{i.Name}</Td>
-                  <Td key="Test3">{i.IDLink}</Td>
-                  <Td key="Test4">{i.Supplier}</Td>
-                  {/* <Td key="Test8">
+                  <Td key={i._id}>{i.Email}</Td>
+                  <Td key={i._id}>{i.Name}</Td>
+                  <Td key={i._id}>{i.IDLink}</Td>
+                  <Td key={i._id}>{i.Supplier}</Td>
+                  {/* <Td key={i._id}>
                   <Popover
                     initialFocusRef={initialFocusRef}
                     placement='bottom'
@@ -192,7 +192,7 @@ const OutsourcingHomeAdmin = () => {
                     </a>
                   </Td>
                   {i.status === "" || i.status == null ?
-                  <Td key="Test4">None</Td>
+                  <Td key={i._id}>None</Td>
                   :
                   <Td key="Tes5">{i.status}</Td>
                   }

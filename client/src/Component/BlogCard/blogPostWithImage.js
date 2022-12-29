@@ -85,6 +85,7 @@ const BlogPostWithImage = (props) => {
               fontWeight={500}
               fontSize={'sm'}
               letterSpacing={1.1}
+              key={x._id}
               >
               {x}
             </Tag>

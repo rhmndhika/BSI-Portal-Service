@@ -49,7 +49,9 @@ import {
     MenuList,
     MenuItem,
     MenuDivider,
-    Center
+    Center,
+    AvatarGroup,
+    Tooltip
 } from '@chakra-ui/react';
 import { 
   Card, 
@@ -58,6 +60,7 @@ import {
   CardFooter 
 } from '@chakra-ui/card'
 import { 
+  AddIcon,
   DeleteIcon,
   EditIcon,
   SearchIcon
@@ -98,11 +101,9 @@ const SocialMedia = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentID, setCurrentID ] = useState("");
     const [ search, setSearch ] = useState("");
-    const [ liked, setLiked ] = useState(false);
     const [ likeCount, setLikeCount ] = useState([]);
     const [ text, setText ] = useState("");
     const [ postID, setPostID ] = useState("");
-    const [ isLiked, setIsLiked ] = useState(false);
     const [ value, setValue ] = useState('');
     const [ isSaving, setIsSaving ] = useState(false);
     const [ isSavingProfile, setIsSavingProfile ] = useState(false);
@@ -261,8 +262,6 @@ const SocialMedia = () => {
         Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${postID}/comment` , {
           Text : text,
           PostedBy : profileUser._id
-          }).then((response)=> {
-            alert("Submitted")
           })
       } else {
         alert("Cannot be Empty")
@@ -437,16 +436,22 @@ const SocialMedia = () => {
     <>  
 
     {/* Modal Create Comment */}
-    {postList.map((i, index) => {
-      return (
-    <Modal closeOnOverlayClick={false}  isOpen={isOpenCommentDialog} onClose={onCloseCommentDialog}>
+    {postList.map((i, index) => (
+    <Modal closeOnOverlayClick={false}  isOpen={isOpenCommentDialog} onClose={onCloseCommentDialog} key={i._id}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Comments</ModalHeader>
           <ModalCloseButton />
           <form onSubmit={submitComment}>
           <ModalBody>
-            <Input type="text" value={text} placeholder='Comment Here' onChange={(e) => setText(e.target.value)}  />
+            {i.Comments.map((x) => (
+              <Flex flexDirection="row" mt="5px">
+                <Text key={x._id} paddingLeft="10px">{x.PostedBy} : </Text>
+                <Text key={x._id} paddingLeft="10px">{x.Text}</Text>
+              </Flex> 
+            )
+            )}
+            <Input type="text" value={text} placeholder='Comment Here' mt="10px" onChange={(e) => setText(e.target.value)}  />
             <Input type="text" defaultValue={profileUser._id} display="none" disabled />
           </ModalBody>
 
@@ -460,24 +465,69 @@ const SocialMedia = () => {
         </ModalContent>
       </Modal>
       )
-    })}
+    )}
 
        {/* Header for Mobile Version */}
         <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
-                <Flex alignItems="center">
-                <InputGroup>
-                    <InputLeftElement
-                    pointerEvents='none'
-                    children={<SearchIcon color='gray.300' />}
-                    />
-                    <Input width="300px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
-                </InputGroup>
-                </Flex>
+              <Flex width="320px" height="60px" borderRadius="40px" shadow="base">
+              <InputGroup margin="10px">
+              <InputLeftElement
+              pointerEvents='none'
+              children={<SearchIcon color='black.300' />}/>
+              <Input backgroundColor="gray.100" textColor="black.300" borderRadius="50px" width="180px" type='text' placeholder='Search....'  onChange={(e) => setSearch(e.target.value)} />
+              </InputGroup>
+                    {profileUser.length <= 0 ? <Button borderRadius="30px" onClick={onOpen} mt="10px" mr="20px">New</Button> : 
+                    <Flex gap="-10px" justifyContent="center">
+                    { profileUser ? 
+                    <IconButton 
+                      variant="outline"
+                      colorScheme="black.100"
+                      aria-label="create post"
+                      rounded="full"  
+                      mt="10px"
+                      icon={<AddIcon />}
+                      onClick={onOpenPostModal}/>
+                    :
+                    null
+                    }
+                    <Menu>
+                    <MenuButton
+                      as={Button}
+                      rounded={'full'}
+                      variant={'link'}
+                      cursor={'pointer'}
+                      mr={'15px'}
+                      minW={0}>
+                    <Avatar size='md' name={profileUser.FullName} margin="5px" crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
+                    </MenuButton>
+                    <MenuList alignItems={'center'} borderRadius="20px">
+                      <br />
+                      <Center>
+                        <Flex flexDirection="column" >
+                          <Flex>
+                            <Text>👋Hey, {profileUser.FullName}</Text>
+                          </Flex>
+                        </Flex>
+                      </Center>
+                      <br />
+                      <MenuDivider />
+                      <a href={`/socialmedia/profile/${profileUser._id}`}>
+                      <MenuItem>Profile Settings</MenuItem>
+                      </a>
+                    </MenuList>
+                    </Menu>
+                    </Flex>
+                    }
+              </Flex>
             </Flex>
+            {/* { profileUser ? 
             <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
               <Button  onClick={onOpenPostModal} width={120}>Create Post</Button>
             </Flex>
+            :
+            null
+            } */}
         </Flex>
         
 
@@ -485,26 +535,7 @@ const SocialMedia = () => {
         <Flex className='flexContainerSM' flexDirection="row" justifyContent="space-between" alignItems="flex-start" padding="30px">
         {/* Profile Component */}
             <Flex className='flex-item-1' flexDirection="column" justifyContent="center" alignItems="center">
-                {/* <Flex flexDirection="column" justifyContent="center" alignItems="center" border="1px solid" width="280px" height="320px">
-                    { isLoading === false ? 
-                    <>
-                    {profileUser.length <= 0 ? <Button onClick={onOpen}>Create Profile</Button> : 
-                        <Flex flexDirection="column" justifyContent="center" alignItems="center" >
-                          <Link to={`/socialmedia/profile/${profileUser._id}`}>
-                            <Flex justifyContent="center" alignItems="flex-start" width="300px">
-                                <Avatar size='2xl' name={profileUser.FullName}  crossOrigin="anonymous" src={profileUser.ProfilePicture} />{' '}
-                            </Flex>
-                          </Link>
-                            <Text>@{profileUser.FullName}</Text>
-                            <Text>{profileUser.Username}</Text>
-                        </Flex>
-                    }
-                    </>
-                    :
-                        <Spinner />
-                    }
-                </Flex> */}
-                   
+                       
                 <Flex width="280px" height="150px" padding="10px" marginTop="25px" border="1px solid">
                 <Card width="320px" marginTop="10px">
                 <CardBody>
@@ -528,21 +559,20 @@ const SocialMedia = () => {
                 </CardBody>
                 </Card>
                 </Flex>
-            { profileUser ? 
-            <Button 
-                marginTop="20px"
-                size="md"
-                width="full"
-                colorScheme="facebook"
-                onClick={onOpenPostModal}
-            >
-            Create Post
-            </Button>
-            :
-            <Flex>
-              <Text>Create profile first</Text>
-            </Flex>
-            }
+                { profileUser ? 
+                <Button 
+                  marginTop="20px"
+                  size="md"
+                  width="full"
+                  colorScheme="facebook"
+                  onClick={onOpenPostModal}>
+                Create Post
+                </Button>
+                :
+                <Flex>
+                  <Text>Create profile first</Text>
+                </Flex>
+                }
             </Flex>
             
             {/* Card Post Social Media */}
@@ -552,8 +582,8 @@ const SocialMedia = () => {
                 i.Author.FullName.toLowerCase().includes(search) 
                 ).map((i, index) => {
                 return (
-                <Flex marginTop="15px" key={index}>
-                    <Card shadow="lg" padding="10px" borderRadius="25px">
+                <Flex marginTop="15px">
+                    <Card shadow="lg" padding="10px" borderRadius="25px" key={i._id}>
                     <CardHeader>
                         <Flex spacing='4' borderRadius="20px">
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -625,7 +655,18 @@ const SocialMedia = () => {
                       {i.Likes._id === profileUser._id ?
                         <Button key={index} flex='1' variant='ghost' rightIcon={<AiFillLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => UnlikePost(i._id)}>Liked</Button>
                         :
+                        <>
                         <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`} onClick={() => LikePost(i._id)}>Like</Button>
+                        <AvatarGroup size='sm' max={3}>
+                        {i.Likes.map((x) => {
+                          return (
+                            <Tooltip label={x.FullName}>
+                              <Avatar key={x._id} size="sm" name={x.FullName} src={x.ProfilePicture} cursor="pointer" />
+                            </Tooltip>
+                            )
+                          })}
+                        </AvatarGroup>  
+                        </>
                       }
                       <Button flex='1' variant='ghost' leftIcon={<BsChat />} onClick={() => {
                         setPostID(i._id);
@@ -696,7 +737,7 @@ const SocialMedia = () => {
                       return (
                       <>
                       {i.Username !== emailLog ? 
-                      <Flex flexDirection="row" justifyContent="space-evenly" width="300px" alignItems="center" marginTop="10px" key={index}>
+                      <Flex flexDirection="row" justifyContent="space-evenly" width="300px" alignItems="center" marginTop="10px" key={i._id}>
                           <Avatar size="sm" name={i.Username} src={i.ProfilePicture} />
                           <Flex flexDirection="column">
                             <Text width="130px">{i.FullName}</Text>
@@ -723,7 +764,7 @@ const SocialMedia = () => {
                     { postList.length <= 0 ? null : postList.slice(0,5).filter(e => e.Likes.length > 5).map((i, index) => {
                     return (
                     <Flex margin="15px">
-                        <Card shadow="sm" padding="20px" width="250px">
+                        <Card shadow="sm" padding="20px" width="250px" key={i._id}>
                         <CardHeader>
                             <Flex spacing='4'>
                             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -746,7 +787,7 @@ const SocialMedia = () => {
                           flexWrap='wrap'
                         >
                         { i.Likes?.length  ?
-                        <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`}>Like</Button>
+                          <Button key={index} flex='1' variant='ghost' rightIcon={<AiOutlineLike />} leftIcon={`${Object.keys(i.Likes).length}`}>Like</Button>
                         :
                         null
                         }

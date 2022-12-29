@@ -142,7 +142,7 @@ const Admin = () => {
         <FormControl mt={4}>
           <FormLabel>Tags</FormLabel>
           {tags.map((tag, index) => (
-            <div className="tag">
+            <div className="tag" key={index}>
               {tag}
               <button onClick={() => deleteTag(index)}>x</button>
             </div>

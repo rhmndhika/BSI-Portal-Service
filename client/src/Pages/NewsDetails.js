@@ -49,6 +49,7 @@ const NewsDetails = () => {
   const { isLoading, setIsLoading } = useState(false);
   const [ isVisible, setIsVisible ] = useState(false);
   const [ isUpdating, setIsUpdating ] = useState(false);
+  const [ isTrue, setIsTrue ] = useState(false);
   
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -132,7 +133,10 @@ const NewsDetails = () => {
       aria-label='Search database'
       isRound={true}
       size="lg"
-      onClick={onOpen}
+      onClick={() => {
+        onOpen()
+        setIsTrue(true)
+      }}
       icon={<EditIcon />}
       />
    <Modal
@@ -185,7 +189,7 @@ const NewsDetails = () => {
   <Container maxW='550px' maxH="full" mt="50px">
    <Flex flexDirection="column" justifyContent="center" alignItems="center" marginBottom="20px">
     <Container ml="-15px">
-      { roleUser === "Admin" ? 
+      { roleUser === "Admin" && isTrue === true? 
       <Flex justifyContent="space-evenly">
           <Button onClick={deleteNews}>Delete</Button>
       </Flex>

@@ -174,10 +174,10 @@ const LiveChat = () => {
           </Flex>
           <Flex justifyContent={"center"} alignItems={"center"}>
           <ul style={{listStyle : "none"}}>
-            {users.map((user) => {
+            {users.map((user, index) => {
               return (
                 <>
-                <Flex justifyContent="center" alignItems="center">
+                <Flex justifyContent="center" alignItems="center" key={index}>
                 { user === emailLog ?
                   <li style={{cursor : "pointer"}} key={user} onClick={enteringRoom}>
                     {user}(you)
@@ -236,7 +236,7 @@ const LiveChat = () => {
               className="message"
               id={emailLog === messageContent.name ? "you" : emailLog !== messageContent.name ? "other" : null}
             >
-              <div>
+              <div key={index}>
                 <div className="message-content">
                   <span style={{color : messageContent.isPrivate ? "red" : "white"}}>
                       {messageContent.msg}

@@ -114,7 +114,7 @@ const PaygStatus = () => {
                 leastDestructiveRef={cancelRef}
                 onClose={onClose}>
                 <AlertDialogOverlay>
-                    <AlertDialogContent>
+                    <AlertDialogContent key={index}>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                         Delete Customer
                         </AlertDialogHeader>
