@@ -62,13 +62,14 @@ const Register = () => {
   const register = (e) => {
     e.preventDefault();
 
+    
      Axios.post("https://bsi-portal-service-production.up.railway.app/register" , {
         username : usernameReg,
         email: emailReg, 
         password: passwordReg
       }).catch((error) => {
         const showToastWarning = () => {
-          toast.warn(error.response.data.message, {
+          toast.warn("Error creating user because email is already existed", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -80,12 +81,14 @@ const Register = () => {
             });
         }
         if (error.response.status === 500) {
-          setMessageDuplicate(error.response.message);
+          setMessageDuplicate(error.response.data.error.message);
           showToastWarning();
-        }
+        } 
       })
-      showToastSucces();
-      setTimeout(() => navigate("/"), 2000);
+      if (messageDuplicate !== "") {
+        showToastSucces();
+        setTimeout(() => navigate("/"), 2000);
+      }
   }
 
   

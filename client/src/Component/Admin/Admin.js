@@ -22,7 +22,10 @@ import {
 } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import './Admin.css'
+import './Admin.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from '@emotion/react';
 
 const Admin = () => {
 
@@ -91,10 +94,35 @@ const Admin = () => {
         Title : title,
         Tags : tags,
         Content : message
+      }).then((response) => {
+        const showToastError = () => {
+          toast.error(response.data.errors.Title.message, {
+            className : css({
+              width: "600px",
+              background: "#00FF00 !important"
+            }),
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+            });
+        }
+        if (response.data.errors) {
+          // showToastError();
+          setIsSaving(false);
+          alert(response.data.errors.Title.message);
+        } else {
+          setTimeout(() => window.location.reload(false), 1000);
+        }
       })
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
+
   }
 
   useEffect(() => {
@@ -118,6 +146,7 @@ const Admin = () => {
   {roleUser !== "Admin" ? <div>NOT ADMIN!!!</div> : 
   <div>
   <Appbar />
+  <ToastContainer />
   <Modal
     initialFocusRef={initialRef}
     finalFocusRef={finalRef}
