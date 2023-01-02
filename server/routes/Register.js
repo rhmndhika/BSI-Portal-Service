@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const UserModel = require("../models/Users.js");
 
 const createUserAccount = (req, res) => {
-  const role = new RegExp('@bsi.co.id', 'gi').test(req.body.email) ? 'Admin' : 'User';
+  // const role = new RegExp('@bsi.co.id', 'gi').test(req.body.email) ? 'Admin' : 'User';
   
      bcrypt
       .hash(req.body.password, 10)
@@ -15,7 +15,7 @@ const createUserAccount = (req, res) => {
           username : req.body.username,
           email: req.body.email,
           password: hashedPassword,
-          role : role
+          role : "User"
         });
         // save the new user
         user

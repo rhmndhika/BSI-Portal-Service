@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import { Table, thead, tbody, tr, th, td } from 'react-super-responsive-table'
 
 
 
@@ -97,7 +97,7 @@ const History = () => {
           </Flex>
         </Flex>
         }
-        <Table>
+        <table className="table table-action">
           { dataVendorRegistration.length <= 0 ?
           <Flex flexDirection="column" justifyContent="center" alignItems="center" marginTop="85px" fontWeight="bold">
             <p>NO DATA AVAILABLE</p>
@@ -106,16 +106,17 @@ const History = () => {
             </Link>
           </Flex>
           :
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th >Email</Th>
-              <Th >Company Name</Th>
-              <Th >Created</Th>
-              <Th >Status</Th>
-              <Th >Action</Th>
-            </Tr>
-          </Thead>
+          <thead>
+            <tr>
+              <th className="t-small"></th>
+              <th className="t-medium">ID</th>
+              <th className="t-medium">Email</th>
+              <th className="t-medium">Company Name</th>
+              <th className="t-medium">Created</th>
+              <th className="t-medium">Status</th>
+              <th className="t-medium">Action</th>
+            </tr>
+          </thead>
           }
           {dataVendorRegistration.length <= 0 ? null : dataVendorRegistration.filter(
             i=> i._id.toLowerCase().includes(search) || 
@@ -125,50 +126,51 @@ const History = () => {
             ).map((i, index) => {
             return(
             <>
-          <Tbody>
-          <Tr key={index}>
-                    <Td key={i._id}>{i._id}</Td>
-                    <Td key={i._id}>{i.email}</Td>
-                    <Td key={i._id}>{i.CompanyName}</Td>
-                    <Td key={i._id}>{moment(i.createdAt).format("DD MMMM YYYY")}</Td>
+          <tbody>
+          <tr key={index}>
+                    <td key="table1"><label></label></td>
+                    <td key={i._id}>{i._id}</td>
+                    <td key={i._id}>{i.email}</td>
+                    <td key={i._id}>{i.CompanyName}</td>
+                    <td key={i._id}>{moment(i.createdAt).format("DD MMMM YYYY")}</td>
                     {i.status ? 
                         <>
                         {i.status === "Approved" ?
-                          <Td key={i._id} >
+                          <td key={i._id} >
                             {i.status}
-                          </Td>
+                          </td>
                         :
-                          <Td key={i._id} >
+                          <td key={i._id} >
                             {i.status}
-                           </Td>
+                           </td>
                         }
                         </>
                         :
                         <>
                         {!i.submitted  ? 
-                        <Td key={i._id} >
+                        <td key={i._id} >
                           Draft
-                        </Td>
+                        </td>
                         :
-                        <Td key={i._id} >
+                        <td key={i._id} >
                           {i.submitted}
-                        </Td>
+                        </td>
                         }
                         </>
                     }
-                    <Td>
+                    <td>
                         <Flex flexDirection="column" justifyContent="center" alignItems="center">
                             <Link to={`/registrationhistory/${i._id}`}>
                                 <Button width={100} marginTop={"5px"} marginBottom={"10px"}>Edit</Button>
                             </Link>
                                 <Button width={100} marginBottom={"5px"} onClick={() => deleteVendorRegistrationData(i._id)}>Delete</Button>
                         </Flex>
-                    </Td>
-                </Tr>
-          </Tbody>
+                    </td>
+                </tr>
+          </tbody>
             </>
             )})}
-        </Table>
+        </table>
         </>
         }
         </div>
