@@ -83,7 +83,7 @@ const InputDataVendor = () => {
     formData.append('fileVendorRegistration', vendorRegistration.fileVendor[i]);
     }
    
-    fetch("https://bsi-portal-service-production.up.railway.app/vendor/registration", {
+    fetch(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/registration`, {
       method: 'POST',
       body: formData,
     }).then((res) => {
@@ -110,7 +110,7 @@ const InputDataVendor = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+      const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

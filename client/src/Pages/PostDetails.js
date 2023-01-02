@@ -27,13 +27,13 @@ const PostDetails = () => {
 
 
   const getProfile = async () => {
-   await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
+   await Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/email`).then((response) => {
         setProfileList(response.data);
     })
   }
 
   const LikePost = async () => {
-    await Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
+    await Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/${id}/like`, {
       Likes : profileList._id
     }).then((response) => {
       setLikeCount(response.data);
@@ -42,7 +42,7 @@ const PostDetails = () => {
   }
 
   const UnlikePost = async () => {
-    await Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`, {
+    await Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}socialmedia/${id}/unlike`, {
       Likes : profileList._id
     })
     setLiked(false);
@@ -51,7 +51,7 @@ const PostDetails = () => {
   useEffect(() => {
     const cancelToken = Axios.CancelToken.source();
 
-    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${id}`, {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post/${id}`, {
       cancelToken : cancelToken.token,
     }).then((response) => {
       setSaveData(response.data);

@@ -52,13 +52,13 @@ const ProfileDetails = () => {
 
 
   const deleteProfile = async () => {
-    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}/delete`).then(() => {
+    await Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/${id}/delete`).then(() => {
       setTimeout(() => navigate("/socialmedia/home", { replace : true}), 1000)
     })
   }
 
   const getYourPost = async () => {
-    await Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
+    await Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post/all`).then((response) => {
       setPostLists(response.data);
       setIsLoading(false);
     })
@@ -70,7 +70,7 @@ const ProfileDetails = () => {
 
   useEffect(() => {
     async function userExpire2 () {
-      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+      const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
@@ -87,7 +87,7 @@ const ProfileDetails = () => {
   useEffect(() => {
     const cancelToken = Axios.CancelToken.source();
 
-    Axios.get(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${id}`, {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/${id}`, {
       cancelToken : cancelToken.token,
     }).then((response) => {
       setProfileDetails(response.data);

@@ -45,7 +45,9 @@ const Login = () => {
   const handleClick = () => setShow(!show);
 
   const isErrorEmail = emailLog === '' || emailLog === null
-  
+
+ 
+
 
   const showToastSucces = () => {
     toast.success('Succes!', {
@@ -63,7 +65,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
 
-    Axios.post("https://bsi-portal-service-production.up.railway.app/login" , {
+    Axios.post(`${process.env.REACT_APP_MY_ENV_VAL}/login` , {
       username : usernameLog,
       email: emailLog, 
       password: passwordLog

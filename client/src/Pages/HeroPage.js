@@ -40,7 +40,7 @@ export default function HeroPage() {
   }
 
   const userExpire = () => {
-    Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
     .then((response) => {
       if(response.data.loggedIn === true) {
         setEmailLog(response.data.email);
@@ -52,7 +52,7 @@ export default function HeroPage() {
   };
 
   const getProfileUser = async () => {
-    await Axios.get("https://bsi-portal-service-production.up.railway.app/profile").then((response) => {
+    await Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/profile`).then((response) => {
       setDataProfileUser(response.data);
     })
   }

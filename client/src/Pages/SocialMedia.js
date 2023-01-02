@@ -147,7 +147,7 @@ const SocialMedia = () => {
 
     useEffect(() => {
         async function userExpire2 () {
-          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+          const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
@@ -171,7 +171,7 @@ const SocialMedia = () => {
         formData.append('ProfilePicture', profileSosmed.profilePicture);
         formData.append('Bio', profileSosmed.bio);
         
-        await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/create", {
+        await fetch(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/create`, {
             method: 'POST',
             body: formData,
         }).then((response) => {
@@ -193,7 +193,7 @@ const SocialMedia = () => {
         if (value === "") {
           alert("Please input the content")
         } else { 
-          await fetch("https://bsi-portal-service-production.up.railway.app/socialmedia/post", {
+          await fetch(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post`, {
             method : "POST",
             body: formData,
           }).then((response) => {
@@ -204,28 +204,28 @@ const SocialMedia = () => {
     }
 
     const getAllPost = () => {
-        Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/post/all").then((response) => {
+        Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post/all`).then((response) => {
             setPostList(response.data);
             setIsLoading(false);
         })
     }
 
     const getAllProfile = () => {
-      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/all").then((response) => {
+      Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/all`).then((response) => {
           setProfileList(response.data);
           setIsLoading(false);
       })
     }
 
     const getProfile = () => {
-      Axios.get("https://bsi-portal-service-production.up.railway.app/socialmedia/profile/email").then((response) => {
+      Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/email`).then((response) => {
           setProfileUser(response.data);
           setIsLoading(false);
       })
     }
 
     const deleteCurrentID = () => {
-       Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/delete/${currentID}`).then(() => {
+       Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post/delete/${currentID}`).then(() => {
         setPostList(postList.filter((val) => {
           return val._id != currentID
         }))
@@ -234,13 +234,13 @@ const SocialMedia = () => {
     }
 
     const deleteProfile = async () => {
-      await Axios.delete(`https://bsi-portal-service-production.up.railway.app/socialmedia/profile/${profileUser._id}/delete`).then(() => {
+      await Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/profile/${profileUser._id}/delete`).then(() => {
         setTimeout(() => window.location.reload(false), 1000)
       })
     }
 
     const LikePost = (id) => {
-      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/like`, {
+      Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/${id}/like`, {
         Likes : profileUser._id
       }).then((response) => {
         setLikeCount(response.data);
@@ -248,7 +248,7 @@ const SocialMedia = () => {
     }
   
     const UnlikePost = (id) => {
-      Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/${id}/unlike`, {
+      Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/${id}/unlike`, {
         Likes : profileUser._id
       }).then((response) => {
         setLikeCount(response.data);
@@ -259,7 +259,7 @@ const SocialMedia = () => {
 
       e.preventDefault();
       if (text !== "" ) {
-        Axios.put(`https://bsi-portal-service-production.up.railway.app/socialmedia/post/${postID}/comment` , {
+        Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/socialmedia/post/${postID}/comment` , {
           Text : text,
           PostedBy : profileUser._id
           })

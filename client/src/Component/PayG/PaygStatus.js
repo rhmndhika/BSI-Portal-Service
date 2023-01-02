@@ -41,14 +41,14 @@ const PaygStatus = () => {
     const cancelRef = React.useRef()
   
     const getDataPayg = () => {
-        Axios.get("https://bsi-portal-service-production.up.railway.app/payg/email").then((response) => {
+        Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/payg/email`).then((response) => {
             setDataList(response.data);
             setIsLoading(false);
         });   
     };
 
     const deleteDataPayg = (id) => {
-        Axios.delete(`https://bsi-portal-service-production.up.railway.app/payg/delete/${id}`).then((response) => {
+        Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/payg/delete/${id}`).then((response) => {
             setDataList(dataList.filter((val) => {
                 return val._id != id
             }))

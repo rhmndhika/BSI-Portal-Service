@@ -125,7 +125,7 @@ const HistoryDetail = () => {
   const updatevendorRegistration = (id, CompanyName, Address, PhoneNumber, PresidentName, AccountManagerEmail, AccountManagerPhone,
     PICEmail, PICPhone, EstablishedDate, EmployeeNumber, NumberOfCustomer, Attachments, SKAny, SKValid, NPWPAny, NPWPValid,
     SIUPAny, SIUPValid, TDPAny, TDPValid, DomisiliAny, DomisiliValid, SPKPAny, SPKPValid, AuditAny, AuditValid, TaxAny, TaxValid, BankAny, BankValid ) => {
-    Axios.put("https://bsi-portal-service-production.up.railway.app/vendor/update", {
+    Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/update`, {
       cName           : vendorRegistration.newCName? vendorRegistration.newCName : CompanyName , 
       Address         : vendorRegistration.newAddress? vendorRegistration.newAddress : Address,
       phoneNumber     : vendorRegistration.newPhoneNumber? vendorRegistration.newPhoneNumber : PhoneNumber,
@@ -164,11 +164,11 @@ const HistoryDetail = () => {
   };
 
   const updateStatus = (id, Status, e) => {
-    Axios.put("https://bsi-portal-service-production.up.railway.app/vendor/update/status" , {
+    Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/update/status` , {
       status: e.target.value, 
       id : id
     }).then(() => {
-      fetch("https://bsi-portal-service-production.up.railway.app/sendNotification", {
+      fetch(`${process.env.REACT_APP_MY_ENV_VAL}/sendNotification`, {
         method: "POST",
         headers : {
         "Content-type" : "application/json",
@@ -180,7 +180,7 @@ const HistoryDetail = () => {
   };
 
   const updateSubmitted = (id, e) => {
-    Axios.put("https://bsi-portal-service-production.up.railway.app/vendor/update/submitted" , {
+    Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/update/submitted`, {
       submitted: e.target.name, 
       id : id
     }).then((response)=> {
@@ -193,7 +193,7 @@ const HistoryDetail = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+      const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
@@ -211,7 +211,7 @@ const HistoryDetail = () => {
 
     const cancelToken = Axios.CancelToken.source();
   
-    Axios.get(`https://bsi-portal-service-production.up.railway.app/vendor/registration/${id}`, {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/registration/${id}`, {
       cancelToken : cancelToken.token,
     }).then((response) => {
         setVendorRegistrationDataID(response.data);

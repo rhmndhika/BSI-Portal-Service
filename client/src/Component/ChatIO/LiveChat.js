@@ -13,7 +13,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import Appbar from "../Appbar/Appbar.tsx";
 import './Chat.css';
 
-const socket = io.connect("https://bsi-portal-service-production.up.railway.app");
+const socket = io.connect(process.env.REACT_APP_MY_ENV_VAL);
 
 const LiveChat = () => {
 
@@ -83,7 +83,7 @@ const LiveChat = () => {
 
     useEffect(() => {
         async function userExpire2 () {
-          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+          const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);

@@ -87,7 +87,7 @@ const NewsDetails = () => {
     e.preventDefault();
     
     try {
-      await Axios.put(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/update`, {
+      await Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/news/details/${id}/update`, {
         Title : newsDetails.Title,
         Content : newsDetails.Content
       })
@@ -99,14 +99,14 @@ const NewsDetails = () => {
   }
 
   const deleteNews = async () => {
-    await Axios.delete(`https://bsi-portal-service-production.up.railway.app/news/details/${id}/delete`);
+    await Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/news/details/${id}/delete`);
     setTimeout(() => navigate("/news"), 1000);
   }
 
   useEffect(() => {
     const cancelToken = Axios.CancelToken.source();
 
-    Axios.get(`https://bsi-portal-service-production.up.railway.app/news/details/${id}`, {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/news/details/${id}`, {
       cancelToken : cancelToken.token,
     }).then((response) => {
       setNewsDetails(response.data);

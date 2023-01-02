@@ -29,7 +29,7 @@ const CreateProfile = () => {
 
     e.preventDefault();
 
-    await Axios.post("https://bsi-portal-service-production.up.railway.app/profile" , {
+    await Axios.post(`${process.env.REACT_APP_MY_ENV_VAL}/profile` , {
       Email : emailLog,
       FullName : profileUser.fullName,
       Entity : profileUser.entity,

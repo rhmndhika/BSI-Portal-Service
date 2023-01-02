@@ -63,7 +63,7 @@ const Register = () => {
     e.preventDefault();
 
     
-     Axios.post("https://bsi-portal-service-production.up.railway.app/register" , {
+     Axios.post(`${process.env.REACT_APP_MY_ENV_VAL}/register` , {
         username : usernameReg,
         email: emailReg, 
         password: passwordReg

@@ -43,7 +43,7 @@ const OutsourcingHomeAdmin = () => {
 
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then(() => {
+    Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/delete/${id}`).then(() => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id !== id
       }))
@@ -51,7 +51,7 @@ const OutsourcingHomeAdmin = () => {
   }
 
   const getAllOutsourcingData = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/outsourcing/all").then((response) => {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/all`).then((response) => {
       setDataOutsourcing(response.data);
       setIsFetching(false);
     })
@@ -60,7 +60,7 @@ const OutsourcingHomeAdmin = () => {
   useEffect(() => {
 
     async function userExpire2 () {
-      const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+      const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);

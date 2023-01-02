@@ -20,7 +20,7 @@ const News = () => {
 
     useEffect(() => {
         async function userExpire2 () {
-          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+          const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);

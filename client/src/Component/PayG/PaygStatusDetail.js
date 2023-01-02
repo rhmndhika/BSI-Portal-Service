@@ -70,7 +70,7 @@ const PaygStatusDetail = () => {
       formData.append('file', payg.newFilePayg[i] ? payg.newFilePayg[i] : PaygAttachments);
       }
      
-      await fetch("https://bsi-portal-service-production.up.railway.app/payg/update/all", {
+      await fetch(`${process.env.REACT_APP_MY_ENV_VAL}/payg/update/all`, {
         method: 'PUT',
         body: formData,
       })
@@ -93,7 +93,7 @@ const PaygStatusDetail = () => {
     };
 
     const updateSubmitted = (id, e) => {
-      Axios.put("https://bsi-portal-service-production.up.railway.app/payg/update/submitted" , {
+      Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/payg/update/submitted` , {
         submitted: e.target.name, 
         id : id
       }).then((response)=> {
@@ -103,7 +103,7 @@ const PaygStatusDetail = () => {
     };
 
     const updateStatus = (id, e) => {
-      Axios.put("https://bsi-portal-service-production.up.railway.app/payg/update/status" , {
+      Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/payg/update/status` , {
         status: e.target.value, 
         id : id
       }).then((response) => {
@@ -114,7 +114,7 @@ const PaygStatusDetail = () => {
     useEffect(() => {
       const cancelToken = Axios.CancelToken.source();
 
-      Axios.get(`https://bsi-portal-service-production.up.railway.app/payg/${id}`, {
+      Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/payg/${id}`, {
         cancelToken : cancelToken.token,
       }).then((response) => {
         setDataListID(response.data);
@@ -135,7 +135,7 @@ const PaygStatusDetail = () => {
      useEffect(() => {
 
       async function userExpire2 () {
-        const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+        const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);

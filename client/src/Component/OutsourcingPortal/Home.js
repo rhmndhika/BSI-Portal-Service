@@ -95,7 +95,7 @@ const Home = () => {
     }
     formData.append('Message', outsourcingPortal.message);
    
-    await fetch("https://bsi-portal-service-production.up.railway.app/outsourcing", {
+    await fetch(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing`, {
       method: 'POST',
       body: formData,
   })
@@ -106,7 +106,7 @@ const Home = () => {
   }
 
   const getOutsourcingData = () => {
-     Axios.get("https://bsi-portal-service-production.up.railway.app/outsourcing").then((response) => {
+     Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing`).then((response) => {
       setDataOutsourcing(response.data);
       setIsFetching(false);
     })
@@ -134,7 +134,7 @@ const Home = () => {
   }
 
   const deleteDataOutsourcing = (id) => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then((response) => {
+    Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/delete/${id}`).then((response) => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
         return val._id != id
       }))

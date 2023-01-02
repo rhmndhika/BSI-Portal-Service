@@ -57,7 +57,7 @@ const OutsourcingDetail = () => {
 
     const updateDataOutsourcing = async (id, Name, IDLink, Supplier, User1, User2, RoleQuotation) => {
 
-        Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update" , {
+        Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/update` , {
           Name : outsourcingPortal.newName ? outsourcingPortal.newName : Name ,
           IDLink :  outsourcingPortal.newIDLink ? outsourcingPortal.newIDLink : IDLink ,
           Supplier : outsourcingPortal.newSupplier ? outsourcingPortal.newSupplier : Supplier ,
@@ -72,7 +72,7 @@ const OutsourcingDetail = () => {
       }
 
       const updateMessageOutsourcing = async (id, Message) => {
-        await Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update/message", {
+        await Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/update/message`, {
           message : outsourcingPortal.newMessage ? outsourcingPortal.newMessage : Message,
           id : id
         }).then(() => {
@@ -82,7 +82,7 @@ const OutsourcingDetail = () => {
       }
 
       const updateStatusOutsourcing = (id, e) => {
-        Axios.put("https://bsi-portal-service-production.up.railway.app/outsourcing/update/status", {
+        Axios.put(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/update/status`, {
           status : e.target.value,
           id : id
         }).then(() => {
@@ -105,7 +105,7 @@ const OutsourcingDetail = () => {
       useEffect(() => {
 
         async function userExpire2 () {
-          const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+          const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
           .then((response)=> {
             if(response.data.loggedIn === true) {
               setEmailLog(response.data.email);
@@ -122,7 +122,7 @@ const OutsourcingDetail = () => {
     useEffect(() => {
         const cancelToken = Axios.CancelToken.source();
   
-        Axios.get(`https://bsi-portal-service-production.up.railway.app/outsourcing/${id}`, {
+        Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/outsourcing/${id}`, {
           cancelToken : cancelToken.token,
         }).then((response) => {
           setDataOutsourcingID(response.data);

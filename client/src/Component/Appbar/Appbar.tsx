@@ -60,6 +60,8 @@ export default function Appbar() {
       });
   }
 
+ 
+
   const logout = () => {
     Axios.get('https://bsi-portal-service-production.up.railway.app/logout').then(() => {
     })

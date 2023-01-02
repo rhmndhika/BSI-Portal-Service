@@ -29,7 +29,7 @@ const PaygStatusAdmin = () => {
   const [ isLoading, setIsLoading ] = useState(true);
 
   const userExpire = () => {
-      Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+      Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
       .then((response)=> {
         if(response.data.loggedIn === true) {
           setEmailLog(response.data.email);
@@ -41,14 +41,14 @@ const PaygStatusAdmin = () => {
     };
 
   const getAllDataPayg = () => {
-      Axios.get("https://bsi-portal-service-production.up.railway.app/admin/payg/buyername").then((response) => {
+      Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/admin/payg/buyername`).then((response) => {
           setDataList(response.data);
           setIsLoading(false);
       });   
   };
 
   const deleteDataPayg = (id) => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/payg/delete/${id}`).then((response) => {
+    Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/payg/delete/${id}`).then((response) => {
         setDataList(dataList.filter((val) => {
             return val._id != id
         }))

@@ -33,14 +33,14 @@ const History = () => {
 
   
   const getVendorRegistrationData = () => {
-    Axios.get("https://bsi-portal-service-production.up.railway.app/vendor/registration").then((response) => {
+    Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/registration`).then((response) => {
       setDataVendorRegistration(response.data);
       setIsLoading(false);
     });
   }
 
   const deleteVendorRegistrationData = (id) => {
-    Axios.delete(`https://bsi-portal-service-production.up.railway.app/vendor/delete/${id}`).then(() => {
+    Axios.delete(`${process.env.REACT_APP_MY_ENV_VAL}/vendor/delete/${id}`).then(() => {
       setDataVendorRegistration(dataVendorRegistration.filter((val) => {
         return val._id !== id
     }))
@@ -51,7 +51,7 @@ const History = () => {
   useEffect(() => {
 
       async function userExpire2 () {
-        const request = await  Axios.get('https://bsi-portal-service-production.up.railway.app/login')
+        const request = await  Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/login`)
         .then((response)=> {
           if(response.data.loggedIn === true) {
             setEmailLog(response.data.email);

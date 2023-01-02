@@ -47,7 +47,7 @@ export default function CaptionCarousel() {
   
   const getAllNews = async () => {
     try {
-      await Axios.get("https://bsi-portal-service-production.up.railway.app/news/allNews").then((response) => {
+      await Axios.get(`${process.env.REACT_APP_MY_ENV_VAL}/news/allNews`).then((response) => {
         setAllNews(response.data);
       })
     } catch (err) {
