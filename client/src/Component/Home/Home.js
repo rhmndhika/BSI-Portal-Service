@@ -17,8 +17,6 @@ import {BsChatDots} from 'react-icons/bs';
 import Footer from '../Footer/Footer.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import ChatwootWidget from '../Chatwoot/ChatwootWidget';
-import ChatIO from '../ChatIO/ChatIO';
 import Sourcing from '../../Images/Sourcing.jpg';
 import POManagement from '../../Images/POManagement.jpg';
 import DeliveryMonitoring from '../../Images/DeliveryMonitoring.jpg';
@@ -27,7 +25,6 @@ import Forum from '../../Images/Forum.jpg';
 import VendorRegistrationV2 from '../../Images/VendorRegistrationV2.jpg';
 import InvoiceGatewayV2 from '../../Images/InvoiceGatewayV2.png';
 import SocialMediaV2 from '../../Images/SocialMediaV2.jpg';
-import LogoRegistration from '../../Images/LogoRegistration.png'
 
 AOS.init();
 
@@ -121,25 +118,19 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    {/* <ChatwootWidget /> */}
-    {/* {isHide === false ? 
-      <ChatIO />
-    :
-    null
-    } */}
     <Link to="/livechat">
      <IconButton
       className="whatsapp_float"
       rel="noopener noreferrer"
       colorScheme='blue'
-      aria-label='Search database'
+      aria-label='Live Chat'
       isRound={true}
       size="lg"
       onClick={openChat}
       icon={<BsChatDots />}
       />
     </Link>
-    <div className='wrapperHome'>
+    <Flex flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap">
       {cardItem.map((i) => {
         return (
           <Flex
@@ -177,7 +168,7 @@ const Home = () => {
             </Text>
             </Flex>
     )})}
-    </div>
+    </Flex>
     <div style={{marginTop : "30px", height : "100px"}}></div>
     <Footer />
   </>

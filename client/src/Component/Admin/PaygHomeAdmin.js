@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
@@ -13,8 +13,7 @@ const PaygHomeAdmin = () => {
 
   Axios.defaults.withCredentials = true;
 
-  let navigate = useNavigate();
- 
+
   const { emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
   

@@ -6,20 +6,11 @@ import {
   Heading,
   Text,
   Stack,
-  Avatar,
-  useColorModeValue,
   Tag,
-  TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton,
   Image,
-  Button,
-  HStack,
   Flex
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import parse from 'html-react-parser';
 import moment from 'moment';
 
 const BlogPostWithImage = (props) => {
@@ -68,16 +59,14 @@ const BlogPostWithImage = (props) => {
           mb={6}
           pos={'relative'}>
           <Image
-            // src=
-            // 'none'
             src=
             'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
           />
         </Box>
         <Flex height="max-content" flexDirection="row" alignItems="center" width="fit-content" gap="10px">
-          {i.Tags.map((x) => {
+          {i.Tags.map((x, index) => {
             return (
-            <Flex flexDirection="row" justifyContent={"center"} mt="20px">
+            <Flex flexDirection="row" justifyContent={"center"} mt="20px" key={index}>
             <Tag
               colorScheme={'teal'}
               variant='solid'

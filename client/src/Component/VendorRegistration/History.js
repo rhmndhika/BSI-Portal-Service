@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import VendorHistoryAdmin from '../Admin/VendorHistoryAdmin';
 import moment from 'moment';
-import { Table, thead, tbody, tr, th, td } from 'react-super-responsive-table'
 
 
 
@@ -43,7 +42,7 @@ const History = () => {
   const deleteVendorRegistrationData = (id) => {
     Axios.delete(`https://bsi-portal-service-production.up.railway.app/vendor/delete/${id}`).then(() => {
       setDataVendorRegistration(dataVendorRegistration.filter((val) => {
-        return val._id != id
+        return val._id !== id
     }))
     })
   }
@@ -126,21 +125,21 @@ const History = () => {
             ).map((i, index) => {
             return(
             <>
-          <tbody>
-          <tr key={index}>
-                    <td key="table1"><label></label></td>
-                    <td key={i._id}>{i._id}</td>
-                    <td key={i._id}>{i.email}</td>
-                    <td key={i._id}>{i.CompanyName}</td>
-                    <td key={i._id}>{moment(i.createdAt).format("DD MMMM YYYY")}</td>
+          <tbody key={index}>
+          <tr>
+                    <td><label></label></td>
+                    <td>{i._id}</td>
+                    <td>{i.email}</td>
+                    <td>{i.CompanyName}</td>
+                    <td>{moment(i.createdAt).format("DD MMMM YYYY")}</td>
                     {i.status ? 
                         <>
                         {i.status === "Approved" ?
-                          <td key={i._id} >
+                          <td >
                             {i.status}
                           </td>
                         :
-                          <td key={i._id} >
+                          <td >
                             {i.status}
                            </td>
                         }
@@ -148,11 +147,11 @@ const History = () => {
                         :
                         <>
                         {!i.submitted  ? 
-                        <td key={i._id} >
+                        <td >
                           Draft
                         </td>
                         :
-                        <td key={i._id} >
+                        <td >
                           {i.submitted}
                         </td>
                         }

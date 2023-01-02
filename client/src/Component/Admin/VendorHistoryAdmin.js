@@ -43,7 +43,7 @@ const VendorHistoryAdmin = () => {
   const deleteVendorRegistrationData = (id) => {
     Axios.delete(`https://bsi-portal-service-production.up.railway.app/vendor/delete/${id}`).then(() => {
       setDataVendorRegistration(dataVendorRegistration.filter((val) => {
-        return val._id != id
+        return val._id !== id
     }))
     })
   }

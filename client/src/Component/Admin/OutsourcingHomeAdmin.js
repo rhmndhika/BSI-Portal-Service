@@ -41,36 +41,11 @@ const OutsourcingHomeAdmin = () => {
 
   const [ dataOutsourcing, setDataOutsourcing ] = useState([]);
 
-  const initialFocusRef = React.useRef();
-
-  
-
-
-  const fetchSharepoint = () => {
-    const payload = {
-      method: 'GET',
-      headers: { 
-        "Accept"       : "application/json; odata=verbose",
-        "Content-Type" : "application/json;odata=verbose" 
-      },
-      auth : {
-        username : 'bsi90699@bsi.co.id',
-        password : 'Password.99'
-      },
-      credentials: 'same-origin'    // or credentials: 'include'  
-    }
-  
-  fetch("https://365bsi.sharepoint.com/sites/ProcPortal/_api/web/lists/getbytitle({i._id}voiceGateway')/items", payload)
-      .then(response => {
-        console.log(response);
-      }
-  )
-  }
 
   const deleteDataOutsourcing = (id) => {
     Axios.delete(`https://bsi-portal-service-production.up.railway.app/outsourcing/delete/${id}`).then(() => {
       setDataOutsourcing(dataOutsourcing.filter((val) => {
-        return val._id != id
+        return val._id !== id
       }))
   });     
   }
@@ -158,11 +133,11 @@ const OutsourcingHomeAdmin = () => {
             return(
               <Tbody key={index}>
                 <Tr>
-                  <Td key={i._id}>{i.Email}</Td>
-                  <Td key={i._id}>{i.Name}</Td>
-                  <Td key={i._id}>{i.IDLink}</Td>
-                  <Td key={i._id}>{i.Supplier}</Td>
-                  {/* <Td key={i._id}>
+                  <Td>{i.Email}</Td>
+                  <Td>{i.Name}</Td>
+                  <Td>{i.IDLink}</Td>
+                  <Td>{i.Supplier}</Td>
+                  {/* <Td>
                   <Popover
                     initialFocusRef={initialFocusRef}
                     placement='bottom'
@@ -192,7 +167,7 @@ const OutsourcingHomeAdmin = () => {
                     </a>
                   </Td>
                   {i.status === "" || i.status == null ?
-                  <Td key={i._id}>None</Td>
+                  <Td>None</Td>
                   :
                   <Td key="Tes5">{i.status}</Td>
                   }

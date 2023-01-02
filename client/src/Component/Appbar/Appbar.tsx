@@ -33,7 +33,6 @@ import {
 } from '@chakra-ui/icons';
 import { EmailUser } from '../../Helper/EmailUserProvider';
 import { RoleUser } from '../../Helper/RoleUserProvider';
-import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,7 +45,6 @@ export default function Appbar() {
   const {emailLog, setEmailLog } = useContext(EmailUser);
   const { roleUser, setRoleUser } = useContext(RoleUser);
   const { isOpen, onToggle } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode();
 
 
   const showToastSucces = () => {

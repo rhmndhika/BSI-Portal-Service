@@ -136,8 +136,8 @@ const PaygStatus = () => {
                     </AlertDialogContent>
                 </AlertDialogOverlay>   
             </AlertDialog>
-            <tbody>
-                <tr key={index}>
+            <tbody key={index}>
+                <tr>
                     <td><label></label></td>
                     <td>{i.InvoiceNumber}</td>
                     <td>{i.Email}</td>

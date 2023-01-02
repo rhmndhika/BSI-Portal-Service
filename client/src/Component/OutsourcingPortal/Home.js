@@ -211,7 +211,7 @@ const Home = () => {
           ).map((i, index) => {
             return(
               <Tbody key={index}>
-                <Tr key={i._id}>
+                <Tr>
                   <Td key="Test1">{i.Email}</Td>
                   <Td key="Test2">{i.Name}</Td>
                   <Td key="Test3">{i.IDLink}</Td>
