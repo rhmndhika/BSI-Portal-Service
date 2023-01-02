@@ -31,8 +31,8 @@ import moment from 'moment';
 import parse from 'html-react-parser';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import "../Component/Home/Home.css"
 import { BsChatDots } from 'react-icons/bs';
+import './NewsDetails.css';
 
 const NewsDetails = () => {
 
@@ -127,7 +127,7 @@ const NewsDetails = () => {
   return (
    <>
     <IconButton
-      className="whatsapp_float"
+      className="whatsapp_float_news"
       rel="noopener noreferrer"
       colorScheme='teal'
       aria-label='Search database'
