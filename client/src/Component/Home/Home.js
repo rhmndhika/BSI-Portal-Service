@@ -118,7 +118,7 @@ const Home = () => {
     <>
     <Appbar />
     <Carousel />
-    <Link to="/livechat">
+    {/* <Link to="/livechat">
      <IconButton
       className="whatsapp_float"
       rel="noopener noreferrer"
@@ -129,7 +129,20 @@ const Home = () => {
       onClick={openChat}
       icon={<BsChatDots />}
       />
-    </Link>
+    </Link> */}
+      <a
+        className="icon_chat"
+        rel="noopener noreferrer"
+        href="/livechat"
+      >
+      <IconButton
+        colorScheme='blue'
+        aria-label='Open Chat'
+        isRound={true}
+        size="lg"
+        icon={<BsChatDots />}
+        />
+      </a>
     <Flex flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap">
       {cardItem.map((i) => {
         return (

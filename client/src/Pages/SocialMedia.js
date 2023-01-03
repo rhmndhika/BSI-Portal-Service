@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { EmailUser } from '../Helper/EmailUserProvider';
 import { RoleUser } from '../Helper/RoleUserProvider';
 import { ProfileSosmed } from '../Helper/ProfileSosmedProvider';
@@ -65,23 +65,18 @@ import {
   EditIcon,
   SearchIcon
 } from '@chakra-ui/icons';
+import './SocialMedia.css'
 import {
   BsChat
 } from 'react-icons/bs';
 import {
-  BiLike
-} from 'react-icons/bi';
-import {
   AiFillLike,
-  AiOutlineLike,
-  AiOutlineDislike
+  AiOutlineLike
 } from 'react-icons/ai';
-import { BsThreeDotsVertical, BsChatSquareQuote } from 'react-icons/bs';
-import { RiShutDownLine, RiRestartLine, RiFileShredLine } from 'react-icons/ri';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
-import './SocialMedia.css';
+
 
 const SocialMedia = () => {
 
