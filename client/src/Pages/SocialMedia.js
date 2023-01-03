@@ -432,9 +432,8 @@ const SocialMedia = () => {
           </ModalFooter>
           </form>
         </ModalContent>
-      </Modal>
-    <>  
-
+    </Modal>
+    
     {/* Modal Create Comment */}
     {postList.map((i, index) => (
     <Modal closeOnOverlayClick={false}  isOpen={isOpenCommentDialog} onClose={onCloseCommentDialog} key={i._id}>
@@ -800,7 +799,6 @@ const SocialMedia = () => {
 
         </Flex>
     </>
-   </>
   )
 }
 
