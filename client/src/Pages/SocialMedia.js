@@ -462,7 +462,7 @@ const SocialMedia = () => {
     )}
 
        {/* Header for Mobile Version */}
-        <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
+        {/* <Flex className="flex-nav-1" flexDirection="row" justifyContent="center" alignItems="center" width="full" height="80px">
             <Flex justifyContent="center" alignItems="center"  height="60px" margin="20px 10px 20px 10px">
               <Flex width="320px" height="60px" borderRadius="40px" shadow="base">
               <InputGroup margin="10px">
@@ -515,14 +515,7 @@ const SocialMedia = () => {
                     }
               </Flex>
             </Flex>
-            {/* { profileUser ? 
-            <Flex flexDirection="row" justifyContent="center" alignItems="center" height="60px" margin="20px 10px 20px 10px">
-              <Button  onClick={onOpenPostModal} width={120}>Create Post</Button>
-            </Flex>
-            :
-            null
-            } */}
-        </Flex>
+        </Flex> */}
         
 
         
